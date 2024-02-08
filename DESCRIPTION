@@ -1,7 +1,7 @@
-Package: admiraltemplate
+Package: admiralpeds
 Type: Package
 Title: ADaM in R Asset Library - Extension
-Version: 0.0.3
+Version: 0.0.1
 Authors@R: c(
     person("Open", "Source", email = "admiraltemplate@pharmaverse.com", role = c("aut", "cre")))
 Description: A toolbox for programming Clinical Data Standards Interchange Consortium
