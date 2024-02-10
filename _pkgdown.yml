@@ -6,17 +6,17 @@ template:
     bootswatch: flatly
 repo:
   url:
-    home: https://github.com/pharmaverse/admiraltemplate
-    source: https://github.com/pharmaverse/admiraltemplate/blob/main/
-    issue: https://github.com/pharmaverse/admiraltemplate/issues/
+    home: https://github.com/pharmaverse/admiralpeds
+    source: https://github.com/pharmaverse/admiralpeds/blob/main/
+    issue: https://github.com/pharmaverse/admiralpeds/issues/
     user: https://github.com/
 news:
   cran_dates: true
-reference:
 
 development:
   mode: auto
 
+reference:
 - title: Derivations for Adding Variables
 - subtitle: ADXX-specific
   desc: Derivation Functions helpful for building the ADXX dataset
@@ -31,7 +31,7 @@ development:
 
 - title: Advanced Functions
 - subtitle: Pre-Defined Source Objects
-  desc: Source objects defined by {admiraltemplate}
+  desc: Source objects defined by {admiralpeds}
 - contents:
   - has_keyword("source_specifications")
 
@@ -59,7 +59,7 @@ navbar:
   components:
     getstarted:
       text: Get Started
-      href: articles/admiraltemplate.html
+      href: articles/admiralpeds.html
     reference:
       text: Reference
       href: reference/index.html
