@@ -1,4 +1,4 @@
-url: https://pharmaverse.github.io/admiraltemplate
+url: https://pharmaverse.github.io/admiralpeds
 
 template:
   bootstrap: 5
@@ -13,6 +13,9 @@ repo:
 news:
   cran_dates: true
 reference:
+
+development:
+  mode: auto
 
 - title: Derivations for Adding Variables
 - subtitle: ADXX-specific

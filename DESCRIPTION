@@ -1,7 +1,7 @@
-Package: admiraltemplate
+Package: admiralpeds
 Type: Package
 Title: ADaM in R Asset Library - Extension
-Version: 0.0.3
+Version: 0.0.1
 Authors@R: c(
     person("Open", "Source", email = "admiraltemplate@pharmaverse.com", role = c("aut", "cre")))
 Description: A toolbox for programming Clinical Data Standards Interchange Consortium
@@ -16,12 +16,12 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Depends: R (>= 3.5)
+RoxygenNote: 7.3.1
+Depends: R (>= 4.0)
 Imports:
-    admiral (>= 0.10.0),
-    admiraldev (>= 0.5.0),
-    dplyr (>= 0.8.4),
+    admiral (>= 1.0.0),
+    admiraldev (>= 1.0.0),
+    dplyr (>= 1.0.5),
     hms (>= 0.5.3),
     lifecycle (>= 0.1.0),
     lubridate (>= 1.7.4),
@@ -32,21 +32,16 @@ Imports:
     tidyr (>= 1.0.2),
     tidyselect (>= 1.1.0)
 Suggests:
-    pharmaversesdtm,
-    covr,
-    devtools,
     diffdf,
     DT,
+    htmltools,
     knitr,
-    lintr,
     methods,
-    miniUI,
-    pkgdown,
+    pharmaversesdtm (>= 0.2.0),
+    reactable,
+    readxl,
     rmarkdown,
-    roxygen2,
-    spelling,
     testthat (>= 3.0.0),
-    tibble,
-    usethis,
+    tibble
 VignetteBuilder: knitr
 Config/testthat/edition: 3
