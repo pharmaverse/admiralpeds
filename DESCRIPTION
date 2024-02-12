@@ -1,24 +1,23 @@
-Package: admiralpeds
 Type: Package
+Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.1.0
-Authors@R: c(
-    person("Ross", "Farrugia", email = "ross.farrugia@roche.com", role = c("aut", "cre")))
-Description: A toolbox for programming Clinical Data Standards Interchange Consortium
-    (CDISC) compliant Analysis Data Model (ADaM) datasets in R. ADaM datasets are a
-    mandatory part of any New Drug or Biologics License Application submitted to the
-    United States Food and Drug Administration (FDA). Analysis derivations are
-    implemented in accordance with the "Analysis Data Model Implementation Guide"
-    (CDISC Analysis Data Model Team, 2021, <https://www.cdisc.org/standards/foundational/adam>).
-    The package is an extension package of the 'admiral' package.
+Version: 0.1.0.9000
+Authors@R: 
+    person("Ross", "Farrugia", , "ross.farrugia@roche.com", role = c("aut", "cre"))
+Description: A toolbox for programming Clinical Data Standards Interchange
+    Consortium (CDISC) compliant Analysis Data Model (ADaM) datasets in R.
+    ADaM datasets are a mandatory part of any New Drug or Biologics
+    License Application submitted to the United States Food and Drug
+    Administration (FDA). Analysis derivations are implemented in
+    accordance with the "Analysis Data Model Implementation Guide" (CDISC
+    Analysis Data Model Team, 2021,
+    <https://www.cdisc.org/standards/foundational/adam>).  The package is
+    an extension package of the 'admiral' package.
 License: Apache License (>= 2)
-URL: https://pharmaverse.github.io/admiralpeds, https://github.com/pharmaverse/admiralpeds
-Encoding: UTF-8
-Language: en-US
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
-Depends: R (>= 4.0)
+URL: https://pharmaverse.github.io/admiralpeds,
+    https://github.com/pharmaverse/admiralpeds
+Depends: 
+    R (>= 4.0)
 Imports:
     admiral (>= 1.0.0),
     admiraldev (>= 1.0.0),
@@ -44,5 +43,11 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tibble
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
