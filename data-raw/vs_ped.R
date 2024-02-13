@@ -1,0 +1,200 @@
+# Dataset: vs_ped
+# Description: VS test SDTM dataset for pediatric studies
+
+# Load libraries ----
+
+#library(dplyr)
+#slibrary(pharmaversesdtm)
+
+## Read input data ----
+data("vs")
+
+## Create anthropometric data for pediatric patients
+vs_ped <- tibble::tribble(
+  ~STUDYID, ~USUBJID, ~VISIT, ~VISITNUM, ~VSTESTCD, ~VSDTC, ~VSSTRESN,
+  "PED", "PED-1001", "SCREENING", 1, "WEIGHT", "2022-10-11", 4.4946,
+  "PED", "PED-1001", "SCREENING", 1, "HEIGHT", "2022-10-11", 54.8012,
+  "PED", "PED-1001", "SCREENING", 1, "BMI", "2022-10-11", 14.966178,
+  "PED", "PED-1001", "SCREENING", 1, "HDCIRC", "2022-10-11", 37.3172,
+  "PED", "PED-1001", "DAY 1", 2, "WEIGHT", "2022-10-21", 4.76286,
+  "PED", "PED-1001", "DAY 1", 2, "HEIGHT", "2022-10-21", 56.1104,
+  "PED", "PED-1001", "DAY 1", 2, "BMI", "2022-10-21", 15.127985,
+  "PED", "PED-1001", "DAY 1", 2, "HDCIRC", "2022-10-21", 37.9978,
+  "PED", "PED-1001", "6 MONTHS", 3, "WEIGHT", "2023-04-21", 8.18724,
+  "PED", "PED-1001", "6 MONTHS", 3, "HEIGHT", "2023-04-21", 69.6421,
+  "PED", "PED-1001", "6 MONTHS", 3, "BMI", "2023-04-21", 16.88083,
+  "PED", "PED-1001", "6 MONTHS", 3, "HDCIRC", "2023-04-21", 44.1698,
+  "PED", "PED-1001", "12 MONTHS", 4, "WEIGHT", "2023-10-21", 6.301,
+  "PED", "PED-1001", "12 MONTHS", 4, "HEIGHT", "2023-10-21", 77.306,
+  "PED", "PED-1001", "12 MONTHS", 4, "BMI", "2023-10-21", 10.543458,
+  "PED", "PED-1001", "12 MONTHS", 4, "HDCIRC", "2023-10-21", 46.4254,
+  "PED", "PED-1002", "SCREENING", 1, "WEIGHT", "2022-09-23", 6.1202,
+  "PED", "PED-1002", "SCREENING", 1, "HEIGHT", "2022-09-23", 60.80944,
+  "PED", "PED-1002", "SCREENING", 1, "BMI", "2022-09-23", 16.550976,
+  "PED", "PED-1002", "SCREENING", 1, "HDCIRC", "2022-09-23", 39.9658,
+  "PED", "PED-1002", "DAY 1", 2, "WEIGHT", "2022-10-03", 6.42981,
+  "PED", "PED-1002", "DAY 1", 2, "HEIGHT", "2022-10-03", 61.54576,
+  "PED", "PED-1002", "DAY 1", 2, "BMI", "2022-10-03", 16.97469,
+  "PED", "PED-1002", "DAY 1", 2, "HDCIRC", "2022-10-03", 40.30284,
+  "PED", "PED-1002", "6 MONTHS", 3, "WEIGHT", "2023-04-03", 8.66424,
+  "PED", "PED-1002", "6 MONTHS", 3, "HEIGHT", "2023-04-03", 71.0932,
+  "PED", "PED-1002", "6 MONTHS", 3, "BMI", "2023-04-03", 17.142507,
+  "PED", "PED-1002", "6 MONTHS", 3, "HDCIRC", "2023-04-03", 44.07858,
+  "PED", "PED-1002", "12 MONTHS", 4, "WEIGHT", "2023-10-03", 16.168,
+  "PED", "PED-1002", "12 MONTHS", 4, "HEIGHT", "2023-10-03", 67.23,
+  "PED", "PED-1002", "12 MONTHS", 4, "BMI", "2023-10-03", 35.770917,
+  "PED", "PED-1002", "12 MONTHS", 4, "HDCIRC", "2023-10-03", 40.318,
+  "PED", "PED-1003", "SCREENING", 1, "WEIGHT", "2023-01-19", 7.4198,
+  "PED", "PED-1003", "SCREENING", 1, "HEIGHT", "2023-01-19", 66.2745,
+  "PED", "PED-1003", "SCREENING", 1, "BMI", "2023-01-19", 16.892708,
+  "PED", "PED-1003", "SCREENING", 1, "HDCIRC", "2023-01-19", 42.4255,
+  "PED", "PED-1003", "DAY 1", 2, "WEIGHT", "2023-01-29", 7.41117,
+  "PED", "PED-1003", "DAY 1", 2, "HEIGHT", "2023-01-29", 66.785,
+  "PED", "PED-1003", "DAY 1", 2, "BMI", "2023-01-29", 16.616093,
+  "PED", "PED-1003", "DAY 1", 2, "HDCIRC", "2023-01-29", 42.6319,
+  "PED", "PED-1003", "6 MONTHS", 3, "WEIGHT", "2023-07-30", 8.84714,
+  "PED", "PED-1003", "6 MONTHS", 3, "HEIGHT", "2023-07-30", 74.7998,
+  "PED", "PED-1003", "6 MONTHS", 3, "BMI", "2023-07-30", 15.812554,
+  "PED", "PED-1003", "6 MONTHS", 3, "HDCIRC", "2023-07-30", 45.0808,
+  "PED", "PED-1003", "12 MONTHS", 4, "WEIGHT", "2024-01-29", 6.412,
+  "PED", "PED-1003", "12 MONTHS", 4, "HEIGHT", "2024-01-29", 81.3788,
+  "PED", "PED-1003", "12 MONTHS", 4, "BMI", "2024-01-29", 9.682131,
+  "PED", "PED-1003", "12 MONTHS", 4, "HDCIRC", "2024-01-29", 46.3576,
+  "PED", "PED-1005", "SCREENING", 1, "WEIGHT", "2021-07-20", 12.134555,
+  "PED", "PED-1005", "SCREENING", 1, "HEIGHT", "2021-07-20", 85.397317,
+  "PED", "PED-1005", "SCREENING", 1, "BMI", "2021-07-20", 16.639314,
+  "PED", "PED-1005", "SCREENING", 1, "HDCIRC", "2021-07-20", NA,
+  "PED", "PED-1005", "DAY 1", 2, "WEIGHT", "2021-07-30", 12.026815,
+  "PED", "PED-1005", "DAY 1", 2, "HEIGHT", "2021-07-30", 85.397317,
+  "PED", "PED-1005", "DAY 1", 2, "BMI", "2021-07-30", 16.491577,
+  "PED", "PED-1005", "DAY 1", 2, "HDCIRC", "2021-07-30", NA,
+  "PED", "PED-1005", "6 MONTHS", 3, "WEIGHT", "2022-01-28", 12.817525,
+  "PED", "PED-1005", "6 MONTHS", 3, "HEIGHT", "2022-01-28", 90.333417,
+  "PED", "PED-1005", "6 MONTHS", 3, "BMI", "2022-01-28", 15.707508,
+  "PED", "PED-1005", "6 MONTHS", 3, "HDCIRC", "2022-01-28", NA,
+  "PED", "PED-1005", "12 MONTHS", 4, "WEIGHT", "2022-07-30", 11.655419,
+  "PED", "PED-1005", "12 MONTHS", 4, "HEIGHT", "2022-07-30", 94.213357,
+  "PED", "PED-1005", "12 MONTHS", 4, "BMI", "2022-07-30", 13.131155,
+  "PED", "PED-1005", "12 MONTHS", 4, "HDCIRC", "2022-07-30", NA,
+  "PED", "PED-1006", "SCREENING", 1, "WEIGHT", "2023-08-22", 12.134555,
+  "PED", "PED-1006", "SCREENING", 1, "HEIGHT", "2023-08-22", 85.315597,
+  "PED", "PED-1006", "SCREENING", 1, "BMI", "2023-08-22", 16.671205,
+  "PED", "PED-1006", "SCREENING", 1, "HDCIRC", "2023-08-22", NA,
+  "PED", "PED-1006", "DAY 1", 2, "WEIGHT", "2023-09-01", 12.242296,
+  "PED", "PED-1006", "DAY 1", 2, "HEIGHT", "2023-09-01", 85.315597,
+  "PED", "PED-1006", "DAY 1", 2, "BMI", "2023-09-01", 16.819225,
+  "PED", "PED-1006", "DAY 1", 2, "HDCIRC", "2023-09-01", NA,
+  "PED", "PED-1006", "6 MONTHS", 3, "WEIGHT", "2024-03-01", 13.269619,
+  "PED", "PED-1006", "6 MONTHS", 3, "HEIGHT", "2024-03-01", 90.24991,
+  "PED", "PED-1006", "6 MONTHS", 3, "BMI", "2024-03-01", 16.291643,
+  "PED", "PED-1006", "6 MONTHS", 3, "HDCIRC", "2024-03-01", NA,
+  "PED", "PED-1006", "12 MONTHS", 4, "WEIGHT", "2024-08-31", 17.362444,
+  "PED", "PED-1006", "12 MONTHS", 4, "HEIGHT", "2024-08-31", 87.805282,
+  "PED", "PED-1006", "12 MONTHS", 4, "BMI", "2024-08-31", 22.520061,
+  "PED", "PED-1006", "12 MONTHS", 4, "HDCIRC", "2024-08-31", NA,
+  "PED", "PED-1010", "SCREENING", 1, "WEIGHT", "2021-07-20", 12.881023,
+  "PED", "PED-1010", "SCREENING", 1, "HEIGHT", "2021-07-20", 87.571318,
+  "PED", "PED-1010", "SCREENING", 1, "BMI", "2021-07-20", 16.796801,
+  "PED", "PED-1010", "SCREENING", 1, "HDCIRC", "2021-07-20", NA,
+  "PED", "PED-1010", "DAY 1", 2, "WEIGHT", "2021-07-30", 12.989297,
+  "PED", "PED-1010", "DAY 1", 2, "HEIGHT", "2021-07-30", 87.571318,
+  "PED", "PED-1010", "DAY 1", 2, "BMI", "2021-07-30", 16.937991,
+  "PED", "PED-1010", "DAY 1", 2, "HDCIRC", "2021-07-30", NA,
+  "PED", "PED-1010", "6 MONTHS", 3, "WEIGHT", "2022-01-28", 13.916794,
+  "PED", "PED-1010", "6 MONTHS", 3, "HEIGHT", "2022-01-28", 91.939372,
+  "PED", "PED-1010", "6 MONTHS", 3, "BMI", "2022-01-28", 16.464029,
+  "PED", "PED-1010", "6 MONTHS", 3, "HDCIRC", "2022-01-28", NA,
+  "PED", "PED-1010", "12 MONTHS", 4, "WEIGHT", "2022-07-30", 17.719649,
+  "PED", "PED-1010", "12 MONTHS", 4, "HEIGHT", "2022-07-30", 89.773011,
+  "PED", "PED-1010", "12 MONTHS", 4, "BMI", "2022-07-30", 21.986877,
+  "PED", "PED-1010", "12 MONTHS", 4, "HDCIRC", "2022-07-30", NA,
+  "PED", "PED-1012", "SCREENING", 1, "WEIGHT", "2023-07-04", 22.355839,
+  "PED", "PED-1012", "SCREENING", 1, "HEIGHT", "2023-07-04", 119.838861,
+  "PED", "PED-1012", "SCREENING", 1, "BMI", "2023-07-04", 15.566666,
+  "PED", "PED-1012", "SCREENING", 1, "HDCIRC", "2023-07-04", NA,
+  "PED", "PED-1012", "DAY 1", 2, "WEIGHT", "2023-07-14", 22.70235,
+  "PED", "PED-1012", "DAY 1", 2, "HEIGHT", "2023-07-14", 120.366952,
+  "PED", "PED-1012", "DAY 1", 2, "BMI", "2023-07-14", 15.669541,
+  "PED", "PED-1012", "DAY 1", 2, "HDCIRC", "2023-07-14", NA,
+  "PED", "PED-1012", "6 MONTHS", 3, "WEIGHT", "2024-01-12", 24.08854,
+  "PED", "PED-1012", "6 MONTHS", 3, "HEIGHT", "2024-01-12", 123.499468,
+  "PED", "PED-1012", "6 MONTHS", 3, "BMI", "2024-01-12", 15.79357,
+  "PED", "PED-1012", "6 MONTHS", 3, "HDCIRC", "2024-01-12", NA,
+  "PED", "PED-1012", "12 MONTHS", 4, "WEIGHT", "2024-07-13", 34.133554,
+  "PED", "PED-1012", "12 MONTHS", 4, "HEIGHT", "2024-07-13", 117.452126,
+  "PED", "PED-1012", "12 MONTHS", 4, "BMI", "2024-07-13", 24.743421,
+  "PED", "PED-1012", "12 MONTHS", 4, "HDCIRC", "2024-07-13", NA,
+  "PED", "PED-1013", "SCREENING", 1, "WEIGHT", "2024-01-21", 41.82798,
+  "PED", "PED-1013", "SCREENING", 1, "HEIGHT", "2024-01-21", 151.486564,
+  "PED", "PED-1013", "SCREENING", 1, "BMI", "2024-01-21", 18.227145,
+  "PED", "PED-1013", "SCREENING", 1, "HDCIRC", "2024-01-21", NA,
+  "PED", "PED-1013", "DAY 1", 2, "WEIGHT", "2024-01-31", 41.625681,
+  "PED", "PED-1013", "DAY 1", 2, "HEIGHT", "2024-01-31", 151.486564,
+  "PED", "PED-1013", "DAY 1", 2, "BMI", "2024-01-31", 18.138991,
+  "PED", "PED-1013", "DAY 1", 2, "HDCIRC", "2024-01-31", NA,
+  "PED", "PED-1013", "6 MONTHS", 3, "WEIGHT", "2024-07-31", 43.565278,
+  "PED", "PED-1013", "6 MONTHS", 3, "HEIGHT", "2024-07-31", 154.755501,
+  "PED", "PED-1013", "6 MONTHS", 3, "BMI", "2024-07-31", 18.190654,
+  "PED", "PED-1013", "6 MONTHS", 3, "HDCIRC", "2024-07-31", NA,
+  "PED", "PED-1013", "12 MONTHS", 4, "WEIGHT", "2025-01-30", 34.607152,
+  "PED", "PED-1013", "12 MONTHS", 4, "HEIGHT", "2025-01-30", 157.3437,
+  "PED", "PED-1013", "12 MONTHS", 4, "BMI", "2025-01-30", 13.978712,
+  "PED", "PED-1013", "12 MONTHS", 4, "HDCIRC", "2025-01-30", NA,
+  "PED", "PED-1009", "SCREENING", 1, "WEIGHT", "2024-01-23", 67.642814,
+  "PED", "PED-1009", "SCREENING", 1, "HEIGHT", "2024-01-23", 176.277578,
+  "PED", "PED-1009", "SCREENING", 1, "BMI", "2024-01-23", 21.76845,
+  "PED", "PED-1009", "SCREENING", 1, "HDCIRC", "2024-01-23", NA,
+  "PED", "PED-1009", "DAY 1", 2, "WEIGHT", "2024-02-02", 67.651415,
+  "PED", "PED-1009", "DAY 1", 2, "HEIGHT", "2024-02-02", 176.320201,
+  "PED", "PED-1009", "DAY 1", 2, "BMI", "2024-02-02", 21.760694,
+  "PED", "PED-1009", "DAY 1", 2, "HDCIRC", "2024-02-02", NA
+) %>%
+  mutate(
+    DOMAIN = "VS",
+    VSSEQ = row_number(),
+    VSPOS = NA_character_,
+    VSORRESU = case_when(
+      VSTESTCD == "HEIGHT" ~ "cm",
+      VSTESTCD == "WEIGHT" ~ "kg",
+      VSTESTCD == "BMI" ~ "kg/m2",
+      VSTESTCD == "HDCIRC" ~ "cm",
+      TRUE ~ NA_character_
+    ),
+    VSTEST = case_when(
+      VSTESTCD == "HEIGHT" ~ "Height",
+      VSTESTCD == "WEIGHT" ~ "Weight",
+      VSTESTCD == "BMI" ~ "BMI",
+      VSTESTCD == "HDCIRC" ~ "Head Circumference",
+      TRUE ~ NA_character_
+    ),
+    VSSTRESC = as.character(VSSTRESN),
+    VSORRES = VSSTRESC,
+    VSSTRESU = VSORRESU,
+    VSSTAT = NA_character_,
+    VSLOC = NA_character_,
+    VSBLFL = if_else(VISITNUM == 2, "Y", NA_character_),
+    VISITDY = NA_integer_,
+    VSDY = NA_integer_,
+    VSEVAL = NA_character_,
+    EPOCH = "Epoch"
+  ) %>%
+  select(
+    STUDYID, DOMAIN, USUBJID, VSSEQ, VSTESTCD, VSTEST,
+    VSORRES, VSORRESU, VSSTRESC, VSSTRESN, VSSTRESU, VSEVAL,
+    EPOCH, VSDTC, VSDY
+  )
+
+
+# get common column names with VS
+common_cols <- intersect(names(vs_ped), names(vs))
+# Apply label
+assign_label <- function(x) {
+  attr(vs_ped[[x]], "label") <<- attr(vs[[x]], "label")
+}
+Map(assign_label, common_cols)
+
+# Label dataset ----
+attr(vs_ped, "label") <- "Vital Signs"
+
+# Save dataset ----
+usethis::use_data(vs_ped, overwrite = TRUE)
