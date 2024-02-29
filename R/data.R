@@ -36,5 +36,3 @@
 #' @source
 #' From inst/CDC_growth_charts/bmiage.R
 "cdc_bmiage"
-
-
