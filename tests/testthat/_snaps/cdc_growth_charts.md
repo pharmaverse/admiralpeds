@@ -1,7 +1,7 @@
 # cdc_growth_charts Test 1: CDC weight-for-age chart
 
     Code
-      wtage
+      cdc_wtage
     Output
       # A tibble: 436 x 5
            SEX   AGE      L     M     S
@@ -21,7 +21,7 @@
 # cdc_growth_charts Test 2: CDC height-for-age chart
 
     Code
-      statage
+      cdc_htage
     Output
       # A tibble: 436 x 5
            SEX   AGE       L     M      S
@@ -41,7 +41,7 @@
 # cdc_growth_charts Test 3: CDC bmi-for-age chart
 
     Code
-      bmiage
+      cdc_bmiage
     Output
       # A tibble: 438 x 5
            SEX   AGE     L     M      S

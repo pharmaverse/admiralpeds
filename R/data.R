@@ -8,7 +8,7 @@
 #' @keywords datasets
 #' @family datasets
 #' @source
-"wtage"
+"cdc_wtage"
 
 #' CDC Stature/Height-for-age-chart
 #'
@@ -20,7 +20,7 @@
 #' @keywords datasets
 #' @family datasets
 #' @source
-"statage"
+"cdc_htage"
 
 #' CDC BMI-for-age-chart
 #'
@@ -32,6 +32,6 @@
 #' @keywords datasets
 #' @family datasets
 #' @source
-"bmiage"
+"cdc_bmiage"
 
 
