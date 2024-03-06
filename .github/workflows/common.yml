@@ -2,6 +2,12 @@
 # Source: https://github.com/pharmaverse/admiralci
 # Common workflows designed for Admiral
 # but can be easily used by any other R package
+name: Admiral Workflows
+
+---
+# Source: https://github.com/pharmaverse/admiralci
+# Common workflows designed for Admiral
+# but can be easily used by any other R package
 name: admiral CI/CD Workflows
 
 on:
@@ -58,6 +64,13 @@ jobs:
     name: Spelling
     uses: pharmaverse/admiralci/.github/workflows/spellcheck.yml@main
     if: github.event_name == 'pull_request'
+    needs: get_r_version
+    with:
+      r-version: "${{ needs.get_r_version.outputs.r-version }}"
+  readme:
+    name: Render README
+    uses: pharmaverse/admiralci/.github/workflows/readme-render.yml@main
+    if: github.event_name == 'push'
     needs: get_r_version
     with:
       r-version: "${{ needs.get_r_version.outputs.r-version }}"
