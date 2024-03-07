@@ -1,6 +1,6 @@
 ## code to prepare internal datasets goes here
 
-WHO_length_height_for_age_girls <- tibble::tribble(
+who_lgth_ht_for_age_girls <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, 1L, 49.1477, 0.0379,
   1L, 1L, 49.3166, 0.03783,
@@ -1861,7 +1861,7 @@ WHO_length_height_for_age_girls <- tibble::tribble(
   1856L, 1L, 109.9352, 0.04358
 )
 
-WHO_length_height_for_age_boys <- tibble::tribble(
+who_lgth_ht_for_age_boys <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, 1L, 49.8842, 0.03795,
   1L, 1L, 50.0601, 0.03785,
@@ -3722,7 +3722,7 @@ WHO_length_height_for_age_boys <- tibble::tribble(
   1856L, 1L, 110.4969, 0.04226
 )
 
-WHO_weight_for_age_girls <- tibble::tribble(
+who_wt_for_age_girls <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, 0.3809, 3.2322, 0.14171,
   1L, 0.3259, 3.1957, 0.14578,
@@ -5584,7 +5584,7 @@ WHO_weight_for_age_girls <- tibble::tribble(
 )
 
 
-WHO_weight_for_age_boys <- tibble::tribble(
+who_wt_for_age_boys <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, 0.3487, 3.3464, 0.14602,
   1L, 0.3127, 3.3174, 0.14693,
@@ -7445,7 +7445,7 @@ WHO_weight_for_age_boys <- tibble::tribble(
   1856L, -0.1534, 18.4968, 0.1358
 )
 
-WHO_weight_for_length_girls <- tibble::tribble(
+who_wt_for_lgth_girls <- tibble::tribble(
   ~Length, ~L, ~M, ~S,
   45, -0.3833, 2.4607, 0.09029,
   45.1, -0.3833, 2.4777, 0.0903,
@@ -8101,7 +8101,7 @@ WHO_weight_for_length_girls <- tibble::tribble(
 )
 
 
-WHO_weight_for_length_boys <- tibble::tribble(
+who_wt_for_lgth_boys <- tibble::tribble(
   ~Length, ~L, ~M, ~S,
   45, -0.3521, 2.441, 0.09182,
   45.1, -0.3521, 2.4577, 0.09176,
@@ -8756,7 +8756,7 @@ WHO_weight_for_length_boys <- tibble::tribble(
   110, -0.3521, 18.2689, 0.08755
 )
 
-WHO_weight_for_height_girls <- tibble::tribble(
+who_wt_for_ht_girls <- tibble::tribble(
   ~Height, ~L, ~M, ~S,
   65, -0.3833, 7.2402, 0.09113,
   65.1, -0.3833, 7.2627, 0.09112,
@@ -9311,7 +9311,7 @@ WHO_weight_for_height_girls <- tibble::tribble(
   120, -0.3833, 22.8173, 0.09828
 )
 
-WHO_weight_for_height_boys <- tibble::tribble(
+who_wt_for_ht_boys <- tibble::tribble(
   ~Height, ~L, ~M, ~S,
   65, -0.3521, 7.4327, 0.08217,
   65.1, -0.3521, 7.4563, 0.08216,
@@ -9866,7 +9866,7 @@ WHO_weight_for_height_boys <- tibble::tribble(
   120, -0.3521, 22.353, 0.09424
 )
 
-WHO_bmi_for_age_girls <- tibble::tribble(
+who_bmi_for_age_girls <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, -0.0631, 13.3363, 0.09272,
   1L, 0.0362, 13.3185, 0.0936,
@@ -11727,7 +11727,7 @@ WHO_bmi_for_age_girls <- tibble::tribble(
   1856L, -0.5684, 15.2798, 0.09825
 )
 
-WHO_bmi_for_age_boys <- tibble::tribble(
+who_bmi_for_age_boys <- tibble::tribble(
   ~Day, ~L, ~M, ~S,
   0L, -0.3053, 13.4069, 0.0956,
   1L, -0.1867, 13.3976, 0.09597,
@@ -13589,32 +13589,42 @@ WHO_bmi_for_age_boys <- tibble::tribble(
 )
 
 
-usethis::use_data(WHO_length_height_for_age_girls, overwrite = TRUE)
-usethis::use_data(WHO_length_height_for_age_boys, overwrite = TRUE)
+usethis::use_data(who_lgth_ht_for_age_girls, overwrite = TRUE)
+usethis::use_data(who_lgth_ht_for_age_boys, overwrite = TRUE)
 
-usethis::use_data(WHO_weight_for_age_girls, overwrite = TRUE)
-usethis::use_data(WHO_weight_for_age_boys, overwrite = TRUE)
+usethis::use_data(who_wt_for_age_girls, overwrite = TRUE)
+usethis::use_data(who_wt_for_age_boys, overwrite = TRUE)
 
-usethis::use_data(WHO_weight_for_length_girls, overwrite = TRUE)
-usethis::use_data(WHO_weight_for_length_boys, overwrite = TRUE)
+usethis::use_data(who_wt_for_lgth_girls, overwrite = TRUE)
+usethis::use_data(who_wt_for_lgth_boys, overwrite = TRUE)
 
-usethis::use_data(WHO_weight_for_height_girls, overwrite = TRUE)
-usethis::use_data(WHO_weight_for_height_boys, overwrite = TRUE)
+usethis::use_data(who_wt_for_ht_girls, overwrite = TRUE)
+usethis::use_data(who_wt_for_ht_boys, overwrite = TRUE)
 
-usethis::use_data(WHO_bmi_for_age_girls, overwrite = TRUE)
-usethis::use_data(WHO_bmi_for_age_boys, overwrite = TRUE)
+usethis::use_data(who_bmi_for_age_girls, overwrite = TRUE)
+usethis::use_data(who_bmi_for_age_boys, overwrite = TRUE)
 
 # documentation skeleton: be aware that the file destination will be overwritten
-cat(sinew::makeOxygen("WHO_length_height_for_age_girls", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_length_height_for_age_boys", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_age_girls", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_age_boys", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_length_girls", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_length_boys", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_height_girls", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_weight_for_height_boys", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_bmi_for_age_girls", add_fields = c("family", "keywords", "source")),
-  sinew::makeOxygen("WHO_bmi_for_age_boys", add_fields = c("family", "keywords", "source")),
+cat(sinew::makeOxygen("who_lgth_ht_for_age_girls",
+                      add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_lgth_ht_for_age_boys",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_age_girls",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_age_boys",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_lgth_girls",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_lgth_boys",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_ht_girls",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_wt_for_ht_boys",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_bmi_for_age_girls",
+                    add_fields = c("family", "keywords", "source")),
+  sinew::makeOxygen("who_bmi_for_age_boys",
+                    add_fields = c("family", "keywords", "source")),
   file = "R/data.R",
   sep = "\n \n"
 )

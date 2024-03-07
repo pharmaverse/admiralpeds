@@ -11,7 +11,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
-"WHO_length_height_for_age_girls"
+"who_lgth_ht_for_age_girls"
 
 #' @title WHO length/height-for-age for boys
 #' @description WHO Length/height-for-age charts for boys from day 0 (birth) to
@@ -26,7 +26,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
-"WHO_length_height_for_age_boys"
+"who_lgth_ht_for_age_boys"
 
 #' @title WHO weight-for-age for girls
 #' @description WHO weight-for-age charts for girls from day 0 (birth) to
@@ -41,7 +41,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
-"WHO_weight_for_age_girls"
+"who_wt_for_age_girls"
 
 #' @title WHO weight-for-age for boys
 #' @description WHO weight-for-age charts for boys from day 0 (birth) to
@@ -56,7 +56,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
-"WHO_weight_for_age_boys"
+"who_wt_for_age_boys"
 
 #' @title WHO weight-for-length for girls
 #' @description WHO weight-for-length charts for girls from 45cm to 110cm
@@ -70,7 +70,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"WHO_weight_for_length_girls"
+"who_wt_for_lgth_girls"
 
 #' @title WHO weight-for-length for boys
 #' @description WHO weight-for-length charts for boys from 45cm to 110cm
@@ -84,7 +84,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"WHO_weight_for_length_boys"
+"who_wt_for_lgth_boys"
 
 #' @title WHO weight-for-height for girls
 #' @description WHO weight-for-height charts for girls from 65cm to 120cm
@@ -98,7 +98,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"WHO_weight_for_height_girls"
+"who_wt_for_ht_girls"
 
 #' @title WHO weight-for-height for boys
 #' @description WHO weight-for-height charts for boys from 65cm to 120cm
@@ -112,7 +112,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"WHO_weight_for_height_boys"
+"who_wt_for_ht_boys"
 
 #' @title WHO bmi-for-age for girls
 #' @description WHO bmi-for-age charts for girls from day 0 (birth) to
@@ -127,7 +127,7 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
-"WHO_bmi_for_age_girls"
+"who_bmi_for_age_girls"
 
 #' @title WHO bmi-for-age for boys
 #' @description WHO bmi-for-age charts for boys from day 0 (birth) to
@@ -142,4 +142,4 @@
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
-"WHO_bmi_for_age_boys"
+"who_bmi_for_age_boys"

@@ -1,7 +1,7 @@
 # WHO_growth_charts Test 1: WHO length/height-for-age for girls
 
     Code
-      WHO_length_height_for_age_girls
+      who_lgth_ht_for_age_girls
     Output
       # A tibble: 1,857 x 4
            Day     L     M      S
@@ -21,7 +21,7 @@
 # WHO_growth_charts Test 2: WHO length/height-for-age for boys
 
     Code
-      WHO_length_height_for_age_boys
+      who_lgth_ht_for_age_boys
     Output
       # A tibble: 1,857 x 4
            Day     L     M      S
@@ -41,7 +41,7 @@
 # WHO_growth_charts Test 3: WHO weight-for-age for girls
 
     Code
-      WHO_weight_for_age_girls
+      who_wt_for_age_girls
     Output
       # A tibble: 1,857 x 4
            Day     L     M     S
@@ -61,7 +61,7 @@
 # WHO_growth_charts Test 4: WHO weight-for-age for boys
 
     Code
-      WHO_weight_for_age_boys
+      who_wt_for_age_boys
     Output
       # A tibble: 1,857 x 4
            Day     L     M     S
@@ -81,7 +81,7 @@
 # WHO_growth_charts Test 5: WHO weight-for-length for girls
 
     Code
-      WHO_weight_for_length_girls
+      who_wt_for_lgth_girls
     Output
       # A tibble: 651 x 4
          Length      L     M      S
@@ -101,7 +101,7 @@
 # WHO_growth_charts Test 6: WHO weight-for-length for boys
 
     Code
-      WHO_weight_for_length_boys
+      who_wt_for_lgth_boys
     Output
       # A tibble: 651 x 4
          Length      L     M      S
@@ -121,7 +121,7 @@
 # WHO_growth_charts Test 7: WHO weight-for-height for girls
 
     Code
-      WHO_weight_for_height_girls
+      who_wt_for_ht_girls
     Output
       # A tibble: 551 x 4
          Height      L     M      S
@@ -141,7 +141,7 @@
 # WHO_growth_charts Test 8: WHO weight-for-height for boys
 
     Code
-      WHO_weight_for_height_boys
+      who_wt_for_ht_boys
     Output
       # A tibble: 551 x 4
          Height      L     M      S
@@ -161,7 +161,7 @@
 # WHO_growth_charts Test 9: WHO bmi-for-age for girls
 
     Code
-      WHO_bmi_for_age_girls
+      who_bmi_for_age_girls
     Output
       # A tibble: 1,857 x 4
            Day       L     M      S
@@ -181,7 +181,7 @@
 # WHO_growth_charts Test 10: WHO bmi-for-age for boys
 
     Code
-      WHO_bmi_for_age_boys
+      who_bmi_for_age_boys
     Output
       # A tibble: 1,857 x 4
            Day       L     M      S
