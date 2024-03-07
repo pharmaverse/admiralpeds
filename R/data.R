@@ -7,7 +7,7 @@
 #'   \item{\code{L}}{integer Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
@@ -22,7 +22,7 @@
 #'   \item{\code{L}}{integer Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
@@ -37,7 +37,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
@@ -52,7 +52,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-age}
@@ -66,7 +66,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
@@ -80,7 +80,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
@@ -94,7 +94,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
@@ -108,7 +108,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
@@ -123,7 +123,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
@@ -138,7 +138,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
