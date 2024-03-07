@@ -1326,13 +1326,13 @@ usethis::use_data(cdc_bmiage, overwrite = TRUE)
 
 cat(
   sinew::makeOxygen("cdc_wtage",
-                    add_fields = c("family", "keywords", "source")
+    add_fields = c("family", "keywords", "source")
   ),
   sinew::makeOxygen("cdc_htage",
-                    add_fields = c("family", "keywords", "source")
+    add_fields = c("family", "keywords", "source")
   ),
   sinew::makeOxygen("cdc_bmiage",
-                    add_fields = c("family", "keywords", "source")
+    add_fields = c("family", "keywords", "source")
   ),
   file = "R/data.R",
   sep = "\n \n"

@@ -7,7 +7,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
@@ -22,7 +22,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
@@ -37,7 +37,7 @@
 #'   \item{\code{L}}{double Box-Cox transformation for normality}
 #'   \item{\code{M}}{double Median}
 #'   \item{\code{S}}{double Coefficient of variation}
-#'}
+#' }
 #' @family datasets
 #' @keywords datasets
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}

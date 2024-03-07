@@ -3,22 +3,25 @@
 \docType{data}
 \name{cdc_bmiage}
 \alias{cdc_bmiage}
-\title{CDC BMI-for-age-chart}
+\title{CDC bmi-for-age}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 438 rows and 5 columns.
+A data frame with 438 rows and 5 variables:
+\describe{
+\item{\code{SEX}}{double sex where 1 = male, 2 = female}
+\item{\code{AGE}}{double age in months}
+\item{\code{L}}{double Box-Cox transformation for normality}
+\item{\code{M}}{double Median}
+\item{\code{S}}{double Coefficient of variation}
+}
 }
 \source{
-From inst/CDC_growth_charts/bmiage.R
+\url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 }
 \usage{
 cdc_bmiage
 }
 \description{
-BMI-for-age charts, 2 to 20.5 years,
-L (Box-Cox transformation for normality),
-M (Median),
-S (coefficient of variation) parameters
-by sex and age, age is in months.
+CDC bmi-for-age charts from age 2 to 20 years (in months)
 }
 \seealso{
 Other datasets: 

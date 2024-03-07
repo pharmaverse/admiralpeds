@@ -3,22 +3,25 @@
 \docType{data}
 \name{cdc_htage}
 \alias{cdc_htage}
-\title{CDC Stature/Height-for-age-chart}
+\title{CDC staturue/height-for-age}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 436 rows and 5 columns.
+A data frame with 436 rows and 5 variables:
+\describe{
+\item{\code{SEX}}{double sex where 1 = male, 2 = female}
+\item{\code{AGE}}{double age in months}
+\item{\code{L}}{double Box-Cox transformation for normality}
+\item{\code{M}}{double Median}
+\item{\code{S}}{double Coefficient of variation}
+}
 }
 \source{
-From inst/CDC_growth_charts/htage.R
+\url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 }
 \usage{
 cdc_htage
 }
 \description{
-Height-for-age charts, 2 to 20 years,
-L (Box-Cox transformation for normality),
-M (Median),
-S (coefficient of variation) parameters
-by sex and age, age is in months.
+CDC height-for-age charts from age 2 to 20 years (in months)
 }
 \seealso{
 Other datasets: 
