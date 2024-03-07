@@ -1323,3 +1323,19 @@ cdc_wtage <- tibble::tribble(
 usethis::use_data(cdc_wtage, overwrite = TRUE)
 usethis::use_data(cdc_htage, overwrite = TRUE)
 usethis::use_data(cdc_bmiage, overwrite = TRUE)
+
+cat(
+  sinew::makeOxygen("cdc_wtage",
+                    add_fields = c("family", "keywords", "source")
+  ),
+  sinew::makeOxygen("cdc_htage",
+                    add_fields = c("family", "keywords", "source")
+  ),
+  sinew::makeOxygen("cdc_bmiage",
+                    add_fields = c("family", "keywords", "source")
+  ),
+  file = "R/data.R",
+  sep = "\n \n"
+)
+
+rstudioapi::navigateToFile("R/data.R")
