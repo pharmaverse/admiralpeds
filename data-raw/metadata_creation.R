@@ -13605,26 +13605,37 @@ usethis::use_data(who_bmi_for_age_girls, overwrite = TRUE)
 usethis::use_data(who_bmi_for_age_boys, overwrite = TRUE)
 
 # documentation skeleton: be aware that the file destination will be overwritten
-cat(sinew::makeOxygen("who_lgth_ht_for_age_girls",
-                      add_fields = c("family", "keywords", "source")),
+cat(
+  sinew::makeOxygen("who_lgth_ht_for_age_girls",
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_lgth_ht_for_age_boys",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_age_girls",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_age_boys",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_lgth_girls",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_lgth_boys",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_ht_girls",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_wt_for_ht_boys",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_bmi_for_age_girls",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   sinew::makeOxygen("who_bmi_for_age_boys",
-                    add_fields = c("family", "keywords", "source")),
+    add_fields = c("family", "keywords", "source")
+  ),
   file = "R/data.R",
   sep = "\n \n"
 )
