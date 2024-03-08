@@ -30,7 +30,7 @@ Each data frame will be denoted as below:
 from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{cdc websites}
 }
 \examples{
-get_cdc_data(type = "bmi") \%>\% head()
+get_cdc_data(type = "bmi") |> head()
 }
 \concept{metadata}
 \keyword{metadata}
