@@ -17,7 +17,7 @@ License: Apache License (>= 2)
 URL: https://pharmaverse.github.io/admiralpeds,
     https://github.com/pharmaverse/admiralpeds
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1)
 Imports:
     admiral (>= 1.0.0),
     admiraldev (>= 1.0.0),

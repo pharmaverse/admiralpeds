@@ -17,6 +17,18 @@ The appropriate growth chart from the CDC data
 \description{
 Retrieves CDC growth chart metadataset
 }
+\details{
+Each data frame will be denoted as below:
+\describe{
+\item{\code{SEX}}{double sex where 1 = male, 2 = female}
+\item{\code{AGE}}{double age in months}
+\item{\code{L}}{double Box-Cox transformation for normality}
+\item{\code{M}}{double Median}
+\item{\code{S}}{double Coefficient of variation}
+}
+
+from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{cdc websites}
+}
 \examples{
 get_cdc_data(type = "bmi") \%>\% head()
 }
