@@ -1,4 +1,4 @@
-load(system.file("R/sysdata.rda", package = "admiralpeds"))
+library(admiralpeds)
 
 # get_cdc_data ----
 ## Test 1: CDC weight-for-age chart ----
