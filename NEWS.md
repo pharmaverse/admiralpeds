@@ -1,8 +1,3 @@
-# admiralpeds  (development version)
-
-## New Features
+# admiralpeds 0.1.0
 
 - Initial package release focused mainly on child growth/development charts.
-- CDC growth chart metadata has been added (#15)
-
-## Documentation
