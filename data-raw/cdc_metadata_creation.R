@@ -1320,6 +1320,4 @@ cdc_wtage <- tibble::tribble(
   2, 240, -1.51336185, 58.21897289, 0.166644749
 )
 
-usethis::use_data(cdc_wtage, overwrite = TRUE, internal = TRUE)
-usethis::use_data(cdc_htage, overwrite = TRUE, internal = TRUE)
-usethis::use_data(cdc_bmiage, overwrite = TRUE, internal = TRUE)
+usethis::use_data(cdc_wtage, cdc_htage, cdc_bmiage, overwrite = TRUE, internal = TRUE)

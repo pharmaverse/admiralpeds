@@ -1,3 +1,4 @@
+library(admiralpeds)
 # get_cdc_data ----
 ## Test 1: CDC weight-for-age chart ----
 test_that("get_cdc_data Test 1: CDC weight-for-age chart", {
