@@ -1,15 +1,15 @@
-# cdc_growth_charts ----
+# get_cdc_data ----
 ## Test 1: CDC weight-for-age chart ----
-test_that("cdc_growth_charts Test 1: CDC weight-for-age chart", {
-  expect_snapshot(cdc_wtage)
+test_that("get_cdc_data Test 1: CDC weight-for-age chart", {
+  expect_snapshot(get_cdc_data("weight"))
 })
 
 ## Test 2: CDC weight-for-age chart ----
-test_that("cdc_growth_charts Test 2: CDC height-for-age chart", {
-  expect_snapshot(cdc_htage)
+test_that("get_cdc_data Test 2: CDC weight-for-age chart", {
+  expect_snapshot(get_cdc_data("height"))
 })
 
 ## Test 3: CDC weight-for-age chart ----
-test_that("cdc_growth_charts Test 3: CDC bmi-for-age chart", {
-  expect_snapshot(cdc_bmiage)
+test_that("get_cdc_data Test 3: CDC weight-for-age chart", {
+  expect_snapshot(get_cdc_data("bmi"))
 })

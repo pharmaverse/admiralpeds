@@ -1,7 +1,7 @@
-# cdc_growth_charts Test 1: CDC weight-for-age chart
+# get_cdc_data Test 1: CDC weight-for-age chart
 
     Code
-      cdc_wtage
+      get_cdc_data("weight")
     Output
       # A tibble: 436 x 5
            SEX   AGE      L     M     S
@@ -18,10 +18,10 @@
       10     1  32.5 -0.472  13.8 0.110
       # i 426 more rows
 
-# cdc_growth_charts Test 2: CDC height-for-age chart
+# get_cdc_data Test 2: CDC weight-for-age chart
 
     Code
-      cdc_htage
+      get_cdc_data("height")
     Output
       # A tibble: 436 x 5
            SEX   AGE       L     M      S
@@ -38,10 +38,10 @@
       10     1  32.5 -0.0297  92.7 0.0409
       # i 426 more rows
 
-# cdc_growth_charts Test 3: CDC bmi-for-age chart
+# get_cdc_data Test 3: CDC weight-for-age chart
 
     Code
-      cdc_bmiage
+      get_cdc_data("bmi")
     Output
       # A tibble: 438 x 5
            SEX   AGE     L     M      S
