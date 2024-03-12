@@ -7,6 +7,6 @@
 
 #' Vital signs Dataset-updated
 #'
-#' An updated SDTM VS dataset with anthropologic measurements for pediatric patients
+#' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
 #'
 "vs_ped"
