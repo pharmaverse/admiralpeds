@@ -11,6 +11,6 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 vs_ped
 }
 \description{
-An updated SDTM VS dataset with anthropologic measurements for pediatric patients
+An updated SDTM VS dataset with anthropometric measurements for pediatric patients
 }
 \keyword{datasets}
