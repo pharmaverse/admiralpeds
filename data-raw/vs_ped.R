@@ -1,11 +1,6 @@
 # Dataset: vs_ped
 # Description: VS test SDTM dataset for pediatric studies
 
-# Load libraries ----
-
-#library(dplyr)
-#slibrary(pharmaversesdtm)
-
 ## Read input data ----
 data("vs")
 
