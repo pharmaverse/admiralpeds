@@ -1,3 +1,4 @@
+
 ---
 # Source: https://github.com/pharmaverse/admiralci
 # Common workflows designed for Admiral
@@ -11,8 +12,6 @@ on:
   # 'push' events are triggered when commits
   # are pushed to one of these branches
   push:
-    tags:
-      - "v*"
     branches:
       - main
       - patch
@@ -58,6 +57,13 @@ jobs:
     name: Spelling
     uses: pharmaverse/admiralci/.github/workflows/spellcheck.yml@main
     if: github.event_name == 'pull_request'
+    needs: get_r_version
+    with:
+      r-version: "${{ needs.get_r_version.outputs.r-version }}"
+  readme:
+    name: Render README
+    uses: pharmaverse/admiralci/.github/workflows/readme-render.yml@main
+    if: github.event_name == 'push'
     needs: get_r_version
     with:
       r-version: "${{ needs.get_r_version.outputs.r-version }}"
