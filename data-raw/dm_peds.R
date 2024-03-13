@@ -1,26 +1,30 @@
 # Dataset: dm_ped
 # Description: Create DM test SDTM dataset for pediatric studies
 
+# Load libraries -----
+library(dplyr)
+library(purrr)
+
 # Create DM for pediatric  ----
 
 ## Read in original data ----
 data("dm")
 
 ## Make dm_ped dataset
-dm_ped <- tibble::tribble(
+dm_peds <- tibble::tribble(
   ~USUBJID, ~BRTHDTC, ~AGE, ~AGEU, ~RFSTDTC, ~RFENDTC, ~SEX,
-  "PED-1001", "2022-09-10", 0, "YEARS", "2022-09-30", "2023-12-30", "M",
-  "PED-1002", "2022-06-10", 0, "YEARS", "2022-09-12", "2024-02-15", "F",
-  "PED-1003", "2022-07-10", 0, "YEARS", "2023-01-08", "2023-10-25", "F",
-  "PED-1005", "2019-07-10", 2, "YEARS", "2021-07-09", "2024-01-13", "F",
-  "PED-1006", "2021-08-10", 2, "YEARS", "2023-08-11", "2024-02-15", "F",
-  "PED-1010", "2019", 2, "YEARS", "2021-07-09", "2024-02-15", "M",
-  "PED-1012", "2016-10-10", 6, "YEARS", "2023-06-23", "2024-02-15", "M",
-  "PED-1013", "2012-01-10", 12, "YEARS", "2024-01-10", "2024-02-15", "F",
-  "PED-1009", "2005-10-25", 20, "YEARS", "2024-01-12", "2024-02-15", "M",
+  "PEDS-1001", "2022-09-10", 0, "YEARS", "2022-09-30", "2023-12-30", "M",
+  "PEDS-1002", "2022-06-10", 0, "YEARS", "2022-09-12", "2024-02-15", "F",
+  "PEDS-1003", "2022-07-10", 0, "YEARS", "2023-01-08", "2023-10-25", "F",
+  "PEDS-1005", "2019-07-10", 2, "YEARS", "2021-07-09", "2024-01-13", "F",
+  "PEDS-1006", "2021-08-10", 2, "YEARS", "2023-08-11", "2024-02-15", "F",
+  "PEDS-1010", "2019", 2, "YEARS", "2021-07-09", "2024-02-15", "M",
+  "PEDS-1012", "2016-10-10", 6, "YEARS", "2023-06-23", "2024-02-15", "M",
+  "PEDS-1013", "2012-01-10", 12, "YEARS", "2024-01-10", "2024-02-15", "F",
+  "PEDS-1009", "2005-10-25", 20, "YEARS", "2024-01-12", "2024-02-15", "M",
 ) %>%
   mutate(
-    STUDYID = "PED",
+    STUDYID = "PEDS SAMPLE STUDY",
     DOMAIN = "DM",
     SUBJID = substr(USUBJID, 5, 9),
     SITEID = substr(USUBJID, 5, 7),
@@ -59,16 +63,16 @@ dm_ped <- tibble::tribble(
   )
 
 # get common column names
-common_cols <- intersect(names(dm_ped), names(dm))
+common_cols <- intersect(names(dm_peds), names(dm))
 # Apply label
 assign_label <- function(x) {
-  attr(dm_ped[[x]], "label") <<- attr(dm[[x]], "label")
+  attr(dm_peds[[x]], "label") <<- attr(dm[[x]], "label")
 }
-Map(assign_label, common_cols)
-attr(dm_ped$BRTHDTC, "label") <- "Date/Time of Birth"
+map( common_cols,assign_label)
+attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
 
 # Label dataset ----
-attr(dm_ped, "label") <- "Demographics"
+attr(dm_peds, "label") <- "Demographics"
 
 # Save dataset ----
-usethis::use_data(dm_ped, overwrite = TRUE)
+usethis::use_data(dm_peds, overwrite = TRUE)
