@@ -2,6 +2,7 @@
 # Description: VS test SDTM dataset for pediatric studies
 
 # Load libraries -----
+library(pharmaversesdtm) # TODO remove when this script is moved to pharmaversesdtm
 library(dplyr)
 library(purrr)
 
