@@ -9,17 +9,11 @@ to develop specifics for pediatric clinical trials.
 
 ## Installation
 
-To install the latest development version of the package directly from
-GitHub use the following code:
+To install the development version of the package from GitHub run:
 
 ```r
-if (!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages("remotes")
-}
-
-remotes::install_github("pharmaverse/admiraldev") # This is a required dependency of {admiralpeds}
-remotes::install_github("pharmaverse/admiral") # This is a required dependency of {admiralpeds}
-remotes::install_github("pharmaverse/admiralpeds")
+# install.packages("devtools")
+devtools::install_github("pharmaverse/admiralpeds")
 ```
 
 ### Dependencies
