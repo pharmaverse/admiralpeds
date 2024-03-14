@@ -4,9 +4,9 @@
 #'
 #' @param type Type of Chart
 #'
-#' A character is expected amongst: "height", "weight", "bmi"
+#'   *Permitted Values*: `"height"`, `"weight"`, `"bmi"`
 #'
-#' @return The appropriate growth chart from the CDC data
+#' @return A data-frame of the appropriate growth chart from the CDC data
 #'
 #' @details
 #'
@@ -19,7 +19,7 @@
 #'   \item{\code{S}}{double Coefficient of variation}
 #' }
 #'
-#' from [cdc websites](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
+#' from [CDC website](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
 #'
 #' @family metadata
 #' @keywords metadata
