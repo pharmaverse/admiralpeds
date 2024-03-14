@@ -64,12 +64,12 @@ dm_peds <- tibble::tribble(
   )
 
 # get common column names
-common_cols <- intersect(names(dm_peds), names(dm))
+common_cols <- seq_along(intersect(names(dm_peds), names(dm)))
 # Apply label
-assign_label <- function(x) {
-  attr(dm_peds[[x]], "label") <<- attr(dm[[x]], "label")
-}
-map(common_cols, assign_label)
+lapply(common_cols, function(x) {
+  attr(dm_peds[[common_cols[x]]], "label") <- attr(dm[[common_cols[x]]], "label")
+})
+
 attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
 
 # Label dataset ----

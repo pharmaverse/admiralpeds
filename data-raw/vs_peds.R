@@ -190,12 +190,11 @@ vs_peds <- tibble::tribble(
   )
 
 # get common column names with VS
-common_cols <- intersect(names(vs_peds), names(vs))
+common_cols <- seq_along(intersect(names(vs_peds), names(vs)))
 # Apply label
-assign_label <- function(x) {
-  attr(vs_peds[[x]], "label") <<- attr(vs[[x]], "label")
-}
-map(common_cols, assign_label)
+lapply(common_cols, function(x) {
+  attr(vs_peds[[common_cols[x]]], "label") <- attr(vs[[common_cols[x]]], "label")
+})
 
 # Label dataset ----
 attr(vs_peds, "label") <- "Vital Signs"
