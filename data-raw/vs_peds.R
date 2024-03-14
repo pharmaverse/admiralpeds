@@ -186,7 +186,7 @@ vs_peds <- tibble::tribble(
   select(
     STUDYID, DOMAIN, USUBJID, VSSEQ, VSTESTCD, VSTEST,
     VSORRES, VSORRESU, VSSTRESC, VSSTRESN, VSSTRESU, VSEVAL,
-    EPOCH, VISIT, VISITNUM,VSDTC, VSDY
+    EPOCH, VISIT, VISITNUM, VSDTC, VSDY
   )
 
 # get common column names with VS
@@ -195,7 +195,7 @@ common_cols <- intersect(names(vs_peds), names(vs))
 assign_label <- function(x) {
   attr(vs_peds[[x]], "label") <<- attr(vs[[x]], "label")
 }
-map( common_cols,assign_label)
+map(common_cols, assign_label)
 
 # Label dataset ----
 attr(vs_peds, "label") <- "Vital Signs"

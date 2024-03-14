@@ -69,7 +69,7 @@ common_cols <- intersect(names(dm_peds), names(dm))
 assign_label <- function(x) {
   attr(dm_peds[[x]], "label") <<- attr(dm[[x]], "label")
 }
-map( common_cols,assign_label)
+map(common_cols, assign_label)
 attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
 
 # Label dataset ----
