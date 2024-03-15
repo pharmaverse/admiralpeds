@@ -27,7 +27,7 @@
 #' @export
 #'
 #' @examples
-#' get_cdc_data(type = "bmi") |> head()
+#' get_cdc_data(type = "bmi") %>% head()
 get_cdc_data <- function(type) {
   # Limit input values to the three datasets available from CDC data
   assert_character_scalar(type, values = c("height", "weight", "bmi"))

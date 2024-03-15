@@ -9,10 +9,10 @@ get_cdc_data(type)
 \arguments{
 \item{type}{Type of Chart
 
-A character is expected amongst: "height", "weight", "bmi"}
+\emph{Permitted Values}: \code{"height"}, \code{"weight"}, \code{"bmi"}}
 }
 \value{
-The appropriate growth chart from the CDC data
+A data-frame of the appropriate growth chart from the CDC data
 }
 \description{
 Retrieves CDC growth chart metadataset
@@ -27,10 +27,10 @@ Each data frame will be denoted as below:
 \item{\code{S}}{double Coefficient of variation}
 }
 
-from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{cdc websites}
+from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{CDC website}
 }
 \examples{
-get_cdc_data(type = "bmi") |> head()
+get_cdc_data(type = "bmi") \%>\% head()
 }
 \concept{metadata}
 \keyword{metadata}
