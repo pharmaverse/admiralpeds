@@ -20,14 +20,14 @@ Retrieves CDC growth chart metadataset
 \details{
 Each data frame will be denoted as below:
 \describe{
-\item{\code{SEX}}{double sex where 1 = male, 2 = female}
-\item{\code{AGE}}{double age in months}
-\item{\code{L}}{double Box-Cox transformation for normality}
-\item{\code{M}}{double Median}
-\item{\code{S}}{double Coefficient of variation}
+\item{\code{SEX}}{Sex: 1 = male, 2 = female}
+\item{\code{AGE}}{Age in months}
+\item{\code{L}}{Box-Cox transformation for normality}
+\item{\code{M}}{Median}
+\item{\code{S}}{Coefficient of variation}
 }
 
-from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{CDC website}
+This metadata is sourced from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{CDC website}.
 }
 \examples{
 get_cdc_data(type = "bmi") \%>\% head()
