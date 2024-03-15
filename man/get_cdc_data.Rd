@@ -27,7 +27,8 @@ Each data frame will be denoted as below:
 \item{\code{S}}{Coefficient of variation}
 }
 
-This metadata is sourced from \href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{CDC website}.
+This metadata is sourced from the
+\href{https://www.cdc.gov/growthcharts/percentile_data_files.htm}{CDC website}.
 }
 \examples{
 get_cdc_data(type = "bmi")

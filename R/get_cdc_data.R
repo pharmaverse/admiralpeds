@@ -19,7 +19,8 @@
 #'   \item{\code{S}}{Coefficient of variation}
 #' }
 #'
-#' This metadata is sourced from [CDC website](https://www.cdc.gov/growthcharts/percentile_data_files.htm).
+#' This metadata is sourced from the
+#' [CDC website](https://www.cdc.gov/growthcharts/percentile_data_files.htm).
 #'
 #' @family metadata
 #' @keywords metadata
