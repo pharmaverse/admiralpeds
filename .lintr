@@ -10,5 +10,6 @@ exclusions: list(
     "data-raw" = Inf,
     "R/data.R" = Inf,
     "inst" = list(undesirable_function_linter = Inf),
-    "vignettes" = list(undesirable_function_linter = Inf)
+    "vignettes" = list(undesirable_function_linter = Inf),
+    "tests/testthat/test-cdc_growth_charts.R" = list(undesirable_function_linter = Inf)
   )

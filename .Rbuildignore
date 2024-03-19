@@ -20,3 +20,4 @@
 ^README.Rmd$
 ^data-raw$
 ^\.devcontainer$
+^data-raw$
