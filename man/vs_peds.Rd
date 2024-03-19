@@ -14,7 +14,7 @@ vs_peds
 An updated SDTM VS dataset with anthropometric measurements for pediatric patients
 }
 \seealso{
-Other datasets: 
+Datasets
 \code{\link{dm_peds}}
 }
 \concept{datasets}

@@ -1,5 +1,6 @@
 list(
   rd_family_title = list(
-    metadata = "Metadata"
+    metadata = "Metadata",
+    datasets = "Datasets"
   )
 )
