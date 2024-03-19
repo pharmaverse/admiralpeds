@@ -16,7 +16,20 @@ news:
 development:
   mode: auto
 
+navbar:
+  structure:
+    left: [reference, news]
+  components:
+    reference:
+       text: Reference
+       href: reference/
+
 reference:
 - title: Metadata
 - contents:
   - has_keyword("metadata")
+
+- title: Example Datasets
+  contents:
+  - has_keyword('datasets')
+
