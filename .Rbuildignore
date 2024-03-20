@@ -18,4 +18,6 @@
 ^admiralpeds.*\.tgz$
 ^staged_dependencies.yaml$
 ^README.Rmd$
+^data-raw$
 ^\.devcontainer$
+^data-raw$
