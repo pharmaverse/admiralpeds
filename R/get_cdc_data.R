@@ -34,9 +34,13 @@ get_cdc_data <- function(type) {
   assert_character_scalar(type, values = c("height", "weight", "bmi"))
 
   # Grab the appropriate one
-  switch(type,
-    height = cdc_htage,
-    weight = cdc_wtage,
-    bmi = cdc_bmiage
+  x <- switch(type,
+    # height = cdc_htage,
+    # weight = cdc_wtage,
+    # bmi = cdc_bmiage
+    height = source("data-raw/cdc_height.R"),
+    weight = source("data-raw/cdc_weight.R"),
+    bmi = source("data-raw/cdc_bmi.R")
   )
+  return(x$value)
 }
