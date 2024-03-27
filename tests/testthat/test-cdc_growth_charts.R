@@ -1,17 +1,15 @@
-library(admiralpeds)
-
 # get_cdc_data ----
 ## Test 1: CDC weight-for-age chart ----
 test_that("get_cdc_data Test 1: CDC weight-for-age chart", {
-  expect_snapshot(get_cdc_data("weight"))
+  expect_snapshot(admiralpeds::cdc_wtage)
 })
 
-## Test 2: CDC weight-for-age chart ----
+## Test 2: CDC height-for-age chart ----
 test_that("get_cdc_data Test 2: CDC weight-for-age chart", {
-  expect_snapshot(get_cdc_data("height"))
+  expect_snapshot(admiralpeds::cdc_htage)
 })
 
-## Test 3: CDC weight-for-age chart ----
+## Test 3: CDC bmi-for-age chart ----
 test_that("get_cdc_data Test 3: CDC weight-for-age chart", {
-  expect_snapshot(get_cdc_data("bmi"))
+  expect_snapshot(admiralpeds::cdc_bmiage)
 })
