@@ -24,7 +24,9 @@ WHO bmi-for-age charts for girls from day 0 (birth) to
 day 1856
 }
 \seealso{
-Other datasets: 
+Datasets
+\code{\link{dm_peds}},
+\code{\link{vs_peds}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_hc_for_age_boys}},
 \code{\link{who_hc_for_age_girls}},

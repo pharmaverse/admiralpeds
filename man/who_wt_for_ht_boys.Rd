@@ -23,7 +23,9 @@ who_wt_for_ht_boys
 WHO weight-for-height charts for boys from 65cm to 120cm
 }
 \seealso{
-Other datasets: 
+Datasets
+\code{\link{dm_peds}},
+\code{\link{vs_peds}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
 \code{\link{who_hc_for_age_boys}},

@@ -23,7 +23,9 @@ who_wt_for_lgth_girls
 WHO weight-for-length charts for girls from 45cm to 110cm
 }
 \seealso{
-Other datasets: 
+Datasets
+\code{\link{dm_peds}},
+\code{\link{vs_peds}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
 \code{\link{who_hc_for_age_boys}},

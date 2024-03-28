@@ -10,7 +10,7 @@
 #' }
 #' @family datasets
 #' @keywords datasets
-#' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}Ò
+#' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
 "who_lgth_ht_for_age_girls"
 
 #' @title WHO length/height-for-age for boys
