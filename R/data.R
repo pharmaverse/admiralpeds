@@ -173,3 +173,18 @@
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
 "who_hc_for_age_boys"
+
+#' Demographic Dataset-updated
+#'
+#' An updated SDTM DM dataset with pediatric patients
+#' @keywords datasets
+#' @family datasets
+"dm_peds"
+
+
+#' Vital signs Dataset-updated
+#'
+#' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
+#' @keywords datasets
+#' @family datasets
+"vs_peds"
