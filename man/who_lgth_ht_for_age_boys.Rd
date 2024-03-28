@@ -27,6 +27,8 @@ day 1856
 Other datasets: 
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
+\code{\link{who_hc_for_age_boys}},
+\code{\link{who_hc_for_age_girls}},
 \code{\link{who_lgth_ht_for_age_girls}},
 \code{\link{who_wt_for_age_boys}},
 \code{\link{who_wt_for_age_girls}},

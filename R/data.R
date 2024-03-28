@@ -10,7 +10,7 @@
 #' }
 #' @family datasets
 #' @keywords datasets
-#' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
+#' @source \url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}Ò
 "who_lgth_ht_for_age_girls"
 
 #' @title WHO length/height-for-age for boys
@@ -143,3 +143,33 @@
 #' @keywords datasets
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age}
 "who_bmi_for_age_boys"
+
+#' @title WHO head circumference-for-age for girls
+#' @description WHO head circumference-for-age charts for girls from day 0 (birth) to
+#' day 1856
+#' @format A data frame with 1857 rows and 4 variables:
+#' \describe{
+#'   \item{\code{Day}}{integer Age in days}
+#'   \item{\code{L}}{double Box-Cox transformation for normality}
+#'   \item{\code{M}}{double Median}
+#'   \item{\code{S}}{double Coefficient of variation}
+#' }
+#' @family datasets
+#' @keywords datasets
+#' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
+"who_hc_for_age_girls"
+
+#' @title WHO head circumference-for-age for boys
+#' @description WHO head circumference-for-age charts for boys from day 0 (birth) to
+#' day 1856
+#' @format A data frame with 1857 rows and 4 variables:
+#' \describe{
+#'   \item{\code{Day}}{integer Age in days}
+#'   \item{\code{L}}{double Box-Cox transformation for normality}
+#'   \item{\code{M}}{double Median}
+#'   \item{\code{S}}{double Coefficient of variation}
+#' }
+#' @family datasets
+#' @keywords datasets
+#' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
+"who_hc_for_age_boys"

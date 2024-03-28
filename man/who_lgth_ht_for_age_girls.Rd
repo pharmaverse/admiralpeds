@@ -14,7 +14,7 @@ A data frame with 1857 rows and 4 variables:
 }
 }
 \source{
-\url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}
+\url{https://www.who.int/tools/child-growth-standards/standards/length-height-for-age}Ò
 }
 \usage{
 who_lgth_ht_for_age_girls
@@ -27,6 +27,8 @@ day 1856
 Other datasets: 
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
+\code{\link{who_hc_for_age_boys}},
+\code{\link{who_hc_for_age_girls}},
 \code{\link{who_lgth_ht_for_age_boys}},
 \code{\link{who_wt_for_age_boys}},
 \code{\link{who_wt_for_age_girls}},
