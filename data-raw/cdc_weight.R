@@ -437,5 +437,3 @@ cdc_wtage <- tibble::tribble(
   2, 239.5, -1.518754013, 58.1987714, 0.16652037,
   2, 240, -1.51336185, 58.21897289, 0.166644749
 )
-
-usethis::use_data(cdc_wtage, overwrite = TRUE)

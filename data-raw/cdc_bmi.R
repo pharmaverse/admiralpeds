@@ -439,5 +439,3 @@ cdc_bmiage <- tibble::tribble(
   2, 240, -2.34495843, 21.716999342, 0.1529747180,
   2, 240.5, -2.342796948, 21.721909734, 0.1532408716
 )
-
-usethis::use_data(cdc_bmiage, overwrite = TRUE)

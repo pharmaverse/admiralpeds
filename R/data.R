@@ -174,21 +174,6 @@
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
 "who_hc_for_age_boys"
 
-#' Demographic Dataset-updated
-#'
-#' An updated SDTM DM dataset with pediatric patients
-#' @keywords datasets
-#' @family datasets
-"dm_peds"
-
-
-#' Vital signs Dataset-updated
-#'
-#' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
-#' @keywords datasets
-#' @family datasets
-"vs_peds"
-
 #' CDC Weight-for-age-chart
 #'
 #' Weight-for-age charts, 2 to 20 years,
@@ -201,6 +186,7 @@
 #' }
 #' @keywords metadata
 #' @family metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_wtage"
 
 #' CDC Stature/Height-for-age-chart
@@ -215,6 +201,7 @@
 #' }
 #' @family metadata
 #' @keywords metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_htage"
 
 #' CDC BMI-for-age-chart
@@ -229,4 +216,20 @@
 #' }
 #' @family metadata
 #' @keywords metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_bmiage"
+
+#' Demographic Dataset-updated
+#'
+#' An updated SDTM DM dataset with pediatric patients
+#' @keywords datasets
+#' @family datasets
+"dm_peds"
+
+
+#' Vital signs Dataset-updated
+#'
+#' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
+#' @keywords datasets
+#' @family datasets
+"vs_peds"
