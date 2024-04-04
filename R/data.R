@@ -174,6 +174,51 @@
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
 "who_hc_for_age_boys"
 
+#' @title CDC Weight-for-age-chart
+#' @description Weight-for-age charts, 2 to 20 years
+#' @format A data frame with 436 rows and 5 variables:
+#' \describe{
+#'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
+#'   \item{\code{AGE}}{Age in months}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
+#' }
+#' @keywords metadata
+#' @family metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
+"cdc_wtage"
+
+#' @title CDC Height-for-age-chart
+#' @description Height-for-age charts, 2 to 20 years
+#' @format A data frame with 436 rows and 5 variables:
+#' \describe{
+#'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
+#'   \item{\code{AGE}}{Age in months}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
+#' }
+#' @family metadata
+#' @keywords metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
+"cdc_htage"
+
+#' @title CDC BMI-for-age-chart
+#' @description BMI-for-age charts, 2 to 20.5 years
+#' @format A data frame with 438 rows and 5 variables:
+#' \describe{
+#'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
+#'   \item{\code{AGE}}{Age in months}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
+#' }
+#' @family metadata
+#' @keywords metadata
+#' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
+"cdc_bmiage"
+
 #' Demographic Dataset-updated
 #'
 #' An updated SDTM DM dataset with pediatric patients
