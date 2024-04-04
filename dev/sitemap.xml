@@ -25,10 +25,16 @@
     <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/admiralpeds-package.html</loc>
   </url>
   <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/dm_peds.html</loc>
+    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_bmiage.html</loc>
   </url>
   <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/get_cdc_data.html</loc>
+    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_htage.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_wtage.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/dm_peds.html</loc>
   </url>
   <url>
     <loc>https://pharmaverse.github.io/admiralpeds/dev/reference/index.html</loc>
