@@ -174,9 +174,9 @@
 #' @source \url{https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age}
 "who_hc_for_age_boys"
 
-#' CDC Weight-for-age-chart
-#'
-#' Weight-for-age charts, 2 to 20 years,
+#' @title CDC Weight-for-age-chart
+#' @description Weight-for-age charts, 2 to 20 years
+#' @format A data frame with 436 rows and 5 variables:
 #' \describe{
 #'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
 #'   \item{\code{AGE}}{Age in months}
@@ -189,9 +189,9 @@
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_wtage"
 
-#' CDC Stature/Height-for-age-chart
-#'
-#' Height-for-age charts, 2 to 20 years,
+#' @title CDC Height-for-age-chart
+#' @description Height-for-age charts, 2 to 20 years
+#' @format A data frame with 436 rows and 5 variables:
 #' \describe{
 #'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
 #'   \item{\code{AGE}}{Age in months}
@@ -204,9 +204,9 @@
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_htage"
 
-#' CDC BMI-for-age-chart
-#'
-#' BMI-for-age charts, 2 to 20.5 years,
+#' @title CDC BMI-for-age-chart
+#' @description BMI-for-age charts, 2 to 20.5 years
+#' @format A data frame with 438 rows and 5 variables:
 #' \describe{
 #'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
 #'   \item{\code{AGE}}{Age in months}

@@ -5,7 +5,14 @@
 \alias{cdc_wtage}
 \title{CDC Weight-for-age-chart}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 436 rows and 5 columns.
+A data frame with 436 rows and 5 variables:
+\describe{
+\item{\code{SEX}}{Sex: 1 = male, 2 = female}
+\item{\code{AGE}}{Age in months}
+\item{\code{L}}{Box-Cox transformation for normality}
+\item{\code{M}}{Median}
+\item{\code{S}}{Coefficient of variation}
+}
 }
 \source{
 \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
@@ -14,14 +21,7 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 cdc_wtage
 }
 \description{
-Weight-for-age charts, 2 to 20 years,
-\describe{
-\item{\code{SEX}}{Sex: 1 = male, 2 = female}
-\item{\code{AGE}}{Age in months}
-\item{\code{L}}{Box-Cox transformation for normality}
-\item{\code{M}}{Median}
-\item{\code{S}}{Coefficient of variation}
-}
+Weight-for-age charts, 2 to 20 years
 }
 \seealso{
 Metadata
