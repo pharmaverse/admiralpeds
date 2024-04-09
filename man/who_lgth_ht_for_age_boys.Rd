@@ -3,7 +3,7 @@
 \docType{data}
 \name{who_lgth_ht_for_age_boys}
 \alias{who_lgth_ht_for_age_boys}
-\title{WHO length/height-for-age for boys}
+\title{WHO Length/height-for-age for boys}
 \format{
 A data frame with 1857 rows and 4 variables:
 \describe{
@@ -24,9 +24,10 @@ WHO Length/height-for-age charts for boys from day 0 (birth) to
 day 1856
 }
 \seealso{
-Datasets
-\code{\link{dm_peds}},
-\code{\link{vs_peds}},
+Metadata
+\code{\link{cdc_bmiage}},
+\code{\link{cdc_htage}},
+\code{\link{cdc_wtage}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
 \code{\link{who_hc_for_age_boys}},
@@ -39,5 +40,5 @@ Datasets
 \code{\link{who_wt_for_lgth_boys}},
 \code{\link{who_wt_for_lgth_girls}}
 }
-\concept{datasets}
-\keyword{datasets}
+\concept{metadata}
+\keyword{metadata}
