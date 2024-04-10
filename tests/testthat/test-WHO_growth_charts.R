@@ -47,9 +47,9 @@ test_that("WHO_growth_charts Test 10: WHO BMI-for-age for boys", {
 
 ## Test 11: WHO Head circumference-for-age for girls ----
 test_that("WHO_growth_charts Test 11: WHO Head circumference-for-age for girls", {
-  expect_snapshot(who_bmi_for_age_girls)
+  expect_snapshot(who_hc_for_age_girls)
 })
 ## Test 12: WHO Head circumference-for-age for boys ----
 test_that("WHO_growth_charts Test 12: WHO Head circumference-for-age for boys", {
-  expect_snapshot(who_bmi_for_age_boys)
+  expect_snapshot(who_hc_for_age_boys)
 })
