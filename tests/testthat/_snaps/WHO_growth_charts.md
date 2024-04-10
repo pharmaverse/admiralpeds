@@ -158,7 +158,7 @@
       10   65.9 -0.352  7.64 0.0821
       # i 541 more rows
 
-# WHO_growth_charts Test 9: WHO bmi-for-age for girls
+# WHO_growth_charts Test 9: WHO BMI-for-age for girls
 
     Code
       who_bmi_for_age_girls
@@ -178,7 +178,7 @@
       10     9  0.596   13.3 0.0984
       # i 1,847 more rows
 
-# WHO_growth_charts Test 10: WHO bmi-for-age for boys
+# WHO_growth_charts Test 10: WHO BMI-for-age for boys
 
     Code
       who_bmi_for_age_boys
@@ -196,5 +196,45 @@
        8     7  0.525   13.3 0.0982
        9     8  0.509   13.4 0.0977
       10     9  0.494   13.4 0.0972
+      # i 1,847 more rows
+
+# WHO_growth_charts Test 11: WHO Head circumference-for-age for girls
+
+    Code
+      who_hc_for_age_girls
+    Output
+      # A tibble: 1,857 x 4
+           Day     L     M      S
+         <int> <int> <dbl>  <dbl>
+       1     0     1  33.9 0.0350
+       2     1     1  34.0 0.0348
+       3     2     1  34.1 0.0346
+       4     3     1  34.2 0.0344
+       5     4     1  34.3 0.0343
+       6     5     1  34.4 0.0341
+       7     6     1  34.5 0.0339
+       8     7     1  34.6 0.0337
+       9     8     1  34.6 0.0336
+      10     9     1  34.7 0.0334
+      # i 1,847 more rows
+
+# WHO_growth_charts Test 12: WHO Head circumference-for-age for boys
+
+    Code
+      who_hc_for_age_boys
+    Output
+      # A tibble: 1,857 x 4
+           Day     L     M      S
+         <int> <int> <dbl>  <dbl>
+       1     0     1  34.5 0.0369
+       2     1     1  34.6 0.0366
+       3     2     1  34.7 0.0362
+       4     3     1  34.8 0.0360
+       5     4     1  34.9 0.0356
+       6     5     1  35.0 0.0353
+       7     6     1  35.1 0.0350
+       8     7     1  35.2 0.0347
+       9     8     1  35.3 0.0344
+      10     9     1  35.4 0.0341
       # i 1,847 more rows
 

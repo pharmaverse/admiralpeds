@@ -3,7 +3,7 @@
 \docType{data}
 \name{who_wt_for_lgth_girls}
 \alias{who_wt_for_lgth_girls}
-\title{WHO weight-for-length for girls}
+\title{WHO Weight-for-length for girls}
 \format{
 A data frame with 651 rows and 4 variables:
 \describe{
@@ -20,12 +20,13 @@ A data frame with 651 rows and 4 variables:
 who_wt_for_lgth_girls
 }
 \description{
-WHO weight-for-length charts for girls from 45cm to 110cm
+WHO Weight-for-length charts for girls from 45cm to 110cm
 }
 \seealso{
-Datasets
-\code{\link{dm_peds}},
-\code{\link{vs_peds}},
+Metadata
+\code{\link{cdc_bmiage}},
+\code{\link{cdc_htage}},
+\code{\link{cdc_wtage}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
 \code{\link{who_hc_for_age_boys}},
@@ -38,5 +39,5 @@ Datasets
 \code{\link{who_wt_for_ht_girls}},
 \code{\link{who_wt_for_lgth_boys}}
 }
-\concept{datasets}
-\keyword{datasets}
+\concept{metadata}
+\keyword{metadata}
