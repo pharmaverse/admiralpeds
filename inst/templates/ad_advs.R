@@ -17,11 +17,11 @@ library(stringr)
 
 
 # Creation of the Growth metadata combining WHO and CDC
-# Default reference sources: WHO for children <2 yrs old (<730 days),
+# Default reference sources: WHO for children <2 yrs old (<=730 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
 # Load WHO and CDC metadata datasets ----
 
-message("Please be aware that our default reference source is in our metadata :
+message("Please be aware that our default reference source in our metadata is :
         WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
 
@@ -31,10 +31,10 @@ data(WHO_bmi_for_age_girls)
 data(cdc_bmiage)
 
 bmi_for_age <- who_bmi_for_age_boys %>%
-  filter(Day <= 729) %>%
+  filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_bmi_for_age_girls %>%
-    filter(Day <= 729) %>%
+    filter(Day <= 730) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_bmiage %>%
@@ -54,10 +54,10 @@ data(who_lgth_ht_for_age_girls)
 data(cdc_htage)
 
 height_for_age <- who_lgth_ht_for_age_boys %>%
-  filter(Day <= 729) %>%
+  filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_lgth_ht_for_age_girls %>%
-    filter(Day <= 729) %>%
+    filter(Day <= 730) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_htage %>%
@@ -77,10 +77,10 @@ data(who_wt_for_age_girls)
 data(cdc_wtage)
 
 weight_for_age <- who_wt_for_age_boys %>%
-  filter(Day <= 729) %>%
+  filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_wt_for_age_girls %>%
-    filter(Day <= 729) %>%
+    filter(Day <= 730) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_wtage %>%
@@ -100,10 +100,10 @@ data(who_hc_for_age_boys)
 data(who_hc_for_age_girls)
 
 who_hc_for_age <- who_hc_for_age_boys %>%
-  filter(Day <= 729) %>%
+  filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_hc_for_age_girls %>%
-    filter(Day <= 729) %>%
+    filter(Day <= 730) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   arrange(AGE, SEX)
