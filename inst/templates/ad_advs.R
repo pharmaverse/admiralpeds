@@ -19,7 +19,6 @@ library(stringr)
 # Default reference sources: WHO for children <2 yrs old (<=730 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
 # Load WHO and CDC metadata datasets ----
-
 message("Please be aware that our default reference source in our metadata is :
         WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
@@ -33,18 +32,18 @@ bmi_for_age <- who_bmi_for_age_boys %>%
   filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_bmi_for_age_girls %>%
-          filter(Day <= 730) %>%
-          mutate(SEX = "F")) %>%
+    filter(Day <= 730) %>%
+    mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_bmiage %>%
-          mutate(
-            SEX = case_when(
-              SEX == 1 ~ "M",
-              SEX == 2 ~ "F",
-              TRUE ~ NA_character_
-            ),
-            AGE = AGE * 30.4375
-          )) %>%
+    mutate(
+      SEX = case_when(
+        SEX == 1 ~ "M",
+        SEX == 2 ~ "F",
+        TRUE ~ NA_character_
+      ),
+      AGE = AGE * 30.4375
+    )) %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
@@ -56,54 +55,51 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
   filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_lgth_ht_for_age_girls %>%
-          filter(Day <= 730) %>%
-          mutate(SEX = "F")) %>%
+    filter(Day <= 730) %>%
+    mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_htage %>%
-          mutate(
-            SEX = case_when(
-              SEX == 1 ~ "M",
-              SEX == 2 ~ "F",
-              TRUE ~ NA_character_
-            ),
-            AGE = AGE * 30.4375
-          )) %>%
+    mutate(
+      SEX = case_when(
+        SEX == 1 ~ "M",
+        SEX == 2 ~ "F",
+        TRUE ~ NA_character_
+      ),
+      AGE = AGE * 30.4375
+    )) %>%
   arrange(AGE, SEX)
 
 ## WEIGHT for age ----
 data(who_wt_for_age_boys)
 data(who_wt_for_age_girls)
 data(cdc_wtage)
-
 weight_for_age <- who_wt_for_age_boys %>%
   filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_wt_for_age_girls %>%
-          filter(Day <= 730) %>%
-          mutate(SEX = "F")) %>%
+    filter(Day <= 730) %>%
+    mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   rbind(cdc_wtage %>%
-          mutate(
-            SEX = case_when(
-              SEX == 1 ~ "M",
-              SEX == 2 ~ "F",
-              TRUE ~ NA_character_
-            ),
-            AGE = AGE * 30.4375
-          )) %>%
+    mutate(
+      SEX = case_when(
+        SEX == 1 ~ "M",
+        SEX == 2 ~ "F",
+        TRUE ~ NA_character_
+      ),
+      AGE = AGE * 30.4375
+    )) %>%
   arrange(AGE, SEX)
-
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
 data(who_hc_for_age_boys)
 data(who_hc_for_age_girls)
-
 who_hc_for_age <- who_hc_for_age_boys %>%
   filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
   rbind(who_hc_for_age_girls %>%
-          filter(Day <= 730) %>%
-          mutate(SEX = "F")) %>%
+    filter(Day <= 730) %>%
+    mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   arrange(AGE, SEX)
 
@@ -116,15 +112,15 @@ data(who_wt_for_lgth_girls)
 who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
   mutate(SEX = "M") %>%
   rbind(who_wt_for_ht_girls %>%
-          mutate(SEX = "F")) %>%
+    mutate(SEX = "F")) %>%
   mutate(MEASURE = "HEIGHT") %>%
   rename(HEIGHT_LENGTH = Height) %>%
   rbind(who_wt_for_lgth_boys %>%
-          mutate(SEX = "M") %>%
-          rbind(who_wt_for_lgth_girls %>%
-                  mutate(SEX = "F")) %>%
-          mutate(MEASURE = "LENGTH") %>%
-          rename(HEIGHT_LENGTH = Length))
+    mutate(SEX = "M") %>%
+    rbind(who_wt_for_lgth_girls %>%
+      mutate(SEX = "F")) %>%
+    mutate(MEASURE = "LENGTH") %>%
+    rename(HEIGHT_LENGTH = Length))
 
 # ADVS template: Load source datasets ----
 
@@ -134,7 +130,6 @@ who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
 
 data("vs_peds")
 data("dm_peds")
-# data("admiral_adsl")
 
 vs <- vs_peds
 dm <- dm_peds
@@ -159,7 +154,6 @@ attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
 # Get list of DM vars required for derivations
 dm_vars <- exprs(SEX, BRTHDTC)
-
 advs <- vs %>%
   # Join DM with VS (need BRTHDT for AAGECUR derivation)
   derive_vars_merged(
@@ -180,10 +174,79 @@ advs <- vs %>%
     new_vars_prefix = "A",
     dtc = VSDTC
   ) %>%
-  ## Calculate Current Age AAGECUR
+  ## Calculate Current Analysis Age AAGECUR ----
   derive_vars_aage(
     start_date = BRTHDT,
     end_date = ADT,
     age_unit = "DAYS",
     type = "interval"
+  ) %>%
+  rename(AAGECUR = AAGE,
+         AAGECURU = AAGEU)
+
+advs <- advs %>%
+  ## Add PARAMCD only - add PARAM etc later ----
+  derive_vars_merged_lookup(
+    dataset_add = param_lookup,
+    new_vars = exprs(PARAMCD),
+    by_vars = exprs(VSTESTCD)
+  ) %>%
+  ## Calculate AVAL and AVALC ----
+  mutate(
+    AVAL = VSSTRESN,
+    AVALC = VSSTRESC
   )
+
+## Get visit info ----
+# See also the "Visit and Period Variables" vignette
+# (https://pharmaverse.github.io/admiral/articles/visits_periods.html#visits)
+windows <- tribble(
+  ~AVISIT,     ~AVISITN,
+  "Screening",        0,
+  "Day 1",            1,
+  "6 Months",         2,
+  "12 Months",        3
+)
+
+advs <- advs %>%
+  # Derive Timing
+  mutate(
+    AVISIT = case_when(
+      str_detect(VISIT, "UNSCHED|RETRIEVAL|AMBUL") ~ NA_character_,
+      !is.na(VISIT) ~ str_to_title(VISIT),
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  derive_vars_merged(
+    dataset_add = windows,
+    by_vars = exprs(AVISIT)
+  )
+
+## Get ASEQ  and add PARAM/PARAMN ----
+advs <- advs %>%
+  # Calculate ASEQ
+  derive_var_obs_number(
+    new_var = ASEQ,
+    by_vars = exprs(STUDYID, USUBJID),
+    order = exprs(PARAMCD, ADT, AVISITN),
+    check_type = "error"
+  ) %>%
+  # Derive PARAM and PARAMN
+  derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
+
+# Merge ADVS to the chosen Growth metadata ----
+#Make loops here depending on the metadata ? Where to set this option?
+
+# Final Steps, Select final variables and Add labels
+# This process will be based on your metadata, no example given for this reason
+# ...
+
+# Save output ----
+
+# Change to whichever directory you want to save the dataset in
+dir <- tools::R_user_dir("admiralpeds_templates_data", which = "cache")
+if (!file.exists(dir)) {
+  # Create the folder
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+}
+save(advs, file = file.path(dir, "advs.rda"), compress = "bzip2")
