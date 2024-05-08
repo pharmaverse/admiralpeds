@@ -23,15 +23,12 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_pctl = NULL) {
 
 
-  # Apply assertions to each argument to ensure each object is approrpiate class
-  # assert_data_frame(dataset, required_vars = exprs(!!sex, !!age, !!age_unit))
-  # assert_character_vector(pull(dataset, !!!sex))
-  # assert_numeric_vector(pull(dataset, !!!age))
-  # assert_character_scalar(pull(dataset, !!!age_unit))
-  # assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
-  # assert_expr(parameter)
-  # assert_varval_list(set_values_to_sds, optional = TRUE)
-  # assert_varval_list(set_values_to_pctl, optional = TRUE)
+  # Apply assertions to each argument to ensure each object is appropriate class
+  # assert_data_frame(dataset, required_vars = expr_c(exprs({{age_unit}})))
+  assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
+  assert_expr(enexpr(parameter))
+  assert_varval_list(set_values_to_sds, optional = TRUE)
+  assert_varval_list(set_values_to_pctl, optional = TRUE)
 
   dataset <- dataset %>%
     mutate(SEX.join := {{sex}},
