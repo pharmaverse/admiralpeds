@@ -168,7 +168,7 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
-  # assert_data_frame(dataset, required_vars = expr_c(exprs({{age_unit}})))
+  # need to add assertion for dataset that checks columns in sex, age, age_unit are present
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
@@ -176,8 +176,8 @@ derive_params_growth_age <- function(dataset,
 
   dataset <- dataset %>%
     mutate(
-      sex.join := {{ sex }},
-      ageu.join := {{ age_unit }}
+      sex_join := {{ sex }},
+      ageu_join := {{ age_unit }}
     )
 
   # Process metadata
@@ -188,9 +188,9 @@ derive_params_growth_age <- function(dataset,
     group_by(SEX, AGEU) %>%
     mutate(next_age = lead(AGE)) %>% # needed for the join and filter later
     rename(
-      sex.join = SEX,
+      sex_join = SEX,
       prev_age = AGE,
-      ageu.join = AGEU
+      ageu_join = AGEU
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
@@ -199,7 +199,7 @@ derive_params_growth_age <- function(dataset,
     filter(!!enexpr(parameter)) %>%
     left_join(.,
       processed_md,
-      by = c("sex.join", "ageu.join"),
+      by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
     filter(prev_age <= {{ age }} & {{ age }} < next_age)
@@ -214,7 +214,7 @@ derive_params_growth_age <- function(dataset,
         !!!set_values_to_sds
       )
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex.join, ageu.join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -227,7 +227,7 @@ derive_params_growth_age <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex.join, ageu.join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
   }
 
   return(dataset_final)
