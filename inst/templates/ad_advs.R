@@ -236,6 +236,23 @@ advs <- advs %>%
 
 # Merge ADVS to the chosen Growth metadata ----
 #Make loops here depending on the metadata ? Where to set this option?
+# I guess this is step 5) of the specs
+# advs_wgt_age <- advs %>%
+#   derive_params_growth_age(
+#     sex = SEX,
+#     age = AAGECUR,
+#     age_unit = AAGECURU,
+#     meta_criteria = mymetadata,
+#     parameter = WGHT,
+#     set_values_to_sds(
+#       PARAMCD = “WGTASDS”,
+#       PARAM = “Weight-for-age Z-Score”
+#     ),
+#     set_values_to_pctl(
+#       PARAMCD = “WGTAPCTL”,
+#       PARAM = “Weight-for-age Percentile”
+#     )
+#   )
 
 # Final Steps, Select final variables and Add labels
 # This process will be based on your metadata, no example given for this reason
