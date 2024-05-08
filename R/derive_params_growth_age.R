@@ -174,6 +174,7 @@ derive_params_growth_age <- function(dataset,
   assert_varval_list(set_values_to_sds, optional = TRUE)
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
+  # create a unified join naming convention, hard to figure out in by argument
   dataset <- dataset %>%
     mutate(
       sex_join := {{ sex }},
@@ -186,7 +187,7 @@ derive_params_growth_age <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, AGEU, AGE) %>%
     group_by(SEX, AGEU) %>%
-    mutate(next_age = lead(AGE)) %>% # needed for the join and filter later
+    mutate(next_age = lead(AGE)) %>% # needed for the join and filter later creates [x, y) range
     rename(
       sex_join = SEX,
       prev_age = AGE,
@@ -194,7 +195,7 @@ derive_params_growth_age <- function(dataset,
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
-  # To parse out the appropriate age, create [x, y) brackets using a AGE <= AGECUR < next_age
+  # To parse out the appropriate age, create [x, y) brackets using a prev_age <= AGECUR < next_age
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
