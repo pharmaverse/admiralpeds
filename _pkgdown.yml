@@ -33,3 +33,6 @@ reference:
   contents:
   - has_keyword('datasets')
 
+- title: Derivations for Growth Chart
+  contents:
+  - has_keyword('der_growth')

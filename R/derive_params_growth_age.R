@@ -1,18 +1,162 @@
-#' Title
+#' Derive Growth Chart Z-Scores/Percentiles by Age
 #'
-#' @param dataset
-#' @param sex
-#' @param age
-#' @param age_unit
-#' @param meta_criteria
-#' @param parameter
-#' @param set_values_to_sds
-#' @param set_values_to_pctl
+#' Derive Growth Chart Z-Scores/Percentiles
+#' for Height/Weight/BMI by Age
 #'
-#' @return
+#' @param dataset Input dataset
+#'
+#'   The variables specied in `sex`, `age`, `age_unit` are expected to be in the dataset.
+#'
+#' @param sex Sex
+#'
+#'   A character vector is expected.
+#'   Expected Values: 'M' 'F'
+#'
+#' @param age Currrent Age
+#'
+#'   A numeric vector is expected.
+#'
+#' @param age_unit Age Unit
+#
+#'   A character vector is expected.
+#'   Expected values: 'days' 'months'
+#'
+#' @param meta_criteria Metadata dataset
+#'
+#'   A metadata dataset with the following expected variables:
+#'   `AGE`, `AGEU`, `SEX`, `L`, `M`, `S`
+#'
+#'   The dataset can be derived from CDC/WHO or user-defined datasets.
+#'   The CDC/WHO growth chart metadatasets are available in the package and will
+#'   require small modifications.
+#'   * `AGE` - Age
+#'   * `AGEU` - Age Unit
+#'   * `SEX` - Sex
+#'   * `L` - Power in the Box-Cox transformation to normality
+#'   * `M` - Median
+#'   * `S` - Coefficient of variaaion
+#'
+#' @param parameter Desired parameter
+#'
+#'   A condition is expected with the input dataset `VSTESTCD`/`PARAMCD`
+#'   for which we want growth derivations:
+#'
+#'   e.g. parameter = VSTESTCD == "WEIGHT".
+#'
+#'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference
+#'
+#' @param set_values_to_sds Variables to be set for Z-Scores
+#'
+#'  The specified variables are set to the specified values for the new
+#'  observations. For example,
+#'   `set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-age z-score”))`
+#'  defines the parameter code and parameter.
+#'
+#' *Permitted Values*: List of variable-value pairs
+#'
+#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'
+#' @param set_values_to_pctl Variables to be set for Percentile
+#'
+#'  The specified variables are set to the specified values for the new
+#'  observations. For example,
+#'   `set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-age percentile”))`
+#'  defines the parameter code and parameter.
+#'
+#' *Permitted Values*: List of variable-value pair
+#'
+#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'
+#' @return The input dataset additional records with the new parameter added.
+#'
+#'
+#' @family der_growth
+#'
+#' @keywords der_growth
+#'
 #' @export
 #'
 #' @examples
+#' library(dplyr)
+#' library(lubridate)
+#' library(rlang)
+#' library(admiral)
+#'
+#' advs <- dm_peds %>%
+#'   select(USUBJID, BRTHDTC, SEX) %>%
+#'   right_join(., vs_peds, by = "USUBJID") %>%
+#'   filter(USUBJID != "PEDS-1010") %>%
+#'   mutate(
+#'     VSDT = ymd(VSDTC),
+#'     BRTHDT = ymd(BRTHDTC)
+#'   ) %>%
+#'   derive_vars_duration(
+#'     new_var = AGECUR_D,
+#'     new_var_unit = CURU_D,
+#'     start_date = BRTHDT,
+#'     end_date = VSDT,
+#'     out_unit = "days",
+#'     trunc_out = FALSE
+#'   ) %>%
+#'   derive_vars_duration(
+#'     new_var = AGECUR_M,
+#'     new_var_unit = CURU_M,
+#'     start_date = BRTHDT,
+#'     end_date = VSDT,
+#'     out_unit = "months",
+#'     trunc_out = FALSE
+#'   ) %>%
+#'   mutate(
+#'     AGECUR = ifelse(AGECUR_D >= 365.25 * 2, AGECUR_M, AGECUR_D),
+#'     AGECURU = ifelse(AGECUR_D >= 365.25 * 2, CURU_M, CURU_D)
+#'   )
+#'
+#' #' metadata is in months
+#' cdc_meta_criteria <- admiralpeds::cdc_wtage %>%
+#'   mutate(
+#'     age_unit = "months",
+#'     SEX = ifelse(SEX == 1, "M", "F")
+#'   )
+#'
+#' #' metadata is in days
+#' who_meta_criteria <- bind_rows(
+#'   (admiralpeds::who_wt_for_age_boys %>%
+#'     mutate(
+#'       SEX = "M",
+#'       age_unit = "days"
+#'     )
+#'   ),
+#'   (admiralpeds::who_wt_for_age_girls %>%
+#'     mutate(
+#'       SEX = "F",
+#'       age_unit = "days"
+#'     )
+#'   )
+#' ) %>%
+#'   rename(AGE = Day)
+#'
+#' criteria <- bind_rows(
+#'   cdc_meta_criteria,
+#'   who_meta_criteria
+#' ) %>%
+#'   rename(AGEU = age_unit)
+#'
+#' derive_params_growth_age(
+#'   advs,
+#'   sex = SEX,
+#'   age = AGECUR,
+#'   age_unit = AGECURU,
+#'   meta_criteria = criteria,
+#'   parameter = VSTESTCD == "WEIGHT",
+#'   set_values_to_sds = exprs(
+#'     PARAMCD = "WTASDS",
+#'     PARAM = "Weight-for-age z-score"
+#'   ),
+#'   set_values_to_pctl = exprs(
+#'     PARAMCD = "WTAPCTL",
+#'     PARAM = "Weight-for-age percentile"
+#'   )
+#' )
 derive_params_growth_age <- function(dataset,
                                      sex,
                                      age,
@@ -21,8 +165,6 @@ derive_params_growth_age <- function(dataset,
                                      parameter,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
-
-
   # Apply assertions to each argument to ensure each object is appropriate class
   # assert_data_frame(dataset, required_vars = expr_c(exprs({{age_unit}})))
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
@@ -31,8 +173,10 @@ derive_params_growth_age <- function(dataset,
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
   dataset <- dataset %>%
-    mutate(SEX.join := {{sex}},
-           AGEU.join := {{age_unit}})
+    mutate(
+      SEX.join := {{ sex }},
+      AGEU.join := {{ age_unit }}
+    )
 
   # Process metadata
   # Metadata should contain SEX, AGE, AGEU, L, M, S
@@ -40,10 +184,7 @@ derive_params_growth_age <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, AGEU, AGE) %>%
     group_by(SEX, AGEU) %>%
-    mutate(
-      next_age = lead(AGE), # needed for the join and filter later
-      SEX = ifelse(SEX == 1, "M", "F")
-    ) %>%
+    mutate(next_age = lead(AGE)) %>% # needed for the join and filter later
     rename(
       SEX.join = SEX,
       prev_age = AGE,
@@ -55,37 +196,36 @@ derive_params_growth_age <- function(dataset,
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
-              processed_md,
-              by = c("SEX.join", "AGEU.join"),
-              relationship = "many-to-many") %>%
-    filter(prev_age <= {{age}} & {{age}} < next_age) %>%
-    select(-c(SEX.join, AGEU.join, prev_age, next_age))
+      processed_md,
+      by = c("SEX.join", "AGEU.join"),
+      relationship = "many-to-many"
+    ) %>%
+    filter(prev_age <= {{ age }} & {{ age }} < next_age)
 
   dataset_final <- dataset
 
   # create separate records objects as appropriate depending if user specific sds and/or pctl
-  if (!is_empty(set_values_to_sds)){
+  if (!is_empty(set_values_to_sds)) {
     add_sds <- added_records %>%
       mutate(
-        AVAL = ((VSSTRESN/M)^L - 1)/(L*S),
+        AVAL = ((VSSTRESN / M)^L - 1) / (L * S),
         !!!set_values_to_sds
-      ) %>%
-      select(-c(L, M, S))
-
-    dataset_final <- bind_rows(dataset, add_sds)
+      )
+    dataset_final <- bind_rows(dataset, add_sds) %>%
+      select(-c(L, M, S, SEX.join, AGEU.join, prev_age, next_age))
   }
 
-  if (!is_empty(set_values_to_pctl)){
+  if (!is_empty(set_values_to_pctl)) {
     add_pctl <- added_records %>%
       mutate(
-        AVAL = ((VSSTRESN/M)^L - 1)/(L*S),
-        AVAL = pnorm(AVAL)*100,
+        AVAL = ((VSSTRESN / M)^L - 1) / (L * S),
+        AVAL = pnorm(AVAL) * 100,
         # may need to add special modification for > 95th percentile
         !!!set_values_to_pctl
-      ) %>%
-      select(-c(L, M, S))
+      )
 
-    dataset_final <- bind_rows(dataset_final, add_pctl)
+    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
+      select(-c(L, M, S, SEX.join, AGEU.join, prev_age, next_age))
   }
 
   return(dataset_final)
