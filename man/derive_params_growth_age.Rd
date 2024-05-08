@@ -18,19 +18,21 @@ derive_params_growth_age(
 \arguments{
 \item{dataset}{Input dataset
 
-The variables specied in \code{sex}, \code{age}, \code{age_unit} are expected to be in the dataset.}
+The variables specified in \code{sex}, \code{age}, \code{age_unit} are expected to be in the dataset.}
 
 \item{sex}{Sex
 
 A character vector is expected.
-Expected Values: 'M' 'F'}
 
-\item{age}{Currrent Age
+Expected Values: \code{M}, \code{F}}
+
+\item{age}{Current Age
 
 A numeric vector is expected.}
 
 \item{age_unit}{Age Unit
 A character vector is expected.
+
 Expected values: 'days' 'months'}
 
 \item{meta_criteria}{Metadata dataset
@@ -39,7 +41,7 @@ A metadata dataset with the following expected variables:
 \code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S}
 
 The dataset can be derived from CDC/WHO or user-defined datasets.
-The CDC/WHO growth chart metadatasets are available in the package and will
+The CDC/WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 \itemize{
 \item \code{AGE} - Age
@@ -47,7 +49,7 @@ require small modifications.
 \item \code{SEX} - Sex
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
-\item \code{S} - Coefficient of variaaion
+\item \code{S} - Coefficient of variation
 }}
 
 \item{parameter}{Desired parameter
@@ -55,7 +57,7 @@ require small modifications.
 A condition is expected with the input dataset \code{VSTESTCD}/\code{PARAMCD}
 for which we want growth derivations:
 
-e.g. parameter = VSTESTCD == "WEIGHT".
+e.g. \code{parameter = VSTESTCD == "WEIGHT"}.
 
 There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference}
 
@@ -161,12 +163,12 @@ derive_params_growth_age(
   meta_criteria = criteria,
   parameter = VSTESTCD == "WEIGHT",
   set_values_to_sds = exprs(
-    PARAMCD = "BMIASDS",
-    PARAM = "BMI-for-age z-score"
+    PARAMCD = "WTASDS",
+    PARAM = "Weight-for-age z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "BMIAPCTL",
-    PARAM = "BMI-for-age percentile"
+    PARAMCD = "WTAPCTL",
+    PARAM = "Weight-for-age percentile"
   )
 )
 }

@@ -5,20 +5,22 @@
 #'
 #' @param dataset Input dataset
 #'
-#'   The variables specied in `sex`, `age`, `age_unit` are expected to be in the dataset.
+#'   The variables specified in `sex`, `age`, `age_unit` are expected to be in the dataset.
 #'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
-#'   Expected Values: 'M' 'F'
 #'
-#' @param age Currrent Age
+#'   Expected Values: `M`, `F`
+#'
+#' @param age Current Age
 #'
 #'   A numeric vector is expected.
 #'
 #' @param age_unit Age Unit
 #
 #'   A character vector is expected.
+#'
 #'   Expected values: 'days' 'months'
 #'
 #' @param meta_criteria Metadata dataset
@@ -27,21 +29,21 @@
 #'   `AGE`, `AGEU`, `SEX`, `L`, `M`, `S`
 #'
 #'   The dataset can be derived from CDC/WHO or user-defined datasets.
-#'   The CDC/WHO growth chart metadatasets are available in the package and will
+#'   The CDC/WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
 #'   * `AGE` - Age
 #'   * `AGEU` - Age Unit
 #'   * `SEX` - Sex
 #'   * `L` - Power in the Box-Cox transformation to normality
 #'   * `M` - Median
-#'   * `S` - Coefficient of variaaion
+#'   * `S` - Coefficient of variation
 #'
 #' @param parameter Desired parameter
 #'
 #'   A condition is expected with the input dataset `VSTESTCD`/`PARAMCD`
 #'   for which we want growth derivations:
 #'
-#'   e.g. parameter = VSTESTCD == "WEIGHT".
+#'   e.g. `parameter = VSTESTCD == "WEIGHT"`.
 #'
 #'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference
 #'
@@ -174,8 +176,8 @@ derive_params_growth_age <- function(dataset,
 
   dataset <- dataset %>%
     mutate(
-      SEX.join := {{ sex }},
-      AGEU.join := {{ age_unit }}
+      sex.join := {{ sex }},
+      ageu.join := {{ age_unit }}
     )
 
   # Process metadata
@@ -186,9 +188,9 @@ derive_params_growth_age <- function(dataset,
     group_by(SEX, AGEU) %>%
     mutate(next_age = lead(AGE)) %>% # needed for the join and filter later
     rename(
-      SEX.join = SEX,
+      sex.join = SEX,
       prev_age = AGE,
-      AGEU.join = AGEU
+      ageu.join = AGEU
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
@@ -197,7 +199,7 @@ derive_params_growth_age <- function(dataset,
     filter(!!enexpr(parameter)) %>%
     left_join(.,
       processed_md,
-      by = c("SEX.join", "AGEU.join"),
+      by = c("sex.join", "ageu.join"),
       relationship = "many-to-many"
     ) %>%
     filter(prev_age <= {{ age }} & {{ age }} < next_age)
@@ -212,7 +214,7 @@ derive_params_growth_age <- function(dataset,
         !!!set_values_to_sds
       )
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, SEX.join, AGEU.join, prev_age, next_age))
+      select(-c(L, M, S, sex.join, ageu.join, prev_age, next_age))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -225,7 +227,7 @@ derive_params_growth_age <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, SEX.join, AGEU.join, prev_age, next_age))
+      select(-c(L, M, S, sex.join, ageu.join, prev_age, next_age))
   }
 
   return(dataset_final)

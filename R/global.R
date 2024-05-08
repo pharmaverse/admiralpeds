@@ -142,8 +142,8 @@ globalVariables(c(
   "atoxgr_criteria_ctcv4",
   "DTYPE",
   "where", # this entry should be moved to @importFrom tidyselect once we use tidyselect 1.2.0
-  "AGEU.join",
-  "SEX.join",
+  "ageu.join",
+  "sex.join",
   "L",
   "M",
   "S",

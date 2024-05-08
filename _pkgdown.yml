@@ -25,6 +25,10 @@ navbar:
        href: reference/
 
 reference:
+- title: Derivations for Growth Chart
+  contents:
+  - has_keyword('der_growth')
+
 - title: Metadata
 - contents:
   - has_keyword("metadata")
@@ -33,6 +37,4 @@ reference:
   contents:
   - has_keyword('datasets')
 
-- title: Derivations for Growth Chart
-  contents:
-  - has_keyword('der_growth')
+
