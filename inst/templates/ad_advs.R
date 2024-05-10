@@ -15,7 +15,7 @@ library(pharmaversesdtm) # Contains example datasets from the CDISC pilot projec
 library(dplyr)
 library(lubridate)
 library(stringr)
-#library(rlang)
+# library(rlang)
 
 # Creation of the Growth metadata combining WHO and CDC
 # Default reference sources: WHO for children <2 yrs old (<=730 days),
