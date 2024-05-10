@@ -10,10 +10,12 @@
 #        who_wt_for_ht_boys, who_wt_for_ht_girls, who_wt_for_lgth_boys, who_wt_for_lgth_girls
 
 library(admiral)
+library(admiraldev)
 library(pharmaversesdtm) # Contains example datasets from the CDISC pilot project
 library(dplyr)
 library(lubridate)
 library(stringr)
+library(rlang)
 
 # Creation of the Growth metadata combining WHO and CDC
 # Default reference sources: WHO for children <2 yrs old (<=730 days),
@@ -44,6 +46,8 @@ bmi_for_age <- who_bmi_for_age_boys %>%
       ),
       AGE = AGE * 30.4375
     )) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age
+  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
@@ -67,6 +71,8 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
       ),
       AGE = AGE * 30.4375
     )) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age
+  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WEIGHT for age ----
@@ -89,6 +95,8 @@ weight_for_age <- who_wt_for_age_boys %>%
       ),
       AGE = AGE * 30.4375
     )) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age
+  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
@@ -101,6 +109,8 @@ who_hc_for_age <- who_hc_for_age_boys %>%
     filter(Day <= 730) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age
+  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - WEIGHT/HEIGHT ----
@@ -181,8 +191,10 @@ advs <- vs %>%
     age_unit = "DAYS",
     type = "interval"
   ) %>%
-  rename(AAGECUR = AAGE,
-         AAGECURU = AAGEU)
+  rename(
+    AAGECUR = AAGE,
+    AAGECURU = AAGEU
+  )
 
 advs <- advs %>%
   ## Add PARAMCD only - add PARAM etc later ----
@@ -234,25 +246,114 @@ advs <- advs %>%
   # Derive PARAM and PARAMN
   derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
 
-# Merge ADVS to the chosen Growth metadata ----
-#Make loops here depending on the metadata ? Where to set this option?
-# I guess this is step 5) of the specs
-# advs_wgt_age <- advs %>%
-#   derive_params_growth_age(
-#     sex = SEX,
-#     age = AAGECUR,
-#     age_unit = AAGECURU,
-#     meta_criteria = mymetadata,
-#     parameter = WGHT,
-#     set_values_to_sds(
-#       PARAMCD = “WGTASDS”,
-#       PARAM = “Weight-for-age Z-Score”
-#     ),
-#     set_values_to_pctl(
-#       PARAMCD = “WGTAPCTL”,
-#       PARAM = “Weight-for-age Percentile”
-#     )
+## Merge ADVS to the chosen Growth metadata as an input to meta_criteria ----
+## Calculate z-scores/percentiles
+## Calculate Weight for AGE z-score and Percentile ----
+## Note: PARAMN needs to be updated.
+advs_wgt_age <- derive_params_growth_age(
+  advs,
+  sex = SEX,
+  age = AAGECUR,
+  age_unit = AAGECURU,
+  meta_criteria = weight_for_age,
+  parameter = VSTESTCD == "WEIGHT",
+  set_values_to_sds = exprs(
+    PARAMCD = "WTASDS",
+    PARAM = "Weight-for-age z-score"
+  ),
+  set_values_to_pctl = exprs(
+    PARAMCD = "WTAPCTL",
+    PARAM = "Weight-for-age percentile"
+  )
+) %>%
+  mutate(
+    PARAMN = case_when(
+      PARAMCD == "WTASDS" ~ 5,
+      PARAMCD == "WTAPCTL" ~ 6,
+      TRUE ~ PARAMN
+    )
+  )
+
+## Calculate BMI for AGE z-score and Percentile ----
+## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
+advs_bmi_age <- derive_params_growth_age(
+  advs,
+  sex = SEX,
+  age = AAGECUR,
+  age_unit = AAGECURU,
+  meta_criteria = bmi_for_age,
+  parameter = VSTESTCD == "BMI",
+  set_values_to_sds = exprs(
+    PARAMCD = "BMISDS",
+    PARAM = "BMI-for-age z-score"
+  ),
+  set_values_to_pctl = exprs(
+    PARAMCD = "BMIPCTL",
+    PARAM = "BMI-for-age percentile"
+  )
+) %>%
+  mutate(
+    PARAMN = case_when(
+      PARAMCD == "BMISDS" ~ 7,
+      PARAMCD == "BMIPCTL" ~ 8,
+      TRUE ~ PARAMN
+    )
+  )
+
+## Calculate Head Circumference for AGE z-score and Percentile ----
+## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
+advs_hdc_age <- derive_params_growth_age(
+  advs,
+  sex = SEX,
+  age = AAGECUR,
+  age_unit = AAGECURU,
+  meta_criteria = who_hc_for_age,
+  parameter = VSTESTCD == "HDCIRC",
+  set_values_to_sds = exprs(
+    PARAMCD = "HDCSDS",
+    PARAM = "HDC-for-age z-score"
+  ),
+  set_values_to_pctl = exprs(
+    PARAMCD = "HDCPCTL",
+    PARAM = "HDC-for-age percentile"
+  )
+) %>%
+  mutate(
+    PARAMN = case_when(
+      PARAMCD == "HDCSDS" ~ 9,
+      PARAMCD == "HDCPCTL" ~ 10,
+      TRUE ~ PARAMN
+    )
+  )
+
+## Calculate for Height/Length ----
+## derive_params_growth_height function not yet ready?
+## It needs to be updated once the function is ready to use.
+## from issue #34
+# advs_wgt_height <- derive_params_growth_height(
+#   advs,
+#   sex = SEX,
+#   age = AAGECUR,
+#   age_unit = AAGECURU,
+#   meta_criteria = weight_for_age,
+#   parameter = VSTESTCD == "HEIGHT",
+#   measure = HEIGHT,
+#   height_age = 730,
+#   set_values_to_sds = exprs(
+#     PARAMCD = "WGTHSDS",
+#     PARAM = "Weight-for-length/height Z-Score"
+#   ),
+#   set_values_to_pctl = exprs(
+#     PARAMCD = "WGTHPCTL",
+#     PARAM = "Weight-for-length/height Percentile"
 #   )
+# )
+
+## Combine all derived parameters together
+advs <- advs %>%
+  rbind(advs_wgt_age, advs_bmi_age, advs_hdc_age)
+# z-score and percentile for HEIGHT and LENGTH to be added once the
+# `derive_params_growth_height` function is ready
 
 # Final Steps, Select final variables and Add labels
 # This process will be based on your metadata, no example given for this reason
