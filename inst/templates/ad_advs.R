@@ -15,7 +15,7 @@ library(pharmaversesdtm) # Contains example datasets from the CDISC pilot projec
 library(dplyr)
 library(lubridate)
 library(stringr)
-library(rlang)
+#library(rlang)
 
 # Creation of the Growth metadata combining WHO and CDC
 # Default reference sources: WHO for children <2 yrs old (<=730 days),
@@ -234,15 +234,8 @@ advs <- advs %>%
     by_vars = exprs(AVISIT)
   )
 
-## Get ASEQ  and add PARAM/PARAMN ----
+## Add PARAM/PARAMN ----
 advs <- advs %>%
-  # Calculate ASEQ
-  derive_var_obs_number(
-    new_var = ASEQ,
-    by_vars = exprs(STUDYID, USUBJID),
-    order = exprs(PARAMCD, ADT, AVISITN),
-    check_type = "error"
-  ) %>%
   # Derive PARAM and PARAMN
   derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
 
@@ -272,7 +265,8 @@ advs_wgt_age <- derive_params_growth_age(
       PARAMCD == "WTAPCTL" ~ 6,
       TRUE ~ PARAMN
     )
-  )
+  ) %>%
+  filter(PARAMCD %in% c("WTASDS", "WTAPCTL"))
 
 ## Calculate BMI for AGE z-score and Percentile ----
 ## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
@@ -298,7 +292,8 @@ advs_bmi_age <- derive_params_growth_age(
       PARAMCD == "BMIPCTL" ~ 8,
       TRUE ~ PARAMN
     )
-  )
+  ) %>%
+  filter(PARAMCD %in% c("BMISDS", "BMIPCTL"))
 
 ## Calculate Head Circumference for AGE z-score and Percentile ----
 ## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
@@ -324,7 +319,8 @@ advs_hdc_age <- derive_params_growth_age(
       PARAMCD == "HDCPCTL" ~ 10,
       TRUE ~ PARAMN
     )
-  )
+  ) %>%
+  filter(PARAMCD %in% c("HDCSDS", "HDCPCTL"))
 
 ## Calculate for Height/Length ----
 ## derive_params_growth_height function not yet ready?
@@ -347,13 +343,24 @@ advs_hdc_age <- derive_params_growth_age(
 #     PARAMCD = "WGTHPCTL",
 #     PARAM = "Weight-for-length/height Percentile"
 #   )
-# )
+# )  %>%
+# filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
 
 ## Combine all derived parameters together
 advs <- advs %>%
   rbind(advs_wgt_age, advs_bmi_age, advs_hdc_age)
 # z-score and percentile for HEIGHT and LENGTH to be added once the
 # `derive_params_growth_height` function is ready
+
+## Get ASEQ ----
+advs <- advs %>%
+  # Calculate ASEQ
+  derive_var_obs_number(
+    new_var = ASEQ,
+    by_vars = exprs(STUDYID, USUBJID),
+    order = exprs(PARAMCD, ADT, AVISITN),
+    check_type = "error"
+  )
 
 # Final Steps, Select final variables and Add labels
 # This process will be based on your metadata, no example given for this reason
