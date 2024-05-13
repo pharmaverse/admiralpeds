@@ -1,6 +1,6 @@
 # Name: ADVS
 #
-# Label: Vital Signs Analysis Dataset
+# Label: Vital Signs Analysis Dataset for Pediatric Trials
 #
 # Input: adsl, vs
 #        WHO_bmi_for_age_boys, WHO_bmi_for_age_girls, cdc_bmiage,
@@ -10,34 +10,33 @@
 #        who_wt_for_ht_boys, who_wt_for_ht_girls, who_wt_for_lgth_boys, who_wt_for_lgth_girls
 
 library(admiral)
-library(admiraldev)
-library(pharmaversesdtm) # Contains example datasets from the CDISC pilot project
 library(dplyr)
 library(lubridate)
 library(stringr)
-# library(rlang)
+library(rlang)
 
-# Creation of the Growth metadata combining WHO and CDC
-# Default reference sources: WHO for children <2 yrs old (<=730 days),
-# and CDC for children >=2 yrs old (>= 730.5 days)
+# Creation of the Growth by Age metadata combining WHO and CDC
+
 # Load WHO and CDC metadata datasets ----
-message("Please be aware that our default reference source in our metadata is :
-        WHO for <2 yrs old children, and CDC for >=2 yrs old children.
+message("Please be aware that our default reference source in our metadata by Age is :
+        - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
 
 ## BMI for age ----
+# Default reference sources: WHO for children <2 yrs old (< 730.5 days),
+# and CDC for children >=2 yrs old (>= 730.5 days)
 data(WHO_bmi_for_age_boys)
 data(WHO_bmi_for_age_girls)
 data(cdc_bmiage)
 
 bmi_for_age <- who_bmi_for_age_boys %>%
-  filter(Day <= 730) %>%
+  filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
-  rbind(who_bmi_for_age_girls %>%
-    filter(Day <= 730) %>%
+  bind_rows(who_bmi_for_age_girls %>%
+    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
-  rbind(cdc_bmiage %>%
+  bind_rows(cdc_bmiage %>%
     mutate(
       SEX = case_when(
         SEX == 1 ~ "M",
@@ -51,18 +50,20 @@ bmi_for_age <- who_bmi_for_age_boys %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
+# Default reference sources: WHO for children <2 yrs old (< 730.5 days),
+# and CDC for children >=2 yrs old (>= 730.5 days)
 data(who_lgth_ht_for_age_boys)
 data(who_lgth_ht_for_age_girls)
 data(cdc_htage)
 
 height_for_age <- who_lgth_ht_for_age_boys %>%
-  filter(Day <= 730) %>%
+  filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
-  rbind(who_lgth_ht_for_age_girls %>%
-    filter(Day <= 730) %>%
+  bind_rows(who_lgth_ht_for_age_girls %>%
+    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
-  rbind(cdc_htage %>%
+  bind_rows(cdc_htage %>%
     mutate(
       SEX = case_when(
         SEX == 1 ~ "M",
@@ -76,17 +77,20 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
   arrange(AGE, SEX)
 
 ## WEIGHT for age ----
+# Default reference sources: WHO for children <2 yrs old (< 730.5 days),
+# and CDC for children >=2 yrs old (>= 730.5 days)
 data(who_wt_for_age_boys)
 data(who_wt_for_age_girls)
 data(cdc_wtage)
+
 weight_for_age <- who_wt_for_age_boys %>%
-  filter(Day <= 730) %>%
+  filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
-  rbind(who_wt_for_age_girls %>%
-    filter(Day <= 730) %>%
+  bind_rows(who_wt_for_age_girls %>%
+    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
-  rbind(cdc_wtage %>%
+  bind_rows(cdc_wtage %>%
     mutate(
       SEX = case_when(
         SEX == 1 ~ "M",
@@ -102,18 +106,17 @@ weight_for_age <- who_wt_for_age_boys %>%
 ## WHO - HEAD CIRCUMFERENCE for age ----
 data(who_hc_for_age_boys)
 data(who_hc_for_age_girls)
+
 who_hc_for_age <- who_hc_for_age_boys %>%
-  filter(Day <= 730) %>%
   mutate(SEX = "M") %>%
-  rbind(who_hc_for_age_girls %>%
-    filter(Day <= 730) %>%
+  bind_rows(who_hc_for_age_girls %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
-## WHO - WEIGHT/HEIGHT ----
+## WHO - WEIGHT for HEIGHT/HEIGHT ----
 data(who_wt_for_ht_boys)
 data(who_wt_for_ht_girls)
 data(who_wt_for_lgth_boys)
@@ -121,18 +124,18 @@ data(who_wt_for_lgth_girls)
 
 who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
   mutate(SEX = "M") %>%
-  rbind(who_wt_for_ht_girls %>%
+  bind_rows(who_wt_for_ht_girls %>%
     mutate(SEX = "F")) %>%
   mutate(MEASURE = "HEIGHT") %>%
   rename(HEIGHT_LENGTH = Height) %>%
-  rbind(who_wt_for_lgth_boys %>%
+  bind_rows(who_wt_for_lgth_boys %>%
     mutate(SEX = "M") %>%
-    rbind(who_wt_for_lgth_girls %>%
+    bind_rows(who_wt_for_lgth_girls %>%
       mutate(SEX = "F")) %>%
     mutate(MEASURE = "LENGTH") %>%
     rename(HEIGHT_LENGTH = Length))
 
-# ADVS template: Load source datasets ----
+# Load source datasets ----
 
 # Use e.g. `haven::read_sas()` to read in .sas7bdat, or other suitable functions
 # as needed and assign to the variables below.
@@ -162,6 +165,19 @@ param_lookup <- tibble::tribble(
 )
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
+# Assign PARAMCD, PARAM, and PARAMN for derived parameters
+derv_param_lookup <- tibble::tribble(
+  ~PARAMCD, ~PARAM, ~PARAMN,
+  "WTASDS", "Weight-for-age z-score", 5,
+  "WTAPCTL", "Weight-for-age percentile", 6,
+  "BMISDS", "BMI-for-age z-score", 7,
+  "BMIPCTL", "BMI-for-age percentile", 8,
+  "HDCSDS", "HDC-for-age z-score", 9,
+  "HDCPCTL", "HDC-for-age percentile", 10,
+  "WGTHSDS", "Weight-for-length/height Z-Score", 11,
+  "WGTHPCTL", "Weight-for-length/height Percentile", 12
+)
+
 # Get list of DM vars required for derivations
 dm_vars <- exprs(SEX, BRTHDTC)
 advs <- vs %>%
@@ -185,15 +201,13 @@ advs <- vs %>%
     dtc = VSDTC
   ) %>%
   ## Calculate Current Analysis Age AAGECUR ----
-  derive_vars_aage(
+  derive_vars_duration(
+    new_var = AAGECUR,
+    new_var_unit = AAGECURU,
     start_date = BRTHDT,
     end_date = ADT,
-    age_unit = "DAYS",
-    type = "interval"
-  ) %>%
-  rename(
-    AAGECUR = AAGE,
-    AAGECURU = AAGEU
+    out_unit = "DAYS",
+    trunc_out = FALSE
   )
 
 advs <- advs %>%
@@ -234,10 +248,17 @@ advs <- advs %>%
     by_vars = exprs(AVISIT)
   )
 
-## Add PARAM/PARAMN ----
+# Add Current HEIGHT Temporary variable (in cm)
+## Calculate Current HEIGHT Temporary variable ----
+hgttmp <- advs %>%
+  filter(PARAMCD == "HEIGHT" & VSSTRESU == "cm") %>%
+  select(STUDYID, USUBJID, HGTTMP = AVAL, AVISIT)
+
 advs <- advs %>%
-  # Derive PARAM and PARAMN
-  derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
+  derive_vars_merged(
+    dataset_add = hgttmp,
+    by_vars = exprs(STUDYID, USUBJID, AVISIT)
+  )
 
 ## Merge ADVS to the chosen Growth metadata as an input to meta_criteria ----
 ## Calculate z-scores/percentiles
@@ -259,13 +280,6 @@ advs_wgt_age <- derive_params_growth_age(
     PARAM = "Weight-for-age percentile"
   )
 ) %>%
-  mutate(
-    PARAMN = case_when(
-      PARAMCD == "WTASDS" ~ 5,
-      PARAMCD == "WTAPCTL" ~ 6,
-      TRUE ~ PARAMN
-    )
-  ) %>%
   filter(PARAMCD %in% c("WTASDS", "WTAPCTL"))
 
 ## Calculate BMI for AGE z-score and Percentile ----
@@ -286,13 +300,6 @@ advs_bmi_age <- derive_params_growth_age(
     PARAM = "BMI-for-age percentile"
   )
 ) %>%
-  mutate(
-    PARAMN = case_when(
-      PARAMCD == "BMISDS" ~ 7,
-      PARAMCD == "BMIPCTL" ~ 8,
-      TRUE ~ PARAMN
-    )
-  ) %>%
   filter(PARAMCD %in% c("BMISDS", "BMIPCTL"))
 
 ## Calculate Head Circumference for AGE z-score and Percentile ----
@@ -313,13 +320,6 @@ advs_hdc_age <- derive_params_growth_age(
     PARAM = "HDC-for-age percentile"
   )
 ) %>%
-  mutate(
-    PARAMN = case_when(
-      PARAMCD == "HDCSDS" ~ 9,
-      PARAMCD == "HDCPCTL" ~ 10,
-      TRUE ~ PARAMN
-    )
-  ) %>%
   filter(PARAMCD %in% c("HDCSDS", "HDCPCTL"))
 
 ## Calculate for Height/Length ----
@@ -346,11 +346,18 @@ advs_hdc_age <- derive_params_growth_age(
 # )  %>%
 # filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
 
+
 ## Combine all derived parameters together
 advs <- advs %>%
-  rbind(advs_wgt_age, advs_bmi_age, advs_hdc_age)
-# z-score and percentile for HEIGHT and LENGTH to be added once the
-# `derive_params_growth_height` function is ready
+  # z-score and percentile for HEIGHT and LENGTH to be added once the
+  # `derive_params_growth_height` function is ready
+  bind_rows(advs_wgt_age, advs_bmi_age, advs_hdc_age)
+
+## Add PARAM/PARAMN ----
+# advs_ <- advs %>%
+#   # Derive PARAM and PARAMN
+#   derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD)) %>%
+#   derive_vars_merged(dataset_add = select(derv_param_lookup, -PARAM), by_vars = exprs(PARAMCD))
 
 ## Get ASEQ ----
 advs <- advs %>%
