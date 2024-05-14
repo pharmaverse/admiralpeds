@@ -1,0 +1,94 @@
+---
+title: "Creating a Pediatrics ADVS ADaM"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating a Pediatrics ADVS ADaM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(admiraldev)
+```
+
+# Introduction
+
+This article describes creating a vital signs ADaM for pediatric clinical
+trials. The main focus is around growth development chart parameter
+derivations.
+
+We advise you first consult the `{admiral}`
+[Creating a BDS Finding ADaM vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
+The programming workflow around how to create the general set-up of an
+ADVS using `{admiral}` functions is the same as this, so to save repeating
+information and maintaining the same content in two places we have instead
+opted to only focus on the pediatric-specific steps here.
+
+**Note**: *All examples assume CDISC SDTM and/or ADaM format as input unless 
+otherwise specified.*
+
+# Programming Workflow
+
+* [Metadata](#metadata)
+* [Assign `PARAMCD`, `PARAM`, `PARAMN`, `PARCAT1`](#paramcd)
+* [Derive Additional Parameters for Pediatrics Measures](#derive_param)
+
+## Metadata {#metadata}
+
+Once the required packages have been loaded, the first step is then to prepare
+the metadata.
+
+```{r message=FALSE}
+library(admiral)
+library(admiralpeds)
+library(dplyr, warn.conflicts = FALSE)
+library(pharmaversesdtm)
+library(lubridate)
+library(stringr)
+library(tibble)
+```
+
+Here we have made some default decisions in the package as to which metadata
+to use but you are free to replace these with any other source you prefer (as
+long as you keep the structure of the dataframe consistent - as expected by
+our downstream functions). For example, you might want to use a different
+age range selection of WHO metadata or even use International Obesity Task Force
+standards.
+
+The selection of standard reference files we used for this package are as follows:
+
+- [2000 CDC Growth Charts](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
+- For BMI only: [2022 CDC Extended BMI-for-age Growth Charts](https://www.cdc.gov/growthcharts/extended-bmi.htm)
+- [2006 WHO Growth Standards](https://www.who.int/toolkits/child-growth-standards/standards) - Expanded Tables
+
+Explain how these are combined... include code... and share an extract of how the dataframes all look...
+
+ADD
+
+DATA SECTION
+     
+```{r eval=TRUE}
+data("adsl_peds")
+data("vs_peds")
+
+adsl <- adsl_peds
+vs <- convert_blanks_to_na(vs_peds)
+```
+```{r echo=FALSE}
+vs <- filter(vs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
+```
+
+
+
+
+Reminders:
+See outline doc notes
+Update contents
+ADD NOTE from David for BMI: CDC BMI percentiles >95 are calculated differently than this <95th percentile.
+Explain any unit conversion ever needed for AGE, HEIGHT etc
