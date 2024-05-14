@@ -4,6 +4,8 @@ template:
   bootstrap: 5
   params:
     bootswatch: flatly
+search:
+  exclude: ['news/index.html']
 repo:
   url:
     home: https://github.com/pharmaverse/admiralpeds
@@ -16,15 +18,12 @@ news:
 development:
   mode: auto
 
-navbar:
-  structure:
-    left: [reference, news]
-  components:
-    reference:
-       text: Reference
-       href: reference/
-
 reference:
+- title: Derivations for Adding Parameters/Records
+- subtitle: Vital Signs-specific
+  contents:
+  - has_keyword("der_prm_bds_vs")
+
 - title: Metadata
 - contents:
   - has_keyword("metadata")
@@ -33,3 +32,31 @@ reference:
   contents:
   - has_keyword('datasets')
 
+navbar:
+  structure:
+    left: [getstarted, reference, articles, news]
+    right: [search, slack, history, newissue, github]
+  components:
+    getstarted:
+      text: Get Started
+      href: articles/admiralpeds.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: User Guides
+      menu:
+      - text: Creating a Pediatrics ADVS
+        href: articles/advs_peds.html
+    history:
+      icon: fa-history
+      href: articles/website-versions.html
+      aria-label: Previous Release Websites
+    slack:
+      icon: fa-slack
+      href: https://app.slack.com/client/T028PB489D3/C02M8KN8269
+      aria-label: Slack
+    newissue:
+      icon: fa-bug
+      href: https://github.com/pharmaverse/admiralpeds/issues/new/choose
+      aria-label: New Issue
