@@ -13,7 +13,6 @@ library(admiral)
 library(dplyr)
 library(lubridate)
 library(stringr)
-library(rlang)
 
 # Creation of the Growth by Age metadata combining WHO and CDC
 
@@ -161,25 +160,21 @@ param_lookup <- tibble::tribble(
   "WEIGHT", "WEIGHT", "Weight (kg)", 1,
   "HEIGHT", "HEIGHT", "Height (cm)", 2,
   "BMI", "BMI", "Body Mass Index(kg/m^2)", 3,
-  "HDCIRC", "HDCIRC", "Head Circumference (cm)", 4
+  "HDCIRC", "HDCIRC", "Head Circumference (cm)", 4,
+  NA_character_, "WTASDS", "Weight-for-age z-score", 5,
+  NA_character_, "WTAPCTL", "Weight-for-age percentile", 6,
+  NA_character_, "BMISDS", "BMI-for-age z-score", 7,
+  NA_character_, "BMIPCTL", "BMI-for-age percentile", 8,
+  NA_character_, "HDCSDS", "HDC-for-age z-score", 9,
+  NA_character_, "HDCPCTL", "HDC-for-age percentile", 10,
+  NA_character_, "WGTHSDS", "Weight-for-length/height Z-Score", 11,
+  NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 12
 )
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
-# Assign PARAMCD, PARAM, and PARAMN for derived parameters
-derv_param_lookup <- tibble::tribble(
-  ~PARAMCD, ~PARAM, ~PARAMN,
-  "WTASDS", "Weight-for-age z-score", 5,
-  "WTAPCTL", "Weight-for-age percentile", 6,
-  "BMISDS", "BMI-for-age z-score", 7,
-  "BMIPCTL", "BMI-for-age percentile", 8,
-  "HDCSDS", "HDC-for-age z-score", 9,
-  "HDCPCTL", "HDC-for-age percentile", 10,
-  "WGTHSDS", "Weight-for-length/height Z-Score", 11,
-  "WGTHPCTL", "Weight-for-length/height Percentile", 12
-)
-
 # Get list of DM vars required for derivations
 dm_vars <- exprs(SEX, BRTHDTC)
+
 advs <- vs %>%
   # Join DM with VS (need BRTHDT for AAGECUR derivation)
   derive_vars_merged(
@@ -213,7 +208,7 @@ advs <- vs %>%
 advs <- advs %>%
   ## Add PARAMCD only - add PARAM etc later ----
   derive_vars_merged_lookup(
-    dataset_add = param_lookup,
+    dataset_add = param_lookup %>% filter(!is.na(VSTESTCD)),
     new_vars = exprs(PARAMCD),
     by_vars = exprs(VSTESTCD)
   ) %>%
@@ -346,7 +341,6 @@ advs_hdc_age <- derive_params_growth_age(
 # )  %>%
 # filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
 
-
 ## Combine all derived parameters together
 advs <- advs %>%
   # z-score and percentile for HEIGHT and LENGTH to be added once the
@@ -354,10 +348,10 @@ advs <- advs %>%
   bind_rows(advs_wgt_age, advs_bmi_age, advs_hdc_age)
 
 ## Add PARAM/PARAMN ----
-# advs_ <- advs %>%
-#   # Derive PARAM and PARAMN
-#   derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD)) %>%
-#   derive_vars_merged(dataset_add = select(derv_param_lookup, -PARAM), by_vars = exprs(PARAMCD))
+advs <- advs %>%
+  select(-PARAM) %>%
+  # Derive PARAM and PARAMN
+  derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
 
 ## Get ASEQ ----
 advs <- advs %>%
@@ -368,6 +362,9 @@ advs <- advs %>%
     order = exprs(PARAMCD, ADT, AVISITN),
     check_type = "error"
   )
+
+# Convert blanks to NA also for derived parameters
+advs <- convert_blanks_to_na(advs)
 
 # Final Steps, Select final variables and Add labels
 # This process will be based on your metadata, no example given for this reason
