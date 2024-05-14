@@ -42,7 +42,7 @@ navbar:
       text: User Guides
       menu:
       - text: Creating a Pediatrics ADVS
-        href: articles/advs_peds.html
+        href: articles/advs.html
     history:
       icon: fa-history
       href: articles/website-versions.html
