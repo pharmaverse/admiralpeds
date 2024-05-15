@@ -61,13 +61,64 @@ our downstream functions). For example, you might want to use a different
 age range selection of WHO metadata or even use International Obesity Task Force
 standards.
 
-The selection of standard reference files we used for this package are as follows:
+The selection of standard reference files we included and used as metadata for
+this package are as follows:
 
 - [2000 CDC Growth Charts](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
 - For BMI only: [2022 CDC Extended BMI-for-age Growth Charts](https://www.cdc.gov/growthcharts/extended-bmi.htm)
 - [2006 WHO Growth Standards](https://www.who.int/toolkits/child-growth-standards/standards) - Expanded Tables
 
-Explain how these are combined... include code... and share an extract of how the dataframes all look...
+### Reference Files for Parameters by Age
+
+As growth rates and patterns differ between gender, different reference values are
+used accordingly and for different age groups.
+
+For the applicable parameters here (height/weight/BMI), we made the default decision
+to rely on the WHO standards for children <2 years of age (<730.5 days) and CDC
+standards for children >=2 years of age (>=730.5 days). This is made in accordance
+with the [CDC recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
+
+So, the first step here needed is to combine the various metadata by parameter
+and ensuring gender and age are shown in a consistent way. We do this using the
+following code:
+
+```{r eval=TRUE}
+# ADD CODE FROM TEMPLATE (1 example only!)
+```
+
+Here is how the combined metadata now looks for the age ranges around 2 years
+to show how the WHO and CDC standards have been combined:
+
+```{r, eval=TRUE, echo=FALSE}
+dataset_vignette(
+  bmi_for_age,
+  filter = 728 < AGE < 750
+)
+```
+
+Note that head circumference metadata comes only from the WHO standards, as
+no equivalent for >2 years of age are provided by CDC.
+
+### Reference Files for Weight by Length/Height
+
+WHO provides additional standards for weight by length/height instead of
+age. For these we again combined the metadata for gender and additionally
+made clear which records refer to length vs height. We do this using the
+following code:
+
+```{r eval=TRUE}
+# ADD CODE FROM TEMPLATE
+```
+
+Here is how the combined metadata now looks for length or height of 65cm
+to show how the by length and by height standards have been combined:
+
+```{r, eval=TRUE, echo=FALSE}
+dataset_vignette(
+  who_wt_for_ht_lgth,
+  filter = HEIGHT_LENGTH == 65
+)
+```
 
 ADD
 
@@ -92,3 +143,4 @@ See outline doc notes
 Update contents
 ADD NOTE from David for BMI: CDC BMI percentiles >95 are calculated differently than this <95th percentile.
 Explain any unit conversion ever needed for AGE, HEIGHT etc
+Explain height and body length usual conventions and update according to your CRF guidelines
