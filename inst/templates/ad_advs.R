@@ -244,9 +244,9 @@ advs <- advs %>%
   )
 
 # Add Current HEIGHT Temporary variable (in cm)
-## Calculate Current HEIGHT Temporary variable ----
+## Calculate Current HEIGHT/LENGTH at each time point Temporary variable----
 hgttmp <- advs %>%
-  filter(PARAMCD == "HEIGHT" & VSSTRESU == "cm") %>%
+  filter((PARAMCD == "HEIGHT" | PARAMCD == "LENGTH") & VSSTRESU == "cm") %>%
   select(STUDYID, USUBJID, HGTTMP = AVAL, AVISIT)
 
 advs <- advs %>%
@@ -259,8 +259,7 @@ advs <- advs %>%
 ## Calculate z-scores/percentiles
 ## Calculate Weight for AGE z-score and Percentile ----
 ## Note: PARAMN needs to be updated.
-advs_wgt_age <- derive_params_growth_age(
-  advs,
+advs <- advs %>% derive_params_growth_age(
   sex = SEX,
   age = AAGECUR,
   age_unit = AAGECURU,
@@ -274,13 +273,11 @@ advs_wgt_age <- derive_params_growth_age(
     PARAMCD = "WTAPCTL",
     PARAM = "Weight-for-age percentile"
   )
-) %>%
-  filter(PARAMCD %in% c("WTASDS", "WTAPCTL"))
+)
 
 ## Calculate BMI for AGE z-score and Percentile ----
 ## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
-advs_bmi_age <- derive_params_growth_age(
-  advs,
+advs <- advs %>% derive_params_growth_age(
   sex = SEX,
   age = AAGECUR,
   age_unit = AAGECURU,
@@ -294,13 +291,11 @@ advs_bmi_age <- derive_params_growth_age(
     PARAMCD = "BMIPCTL",
     PARAM = "BMI-for-age percentile"
   )
-) %>%
-  filter(PARAMCD %in% c("BMISDS", "BMIPCTL"))
+)
 
 ## Calculate Head Circumference for AGE z-score and Percentile ----
 ## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
-advs_hdc_age <- derive_params_growth_age(
-  advs,
+advs <- advs %>% derive_params_growth_age(
   sex = SEX,
   age = AAGECUR,
   age_unit = AAGECURU,
@@ -314,15 +309,13 @@ advs_hdc_age <- derive_params_growth_age(
     PARAMCD = "HDCPCTL",
     PARAM = "HDC-for-age percentile"
   )
-) %>%
-  filter(PARAMCD %in% c("HDCSDS", "HDCPCTL"))
+)
 
 ## Calculate for Height/Length ----
 ## derive_params_growth_height function not yet ready?
 ## It needs to be updated once the function is ready to use.
 ## from issue #34
-# advs_wgt_height <- derive_params_growth_height(
-#   advs,
+# advs <- advs %>% derive_params_growth_height(
 #   sex = SEX,
 #   age = AAGECUR,
 #   age_unit = AAGECURU,
@@ -338,14 +331,7 @@ advs_hdc_age <- derive_params_growth_age(
 #     PARAMCD = "WGTHPCTL",
 #     PARAM = "Weight-for-length/height Percentile"
 #   )
-# )  %>%
-# filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
-
-## Combine all derived parameters together
-advs <- advs %>%
-  # z-score and percentile for HEIGHT and LENGTH to be added once the
-  # `derive_params_growth_height` function is ready
-  bind_rows(advs_wgt_age, advs_bmi_age, advs_hdc_age)
+# )
 
 ## Add PARAM/PARAMN ----
 advs <- advs %>%
