@@ -24,10 +24,10 @@ navbar:
        text: Reference
        href: reference/
 
-reference:
-- title: Derivations for Growth Chart
+- title: Derivations for Adding Parameters/Records
+- subtitle: Vital Signs-specific
   contents:
-  - has_keyword('der_growth')
+  - has_keyword("der_prm_bds_vs")
 
 - title: Metadata
 - contents:

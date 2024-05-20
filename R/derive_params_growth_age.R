@@ -72,9 +72,9 @@
 #' @return The input dataset additional records with the new parameter added.
 #'
 #'
-#' @family der_growth
+#' @family der_prm_bds_vs
 #'
-#' @keywords der_growth
+#' @keywords der_prm_bds_vs
 #'
 #' @export
 #'
