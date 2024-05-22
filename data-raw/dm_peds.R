@@ -14,8 +14,10 @@ dm <- convert_blanks_to_na(dm)
 
 # Subset to first 5 patients only (which is enough for our examples) ----
 dm_subset <- dm %>%
-  filter(USUBJID %in% c("01-701-1015", "01-701-1023", "01-701-1028",
-                        "01-701-1033", "01-701-1034"))
+  filter(USUBJID %in% c(
+    "01-701-1015", "01-701-1023", "01-701-1028",
+    "01-701-1033", "01-701-1034"
+  ))
 
 # Add birth dates/age realistic for pediatrics in line with treatment dates ----
 dm_peds <- dm_subset %>%

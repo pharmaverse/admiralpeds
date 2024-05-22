@@ -14,10 +14,11 @@ data("vs")
 
 # Subset to 5 patients present in dm_peds ----
 vs_subset <- vs %>%
-  filter(USUBJID %in% c("01-701-1015", "01-701-1023", "01-701-1028",
-                        "01-701-1033", "01-701-1034") &
-           VSTESTCD %in% c("WEIGHT")
-  )
+  filter(USUBJID %in% c(
+    "01-701-1015", "01-701-1023", "01-701-1028",
+    "01-701-1033", "01-701-1034"
+  ) &
+    VSTESTCD %in% c("WEIGHT"))
 
 # Filter 'WEIGHT' records for placeholder for HEIGHT and HDCIRC
 vs_subset_height <- vs_subset %>%
@@ -31,10 +32,12 @@ vs_subset_hdcirc <- vs_subset %>%
   mutate(VSTESTCD = "HDCIRC")
 
 # Bind new HEIGHT records to original dataset
-vs_subset_full <- bind_rows(vs_subset,
-                            vs_subset_height,
-                            vs_subset_bmi,
-                            vs_subset_hdcirc) %>%
+vs_subset_full <- bind_rows(
+  vs_subset,
+  vs_subset_height,
+  vs_subset_bmi,
+  vs_subset_hdcirc
+) %>%
   arrange(USUBJID, VISITNUM, VSTESTCD, VSDY)
 
 # Updating subject 01-701-1015 with data for 1 year old girl
@@ -196,16 +199,15 @@ vs_peds <- vs_subset_full %>%
     TRUE ~ VSSTRESN
   )) %>%
   arrange(USUBJID, VISITNUM, VSTESTCD, VSDY) %>%
-
   # vs_subset_calc <- vs_subset_full
 
   group_by(USUBJID, VISITNUM) %>%
   mutate(
     VSSTRESN = case_when(
       VSTESTCD == "BMI" ~ {
-        weight = VSSTRESN[VSTESTCD == "WEIGHT"]
-        height = VSSTRESN[VSTESTCD == "HEIGHT"] / 100  # Convert height from cm to m
-        as.numeric(weight / (height ^ 2))  # BMI calculation
+        weight <- VSSTRESN[VSTESTCD == "WEIGHT"]
+        height <- VSSTRESN[VSTESTCD == "HEIGHT"] / 100 # Convert height from cm to m
+        as.numeric(weight / (height^2)) # BMI calculation
       },
       TRUE ~ VSSTRESN
     )
