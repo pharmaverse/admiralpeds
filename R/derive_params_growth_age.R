@@ -47,6 +47,12 @@
 #'
 #'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference
 #'
+#' @param bmi_cdc_correction Extended CDC BMI-for-age correction
+#'
+#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  The CDC handles Z-scores and percentiles above the 95th percentile in a different way,
+#'  if set to `TRUE` the CDC's correction is applied.
+#'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
 #'  The specified variables are set to the specified values for the new
@@ -165,6 +171,7 @@ derive_params_growth_age <- function(dataset,
                                      age_unit,
                                      meta_criteria,
                                      parameter,
+                                     bmi_cdc_correction = FALSE,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
@@ -214,6 +221,18 @@ derive_params_growth_age <- function(dataset,
         AVAL = ((VSSTRESN / M)^L - 1) / (L * S),
         !!!set_values_to_sds
       )
+
+    if (bmi_cdc_correction) {
+      add_sds <- add_sds %>%
+        mutate(
+          AVAL = ifelse(
+            VSSTRESN >= P95,
+            qnorm(90 + 10*pnorm((VSSTRESN - P95)/Sigma)),
+            AVAL
+          )
+        )
+    }
+
     dataset_final <- bind_rows(dataset, add_sds) %>%
       select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
   }
@@ -226,6 +245,17 @@ derive_params_growth_age <- function(dataset,
         # may need to add special modification for > 95th percentile
         !!!set_values_to_pctl
       )
+
+    if (bmi_cdc_correction) {
+      add_pctl <- add_pctl %>%
+        mutate(
+          AVAL = ifelse(
+            VSSTRESN >= P95,
+            90 + 10*pnorm((VSSTRESN - P95)/Sigma),
+            AVAL
+          )
+        )
+    }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
       select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
