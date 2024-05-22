@@ -2,66 +2,40 @@
 # Description: Create DM test SDTM dataset for pediatric studies
 
 # Load libraries -----
-library(pharmaversesdtm) # TODO remove when this script is moved to pharmaversesdtm
 library(dplyr)
-library(purrr)
+library(admiral)
+library(pharmaversesdtm)
 
-# Create DM for pediatric  ----
-
-## Read in original data ----
+# Read input test data from pharmaversesdtm ----
 data("dm")
 
-## Make dm_ped dataset
-dm_peds <- tibble::tribble(
-  ~USUBJID, ~BRTHDTC, ~AGE, ~AGEU, ~RFSTDTC, ~RFENDTC, ~SEX,
-  "PEDS-1001", "2023-09-10", 0, "YEARS", "2023-09-30", "2023-12-30", "M",
-  "PEDS-1002", "2022-06-10", 0, "YEARS", "2022-09-12", "2024-02-15", "F",
-  "PEDS-1003", "2022-07-10", 0, "YEARS", "2023-01-08", "2023-10-25", "F",
-  "PEDS-1005", "2021-06-10", 0, "YEARS", "2021-07-09", "2024-01-13", "F",
-  "PEDS-1006", "2022-08-02", 1, "YEARS", "2023-08-11", "2024-02-15", "F",
-  "PEDS-1010", "2021-01-14", 0, "YEARS", "2021-07-09", "2024-02-15", "M",
-  "PEDS-1012", "2023-03-17", 0, "YEARS", "2023-06-23", "2024-02-15", "M",
-  "PEDS-1013", "2023-12-10", 0, "YEARS", "2024-01-10", "2024-02-15", "F",
-  "PEDS-1009", "2023-10-25", 0, "YEARS", "2024-01-12", "2024-02-15", "M",
-) %>%
-  mutate(
-    STUDYID = "PEDS SAMPLE STUDY",
-    DOMAIN = "DM",
-    SUBJID = substr(USUBJID, 5, 9),
-    SITEID = substr(USUBJID, 5, 7),
-    RFXSTDTC = format(admiral::convert_dtc_to_dt(RFSTDTC) + 21, "%Y-%m-%d"),
-    RFXENDTC = format(admiral::convert_dtc_to_dt(RFENDTC) + 62, "%Y-%m-%d"),
-    RFICDTC = RFSTDTC,
-    RFPENDTC = RFENDTC,
-    DTHDTC = NA_character_,
-    DTHFL = NA_character_,
-    RACE = case_when(
-      grepl("100", USUBJID) ~ "WHITE",
-      grepl("101", USUBJID) ~ "BLACK OR AFRICAN AMERICAN",
-      TRUE ~ NA_character_
-    ),
-    ETHNIC = case_when(
-      grepl("100", USUBJID) ~ "NOT HISPANIC OR LATINO",
-      grepl("101", USUBJID) ~ "NOT HISPANIC OR LATINO",
-      TRUE ~ NA_character_
-    ),
-    COUNTRY = case_when(
-      grepl("100", USUBJID) ~ "USA",
-      grepl("101", USUBJID) ~ "ITA",
-      TRUE ~ NA_character_
-    ),
-    ARMCD = "A",
-    ARM = "Arm A",
-    ACTARM = ARM,
-    ACTARMCD = ARMCD,
-    DMDTC = NA_character_,
-    DMDY = NA_integer_
-  ) %>%
-  select(
-    STUDYID, DOMAIN, USUBJID, SUBJID, RFSTDTC, RFENDTC, RFXSTDTC, RFXENDTC,
-    RFICDTC, RFPENDTC, DTHDTC, DTHFL, SITEID, BRTHDTC, AGE, AGEU,
-    SEX, RACE, ETHNIC, ARMCD, ARM, ACTARMCD, ACTARM, COUNTRY, DMDTC, DMDY
-  )
+# Convert blank to NA ----
+dm <- convert_blanks_to_na(dm)
+
+# Subset to first 5 patients only (which is enough for our examples) ----
+dm_subset <- dm %>%
+  filter(USUBJID %in% c("01-701-1015", "01-701-1023", "01-701-1028",
+                        "01-701-1033", "01-701-1034"))
+
+# Add birth dates/age realistic for pediatrics in line with treatment dates ----
+dm_peds <- dm_subset %>%
+  mutate(BRTHDTC = case_when(
+    USUBJID == "01-701-1015" ~ "2013-01-02",
+    USUBJID == "01-701-1023" ~ "2010-08-05",
+    USUBJID == "01-701-1028" ~ "2010-07-19",
+    USUBJID == "01-701-1033" ~ "2014-01-01",
+    USUBJID == "01-701-1034" ~ "2014-06-01"
+  )) %>%
+  mutate(AGE = case_when(
+    USUBJID == "01-701-1015" ~ 1,
+    USUBJID == "01-701-1023" ~ 2,
+    USUBJID == "01-701-1028" ~ 3,
+    USUBJID == "01-701-1033" ~ 0,
+    USUBJID == "01-701-1034" ~ 0
+  ))
+
+# Variable labels ----
+attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
 
 # get common column names
 common_cols <- seq_along(intersect(names(dm_peds), names(dm)))
@@ -69,8 +43,6 @@ common_cols <- seq_along(intersect(names(dm_peds), names(dm)))
 lapply(common_cols, function(x) {
   attr(dm_peds[[common_cols[x]]], "label") <- attr(dm[[common_cols[x]]], "label")
 })
-
-attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
 
 # Label dataset ----
 attr(dm_peds, "label") <- "Demographics"
