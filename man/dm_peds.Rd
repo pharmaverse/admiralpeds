@@ -5,7 +5,7 @@
 \alias{dm_peds}
 \title{Demographic Dataset-updated}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 9 rows and 26 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 5 rows and 26 columns.
 }
 \usage{
 dm_peds
