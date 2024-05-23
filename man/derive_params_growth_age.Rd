@@ -2,7 +2,7 @@
 % Please edit documentation in R/derive_params_growth_age.R
 \name{derive_params_growth_age}
 \alias{derive_params_growth_age}
-\title{Derive Growth Chart Z-Scores/Percentiles by Age}
+\title{Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts}
 \usage{
 derive_params_growth_age(
   dataset,
@@ -11,6 +11,8 @@ derive_params_growth_age(
   age_unit,
   meta_criteria,
   parameter,
+  analysis_var,
+  bmi_cdc_correction = FALSE,
   set_values_to_sds = NULL,
   set_values_to_pctl = NULL
 )
@@ -18,7 +20,7 @@ derive_params_growth_age(
 \arguments{
 \item{dataset}{Input dataset
 
-The variables specified in \code{sex}, \code{age}, \code{age_unit} are expected to be in the dataset.}
+The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{VSSTRESN/AVAL} are expected to be in the dataset.}
 
 \item{sex}{Sex
 
@@ -28,12 +30,12 @@ Expected Values: \code{M}, \code{F}}
 
 \item{age}{Current Age
 
-A numeric vector is expected.}
+A numeric vector is expected. Note that this is the actual age at the current visit.}
 
 \item{age_unit}{Age Unit
 A character vector is expected.
 
-Expected values: 'days' 'months'}
+Expected values: 'days' 'weeks' 'months'}
 
 \item{meta_criteria}{Metadata dataset
 
@@ -52,14 +54,21 @@ require small modifications.
 \item \code{S} - Coefficient of variation
 }}
 
-\item{parameter}{Desired parameter
+\item{parameter}{Anthropometric measurement parameter to calculate z-score or percentile
 
 A condition is expected with the input dataset \code{VSTESTCD}/\code{PARAMCD}
 for which we want growth derivations:
 
 e.g. \code{parameter = VSTESTCD == "WEIGHT"}.
 
-There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference}
+There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
+in the \code{admiralpeds} package.}
+
+\item{bmi_cdc_correction}{Extended CDC BMI-for-age correction
+
+A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+CDC developed extended percentiles (>95\%) to monitor high BMI values,
+if set to \code{TRUE} the CDC's correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 
@@ -87,8 +96,8 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 The input dataset additional records with the new parameter added.
 }
 \description{
-Derive Growth Chart Z-Scores/Percentiles
-for Height/Weight/BMI by Age
+Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
+for Height/Weight/BMI/Head Circumference by Age
 }
 \examples{
 library(dplyr)

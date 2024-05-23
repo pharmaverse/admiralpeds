@@ -147,6 +147,8 @@ globalVariables(c(
   "L",
   "M",
   "S",
+  "Sigma",
+  "P95",
   "VSSTRESN",
   "next_age",
   "prev_age"

@@ -1,11 +1,11 @@
-#' Derive Growth Chart Z-Scores/Percentiles by Age
+#' Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
 #'
-#' Derive Growth Chart Z-Scores/Percentiles
-#' for Height/Weight/BMI by Age
+#' Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
+#' for Height/Weight/BMI/Head Circumference by Age
 #'
 #' @param dataset Input dataset
 #'
-#'   The variables specified in `sex`, `age`, `age_unit` are expected to be in the dataset.
+#'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `VSSTRESN/AVAL` are expected to be in the dataset.
 #'
 #' @param sex Sex
 #'
@@ -15,13 +15,13 @@
 #'
 #' @param age Current Age
 #'
-#'   A numeric vector is expected.
+#'   A numeric vector is expected. Note that this is the actual age at the current visit.
 #'
 #' @param age_unit Age Unit
 #
 #'   A character vector is expected.
 #'
-#'   Expected values: 'days' 'months'
+#'   Expected values: 'days' 'weeks' 'months'
 #'
 #' @param meta_criteria Metadata dataset
 #'
@@ -38,19 +38,20 @@
 #'   * `M` - Median
 #'   * `S` - Coefficient of variation
 #'
-#' @param parameter Desired parameter
+#' @param parameter Anthropometric measurement parameter to calculate z-score or percentile
 #'
 #'   A condition is expected with the input dataset `VSTESTCD`/`PARAMCD`
 #'   for which we want growth derivations:
 #'
 #'   e.g. `parameter = VSTESTCD == "WEIGHT"`.
 #'
-#'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference
+#'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
+#'   in the `admiralpeds` package.
 #'
 #' @param bmi_cdc_correction Extended CDC BMI-for-age correction
 #'
 #'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
-#'  The CDC handles Z-scores and percentiles above the 95th percentile in a different way,
+#'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
@@ -171,6 +172,7 @@ derive_params_growth_age <- function(dataset,
                                      age_unit,
                                      meta_criteria,
                                      parameter,
+                                     analysis_var,
                                      bmi_cdc_correction = FALSE,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
@@ -180,6 +182,10 @@ derive_params_growth_age <- function(dataset,
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
   assert_varval_list(set_values_to_pctl, optional = TRUE)
+
+  if (is.null(set_values_to_sds) & is.null(set_values_to_pctl)) {
+    abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
+  }
 
   # create a unified join naming convention, hard to figure out in by argument
   dataset <- dataset %>%
@@ -218,16 +224,16 @@ derive_params_growth_age <- function(dataset,
   if (!is_empty(set_values_to_sds)) {
     add_sds <- added_records %>%
       mutate(
-        AVAL = ((VSSTRESN / M)^L - 1) / (L * S),
+        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S),
         !!!set_values_to_sds
       )
 
     if (bmi_cdc_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL = ifelse(
-            VSSTRESN >= P95,
-            qnorm(90 + 10*pnorm((VSSTRESN - P95)/Sigma)),
+          AVAL := ifelse(
+            {{ analysis_var }} >= P95,
+            qnorm(90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)),
             AVAL
           )
         )
@@ -240,7 +246,7 @@ derive_params_growth_age <- function(dataset,
   if (!is_empty(set_values_to_pctl)) {
     add_pctl <- added_records %>%
       mutate(
-        AVAL = ((VSSTRESN / M)^L - 1) / (L * S),
+        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S),
         AVAL = pnorm(AVAL) * 100,
         # may need to add special modification for > 95th percentile
         !!!set_values_to_pctl
@@ -249,9 +255,9 @@ derive_params_growth_age <- function(dataset,
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL = ifelse(
-            VSSTRESN >= P95,
-            90 + 10*pnorm((VSSTRESN - P95)/Sigma),
+          AVAL := ifelse(
+            {{ analysis_var }} >= P95,
+            90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
           )
         )
