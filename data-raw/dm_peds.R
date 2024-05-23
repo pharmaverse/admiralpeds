@@ -1,4 +1,4 @@
-# Dataset: dm_ped
+# Dataset: dm_peds
 # Description: Create DM test SDTM dataset for pediatric studies
 
 # Load libraries -----
@@ -38,13 +38,7 @@ dm_peds <- dm_subset %>%
 
 # Variable labels ----
 attr(dm_peds$BRTHDTC, "label") <- "Date/Time of Birth"
-
-# get common column names
-common_cols <- seq_along(intersect(names(dm_peds), names(dm)))
-# Apply label
-lapply(common_cols, function(x) {
-  attr(dm_peds[[common_cols[x]]], "label") <- attr(dm[[common_cols[x]]], "label")
-})
+attr(dm_peds$AGE, "label") <- "Age"
 
 # Label dataset ----
 attr(dm_peds, "label") <- "Demographics"

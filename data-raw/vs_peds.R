@@ -1,5 +1,5 @@
-# Dataset: vs_ped
-# Description: VS test SDTM dataset for pediatric studies
+# Dataset: vs_peds
+# Description: Create VS test SDTM dataset for pediatric studies
 
 # Load libraries -----
 library(dplyr)
@@ -10,9 +10,9 @@ library(pharmaversesdtm)
 data("vs")
 
 # Convert blank to NA ----
-# vs <- convert_blanks_to_na(vs)
+vs <- convert_blanks_to_na(vs)
 
-# Subset to 5 patients present in dm_peds ----
+# Subset to 5 patients present in dm_peds and only keep WEIGHT records ----
 vs_subset <- vs %>%
   filter(USUBJID %in% c(
     "01-701-1015", "01-701-1023", "01-701-1028",
@@ -20,27 +20,24 @@ vs_subset <- vs %>%
   ) &
     VSTESTCD %in% c("WEIGHT"))
 
-# Filter 'WEIGHT' records for placeholder for HEIGHT and HDCIRC
+# Create placeholder records for HEIGHT, BMI and HDCIRC from the WEIGHT records
 vs_subset_height <- vs_subset %>%
-  filter(VSTESTCD == "WEIGHT") %>%
   mutate(VSTESTCD = "HEIGHT")
 vs_subset_bmi <- vs_subset %>%
-  filter(VSTESTCD == "WEIGHT") %>%
   mutate(VSTESTCD = "BMI")
 vs_subset_hdcirc <- vs_subset %>%
-  filter(VSTESTCD == "WEIGHT") %>%
   mutate(VSTESTCD = "HDCIRC")
 
-# Bind new HEIGHT records to original dataset
+# Bind all parameters records ----
 vs_subset_full <- bind_rows(
   vs_subset,
   vs_subset_height,
   vs_subset_bmi,
   vs_subset_hdcirc
 ) %>%
-  arrange(USUBJID, VISITNUM, VSTESTCD, VSDY)
+  arrange(USUBJID, VSTESTCD, VISITNUM, VSDY)
 
-# Updating subject 01-701-1015 with data for 1 year old girl
+# Updating each parameters values and units to be consistent with the ages of these dummy patients
 vs_peds <- vs_subset_full %>%
   mutate(VSSTRESN = case_when(
     USUBJID == "01-701-1015" & VSTESTCD == "WEIGHT" ~ case_when(
@@ -95,10 +92,10 @@ vs_peds <- vs_subset_full %>%
       VISIT == "WEEK 4" ~ 89.23
     ),
     USUBJID == "01-701-1023" & VSTESTCD == "HDCIRC" ~ case_when(
-      VISIT == "SCREENING 1" ~ 87.65,
-      VISIT == "BASELINE" ~ 88.25,
-      VISIT == "WEEK 2" ~ 88.75,
-      VISIT == "WEEK 4" ~ 89.23
+      VISIT == "SCREENING 1" ~ 48.34,
+      VISIT == "BASELINE" ~ 48.71,
+      VISIT == "WEEK 2" ~ 49.12,
+      VISIT == "WEEK 4" ~ 49.56
     ),
     USUBJID == "01-701-1028" & VSTESTCD == "HEIGHT" ~ case_when(
       VISIT == "SCREENING 1" ~ 98.32,
@@ -197,10 +194,11 @@ vs_peds <- vs_subset_full %>%
       VISIT == "WEEK 26" ~ 42.72
     ),
     TRUE ~ VSSTRESN
-  )) %>%
-  arrange(USUBJID, VISITNUM, VSTESTCD, VSDY) %>%
-  # vs_subset_calc <- vs_subset_full
+  ))
 
+# Derive BMI values ----
+vs_peds <- vs_peds %>%
+  arrange(USUBJID, VISITNUM, VSTESTCD, VSDY) %>%
   group_by(USUBJID, VISITNUM) %>%
   mutate(
     VSSTRESN = case_when(
@@ -212,7 +210,10 @@ vs_peds <- vs_subset_full %>%
       TRUE ~ VSSTRESN
     )
   ) %>%
-  ungroup() %>%
+  ungroup()
+
+# Formatting the output dataset ----
+vs_peds <- vs_peds %>%
   mutate(
     VSSEQ = row_number(),
     VSPOS = NA_character_,
@@ -240,15 +241,18 @@ vs_peds <- vs_subset_full %>%
     VSDY = NA_integer_,
     VSEVAL = NA_character_,
     EPOCH = "Epoch"
-  ) %>%
-  arrange(USUBJID, VISITNUM, VSTESTCD, VSDY)
+  )
 
-# get common column names with VS
-common_cols <- seq_along(intersect(names(vs_peds), names(vs)))
-# Apply label
-lapply(common_cols, function(x) {
-  attr(vs_peds[[common_cols[x]]], "label") <- attr(vs[[common_cols[x]]], "label")
-})
+# Get common column names with VS
+common_cols <- intersect(names(vs), names(vs_peds))
+
+# Copy attributes (including labels) from vs to vs_peds for common columns
+for (col in common_cols) {
+  attributes(vs_peds[[col]]) <- attributes(vs[[col]])
+}
+# Set the labels for non-commn variables
+attr(vs_peds$VSEVAL, "label") <- "Evaluator"
+attr(vs_peds$EPOCH, "label") <- "Epoch"
 
 # Label dataset ----
 attr(vs_peds, "label") <- "Vital Signs"
