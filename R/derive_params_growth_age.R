@@ -177,8 +177,16 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
-  # need to add assertion for dataset that checks columns in sex, age, age_unit are present
+  sex <- assert_symbol(enexpr(sex))
+  age <- assert_symbol(enexpr(age))
+  age_unit <- assert_symbol(enexpr(age_unit))
+  analysis_var <- assert_symbol(enexpr(analysis_var))
+
+  assert_data_frame(dataset, required_vars = expr_c(sex, age, age_unit, analysis_var))
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
+  if (bmi_cdc_correction == TRUE) {
+    assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S, P95, Sigma))
+  }
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
   assert_varval_list(set_values_to_pctl, optional = TRUE)
@@ -248,7 +256,6 @@ derive_params_growth_age <- function(dataset,
       mutate(
         AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S),
         AVAL = pnorm(AVAL) * 100,
-        # may need to add special modification for > 95th percentile
         !!!set_values_to_pctl
       )
 
