@@ -213,6 +213,8 @@
 #'   \item{\code{L}}{Box-Cox transformation for normality}
 #'   \item{\code{M}}{Median}
 #'   \item{\code{S}}{Coefficient of variation}
+#'   \item{\code{Sigma}}{Sigma}
+#'   \item(\code{P95}}{95th Percentile}
 #' }
 #' @family metadata
 #' @keywords metadata

@@ -157,6 +157,7 @@
 #'   age_unit = AGECURU,
 #'   meta_criteria = criteria,
 #'   parameter = VSTESTCD == "WEIGHT",
+#'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
 #'     PARAMCD = "WTASDS",
 #'     PARAM = "Weight-for-age z-score"
@@ -181,12 +182,13 @@ derive_params_growth_age <- function(dataset,
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-
   assert_data_frame(dataset, required_vars = expr_c(sex, age, age_unit, analysis_var))
+
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
   if (bmi_cdc_correction == TRUE) {
     assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S, P95, Sigma))
   }
+
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
   assert_varval_list(set_values_to_pctl, optional = TRUE)

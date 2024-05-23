@@ -12,6 +12,8 @@ A data frame with 438 rows and 5 variables:
 \item{\code{L}}{Box-Cox transformation for normality}
 \item{\code{M}}{Median}
 \item{\code{S}}{Coefficient of variation}
+\item{\code{Sigma}}{Sigma}
+\item(\code{P95}}{95th Percentile}
 }
 }
 \source{

@@ -171,6 +171,7 @@ derive_params_growth_age(
   age_unit = AGECURU,
   meta_criteria = criteria,
   parameter = VSTESTCD == "WEIGHT",
+  analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
     PARAMCD = "WTASDS",
     PARAM = "Weight-for-age z-score"
