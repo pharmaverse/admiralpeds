@@ -5,7 +5,8 @@
 #'
 #' @param dataset Input dataset
 #'
-#'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var` are expected to be in the dataset.
+#'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var`
+#'   are expected to be in the dataset.
 #'
 #' @param sex Sex
 #'
@@ -197,7 +198,7 @@ derive_params_growth_age <- function(dataset,
   assert_varval_list(set_values_to_sds, optional = TRUE)
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
-  if (is.null(set_values_to_sds) & is.null(set_values_to_pctl)) {
+  if (is.null(set_values_to_sds) && is.null(set_values_to_pctl)) {
     abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
@@ -238,14 +239,14 @@ derive_params_growth_age <- function(dataset,
   if (!is_empty(set_values_to_sds)) {
     add_sds <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S),
+        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
         !!!set_values_to_sds
       )
 
     if (bmi_cdc_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL := ifelse(
+          AVAL := ifelse( # nolint
             {{ analysis_var }} >= P95,
             qnorm(90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)),
             AVAL
@@ -260,7 +261,7 @@ derive_params_growth_age <- function(dataset,
   if (!is_empty(set_values_to_pctl)) {
     add_pctl <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S),
+        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
         AVAL = pnorm(AVAL) * 100,
         !!!set_values_to_pctl
       )
@@ -268,7 +269,7 @@ derive_params_growth_age <- function(dataset,
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL := ifelse(
+          AVAL := ifelse( # nolint
             {{ analysis_var }} >= P95,
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL

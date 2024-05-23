@@ -20,7 +20,8 @@ derive_params_growth_age(
 \arguments{
 \item{dataset}{Input dataset
 
-The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var} are expected to be in the dataset.}
+The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var}
+are expected to be in the dataset.}
 
 \item{sex}{Sex
 
