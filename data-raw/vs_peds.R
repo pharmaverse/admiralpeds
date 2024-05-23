@@ -31,7 +31,7 @@ vs_subset_hdcirc <- vs_subset %>%
   filter(VSTESTCD == "WEIGHT") %>%
   mutate(VSTESTCD = "HDCIRC")
 
-# Bind new HEIGHT records to original dataset
+# Bind new parameter records to original dataset
 vs_subset_full <- bind_rows(
   vs_subset,
   vs_subset_height,
