@@ -20,7 +20,7 @@ derive_params_growth_age(
 \arguments{
 \item{dataset}{Input dataset
 
-The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{VSSTRESN/AVAL} are expected to be in the dataset.}
+The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var} are expected to be in the dataset.}
 
 \item{sex}{Sex
 
@@ -63,6 +63,10 @@ e.g. \code{parameter = VSTESTCD == "WEIGHT"}.
 
 There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
 in the \code{admiralpeds} package.}
+
+\item{analysis_var}{Variable containing anthropometric measurement
+
+A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 
 \item{bmi_cdc_correction}{Extended CDC BMI-for-age correction
 

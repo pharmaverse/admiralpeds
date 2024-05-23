@@ -27,6 +27,6 @@
 #' @importFrom admiral derive_vars_dy
 #' @importFrom admiraldev assert_logical_scalar assert_character_vector assert_vars
 #'             assert_data_frame assert_character_scalar assert_numeric_vector assert_filter_cond
-#'             assert_symbol assert_expr assert_varval_list
+#'             assert_symbol assert_expr assert_varval_list expr_c
 #' @importFrom stats pnorm qnorm
 "_PACKAGE"

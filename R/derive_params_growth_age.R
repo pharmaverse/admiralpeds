@@ -5,7 +5,7 @@
 #'
 #' @param dataset Input dataset
 #'
-#'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `VSSTRESN/AVAL` are expected to be in the dataset.
+#'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var` are expected to be in the dataset.
 #'
 #' @param sex Sex
 #'
@@ -47,6 +47,10 @@
 #'
 #'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
 #'   in the `admiralpeds` package.
+#'
+#' @param analysis_var Variable containing anthropometric measurement
+#'
+#' A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
 #'
 #' @param bmi_cdc_correction Extended CDC BMI-for-age correction
 #'
