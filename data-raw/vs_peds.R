@@ -28,7 +28,7 @@ vs_subset_bmi <- vs_subset %>%
 vs_subset_hdcirc <- vs_subset %>%
   mutate(VSTESTCD = "HDCIRC")
 
-# Bind all parameters records ----
+# Bind new parameter records to original dataset
 vs_subset_full <- bind_rows(
   vs_subset,
   vs_subset_height,
