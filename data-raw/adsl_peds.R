@@ -2,7 +2,7 @@
 # Description: Create ADSL test ADaM dataset for pediatric studies
 
 # Load libraries -----
-library(pharmaversesdtm) # TODO remove when this script is moved to pharmaversesdtm
+library(pharmaversesdtm)
 library(admiral)
 library(dplyr)
 library(lubridate)
