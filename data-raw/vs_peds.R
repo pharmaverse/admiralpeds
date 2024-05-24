@@ -241,7 +241,8 @@ vs_peds <- vs_peds %>%
     VSDY = NA_integer_,
     VSEVAL = NA_character_,
     EPOCH = "Epoch"
-  )
+  ) %>%
+  arrange(USUBJID, VSTESTCD, VISITNUM, VSDY)
 
 # Get common column names with VS
 common_cols <- intersect(names(vs), names(vs_peds))
