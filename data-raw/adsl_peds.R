@@ -30,8 +30,6 @@ ex_ext <- ex %>%
 
 adsl_peds <- dm_peds %>%
   ## derive treatment variables (TRT01P, TRT01A) ----
-  # See also the "Visit and Period Variables" vignette
-  # (https://pharmaverse.github.io/admiral/articles/visits_periods.html#treatment_adsl)
   mutate(TRT01P = ARM, TRT01A = ACTARM) %>%
   ## derive treatment start date (TRTSDTM) ----
   derive_vars_merged(
