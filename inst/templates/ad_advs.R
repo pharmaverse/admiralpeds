@@ -142,11 +142,9 @@ who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
 
 # Once available to the Pharmaverse, needs to uncomment below data calls
 # data("vs_peds")
-# data("dm_peds")
 # data("adsl_peds")
 
 vs <- vs_peds
-dm <- dm_peds
 adsl <- adsl_peds %>% select(-DOMAIN)
 
 # When SAS datasets are imported into R using haven::read_sas(), missing
@@ -175,7 +173,7 @@ param_lookup <- tibble::tribble(
 )
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
-# Get list of DM vars required for derivations
+# Get list of ADSL vars required for derivations
 adsl_vars <- exprs(SEX, BRTHDTC, TRTSDT, TRTEDT, TRT01A, TRT01P)
 
 advs <- vs %>%
