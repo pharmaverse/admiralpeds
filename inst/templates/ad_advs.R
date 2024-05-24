@@ -140,11 +140,14 @@ who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
 # as needed and assign to the variables below.
 # For illustration purposes read in admiral test data
 
-data("vs_peds")
-data("dm_peds")
+# Once available to the Pharmaverse, needs to uncomment below data calls
+# data("vs_peds")
+# data("dm_peds")
+# data("adsl_peds")
 
 vs <- vs_peds
 dm <- dm_peds
+adsl <- adsl_peds %>% select(-DOMAIN)
 
 # When SAS datasets are imported into R using haven::read_sas(), missing
 # character values from SAS appear as "" characters in R, instead of appearing
@@ -173,14 +176,14 @@ param_lookup <- tibble::tribble(
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
 # Get list of DM vars required for derivations
-dm_vars <- exprs(SEX, BRTHDTC)
+adsl_vars <- exprs(SEX, BRTHDTC, TRTSDT, TRTEDT, TRT01A, TRT01P)
 
 advs <- vs %>%
-  # Join DM with VS (need BRTHDT for AAGECUR derivation)
+  # Join ADSL with VS (need BRTHDT for AAGECUR derivation)
   derive_vars_merged(
-    dataset_add = dm,
-    new_vars = dm_vars,
-    by_vars = exprs(STUDYID, USUBJID)
+    dataset_add = adsl,
+    new_vars = adsl_vars,
+    by_vars = exprs(!!!get_admiral_option("subject_keys"))
   ) %>%
   mutate(BRTHDT = convert_dtc_to_dt(
     BRTHDTC,
@@ -190,11 +193,12 @@ advs <- vs %>%
     max_dates = NULL,
     preserve = FALSE
   )) %>%
-  ## Calculate ADT ----
+  ## Calculate ADT, ADY ----
   derive_vars_dt(
     new_vars_prefix = "A",
     dtc = VSDTC
   ) %>%
+  derive_vars_dy(reference_date = TRTSDT, source_vars = exprs(ADT)) %>%
   ## Calculate Current Analysis Age AAGECUR ----
   derive_vars_duration(
     new_var = AAGECUR,
@@ -212,35 +216,28 @@ advs <- advs %>%
     new_vars = exprs(PARAMCD),
     by_vars = exprs(VSTESTCD)
   ) %>%
-  ## Calculate AVAL and AVALC ----
-  mutate(
-    AVAL = VSSTRESN,
-    AVALC = VSSTRESC
-  )
+  ## Calculate AVAL ----
+  mutate(AVAL = VSSTRESN)
 
 ## Get visit info ----
 # See also the "Visit and Period Variables" vignette
 # (https://pharmaverse.github.io/admiral/articles/visits_periods.html#visits)
-windows <- tribble(
-  ~AVISIT,     ~AVISITN,
-  "Screening",        0,
-  "Day 1",            1,
-  "6 Months",         2,
-  "12 Months",        3
-)
-
 advs <- advs %>%
   # Derive Timing
   mutate(
+    ATPTN = VSTPTNUM,
+    ATPT = VSTPT,
     AVISIT = case_when(
       str_detect(VISIT, "UNSCHED|RETRIEVAL|AMBUL") ~ NA_character_,
       !is.na(VISIT) ~ str_to_title(VISIT),
       TRUE ~ NA_character_
-    )
-  ) %>%
-  derive_vars_merged(
-    dataset_add = windows,
-    by_vars = exprs(AVISIT)
+    ),
+    AVISITN = as.numeric(case_when(
+      VISIT == "SCREENING 1" ~ "-1",
+      VISIT == "BASELINE" ~ "0",
+      str_detect(VISIT, "WEEK") ~ str_trim(str_replace(VISIT, "WEEK", "")),
+      TRUE ~ NA_character_
+    ))
   )
 
 # Add Current HEIGHT Temporary variable (in cm)
@@ -265,6 +262,7 @@ advs <- advs %>% derive_params_growth_age(
   age_unit = AAGECURU,
   meta_criteria = weight_for_age,
   parameter = VSTESTCD == "WEIGHT",
+  analysis_var = AVAL,
   set_values_to_sds = exprs(
     PARAMCD = "WTASDS",
     PARAM = "Weight-for-age z-score"
@@ -283,6 +281,7 @@ advs <- advs %>% derive_params_growth_age(
   age_unit = AAGECURU,
   meta_criteria = bmi_for_age,
   parameter = VSTESTCD == "BMI",
+  analysis_var = AVAL,
   set_values_to_sds = exprs(
     PARAMCD = "BMISDS",
     PARAM = "BMI-for-age z-score"
@@ -301,6 +300,7 @@ advs <- advs %>% derive_params_growth_age(
   age_unit = AAGECURU,
   meta_criteria = who_hc_for_age,
   parameter = VSTESTCD == "HDCIRC",
+  analysis_var = AVAL,
   set_values_to_sds = exprs(
     PARAMCD = "HDCSDS",
     PARAM = "HDC-for-age z-score"
@@ -339,12 +339,79 @@ advs <- advs %>%
   # Derive PARAM and PARAMN
   derive_vars_merged(dataset_add = select(param_lookup, -VSTESTCD), by_vars = exprs(PARAMCD))
 
+## Derive baseline flags ----
+advs <- advs %>%
+  # Calculate ABLFL
+  restrict_derivation(
+    derivation = derive_var_extreme_flag,
+    args = params(
+      by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+      order = exprs(ADT, AVISITN, VSSEQ),
+      new_var = ABLFL,
+      mode = "last"
+    ),
+    filter = (!is.na(AVAL) & ADT <= TRTSDT)
+  )
+
+## Calculate ONTRTFL ----
+advs <- advs %>%
+  derive_var_ontrtfl(
+    start_date = ADT,
+    ref_start_date = TRTSDT,
+    ref_end_date = TRTEDT,
+    filter_pre_timepoint = AVISIT == "Baseline"
+  )
+
+## ANL01FL: Flag last result within an AVISIT and ATPT for post-baseline records ----
+advs <- advs %>%
+  restrict_derivation(
+    derivation = derive_var_extreme_flag,
+    args = params(
+      new_var = ANL01FL,
+      by_vars = exprs(USUBJID, PARAMCD, AVISIT, ATPT),
+      order = exprs(ADT, AVAL),
+      mode = "last"
+    ),
+    filter = !is.na(AVISITN) & (ONTRTFL == "Y" | ABLFL == "Y")
+  )
+
+## Derive baseline information ----
+advs <- advs %>%
+  # Calculate BASE
+  derive_var_base(
+    by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+    source_var = AVAL,
+    new_var = BASE
+  ) %>%
+  # Calculate CHG
+  derive_var_chg() %>%
+  # Calculate PCHG
+  derive_var_pchg() %>%
+  # Keeping CHG/PCHG blank for pre-treatment(Screening/BASELINE) records
+  mutate(
+    CHG = case_when(
+      ONTRTFL == "Y" ~ CHG,
+      TRUE ~ NA_real_
+    ),
+    PCHG = case_when(
+      ONTRTFL == "Y" ~ PCHG,
+      TRUE ~ NA_real_
+    )
+  )
+
+# Add all ADSL variables
+advs <- advs %>%
+  derive_vars_merged(
+    dataset_add = select(adsl, !!!negate_vars(adsl_vars)),
+    by_vars = exprs(!!!get_admiral_option("subject_keys"))
+  )
+
 ## Get ASEQ ----
 advs <- advs %>%
   # Calculate ASEQ
   derive_var_obs_number(
     new_var = ASEQ,
-    by_vars = exprs(STUDYID, USUBJID),
+    by_vars = exprs(!!!get_admiral_option("subject_keys")),
     order = exprs(PARAMCD, ADT, AVISITN),
     check_type = "error"
   )
