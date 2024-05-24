@@ -61,6 +61,15 @@ adsl_peds <- dm_peds %>%
   ## derive treatment duration (TRTDURD) ----
   derive_var_trtdurd()
 
+# Variable labels ----
+attr(adsl_peds$TRTSDTM, "label") <- "Datetime of First Exposure to Treatment"
+attr(adsl_peds$TRTSTMF, "label") <- "Exposure Start Time Imputation Flag"
+attr(adsl_peds$TRTEDTM, "label") <- "Datetime of Last Exposure to Treatment"
+attr(adsl_peds$TRTETMF, "label") <- "Exposure End Time Imputation Flag"
+attr(adsl_peds$TRTSDT, "label") <- "Date of First Exposure to Treatment"
+attr(adsl_peds$TRTEDT, "label") <- "Date of Last Exposure to Treatment"
+attr(adsl_peds$TRTDURD, "label") <- "Total Treatment Duration (Days)"
+
 # Label dataset ----
 attr(adsl_peds, "label") <- "Subject Level Analysis Dataset"
 
