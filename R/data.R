@@ -226,10 +226,16 @@
 #' @family datasets
 "dm_peds"
 
-
 #' Vital signs Dataset-updated
 #'
 #' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
 #' @keywords datasets
 #' @family datasets
 "vs_peds"
+
+#' Subject Level Analysis Dataset-updated
+#'
+#' An updated ADaM ADSL dataset with pediatric patients
+#' @keywords datasets
+#' @family datasets
+"adsl_peds"
