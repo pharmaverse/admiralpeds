@@ -162,6 +162,17 @@ Remember to ensure that the unit of these matches that of the
 reference files metadata you are comparing against, i.e. "days" for
 age and "cm" for length/height in our examples here.
 
+Note that some of the standard reference files we use here have different
+units and intervals themselves. For example when you look at the "by Age"
+charts WHO provides this by day but CDC gives this every half month. So
+when converting all as days this still leaves the challenge of how to join
+when the patient's current age falls between an interval (e.g. between 24.5
+and 25 months for CDC). Here in our package functions we took the simple
+approach to use the nearest age from the metadata, rather than apply some
+form of interpolation. An alternative method you could use would be to derive
+current age according to the exact same intervals as the metadata in order for
+an exact join, but in our examples we just kept this by days.
+
 ### Derived Variables for Parameters by Age
 
 A variable for current analysis age could be achieved using the
