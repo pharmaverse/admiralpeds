@@ -5,7 +5,7 @@
 \alias{vs_peds}
 \title{Vital signs Dataset-updated}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 140 rows and 17 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 164 rows and 26 columns.
 }
 \usage{
 vs_peds
@@ -15,6 +15,7 @@ An updated SDTM VS dataset with anthropometric measurements for pediatric patien
 }
 \seealso{
 Datasets
+\code{\link{adsl_peds}},
 \code{\link{dm_peds}}
 }
 \concept{datasets}

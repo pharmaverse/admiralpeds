@@ -1,7 +1,7 @@
 # get_cdc_data Test 1: CDC weight-for-age chart
 
     Code
-      get_cdc_data("weight")
+      admiralpeds::cdc_wtage
     Output
       # A tibble: 436 x 5
            SEX   AGE      L     M     S
@@ -21,7 +21,7 @@
 # get_cdc_data Test 2: CDC weight-for-age chart
 
     Code
-      get_cdc_data("height")
+      admiralpeds::cdc_htage
     Output
       # A tibble: 436 x 5
            SEX   AGE       L     M      S
@@ -41,7 +41,7 @@
 # get_cdc_data Test 3: CDC weight-for-age chart
 
     Code
-      get_cdc_data("bmi")
+      admiralpeds::cdc_bmiage
     Output
       # A tibble: 438 x 5
            SEX   AGE     L     M      S
