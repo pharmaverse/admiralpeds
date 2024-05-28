@@ -15,6 +15,7 @@ An updated SDTM DM dataset with pediatric patients
 }
 \seealso{
 Datasets
+\code{\link{adsl_peds}},
 \code{\link{vs_peds}}
 }
 \concept{datasets}
