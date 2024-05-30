@@ -148,15 +148,15 @@ derive_params_growth_height <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, HEIGHTU, HEIGHT) %>%
     group_by(SEX, HEIGHTU) %>%
-    mutate(next_height = lead(HEIGHT)) %>% # needed for the join and filter later creates [x, y) range
+    mutate(next_height = lead(HEIGHT)) %>%
     rename(
       sex_join = SEX,
       prev_height = HEIGHT,
       heightu_join = HEIGHTU
     )
 
-  # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate height
-  # To parse out the appropriate age, create [x, y) brackets using a prev_height <= height < next_height
+  # Merge the dataset that contains the vs records and filter the L/M/S that match height
+  # To parse out the appropriate age, create [x, y) using prev_height <= height < next_height
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
