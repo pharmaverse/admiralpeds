@@ -111,14 +111,14 @@
 #' ) %>%
 #'   rename(HEIGHT = Height)
 derive_params_growth_height <- function(dataset,
-                                              sex,
-                                              height,
-                                              height_unit,
-                                              meta_criteria,
-                                              parameter,
-                                              analysis_var,
-                                              set_values_to_sds = NULL,
-                                              set_values_to_pctl = NULL) {
+                                        sex,
+                                        height,
+                                        height_unit,
+                                        meta_criteria,
+                                        parameter,
+                                        analysis_var,
+                                        set_values_to_sds = NULL,
+                                        set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
   sex <- assert_symbol(enexpr(sex))
   height <- assert_symbol(enexpr(height))
