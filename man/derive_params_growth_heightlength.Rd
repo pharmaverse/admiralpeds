@@ -28,26 +28,26 @@ A character vector is expected.
 
 Expected Values: \code{M}, \code{F}}
 
-\item{height}{Current Length/Height
+\item{height}{Current Height/length
 
-A numeric vector is expected. Note that this is the actual age at the current visit.}
+A numeric vector is expected. Note that this is the actual height at the current visit.}
 
 \item{height_unit}{Lenght/Height Unit
 A character vector is expected.
 
-Expected values: 'cm', 'in'}
+Expected values: 'cm'}
 
 \item{meta_criteria}{Metadata dataset
 
 A metadata dataset with the following expected variables:
-\code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S}
+\code{HEIGHT}, \code{HEIGHTU}, \code{SEX}, \code{L}, \code{M}, \code{S}
 
 The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 \itemize{
-\item \code{HEIGHT} - Age
-\item \code{HEIGHTU} - Age Unit
+\item \code{HEIGHT} - Height/Length
+\item \code{HEIGHTU} - Height Unit
 \item \code{SEX} - Sex
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
@@ -72,7 +72,7 @@ A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-age z-score”))}
+\verb{set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-height z-score”))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pairs
@@ -83,7 +83,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-age percentile”))}
+\verb{set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-height percentile”))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pair
@@ -123,30 +123,6 @@ who_meta_criteria <- bind_rows(
   )
 ) \%>\%
   rename(HEIGHT = Height)
-
-criteria <- bind_rows(
-  cdc_meta_criteria,
-  who_meta_criteria
-) \%>\%
-  rename(HEIGHTU = height_unit)
-
-derive_params_growth_age(
-  advs,
-  sex = SEX,
-  age = AGECUR,
-  age_unit = AGECURU,
-  meta_criteria = criteria,
-  parameter = VSTESTCD == "WEIGHT",
-  analysis_var = VSSTRESN,
-  set_values_to_sds = exprs(
-    PARAMCD = "WTASDS",
-    PARAM = "Weight-for-age z-score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "WTAPCTL",
-    PARAM = "Weight-for-age percentile"
-  )
-)
 }
 \concept{der_prm_bds_vs}
 \keyword{der_prm_bds_vs}

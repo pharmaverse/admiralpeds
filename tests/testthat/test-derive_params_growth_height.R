@@ -16,7 +16,7 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
     "F", 26, "cm", 10, 11, 12
   )
 
-  actual <- derive_params_growth_heightlength(
+  actual <- derive_params_growth_height(
     dataset = vs_data,
     sex = SEX,
     height = HEIGHT,
