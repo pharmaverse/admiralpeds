@@ -105,10 +105,58 @@ library(admiral)
 
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
-  right_join(., vs_peds, by = "USUBJID")
+  right_join(., vs_peds, by = "USUBJID") \%>\%
+  filter(USUBJID != "PEDS-1010") \%>\%
+  mutate(
+    VSDT = ymd(VSDTC),
+    BRTHDT = ymd(BRTHDTC)
+  ) \%>\%
+  derive_vars_duration(
+    new_var = AGECUR_M,
+    new_var_unit = CURU_M,
+    start_date = BRTHDT,
+    end_date = VSDT,
+    out_unit = "months",
+    trunc_out = FALSE
+  )
 
-# metadata is in cm
-who_meta_criteria <- bind_rows(
+heights <- vs_peds \%>\%
+  filter(VSTESTCD == "HEIGHT") \%>\%
+  select(USUBJID, VSSTRESN, VSSTRESU, VSDTC) \%>\%
+  rename(
+    HEIGHT = VSSTRESN,
+    HEIGHTU = VSSTRESU
+  )
+
+advs <- advs \%>\%
+  right_join(., heights, by = c("USUBJID", "VSDTC"))
+
+advs_under2 <- advs \%>\%
+  filter(AGECUR_M <= 2)
+
+advs_over2 <- advs \%>\%
+  filter(AGECUR_M > 2)
+
+who_under2 <- bind_rows(
+  (admiralpeds::who_wt_for_lgth_boys \%>\%
+    mutate(
+      SEX = "M",
+      height_unit = "cm"
+    )
+  ),
+  (admiralpeds::who_wt_for_lgth_girls \%>\%
+    mutate(
+      SEX = "F",
+      height_unit = "cm"
+    )
+  )
+) \%>\%
+  rename(
+    HEIGHT = Length,
+    HEIGHTU = height_unit
+  )
+
+who_over2 <- bind_rows(
   (admiralpeds::who_wt_for_ht_boys \%>\%
     mutate(
       SEX = "M",
@@ -122,7 +170,47 @@ who_meta_criteria <- bind_rows(
     )
   )
 ) \%>\%
-  rename(HEIGHT = Height)
+  rename(
+    HEIGHT = Height,
+    HEIGHTU = height_unit
+  )
+
+
+derive_params_growth_height(
+  advs_under2,
+  sex = SEX,
+  height = HEIGHT,
+  height_unit = HEIGHTU,
+  meta_criteria = who_under2,
+  parameter = VSTESTCD == "WEIGHT",
+  analysis_var = VSSTRESN,
+  set_values_to_sds = exprs(
+    PARAMCD = "WTASDS",
+    PARAM = "Weight-for-age z-score"
+  ),
+  set_values_to_pctl = exprs(
+    PARAMCD = "WTAPCTL",
+    PARAM = "Weight-for-age percentile"
+  )
+)
+
+derive_params_growth_height(
+  advs_over2,
+  sex = SEX,
+  height = HEIGHT,
+  height_unit = HEIGHTU,
+  meta_criteria = who_over2,
+  parameter = VSTESTCD == "WEIGHT",
+  analysis_var = VSSTRESN,
+  set_values_to_sds = exprs(
+    PARAMCD = "WTASDS",
+    PARAM = "Weight-for-age z-score"
+  ),
+  set_values_to_pctl = exprs(
+    PARAMCD = "WTAPCTL",
+    PARAM = "Weight-for-age percentile"
+  )
+)
 }
 \concept{der_prm_bds_vs}
 \keyword{der_prm_bds_vs}
