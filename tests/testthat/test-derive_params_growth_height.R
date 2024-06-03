@@ -9,7 +9,7 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
   )
 
   fake_meta <- tibble::tribble(
-    ~SEX, ~HEIGHT, ~HEIGHTU, ~L, ~M, ~S,
+    ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
     "M", 30, "cm", 1, 2, 3,
     "M", 31, "cm", 4, 5, 6,
     "F", 25, "cm", 7, 8, 9,
