@@ -235,7 +235,7 @@ derive_params_growth_height <- function(dataset,
   # Processing the data to be compatible with the dataset object
   processed_md <- meta_criteria %>%
     arrange(SEX, HEIGHT_LENGTHU, HEIGHT_LENGTH) %>%
-    group_by(SEX, HEIGHTU) %>%
+    group_by(SEX, HEIGHT_LENGTHU) %>%
     mutate(next_height = lead(HEIGHT_LENGTH)) %>%
     rename(
       sex_join = SEX,
