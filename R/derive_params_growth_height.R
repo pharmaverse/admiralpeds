@@ -213,7 +213,7 @@ derive_params_growth_height <- function(dataset,
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(dataset, required_vars = expr_c(sex, height, height_unit, analysis_var))
-  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S))
+  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S)) # nolint
 
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
