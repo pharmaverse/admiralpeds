@@ -40,14 +40,14 @@ Expected values: 'cm'}
 \item{meta_criteria}{Metadata dataset
 
 A metadata dataset with the following expected variables:
-\code{HEIGHT}, \code{HEIGHTU}, \code{SEX}, \code{L}, \code{M}, \code{S}
+\code{HEIGHT_LENGTH}, \code{HEIGHT_LENGTHU}, \code{SEX}, \code{L}, \code{M}, \code{S}
 
 The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 \itemize{
-\item \code{HEIGHT} - Height/Length
-\item \code{HEIGHTU} - Height Unit
+\item \code{HEIGHT_LENGTH} - Height/Length
+\item \code{HEIGHT_LENGTHU} - Height Unit
 \item \code{SEX} - Sex
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
@@ -152,8 +152,8 @@ who_under2 <- bind_rows(
   )
 ) \%>\%
   rename(
-    HEIGHT = Length,
-    HEIGHTU = height_unit
+    HEIGHT_LENGTH = Length,
+    HEIGHT_LENGTHU = height_unit
   )
 
 who_over2 <- bind_rows(
@@ -171,8 +171,8 @@ who_over2 <- bind_rows(
   )
 ) \%>\%
   rename(
-    HEIGHT = Height,
-    HEIGHTU = height_unit
+    HEIGHT_LENGTH = Height,
+    HEIGHT_LENGTHU = height_unit
   )
 
 

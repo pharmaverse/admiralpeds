@@ -27,13 +27,13 @@
 #' @param meta_criteria Metadata dataset
 #'
 #'   A metadata dataset with the following expected variables:
-#'   `HEIGHT`, `HEIGHTU`, `SEX`, `L`, `M`, `S`
+#'   `HEIGHT_LENGTH`, `HEIGHT_LENGTHU`, `SEX`, `L`, `M`, `S`
 #'
 #'   The dataset can be derived from CDC/WHO or user-defined datasets.
 #'   The CDC/WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
-#'   * `HEIGHT` - Height/Length
-#'   * `HEIGHTU` - Height Unit
+#'   * `HEIGHT_LENGTH` - Height/Length
+#'   * `HEIGHT_LENGTHU` - Height Unit
 #'   * `SEX` - Sex
 #'   * `L` - Power in the Box-Cox transformation to normality
 #'   * `M` - Median
@@ -139,8 +139,8 @@
 #'   )
 #' ) %>%
 #'   rename(
-#'     HEIGHT = Length,
-#'     HEIGHTU = height_unit
+#'     HEIGHT_LENGTH = Length,
+#'     HEIGHT_LENGTHU = height_unit
 #'   )
 #'
 #' who_over2 <- bind_rows(
@@ -158,8 +158,8 @@
 #'   )
 #' ) %>%
 #'   rename(
-#'     HEIGHT = Height,
-#'     HEIGHTU = height_unit
+#'     HEIGHT_LENGTH = Height,
+#'     HEIGHT_LENGTHU = height_unit
 #'   )
 #'
 #'
@@ -213,7 +213,7 @@ derive_params_growth_height <- function(dataset,
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(dataset, required_vars = expr_c(sex, height, height_unit, analysis_var))
-  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT, HEIGHTU, L, M, S))
+  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S))
 
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
@@ -231,16 +231,16 @@ derive_params_growth_height <- function(dataset,
     )
 
   # Process metadata
-  # Metadata should contain SEX, HEIGHT, HEIGHTU, L, M, S
+  # Metadata should contain SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S
   # Processing the data to be compatible with the dataset object
   processed_md <- meta_criteria %>%
-    arrange(SEX, HEIGHTU, HEIGHT) %>%
+    arrange(SEX, HEIGHT_LENGTHU, HEIGHT_LENGTH) %>%
     group_by(SEX, HEIGHTU) %>%
-    mutate(next_height = lead(HEIGHT)) %>%
+    mutate(next_height = lead(HEIGHT_LENGTH)) %>%
     rename(
       sex_join = SEX,
-      prev_height = HEIGHT,
-      heightu_join = HEIGHTU
+      prev_height = HEIGHT_LENGTH,
+      heightu_join = HEIGHT_LENGTHU
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
