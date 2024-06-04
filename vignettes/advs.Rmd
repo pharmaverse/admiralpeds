@@ -50,7 +50,6 @@ the metadata.
 library(admiral)
 library(admiralpeds)
 library(dplyr, warn.conflicts = FALSE)
-library(pharmaversesdtm)
 library(lubridate)
 library(stringr)
 library(tibble)
@@ -82,10 +81,10 @@ with the [CDC recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
 
 So, the first step here needed is to combine the various metadata by parameter
 and ensuring gender and age are shown in a consistent way. We do this using the
-following code:
+following code for BMI as an example:
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE (1 example only!)
+# ADD CODE FROM TEMPLATE (BMI example only!)
 ```
 
 Here is how the combined metadata now looks for the age ranges around 2 years
@@ -154,7 +153,7 @@ vs <- filter(vs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01
 ## Derive Additional Variables for Pediatrics Measures {#derive_vars}
 
 In order to be able to compare against the reference files we need to
-know each child's age or length/height respectively at the time of each
+know each child's age and length/height respectively at the time of each
 vital signs assessment. So these need to be first derived as variables
 in your ADVS.
 
