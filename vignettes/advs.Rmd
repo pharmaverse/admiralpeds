@@ -20,8 +20,8 @@ library(admiraldev)
 # Introduction
 
 This article describes creating a vital signs ADaM for pediatric clinical
-trials. The main focus is around growth development chart parameter
-derivations.
+trials. The main focus is around Anthropometric indicators (i.e. growth
+development chart) parameter derivations.
 
 We advise you first consult the `{admiral}`
 [Creating a BDS Finding ADaM vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
@@ -37,8 +37,8 @@ otherwise specified.*
 
 * [Metadata](#metadata)
 * [Initial ADVS Set-up](#advs_start)
-* [Derive Additional Variables for Pediatrics Measures](#derive_vars)
-* [Derive Additional Parameters for Pediatrics Measures](#derive_params)
+* [Derive Additional Variables for Anthropometric indicators](#derive_vars)
+* [Derive Additional Parameters for Anthropometric indicators](#derive_params)
 * [Remaining ADVS Set-up](#advs_end)
 
 ## Metadata {#metadata}
@@ -150,7 +150,7 @@ vs <- convert_blanks_to_na(vs_peds)
 vs <- filter(vs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
 ```
 
-## Derive Additional Variables for Pediatrics Measures {#derive_vars}
+## Derive Additional Variables for Anthropometric indicators {#derive_vars}
 
 In order to be able to compare against the reference files we need to
 know each child's age and length/height respectively at the time of each
@@ -190,7 +190,7 @@ following code:
 # ADD CODE FROM TEMPLATE
 ```
 
-## Derive Additional Parameters for Pediatrics Measures {#derive_params}
+## Derive Additional Parameters for Anthropometric indicators {#derive_params}
 
 Now we get to the most important section where we show how to create the
 new records for each derived pediatrics parameter. Only certain examples
