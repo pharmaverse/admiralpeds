@@ -113,7 +113,6 @@ library(admiral)
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
   right_join(., vs_peds, by = "USUBJID") \%>\%
-  filter(USUBJID != "PEDS-1010") \%>\%
   mutate(
     VSDT = ymd(VSDTC),
     BRTHDT = ymd(BRTHDTC)
