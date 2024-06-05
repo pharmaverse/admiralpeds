@@ -1,6 +1,6 @@
 # Name: ADVS
 #
-# Label: Vital Signs Analysis Dataset for Pediatric Trials
+# Label: Vital Signs Analysis Dataset including Anthropometric indicators for Pediatric Trials
 #
 # Input: adsl, vs
 #        WHO_bmi_for_age_boys, WHO_bmi_for_age_girls, cdc_bmiage,
@@ -10,6 +10,7 @@
 #        who_wt_for_ht_boys, who_wt_for_ht_girls, who_wt_for_lgth_boys, who_wt_for_lgth_girls
 
 library(admiral)
+library(admiralpeds)
 library(dplyr)
 library(lubridate)
 library(stringr)
@@ -115,7 +116,7 @@ who_hc_for_age <- who_hc_for_age_boys %>%
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
-## WHO - WEIGHT for HEIGHT/HEIGHT ----
+## WHO - WEIGHT for LENGTH/HEIGHT ----
 data(who_wt_for_ht_boys)
 data(who_wt_for_ht_girls)
 data(who_wt_for_lgth_boys)
@@ -167,18 +168,16 @@ param_lookup <- tibble::tribble(
   "HEIGHT", "HEIGHT", "Height (cm)", 2,
   "BMI", "BMI", "Body Mass Index(kg/m^2)", 3,
   "HDCIRC", "HDCIRC", "Head Circumference (cm)", 4,
-  NA_character_, "WTASDS", "Weight-for-age z-score", 5,
-  NA_character_, "WTAPCTL", "Weight-for-age percentile", 6,
-  NA_character_, "BMISDS", "BMI-for-age z-score", 7,
-  NA_character_, "BMIPCTL", "BMI-for-age percentile", 8,
-  NA_character_, "HDCSDS", "HDC-for-age z-score", 9,
-  NA_character_, "HDCPCTL", "HDC-for-age percentile", 10,
-  NA_character_, "WGTHSDS", "Weight-for-length/height Z-Score", 11,
-  NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 12,
-  NA_character_, "BMIHSDS", "BMI-for-length/height Z-Score", 13,
-  NA_character_, "BMIHPCTL", "BMI-for-length/height Percentile", 14,
-  NA_character_, "HDCHSDS", "HDC-for-length/height Z-Score", 15,
-  NA_character_, "HDCHPCTL", "HDC-for-length/height Percentile", 16
+  NA_character_, "WGTASDS", "Weight-for-age z-score", 5,
+  NA_character_, "WGTAPCTL", "Weight-for-age percentile", 6,
+  NA_character_, "HGTSDS", "Height-for-age z-score", 7,
+  NA_character_, "HGTPCTL", "Height-for-age percentile", 8,
+  NA_character_, "BMISDS", "BMI-for-age z-score", 9,
+  NA_character_, "BMIPCTL", "BMI-for-age percentile", 10,
+  NA_character_, "HDCSDS", "HDC-for-age z-score", 11,
+  NA_character_, "HDCPCTL", "HDC-for-age percentile", 12,
+  NA_character_, "WGTHSDS", "Weight-for-length/height Z-Score", 13,
+  NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 14
 )
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
 
@@ -190,30 +189,25 @@ advs <- vs %>%
   derive_vars_merged(
     dataset_add = adsl,
     new_vars = adsl_vars,
-    by_vars = exprs(!!!get_admiral_option("subject_keys"))
+    by_vars = get_admiral_option("subject_keys")
   ) %>%
-  mutate(BRTHDT = convert_dtc_to_dt(
-    BRTHDTC,
-    highest_imputation = "n",
-    date_imputation = "first",
-    min_dates = NULL,
-    max_dates = NULL,
-    preserve = FALSE
-  )) %>%
+  ## Calculate BRTHDT ----
+  derive_vars_dt(
+    new_vars_prefix = "BRTH",
+    dtc = BRTHDTC
+  ) %>%
   ## Calculate ADT, ADY ----
   derive_vars_dt(
     new_vars_prefix = "A",
     dtc = VSDTC
   ) %>%
   derive_vars_dy(reference_date = TRTSDT, source_vars = exprs(ADT)) %>%
-  ## Calculate Current Analysis Age AAGECUR ----
+  ## Calculate Current Analysis Age AAGECUR and unit AAGECURU ----
   derive_vars_duration(
     new_var = AAGECUR,
     new_var_unit = AAGECURU,
     start_date = BRTHDT,
-    end_date = ADT,
-    out_unit = "DAYS",
-    trunc_out = FALSE
+    end_date = ADT
   )
 
 advs <- advs %>%
@@ -247,83 +241,90 @@ advs <- advs %>%
     ))
   )
 
-# Add Current HEIGHT Temporary variable (in cm)
-## Calculate Current HEIGHT/LENGTH at each time point Temporary variable----
-hgttmp <- advs %>%
-  filter((PARAMCD == "HEIGHT" | PARAMCD == "LENGTH") & VSSTRESU == "cm") %>%
-  select(STUDYID, USUBJID, HGTTMP = AVAL, HGTTMPU = VSSTRESU, AVISIT)
-
+# Derive Current HEIGHT/LENGTH at each time point Temporary variable----
 advs <- advs %>%
   derive_vars_merged(
-    dataset_add = hgttmp,
-    by_vars = exprs(STUDYID, USUBJID, AVISIT)
+    dataset_add = advs,
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    filter_add = PARAMCD == "HEIGHT" & VSSTRESU == "cm",
+    new_vars = exprs(HGTTMP = AVAL, HGTTMPU = VSSTRESU)
   )
 
-## Merge ADVS to the chosen Growth metadata as an input to meta_criteria ----
-## Calculate z-scores/percentiles
-## Calculate Weight for AGE z-score and Percentile ----
-## Note: PARAMN needs to be updated.
-advs_age <- advs %>% derive_params_growth_age(
-  sex = SEX,
-  age = AAGECUR,
-  age_unit = AAGECURU,
-  meta_criteria = weight_for_age,
-  parameter = VSTESTCD == "WEIGHT",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "WTASDS",
-    PARAM = "Weight-for-age z-score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "WTAPCTL",
-    PARAM = "Weight-for-age percentile"
+# Merge ADVS to the chosen Growth metadata as an input to meta_criteria ----
+## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts ----
+## For Height/Weight/BMI/Head Circumference by Age ----
+advs_age <- advs %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR,
+    age_unit = AAGECURU,
+    meta_criteria = weight_for_age,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGTASDS",
+      PARAM = "Weight-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGTAPCTL",
+      PARAM = "Weight-for-age percentile"
+    )
+  ) %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR,
+    age_unit = AAGECURU,
+    meta_criteria = height_for_age,
+    parameter = VSTESTCD == "HEIGHT",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "HGTSDS",
+      PARAM = "Height-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "HGTPCTL",
+      PARAM = "Height-for-age percentile"
+    )
+  ) %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR,
+    age_unit = AAGECURU,
+    meta_criteria = bmi_for_age,
+    parameter = VSTESTCD == "BMI",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "BMISDS",
+      PARAM = "BMI-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "BMIPCTL",
+      PARAM = "BMI-for-age percentile"
+    )
+  ) %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR,
+    age_unit = AAGECURU,
+    meta_criteria = who_hc_for_age,
+    parameter = VSTESTCD == "HDCIRC",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "HDCSDS",
+      PARAM = "HDC-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "HDCPCTL",
+      PARAM = "HDC-for-age percentile"
+    )
   )
-)
 
-## Calculate BMI for AGE z-score and Percentile ----
-## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
-advs_age <- advs_age %>% derive_params_growth_age(
-  sex = SEX,
-  age = AAGECUR,
-  age_unit = AAGECURU,
-  meta_criteria = bmi_for_age,
-  parameter = VSTESTCD == "BMI",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "BMISDS",
-    PARAM = "BMI-for-age z-score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "BMIPCTL",
-    PARAM = "BMI-for-age percentile"
-  )
-)
-
-## Calculate Head Circumference for AGE z-score and Percentile ----
-## Note: PARAMN needs to be updated for z-score and percentile in final dataset.
-advs_age <- advs_age %>% derive_params_growth_age(
-  sex = SEX,
-  age = AAGECUR,
-  age_unit = AAGECURU,
-  meta_criteria = who_hc_for_age,
-  parameter = VSTESTCD == "HDCIRC",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "HDCSDS",
-    PARAM = "HDC-for-age z-score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "HDCPCTL",
-    PARAM = "HDC-for-age percentile"
-  )
-)
-
-## Calculate Z-Score and percentile parameters for Height/Length ----
+## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts ----
 message("To derive height/length parameters, below function needs to call separately
         for Height and Length based on the input data and current age of the patient,
         as it depends on your CRF guidelines.")
 
-# For WEIGHT, use measure=LENGTH for patient current age < 2 years
+### Use measure=LENGTH for patient current age < 2 years ----
 advs_lgth <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
@@ -343,7 +344,7 @@ advs_lgth <- advs %>%
     )
   )
 
-# For WEIGHT, use measure=HEIGHT for patient current age >= 2 years
+### Use measure=HEIGHT for patient current age >= 2 years ----
 advs_ht <- advs %>%
   filter(AAGECUR >= 730.5) %>%
   derive_params_growth_height(
@@ -363,92 +364,11 @@ advs_ht <- advs %>%
     )
   )
 
-# For BMI, use measure=LENGTH for patient current age < 2 years
-BMI_lgth <- derive_params_growth_height(
-  dataset = advs_lgth %>% select(-MEASURE),
-  sex = SEX,
-  height = HGTTMP,
-  height_unit = HGTTMPU,
-  meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "LENGTH"),
-  parameter = VSTESTCD == "BMI",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "BMIHSDS",
-    PARAM = "BMI-for-length/height Z-Score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "BMIHPCTL",
-    PARAM = "BMI-for-length/height Percentile"
-  )
-) %>%
-  filter(PARAMCD %in% c("BMIHSDS", "BMIHPCTL"))
-
-# For BMI, use measure=HEIGHT for patient current age >= 2 years
-BMI_ht <- derive_params_growth_height(
-  dataset = advs_ht %>% select(-MEASURE),
-  sex = SEX,
-  height = HGTTMP,
-  height_unit = HGTTMPU,
-  meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "HEIGHT"),
-  parameter = VSTESTCD == "BMI",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "BMIHSDS",
-    PARAM = "BMI-for-length/height Z-Score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "BMIHPCTL",
-    PARAM = "BMI-for-length/height Percentile"
-  )
-) %>%
-  filter(PARAMCD %in% c("BMIHSDS", "BMIHPCTL"))
-
-# For HEAD CIRCUMFERENCE, use measure=LENGTH for patient current age < 2 years
-HDC_lgth <- derive_params_growth_height(
-  dataset = advs_lgth %>% select(-MEASURE),
-  sex = SEX,
-  height = HGTTMP,
-  height_unit = HGTTMPU,
-  meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "LENGTH"),
-  parameter = VSTESTCD == "HDCIRC",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "HDCHSDS",
-    PARAM = "HDC-for-length/height Z-Score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "HDCHPCTL",
-    PARAM = "HDC-for-length/height Percentile"
-  )
-) %>%
-  filter(PARAMCD %in% c("HDCHSDS", "HDCHPCTL"))
-
-# For HEAD CIRCUMFERENCE, use measure=HEIGHT for patient current age >= 2 years
-HDC_ht <- derive_params_growth_height(
-  dataset = advs_ht %>% select(-MEASURE),
-  sex = SEX,
-  height = HGTTMP,
-  height_unit = HGTTMPU,
-  meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "HEIGHT"),
-  parameter = VSTESTCD == "HDCIRC",
-  analysis_var = AVAL,
-  set_values_to_sds = exprs(
-    PARAMCD = "HDCHSDS",
-    PARAM = "HDC-for-length/height Z-Score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "HDCHPCTL",
-    PARAM = "HDC-for-length/height Percentile"
-  )
-) %>%
-  filter(PARAMCD %in% c("HDCHSDS", "HDCHPCTL"))
-
-## Combine the records for Weight, BMI and Head Circumference for Height/Length ----
+## Combine the records for Weight by Height/Length ----
 advs <- advs_age %>%
   bind_rows(
     advs_lgth %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL")),
-    advs_ht %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL")),
-    BMI_lgth, BMI_ht, HDC_lgth, HDC_ht
+    advs_ht %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
   )
 
 ## Add PARAM/PARAMN ----
@@ -469,28 +389,6 @@ advs <- advs %>%
       mode = "last"
     ),
     filter = (!is.na(AVAL) & ADT <= TRTSDT)
-  )
-
-## Calculate ONTRTFL ----
-advs <- advs %>%
-  derive_var_ontrtfl(
-    start_date = ADT,
-    ref_start_date = TRTSDT,
-    ref_end_date = TRTEDT,
-    filter_pre_timepoint = AVISIT == "Baseline"
-  )
-
-## ANL01FL: Flag last result within an AVISIT and ATPT for post-baseline records ----
-advs <- advs %>%
-  restrict_derivation(
-    derivation = derive_var_extreme_flag,
-    args = params(
-      new_var = ANL01FL,
-      by_vars = exprs(USUBJID, PARAMCD, AVISIT, ATPT),
-      order = exprs(ADT, AVAL),
-      mode = "last"
-    ),
-    filter = !is.na(AVISITN) & (ONTRTFL == "Y" | ABLFL == "Y")
   )
 
 ## Derive baseline information ----
@@ -517,11 +415,33 @@ advs <- advs %>%
     )
   )
 
+## Calculate ONTRTFL ----
+advs <- advs %>%
+  derive_var_ontrtfl(
+    start_date = ADT,
+    ref_start_date = TRTSDT,
+    ref_end_date = TRTEDT,
+    filter_pre_timepoint = AVISIT == "Baseline"
+  )
+
+## ANL01FL: Flag last result within an AVISIT and ATPT for post-baseline records ----
+advs <- advs %>%
+  restrict_derivation(
+    derivation = derive_var_extreme_flag,
+    args = params(
+      new_var = ANL01FL,
+      by_vars = exprs(USUBJID, PARAMCD, AVISIT, ATPT),
+      order = exprs(ADT, AVAL),
+      mode = "last"
+    ),
+    filter = !is.na(AVISITN) & (ONTRTFL == "Y" | ABLFL == "Y")
+  )
+
 # Add all ADSL variables
 advs <- advs %>%
   derive_vars_merged(
     dataset_add = select(adsl, !!!negate_vars(adsl_vars)),
-    by_vars = exprs(!!!get_admiral_option("subject_keys"))
+    by_vars = get_admiral_option("subject_keys")
   )
 
 ## Get ASEQ ----
@@ -529,13 +449,10 @@ advs <- advs %>%
   # Calculate ASEQ
   derive_var_obs_number(
     new_var = ASEQ,
-    by_vars = exprs(!!!get_admiral_option("subject_keys")),
+    by_vars = get_admiral_option("subject_keys"),
     order = exprs(PARAMCD, ADT, AVISITN),
     check_type = "error"
   )
-
-# Convert blanks to NA also for derived parameters
-advs <- convert_blanks_to_na(advs)
 
 # Final Steps, Select final variables and Add labels
 # This process will be based on your metadata, no example given for this reason
