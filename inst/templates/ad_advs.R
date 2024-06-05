@@ -402,18 +402,7 @@ advs <- advs %>%
   # Calculate CHG
   derive_var_chg() %>%
   # Calculate PCHG
-  derive_var_pchg() %>%
-  # Keeping CHG/PCHG blank for pre-treatment(Screening/BASELINE) records
-  mutate(
-    CHG = case_when(
-      ONTRTFL == "Y" ~ CHG,
-      TRUE ~ NA_real_
-    ),
-    PCHG = case_when(
-      ONTRTFL == "Y" ~ PCHG,
-      TRUE ~ NA_real_
-    )
-  )
+  derive_var_pchg()
 
 ## Calculate ONTRTFL ----
 advs <- advs %>%
