@@ -2,7 +2,7 @@
 % Please edit documentation in R/derive_params_growth_height.R
 \name{derive_params_growth_height}
 \alias{derive_params_growth_height}
-\title{Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts}
+\title{Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height) based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
@@ -19,7 +19,7 @@ derive_params_growth_height(
 \arguments{
 \item{dataset}{Input dataset
 
-The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var}
+The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
 
 \item{sex}{Sex
@@ -61,8 +61,7 @@ for which we want growth derivations:
 
 e.g. \code{parameter = VSTESTCD == "WEIGHT"}.
 
-There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
-in the \code{admiralpeds} package.}
+There is WHO metadata available for Weight available in the \code{admiralpeds} package.}
 
 \item{analysis_var}{Variable containing anthropometric measurement
 
@@ -72,7 +71,7 @@ A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-height z-score”))}
+\verb{set_values_to_sds(exprs(PARAMCD = “WTASDS”, PARAM = “Weight-for-height z-score”))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pairs
@@ -83,7 +82,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-height percentile”))}
+\verb{set_values_to_pctl(exprs(PARAMCD = “WTAPCTL”, PARAM = “Weight-for-height percentile”))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pair
@@ -94,8 +93,8 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 The input dataset additional records with the new parameter added.
 }
 \description{
-Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
-for Weight/BMI/Head Circumference by Height/Length
+Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height) based on Standard Growth Charts
+for Weight by Height/Length
 }
 \examples{
 library(dplyr)
@@ -106,14 +105,13 @@ library(admiral)
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
   right_join(., vs_peds, by = "USUBJID") \%>\%
-  filter(USUBJID != "PEDS-1010") \%>\%
   mutate(
     VSDT = ymd(VSDTC),
     BRTHDT = ymd(BRTHDTC)
   ) \%>\%
   derive_vars_duration(
-    new_var = AGECUR_M,
-    new_var_unit = CURU_M,
+    new_var = AAGECUR,
+    new_var_unit = AAGECURU,
     start_date = BRTHDT,
     end_date = VSDT,
     out_unit = "months",
@@ -124,18 +122,18 @@ heights <- vs_peds \%>\%
   filter(VSTESTCD == "HEIGHT") \%>\%
   select(USUBJID, VSSTRESN, VSSTRESU, VSDTC) \%>\%
   rename(
-    HEIGHT = VSSTRESN,
-    HEIGHTU = VSSTRESU
+    HGTTMP = VSSTRESN,
+    HGTTMPU = VSSTRESU
   )
 
 advs <- advs \%>\%
   right_join(., heights, by = c("USUBJID", "VSDTC"))
 
 advs_under2 <- advs \%>\%
-  filter(AGECUR_M <= 2)
+  filter(AAGECUR <= 24)
 
 advs_over2 <- advs \%>\%
-  filter(AGECUR_M > 2)
+  filter(AAGECUR > 24)
 
 who_under2 <- bind_rows(
   (admiralpeds::who_wt_for_lgth_boys \%>\%
@@ -179,36 +177,36 @@ who_over2 <- bind_rows(
 derive_params_growth_height(
   advs_under2,
   sex = SEX,
-  height = HEIGHT,
-  height_unit = HEIGHTU,
+  height = HGTTMP,
+  height_unit = HGTTMPU,
   meta_criteria = who_under2,
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
     PARAMCD = "WTASDS",
-    PARAM = "Weight-for-age z-score"
+    PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
     PARAMCD = "WTAPCTL",
-    PARAM = "Weight-for-age percentile"
+    PARAM = "Weight-for-height percentile"
   )
 )
 
 derive_params_growth_height(
   advs_over2,
   sex = SEX,
-  height = HEIGHT,
-  height_unit = HEIGHTU,
+  height = HGTTMP,
+  height_unit = HGTTMPU,
   meta_criteria = who_over2,
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
     PARAMCD = "WTASDS",
-    PARAM = "Weight-for-age z-score"
+    PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
     PARAMCD = "WTAPCTL",
-    PARAM = "Weight-for-age percentile"
+    PARAM = "Weight-for-height percentile"
   )
 )
 }
