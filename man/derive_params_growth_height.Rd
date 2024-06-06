@@ -32,7 +32,7 @@ Expected Values: \code{M}, \code{F}}
 
 A numeric vector is expected. Note that this is the actual height at the current visit.}
 
-\item{height_unit}{Lenght/Height Unit
+\item{height_unit}{Height/Length Unit
 A character vector is expected.
 
 Expected values: 'cm'}
@@ -42,12 +42,12 @@ Expected values: 'cm'}
 A metadata dataset with the following expected variables:
 \code{HEIGHT_LENGTH}, \code{HEIGHT_LENGTHU}, \code{SEX}, \code{L}, \code{M}, \code{S}
 
-The dataset can be derived from CDC/WHO or user-defined datasets.
-The CDC/WHO growth chart metadata datasets are available in the package and will
+The dataset can be derived from WHO or user-defined datasets.
+The WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 \itemize{
 \item \code{HEIGHT_LENGTH} - Height/Length
-\item \code{HEIGHT_LENGTHU} - Height Unit
+\item \code{HEIGHT_LENGTHU} - Height/Length Unit
 \item \code{SEX} - Sex
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
@@ -82,7 +82,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_pctl(exprs(PARAMCD = “WTAPCTL”, PARAM = “Weight-for-height percentile”))}
+\verb{set_values_to_pctl(exprs(PARAMCD = “WTHPCTL”, PARAM = “Weight-for-height percentile”))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pair
@@ -114,8 +114,7 @@ advs <- dm_peds \%>\%
     new_var_unit = AAGECURU,
     start_date = BRTHDT,
     end_date = VSDT,
-    out_unit = "months",
-    trunc_out = FALSE
+    out_unit = "months"
   )
 
 heights <- vs_peds \%>\%
@@ -183,11 +182,11 @@ derive_params_growth_height(
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "WTASDS",
+    PARAMCD = "WTHSDS",
     PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WTAPCTL",
+    PARAMCD = "WTHPCTL",
     PARAM = "Weight-for-height percentile"
   )
 )
@@ -201,11 +200,11 @@ derive_params_growth_height(
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "WTASDS",
+    PARAMCD = "WTHSDS",
     PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WTAPCTL",
+    PARAMCD = "WTHPCTL",
     PARAM = "Weight-for-height percentile"
   )
 )

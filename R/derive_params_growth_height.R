@@ -18,7 +18,7 @@
 #'
 #'   A numeric vector is expected. Note that this is the actual height at the current visit.
 #'
-#' @param height_unit Lenght/Height Unit
+#' @param height_unit Height/Length Unit
 #
 #'   A character vector is expected.
 #'
@@ -29,11 +29,11 @@
 #'   A metadata dataset with the following expected variables:
 #'   `HEIGHT_LENGTH`, `HEIGHT_LENGTHU`, `SEX`, `L`, `M`, `S`
 #'
-#'   The dataset can be derived from CDC/WHO or user-defined datasets.
-#'   The CDC/WHO growth chart metadata datasets are available in the package and will
+#'   The dataset can be derived from WHO or user-defined datasets.
+#'   The WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
 #'   * `HEIGHT_LENGTH` - Height/Length
-#'   * `HEIGHT_LENGTHU` - Height Unit
+#'   * `HEIGHT_LENGTHU` - Height/Length Unit
 #'   * `SEX` - Sex
 #'   * `L` - Power in the Box-Cox transformation to normality
 #'   * `M` - Median
@@ -67,7 +67,7 @@
 #'
 #'  The specified variables are set to the specified values for the new
 #'  observations. For example,
-#'   `set_values_to_pctl(exprs(PARAMCD = “WTAPCTL”, PARAM = “Weight-for-height percentile”))`
+#'   `set_values_to_pctl(exprs(PARAMCD = “WTHPCTL”, PARAM = “Weight-for-height percentile”))`
 #'  defines the parameter code and parameter.
 #'
 #' *Permitted Values*: List of variable-value pair
@@ -101,8 +101,7 @@
 #'     new_var_unit = AAGECURU,
 #'     start_date = BRTHDT,
 #'     end_date = VSDT,
-#'     out_unit = "months",
-#'     trunc_out = FALSE
+#'     out_unit = "months"
 #'   )
 #'
 #' heights <- vs_peds %>%
@@ -170,11 +169,11 @@
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
-#'     PARAMCD = "WTASDS",
+#'     PARAMCD = "WTHSDS",
 #'     PARAM = "Weight-for-height z-score"
 #'   ),
 #'   set_values_to_pctl = exprs(
-#'     PARAMCD = "WTAPCTL",
+#'     PARAMCD = "WTHPCTL",
 #'     PARAM = "Weight-for-height percentile"
 #'   )
 #' )
@@ -188,11 +187,11 @@
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
-#'     PARAMCD = "WTASDS",
+#'     PARAMCD = "WTHSDS",
 #'     PARAM = "Weight-for-height z-score"
 #'   ),
 #'   set_values_to_pctl = exprs(
-#'     PARAMCD = "WTAPCTL",
+#'     PARAMCD = "WTHPCTL",
 #'     PARAM = "Weight-for-height percentile"
 #'   )
 #' )
