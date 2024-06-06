@@ -174,8 +174,8 @@ param_lookup <- tibble::tribble(
   NA_character_, "HGTPCTL", "Height-for-age percentile", 8,
   NA_character_, "BMISDS", "BMI-for-age z-score", 9,
   NA_character_, "BMIPCTL", "BMI-for-age percentile", 10,
-  NA_character_, "HDCSDS", "HDC-for-age z-score", 11,
-  NA_character_, "HDCPCTL", "HDC-for-age percentile", 12,
+  NA_character_, "HDCSDS", "Head Circumference-for-age z-score", 11,
+  NA_character_, "HDCPCTL", "Head Circumference-for-age percentile", 12,
   NA_character_, "WGTHSDS", "Weight-for-length/height Z-Score", 13,
   NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 14
 )
@@ -246,7 +246,7 @@ advs <- advs %>%
   derive_vars_merged(
     dataset_add = advs,
     by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
-    filter_add = PARAMCD == "HEIGHT" & VSSTRESU == "cm",
+    filter_add = PARAMCD == "HEIGHT" & toupper(VSSTRESU) == "CM",
     new_vars = exprs(HGTTMP = AVAL, HGTTMPU = VSSTRESU)
   )
 
