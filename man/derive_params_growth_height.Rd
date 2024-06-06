@@ -2,7 +2,8 @@
 % Please edit documentation in R/derive_params_growth_height.R
 \name{derive_params_growth_height}
 \alias{derive_params_growth_height}
-\title{Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height) based on Standard Growth Charts}
+\title{Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length)
+based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
@@ -93,8 +94,8 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 The input dataset additional records with the new parameter added.
 }
 \description{
-Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height) based on Standard Growth Charts
-for Weight by Height/Length
+Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Lenght)
+based on Standard Growth Charts for Weight by Height/Length
 }
 \examples{
 library(dplyr)
