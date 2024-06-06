@@ -419,7 +419,7 @@ advs <- advs %>%
     derivation = derive_var_extreme_flag,
     args = params(
       new_var = ANL01FL,
-      by_vars = exprs(USUBJID, PARAMCD, AVISIT, ATPT),
+      by_vars = c(get_admiral_option("subject_keys"), exprs(PARAMCD, AVISIT, ATPT)),
       order = exprs(ADT, AVAL),
       mode = "last"
     ),
