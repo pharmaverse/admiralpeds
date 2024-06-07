@@ -94,7 +94,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 The input dataset additional records with the new parameter added.
 }
 \description{
-Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Lenght)
+Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length)
 based on Standard Growth Charts for Weight by Height/Length
 }
 \examples{

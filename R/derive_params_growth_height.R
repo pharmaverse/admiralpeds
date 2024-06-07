@@ -1,7 +1,7 @@
 #' Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length)
 #' based on Standard Growth Charts
 #'
-#' Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Lenght)
+#' Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length)
 #' based on Standard Growth Charts for Weight by Height/Length
 #'
 #' @param dataset Input dataset
