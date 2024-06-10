@@ -116,30 +116,33 @@ who_hc_for_age <- who_hc_for_age_boys %>%
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
-## WHO - WEIGHT for LENGTH/HEIGHT ----
-data(who_wt_for_ht_boys)
-data(who_wt_for_ht_girls)
+## WHO - WEIGHT for LENGTH ----
 data(who_wt_for_lgth_boys)
 data(who_wt_for_lgth_girls)
 
-who_wt_for_ht_lgth <- who_wt_for_ht_boys %>%
-  mutate(SEX = "M") %>%
-  bind_rows(who_wt_for_ht_girls %>%
-    mutate(SEX = "F")) %>%
-  mutate(
-    MEASURE = "HEIGHT",
-    HEIGHT_LENGTHU = "cm"
-  ) %>%
-  rename(HEIGHT_LENGTH = Height) %>%
-  bind_rows(who_wt_for_lgth_boys %>%
+who_wt_for_lgth <- who_wt_for_lgth_boys %>%
     mutate(SEX = "M") %>%
     bind_rows(who_wt_for_lgth_girls %>%
       mutate(SEX = "F")) %>%
     mutate(
       MEASURE = "LENGTH",
-      HEIGHT_LENGTHU = "cm"
+      LENGTHU = "cm"
     ) %>%
-    rename(HEIGHT_LENGTH = Length))
+    rename(LENGTH = Length)
+
+## WHO - WEIGHT for LENGTH/HEIGHT ----
+data(who_wt_for_ht_boys)
+data(who_wt_for_ht_girls)
+
+who_wt_for_ht <- who_wt_for_ht_boys %>%
+  mutate(SEX = "M") %>%
+  bind_rows(who_wt_for_ht_girls %>%
+              mutate(SEX = "F")) %>%
+  mutate(
+    MEASURE = "HEIGHT",
+    HEIGHTU = "cm"
+  ) %>%
+  rename(HEIGHT = Height)
 
 # Load source datasets ----
 
@@ -331,7 +334,7 @@ advs_ht_lgth <- advs %>%
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
-    meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "LENGTH"),
+    meta_criteria = who_wt_for_lgth,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = AVAL,
     set_values_to_sds = exprs(
@@ -349,7 +352,7 @@ advs_ht_lgth <- advs %>%
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
-      meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "HEIGHT"),
+      meta_criteria = who_wt_for_ht,
       parameter = VSTESTCD == "WEIGHT",
       analysis_var = AVAL,
       set_values_to_sds = exprs(
