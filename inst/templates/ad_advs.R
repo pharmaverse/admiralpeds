@@ -124,11 +124,9 @@ who_wt_for_lgth <- who_wt_for_lgth_boys %>%
     mutate(SEX = "M") %>%
     bind_rows(who_wt_for_lgth_girls %>%
       mutate(SEX = "F")) %>%
-    mutate(
-      MEASURE = "LENGTH",
-      LENGTHU = "cm"
+    mutate(HEIGHT_LENGTHU = "cm"
     ) %>%
-    rename(LENGTH = Length)
+    rename(HEIGHT_LENGTH = Length)
 
 ## WHO - WEIGHT for LENGTH/HEIGHT ----
 data(who_wt_for_ht_boys)
@@ -138,11 +136,9 @@ who_wt_for_ht <- who_wt_for_ht_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_ht_girls %>%
               mutate(SEX = "F")) %>%
-  mutate(
-    MEASURE = "HEIGHT",
-    HEIGHTU = "cm"
+  mutate(HEIGHT_LENGTHU = "cm"
   ) %>%
-  rename(HEIGHT = Height)
+  rename(HEIGHT_LENGTH = Height)
 
 # Load source datasets ----
 
