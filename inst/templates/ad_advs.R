@@ -325,7 +325,7 @@ message("To derive height/length parameters, below function needs to call separa
         as it depends on your CRF guidelines.")
 
 ### Use measure=LENGTH for patient current age < 2 years ----
-advs_lgth <- advs %>%
+advs_ht_lgth <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
     sex = SEX,
@@ -342,34 +342,29 @@ advs_lgth <- advs %>%
       PARAMCD = "WGTHPCTL",
       PARAM = "Weight-for-length/height Percentile"
     )
-  )
-
-### Use measure=HEIGHT for patient current age >= 2 years ----
-advs_ht <- advs %>%
-  filter(AAGECUR >= 730.5) %>%
-  derive_params_growth_height(
-    sex = SEX,
-    height = HGTTMP,
-    height_unit = HGTTMPU,
-    meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "HEIGHT"),
-    parameter = VSTESTCD == "WEIGHT",
-    analysis_var = AVAL,
-    set_values_to_sds = exprs(
-      PARAMCD = "WGTHSDS",
-      PARAM = "Weight-for-length/height Z-Score"
-    ),
-    set_values_to_pctl = exprs(
-      PARAMCD = "WGTHPCTL",
-      PARAM = "Weight-for-length/height Percentile"
-    )
-  )
+  ) %>%
+  # Use measure=HEIGHT for patient current age >= 2 years
+  bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
+    derive_params_growth_height(
+      sex = SEX,
+      height = HGTTMP,
+      height_unit = HGTTMPU,
+      meta_criteria = who_wt_for_ht_lgth %>% filter(MEASURE == "HEIGHT"),
+      parameter = VSTESTCD == "WEIGHT",
+      analysis_var = AVAL,
+      set_values_to_sds = exprs(
+        PARAMCD = "WGTHSDS",
+        PARAM = "Weight-for-length/height Z-Score"
+      ),
+      set_values_to_pctl = exprs(
+        PARAMCD = "WGTHPCTL",
+        PARAM = "Weight-for-length/height Percentile"
+      )
+    ))
 
 ## Combine the records for Weight by Height/Length ----
 advs <- advs_age %>%
-  bind_rows(
-    advs_lgth %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL")),
-    advs_ht %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL"))
-  )
+  bind_rows(advs_ht_lgth %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL")))
 
 ## Add PARAM/PARAMN ----
 advs <- advs %>%
