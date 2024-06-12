@@ -33,6 +33,10 @@
 #'   The dataset can be derived from WHO or user-defined datasets.
 #'   The WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
+#'
+#'   The datasets `who_wt_for_lgth_boys` and `who_wt_for_lgth_girls` are for subjects with age < 730.5 days.
+#'   The datasets `who_wt_for_ht_boys` and `who_wt_for_ht_girls` are for subjects with age >= 730.5 days.
+#'
 #'   * `HEIGHT_LENGTH` - Height/Length
 #'   * `HEIGHT_LENGTHU` - Height/Length Unit
 #'   * `SEX` - Sex
@@ -48,6 +52,7 @@
 #'   e.g. `parameter = VSTESTCD == "WEIGHT"`.
 #'
 #'   There is WHO metadata available for Weight available in the `admiralpeds` package.
+#'   Weight measures are expected to be in the unit "kg".
 #'
 #' @param analysis_var Variable containing anthropometric measurement
 #'
@@ -102,7 +107,7 @@
 #'     new_var_unit = AAGECURU,
 #'     start_date = BRTHDT,
 #'     end_date = VSDT,
-#'     out_unit = "months"
+#'     out_unit = "days"
 #'   )
 #'
 #' heights <- vs_peds %>%
@@ -117,10 +122,10 @@
 #'   right_join(., heights, by = c("USUBJID", "VSDTC"))
 #'
 #' advs_under2 <- advs %>%
-#'   filter(AAGECUR <= 24)
+#'   filter(AAGECUR < 730)
 #'
 #' advs_over2 <- advs %>%
-#'   filter(AAGECUR > 24)
+#'   filter(AAGECUR >= 730.5)
 #'
 #' who_under2 <- bind_rows(
 #'   (admiralpeds::who_wt_for_lgth_boys %>%
@@ -161,7 +166,7 @@
 #'   )
 #'
 #'
-#' derive_params_growth_height(
+#' advs_under2 <- derive_params_growth_height(
 #'   advs_under2,
 #'   sex = SEX,
 #'   height = HGTTMP,
@@ -179,7 +184,7 @@
 #'   )
 #' )
 #'
-#' derive_params_growth_height(
+#' advs_over2 <- derive_params_growth_height(
 #'   advs_over2,
 #'   sex = SEX,
 #'   height = HGTTMP,
@@ -196,6 +201,8 @@
 #'     PARAM = "Weight-for-height percentile"
 #'   )
 #' )
+#'
+#' bind_rows(advs_under2, advs_over2)
 derive_params_growth_height <- function(dataset,
                                         sex,
                                         height,
