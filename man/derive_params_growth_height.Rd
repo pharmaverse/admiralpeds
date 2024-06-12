@@ -47,8 +47,8 @@ The dataset can be derived from WHO or user-defined datasets.
 The WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 
-The datasets \code{who_wt_for_lgth_boys} and \code{who_wt_for_lgth_girls} are for subjects with age < 730.5 days.
-The datasets \code{who_wt_for_ht_boys} and \code{who_wt_for_ht_girls} are for subjects with age >= 730.5 days.
+Datasets \code{who_wt_for_lgth_boys} and \code{who_wt_for_lgth_girls} are for subjects with age < 730.5 days.
+Datasets \code{who_wt_for_ht_boys} and \code{who_wt_for_ht_girls} are for subjects with age >= 730.5 days.
 \itemize{
 \item \code{HEIGHT_LENGTH} - Height/Length
 \item \code{HEIGHT_LENGTHU} - Height/Length Unit
