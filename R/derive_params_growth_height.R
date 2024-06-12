@@ -34,8 +34,8 @@
 #'   The WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
 #'
-#'   Datasets `who_wt_for_lgth_boys` and `who_wt_for_lgth_girls` are for subjects with age < 730.5 days.
-#'   Datasets `who_wt_for_ht_boys` and `who_wt_for_ht_girls` are for subjects with age >= 730.5 days.
+#'   Datasets `who_wt_for_lgth_boys`/`who_wt_for_lgth_girls` are for subject age < 730.5 days.
+#'   Datasets `who_wt_for_ht_boys`/`who_wt_for_ht_girls` are for subjects age >= 730.5 days.
 #'
 #'   * `HEIGHT_LENGTH` - Height/Length
 #'   * `HEIGHT_LENGTHU` - Height/Length Unit
