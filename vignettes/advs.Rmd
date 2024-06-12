@@ -102,21 +102,22 @@ no equivalent for >2 years of age are provided by CDC.
 
 ### Reference Files for Weight by Length/Height
 
-WHO provides additional standards for weight by length/height instead of
-age. For these we again combined the metadata for gender and additionally
-made clear which records refer to length vs height. We do this using the
-following code:
+WHO provides additional standards for weight by body length and weight by
+height, instead of age. For these we again combined the metadata for gender
+so that we have a single reference file by body length and a single reference
+file by height. We also give the values and units consistent variable names
+so that we can pass either metadata into the same function. We do this using
+the following code:
 
 ```{r eval=TRUE}
 # ADD CODE FROM TEMPLATE
 ```
 
-Here is how the combined metadata now looks for length or height of 65cm
-to show how the by length and by height standards have been combined:
+Here is how the by height metadata now looks for a height of 65cm:
 
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
-  who_wt_for_ht_lgth,
+  who_wt_for_ht,
   filter = HEIGHT_LENGTH == 65
 )
 ```
@@ -218,32 +219,36 @@ files you prefer.
 
 ### Derived Weight by Length/Height
 
-Parameters for Weight by Length/Height z-score and percentile could be
-achieved using the following code:
+Parameters for Weight by Height z-score and percentile could be
+achieved using the following code where it assumes the "HEIGHT" parameter
+is always collected as standing height (rather than body length). You'll
+notice the function is very similar to that used above, but now using height
+instead of age.
+
+```{r eval=FALSE}
+# ADD SINGLE CALL VERSION (PARAM = Weight by Height, metadata = height only)
+```
+
+However, if you had a study where children <2 years of age were
+included then likely there would be different data collection rules
+around whether body length or height was collected. This is important
+here given each measure has it's own WHO reference file.
+In such a case for Weight by Length/Height you would need to call the
+function twice dependent on the child's age, once using the body length
+reference file and then once for height.
+
+We consulted with an acting pediatrician who advised that rarely
+they are guided as to which measure to take and it depends mainly on the
+age at which the child is able to stand (2 years being the average) as
+well as the preference of the measurer. So here in our package template
+and example function calls below, we have assumed that what was provided
+in the "HEIGHT" parameter data was actually body length up to the age of 2
+and then height from then onwards. If you have strict CRF (case report form)
+guidelines here then you could adjust via the filtering by current age.
 
 ```{r eval=TRUE}
 # ADD CODE FROM TEMPLATE
 ```
-
-This function is slightly more complex as we had to add flexibility to
-allow for different data collection rules around whether body length or
-height was collected. Given each has it's own reference file. In our
-case we consulted with an acting pediatrician who advised that rarely
-they are guided as to which to take and it depends mainly on the age
-at which the child is able to stand (2 years being the average) as
-well as the preference of the measurer. So here we have assumed that
-what was provided in the "HEIGHT" data was actually body length up to
-the age of 2 and then height from then onwards. If you have strict
-CRF (case report form) guidelines here then you could adjust the above
-rules via the `height_age` argument. For example, if body length was
-always to be taken until children are 1000 days old then you'd set
-`height_age = 1000`.
-
-However, if your pediatrics trial for example was in older patients
-where true height was only ever collected (instead of body length) then
-you could leave the `height_age` argument NULL and instead only supply
-the by height reference files in the metadata as per the `meta_criteria`
-argument.
 
 ## Remaining ADVS Set-up {#advs_end}
 
