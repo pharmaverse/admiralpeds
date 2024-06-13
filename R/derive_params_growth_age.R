@@ -163,11 +163,11 @@
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
-#'     PARAMCD = "WTASDS",
+#'     PARAMCD = "WGASDS",
 #'     PARAM = "Weight-for-age z-score"
 #'   ),
 #'   set_values_to_pctl = exprs(
-#'     PARAMCD = "WTAPCTL",
+#'     PARAMCD = "WGAPCTL",
 #'     PARAM = "Weight-for-age percentile"
 #'   )
 #' )
