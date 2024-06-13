@@ -31,9 +31,9 @@ previous version of {admiralpeds} was released.
     pediatrics-specific ADaM datasets in R in a modular manner.
 -   All functions are created based upon the ADaM Implementation Guide
     and aim to facilitate the programming of ADaM dataset standards.
--   Initially the package will focus on child growth/development
-    charts.
-  
+-   Initially the package will focus on Anthropometric indicators (i.e.
+    child growth/development charts).
+
 ## Expectations
 
 `{admiralpeds}` is expected to complement `{admiral}` and provide
