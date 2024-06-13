@@ -187,11 +187,11 @@ advs_under2 <- derive_params_growth_height(
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "WTHSDS",
+    PARAMCD = "WGHSDS",
     PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WTHPCTL",
+    PARAMCD = "WGHPCTL",
     PARAM = "Weight-for-height percentile"
   )
 )
@@ -205,11 +205,11 @@ advs_over2 <- derive_params_growth_height(
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "WTHSDS",
+    PARAMCD = "WGHSDS",
     PARAM = "Weight-for-height z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WTHPCTL",
+    PARAMCD = "WGHPCTL",
     PARAM = "Weight-for-height percentile"
   )
 )

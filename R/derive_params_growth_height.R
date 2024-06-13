@@ -175,11 +175,11 @@
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
-#'     PARAMCD = "WTHSDS",
+#'     PARAMCD = "WGHSDS",
 #'     PARAM = "Weight-for-height z-score"
 #'   ),
 #'   set_values_to_pctl = exprs(
-#'     PARAMCD = "WTHPCTL",
+#'     PARAMCD = "WGHPCTL",
 #'     PARAM = "Weight-for-height percentile"
 #'   )
 #' )
@@ -193,11 +193,11 @@
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
 #'   set_values_to_sds = exprs(
-#'     PARAMCD = "WTHSDS",
+#'     PARAMCD = "WGHSDS",
 #'     PARAM = "Weight-for-height z-score"
 #'   ),
 #'   set_values_to_pctl = exprs(
-#'     PARAMCD = "WTHPCTL",
+#'     PARAMCD = "WGHPCTL",
 #'     PARAM = "Weight-for-height percentile"
 #'   )
 #' )
