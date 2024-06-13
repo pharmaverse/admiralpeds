@@ -217,10 +217,14 @@ our default case from this package this is taking WHO standards for children
 user are free to supply any other choice of metadata here from the reference
 files you prefer.
 
+For BMI parameters only, you'll notice from the code above that we have set
+`bmi_cdc_correction = TRUE`. This is because we opted to use the CDC
+developed extended percentiles (>95%) to monitor high BMI values here.
+
 ### Derived Weight by Length/Height
 
 Parameters for Weight by Height z-score and percentile could be
-achieved using the following code where it assumes the "HEIGHT" parameter
+achieved using the following code, where it assumes the "HEIGHT" parameter
 is always collected as standing height (rather than body length). You'll
 notice the function is very similar to that used above, but now using height
 instead of age.
@@ -261,7 +265,3 @@ variables such as analysis flags are all covered in the `{admiral}`
 ADaM | Sourcing Command
 ---- | --------------
 ADVS | `admiral::use_ad_template("ADVS", package = "admiralpeds")`
-
-Reminders:
-See outline doc notes
-ADD NOTE from David for BMI: CDC BMI percentiles >95 are calculated differently than this <95th percentile.
