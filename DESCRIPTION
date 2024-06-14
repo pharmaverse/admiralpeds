@@ -1,7 +1,7 @@
 Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.1.0.9012
+Version: 0.1.0.9013
 Authors@R: 
     person("Ross", "Farrugia", , "ross.farrugia@roche.com", role = c("aut", "cre"))
 Description: A toolbox for programming Clinical Data Standards Interchange
