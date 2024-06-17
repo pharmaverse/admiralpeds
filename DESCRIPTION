@@ -2,8 +2,21 @@ Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
 Version: 0.1.0.9015
-Authors@R: 
-    person("Ross", "Farrugia", , "ross.farrugia@roche.com", role = c("aut", "cre"))
+Authors@R:
+    person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre")),
+    person("Ross", "Farrugia", role = "aut"),
+    person("Zelos", "Zhu", role = "aut"),
+    person("Sukalpo", "Saha", role = "aut"),
+    person("Lina", "Patil", role = "aut"),
+    person("Samia", "Kabi", role = "aut"),
+    person("Laura", "Liao", role = "ctb"),
+    person("Remigiusz", "Kudlacz", role = "ctb"),
+    person("Pierre", "Wallet", role = "ctb"),
+    person("Amin", "Sherzad", role = "ctb"),
+    person("David", "Freedman", role = "ctb"),
+    person("F. Hoffmann-La Roche AG", role = c("cph", "fnd")),
+    person("Cytel", role = c("cph", "fnd")),
+    person("Pfizer Inc.", role = c("cph", "fnd"))
 Description: A toolbox for programming Clinical Data Standards Interchange
     Consortium (CDISC) compliant Analysis Data Model (ADaM) datasets in R.
     ADaM datasets are a mandatory part of any New Drug or Biologics
