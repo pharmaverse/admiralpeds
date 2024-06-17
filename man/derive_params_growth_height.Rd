@@ -216,5 +216,9 @@ advs_over2 <- derive_params_growth_height(
 
 bind_rows(advs_under2, advs_over2)
 }
+\seealso{
+Vital Signs Functions for adding Parameters/Records
+\code{\link{derive_params_growth_age}()}
+}
 \concept{der_prm_bds_vs}
 \keyword{der_prm_bds_vs}
