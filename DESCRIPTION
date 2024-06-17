@@ -28,6 +28,7 @@ Suggests:
     knitr,
     lubridate (>= 1.7.4),
     pharmaversesdtm (>= 0.2.0),
+    rmarkdown,
     testthat (>= 3.0.0),
     tibble
 VignetteBuilder: 
