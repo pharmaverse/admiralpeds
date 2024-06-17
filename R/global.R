@@ -1,4 +1,5 @@
 globalVariables(c(
+  "AGEU",
   "AAGE",
   "AAGEU",
   "ABLFL",
@@ -118,7 +119,7 @@ globalVariables(c(
   "time_differential",
   "temp_flag",
   "tmp_obs_nr_filter_joined",
-  "tmp_obs_nr_filter_joined.join",
+  "tmp_obs_nr_filter_joined_join",
   "tmp_obs_nr_var_conf_flag",
   "tmp_obs_nr_var",
   "AGE",
@@ -140,5 +141,15 @@ globalVariables(c(
   "TERM_UPPER",
   "atoxgr_criteria_ctcv4",
   "DTYPE",
-  "where" # this entry should be moved to @importFrom tidyselect once we use tidyselect 1.2.0
+  "where", # this entry should be moved to @importFrom tidyselect once we use tidyselect 1.2.0
+  "ageu_join",
+  "sex_join",
+  "L",
+  "M",
+  "S",
+  "Sigma",
+  "P95",
+  "VSSTRESN",
+  "next_age",
+  "prev_age"
 ))
