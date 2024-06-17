@@ -5,7 +5,7 @@
 \alias{dm_peds}
 \title{Demographic Dataset-updated}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 9 rows and 26 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 5 rows and 26 columns.
 }
 \usage{
 dm_peds
@@ -15,6 +15,7 @@ An updated SDTM DM dataset with pediatric patients
 }
 \seealso{
 Datasets
+\code{\link{adsl_peds}},
 \code{\link{vs_peds}}
 }
 \concept{datasets}
