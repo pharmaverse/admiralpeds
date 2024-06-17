@@ -5,13 +5,15 @@
 \alias{cdc_bmiage}
 \title{CDC BMI-for-age-chart}
 \format{
-A data frame with 438 rows and 5 variables:
+A data frame with 438 rows and 7 variables:
 \describe{
 \item{\code{SEX}}{Sex: 1 = male, 2 = female}
 \item{\code{AGE}}{Age in months}
 \item{\code{L}}{Box-Cox transformation for normality}
 \item{\code{M}}{Median}
 \item{\code{S}}{Coefficient of variation}
+\item{\code{Sigma}}{Sigma}
+\item{\code{P95}}{95th Percentile}
 }
 }
 \source{
