@@ -206,13 +206,15 @@
 
 #' @title CDC BMI-for-age-chart
 #' @description BMI-for-age charts, 2 to 20.5 years
-#' @format A data frame with 438 rows and 5 variables:
+#' @format A data frame with 438 rows and 7 variables:
 #' \describe{
 #'   \item{\code{SEX}}{Sex: 1 = male, 2 = female}
 #'   \item{\code{AGE}}{Age in months}
 #'   \item{\code{L}}{Box-Cox transformation for normality}
 #'   \item{\code{M}}{Median}
 #'   \item{\code{S}}{Coefficient of variation}
+#'   \item{\code{Sigma}}{Sigma}
+#'   \item{\code{P95}}{95th Percentile}
 #' }
 #' @family metadata
 #' @keywords metadata
