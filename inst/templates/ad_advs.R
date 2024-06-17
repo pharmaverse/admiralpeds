@@ -121,12 +121,11 @@ data(who_wt_for_lgth_boys)
 data(who_wt_for_lgth_girls)
 
 who_wt_for_lgth <- who_wt_for_lgth_boys %>%
-    mutate(SEX = "M") %>%
-    bind_rows(who_wt_for_lgth_girls %>%
-      mutate(SEX = "F")) %>%
-    mutate(HEIGHT_LENGTHU = "cm"
-    ) %>%
-    rename(HEIGHT_LENGTH = Length)
+  mutate(SEX = "M") %>%
+  bind_rows(who_wt_for_lgth_girls %>%
+    mutate(SEX = "F")) %>%
+  mutate(HEIGHT_LENGTHU = "cm") %>%
+  rename(HEIGHT_LENGTH = Length)
 
 ## WHO - WEIGHT for LENGTH/HEIGHT ----
 data(who_wt_for_ht_boys)
@@ -135,9 +134,8 @@ data(who_wt_for_ht_girls)
 who_wt_for_ht <- who_wt_for_ht_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_ht_girls %>%
-              mutate(SEX = "F")) %>%
-  mutate(HEIGHT_LENGTHU = "cm"
-  ) %>%
+    mutate(SEX = "F")) %>%
+  mutate(HEIGHT_LENGTHU = "cm") %>%
   rename(HEIGHT_LENGTH = Height)
 
 # Load source datasets ----
@@ -292,6 +290,7 @@ advs_age <- advs %>%
     meta_criteria = bmi_for_age,
     parameter = VSTESTCD == "BMI",
     analysis_var = AVAL,
+    # bmi_cdc_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "BMISDS",
       PARAM = "BMI-for-age z-score"
