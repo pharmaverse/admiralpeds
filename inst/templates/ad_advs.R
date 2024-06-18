@@ -290,7 +290,7 @@ advs_age <- advs %>%
     meta_criteria = bmi_for_age,
     parameter = VSTESTCD == "BMI",
     analysis_var = AVAL,
-    # bmi_cdc_correction = TRUE,
+    bmi_cdc_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "BMISDS",
       PARAM = "BMI-for-age z-score"
