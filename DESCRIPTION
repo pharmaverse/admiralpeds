@@ -19,12 +19,12 @@ URL: https://pharmaverse.github.io/admiralpeds,
 Depends: 
     R (>= 4.1)
 Imports:
-    admiraldev (>= 1.1.0),
+    admiraldev (>= 1.0.0),
     dplyr (>= 1.0.5),
     magrittr (>= 1.5),
     rlang (>= 0.4.4)
 Suggests:
-    admiral (>= 1.1.0),
+    admiral (>= 1.0.0),
     knitr,
     lubridate (>= 1.7.4),
     pharmaversesdtm (>= 0.2.0),
