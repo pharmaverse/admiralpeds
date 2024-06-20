@@ -19,27 +19,15 @@ URL: https://pharmaverse.github.io/admiralpeds,
 Depends: 
     R (>= 4.1)
 Imports:
-    admiral (>= 1.0.0),
     admiraldev (>= 1.0.0),
     dplyr (>= 1.0.5),
-    hms (>= 0.5.3),
-    lifecycle (>= 0.1.0),
-    lubridate (>= 1.7.4),
     magrittr (>= 1.5),
-    purrr (>= 0.3.3),
-    rlang (>= 0.4.4),
-    stringr (>= 1.4.0),
-    tidyr (>= 1.0.2),
-    tidyselect (>= 1.1.0)
+    rlang (>= 0.4.4)
 Suggests:
-    diffdf,
-    DT,
-    htmltools,
+    admiral (>= 1.0.0),
     knitr,
-    methods,
+    lubridate (>= 1.7.4),
     pharmaversesdtm (>= 0.2.0),
-    reactable,
-    readxl,
     rmarkdown,
     testthat (>= 3.0.0),
     tibble
