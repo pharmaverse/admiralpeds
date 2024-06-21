@@ -4,8 +4,8 @@ output:
   rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Creating a Pediatrics ADVS ADaM}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include = FALSE}
@@ -19,32 +19,34 @@ library(admiraldev)
 
 # Introduction
 
-This article describes creating a vital signs ADaM for pediatric clinical
-trials. The main focus is around Anthropometric indicators (i.e. growth
-development chart) parameter derivations.
+This article describes creating a vital signs ADaM for pediatric
+clinical trials. The main focus is around Anthropometric indicators
+(i.e. growth development chart) parameter derivations.
 
-We advise you first consult the `{admiral}`
-[Creating a BDS Finding ADaM vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
+We advise you first consult the `{admiral}` [Creating a BDS Finding ADaM
+vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
 The programming workflow around how to create the general set-up of an
-ADVS using `{admiral}` functions is the same as this, so to save repeating
-information and maintaining the same content in two places we have instead
-opted to only focus on the pediatric-specific steps here.
+ADVS using `{admiral}` functions is the same as this, so to save
+repeating information and maintaining the same content in two places we
+have instead opted to only focus on the pediatric-specific steps here.
 
-**Note**: *All examples assume CDISC SDTM and/or ADaM format as input unless 
-otherwise specified.*
+**Note**: *All examples assume CDISC SDTM and/or ADaM format as input
+unless otherwise specified.*
 
 # Programming Workflow
 
-* [Metadata](#metadata)
-* [Initial ADVS Set-up](#advs_start)
-* [Derive Additional Variables for Anthropometric indicators](#derive_vars)
-* [Derive Additional Parameters for Anthropometric indicators](#derive_params)
-* [Remaining ADVS Set-up](#advs_end)
+-   [Metadata](#metadata)
+-   [Initial ADVS Set-up](#advs_start)
+-   [Derive Additional Variables for Anthropometric
+    indicators](#derive_vars)
+-   [Derive Additional Parameters for Anthropometric
+    indicators](#derive_params)
+-   [Remaining ADVS Set-up](#advs_end)
 
 ## Metadata {#metadata}
 
-Once the required packages have been loaded, the first step is then to prepare
-the metadata.
+Once the required packages have been loaded, the first step is then to
+prepare the metadata.
 
 ```{r message=FALSE}
 library(admiral)
@@ -52,65 +54,111 @@ library(admiralpeds)
 library(dplyr, warn.conflicts = FALSE)
 library(lubridate)
 library(stringr)
-library(tibble)
 ```
 
-Here we have made some default decisions in the package as to which metadata
-to use but you are free to replace these with any other source you prefer (as
-long as you keep the structure of the dataframe consistent - as expected by
-our downstream functions). For example, you might want to use a different
-age range selection of WHO metadata or even use International Obesity Task Force
-standards.
+Here we have made some default decisions in the package as to which
+metadata to use but you are free to replace these with any other source
+you prefer (as long as you keep the structure of the dataframe
+consistent - as expected by our downstream functions). For example, you
+might want to use a different age range selection of WHO metadata or
+even use International Obesity Task Force standards.
 
-The selection of standard reference files we included and used as metadata for
-this package are as follows:
+The selection of standard reference files we included and used as
+metadata for this package are as follows:
 
-- [2000 CDC Growth Charts](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
-- For BMI only: [2022 CDC Extended BMI-for-age Growth Charts](https://www.cdc.gov/growthcharts/extended-bmi.htm)
-- [2006 WHO Growth Standards](https://www.who.int/toolkits/child-growth-standards/standards) - Expanded Tables
+-   [2000 CDC Growth
+    Charts](https://www.cdc.gov/growthcharts/percentile_data_files.htm)
+-   For BMI only: [2022 CDC Extended BMI-for-age Growth
+    Charts](https://www.cdc.gov/growthcharts/extended-bmi.htm)
+-   [2006 WHO Growth
+    Standards](https://www.who.int/toolkits/child-growth-standards/standards) -
+    Expanded Tables
 
 ### Reference Files for Parameters by Age
 
-As growth rates and patterns differ between gender, different reference values are
-used accordingly and for different age groups.
+As growth rates and patterns differ between gender, different reference
+values are used accordingly and for different age groups.
 
-For the applicable parameters here (height/weight/BMI), we made the default decision
-to rely on the WHO standards for children <2 years of age (<730.5 days) and CDC
-standards for children >=2 years of age (>=730.5 days). This is made in accordance
-with the [CDC recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
+For the applicable parameters here (height/weight/BMI), we made the
+default decision to rely on the WHO standards for children \<2 years of
+age (\<730.5 days) and CDC standards for children \>=2 years of age
+(\>=730.5 days). This is made in accordance with the [CDC
+recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
 
-So, the first step here needed is to combine the various metadata by parameter
-and ensuring gender and age are shown in a consistent way. We do this using the
-following code for BMI as an example:
+So, the first step here needed is to combine the various metadata by
+parameter and ensuring gender and age are shown in a consistent way. We
+do this using the following code for BMI as an example:
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE (BMI example only!)
+# Default reference sources: WHO for children <2 yrs old (< 730.5 days),
+# and CDC for children >=2 yrs old (>= 730.5 days)
+data(WHO_bmi_for_age_boys)
+data(WHO_bmi_for_age_girls)
+data(cdc_bmiage)
+
+bmi_for_age <- who_bmi_for_age_boys %>%
+  filter(Day < 730.5) %>%
+  mutate(SEX = "M") %>%
+  bind_rows(who_bmi_for_age_girls %>%
+    filter(Day < 730.5) %>%
+    mutate(SEX = "F")) %>%
+  rename(AGE = Day) %>%
+  bind_rows(cdc_bmiage %>%
+    mutate(
+      SEX = case_when(
+        SEX == 1 ~ "M",
+        SEX == 2 ~ "F",
+        TRUE ~ NA_character_
+      ),
+      AGE = AGE * 30.4375
+    )) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age
+  mutate(AGEU = "DAYS") %>%
+  arrange(AGE, SEX)
 ```
 
-Here is how the combined metadata now looks for the age ranges around 2 years
-to show how the WHO and CDC standards have been combined:
+Here is how the combined metadata now looks for the age ranges around 2
+years to show how the WHO and CDC standards have been combined:
 
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   bmi_for_age,
-  filter = 728 < AGE < 750
+  filter = 728 < AGE & AGE < 750
 )
 ```
 
-Note that head circumference metadata comes only from the WHO standards, as
-no equivalent for >2 years of age are provided by CDC.
+Note that head circumference metadata comes only from the WHO standards,
+as no equivalent for \>2 years of age are provided by CDC.
 
 ### Reference Files for Weight by Length/Height
 
-WHO provides additional standards for weight by body length and weight by
-height, instead of age. For these we again combined the metadata for gender
-so that we have a single reference file by body length and a single reference
-file by height. We also give the values and units consistent variable names
-so that we can pass either metadata into the same function. We do this using
-the following code:
+WHO provides additional standards for weight by body length and weight
+by height, instead of age. For these we again combined the metadata for
+gender so that we have a single reference file by body length and a
+single reference file by height. We also give the values and units
+consistent variable names so that we can pass either metadata into the
+same function. We do this using the following code:
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE
+data(who_wt_for_lgth_boys)
+data(who_wt_for_lgth_girls)
+
+who_wt_for_lgth <- who_wt_for_lgth_boys %>%
+  mutate(SEX = "M") %>%
+  bind_rows(who_wt_for_lgth_girls %>%
+    mutate(SEX = "F")) %>%
+  mutate(HEIGHT_LENGTHU = "cm") %>%
+  rename(HEIGHT_LENGTH = Length)
+
+data(who_wt_for_ht_boys)
+data(who_wt_for_ht_girls)
+
+who_wt_for_ht <- who_wt_for_ht_boys %>%
+  mutate(SEX = "M") %>%
+  bind_rows(who_wt_for_ht_girls %>%
+    mutate(SEX = "F")) %>%
+  mutate(HEIGHT_LENGTHU = "cm") %>%
+  rename(HEIGHT_LENGTH = Height)
 ```
 
 Here is how the by height metadata now looks for a height of 65cm:
@@ -124,31 +172,90 @@ dataset_vignette(
 
 ## Initial ADVS Set-up {#advs_start}
 
-The next step would be reading in the source data, merging ADSL variables
-and deriving the usual  ADVS analysis variables. The `{admiral}`
-[Creating a BDS Finding ADaM vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html)
+The next step would be reading in the source data, merging ADSL
+variables and deriving the usual ADVS analysis variables. The
+`{admiral}` [Creating a BDS Finding ADaM
+vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html)
 gives detailed guidance on all these steps.
 
 The only difference here would be the parameter level values, which now
 include the pediatrics-specific parameters as needed - for example:
 
-`PARAMCD` | `PARAM` | `PARAMN` | `PARCAT1` | `PARCAT1N`
---------- | -------- | ------- | --------- | ----------
-BMISDS | BMI-for-age z-score | 7 | Subject Characteristic | 1
-BMIPCTL | BMI-for-age percentile | 8 | Subject Characteristic | 1
+| `PARAMCD` | `PARAM`                | `PARAMN` | `PARCAT1`              | `PARCAT1N` |
+|---------------|---------------|---------------|---------------|---------------|
+| BMISDS    | BMI-for-age z-score    | 9        | Subject Characteristic | 1          |
+| BMIPCTL   | BMI-for-age percentile | 10       | Subject Characteristic | 1          |
 
-# NEED TO ADD ALL THE CODE BLOCKS FROM THE TEMPLATE AND DECIDE WHETHER NECESSARY TO SHOW ANY IN THE VIGNETTE OR
-# JUST RUN THEM IN THE BACKGROUND (AS MOST ARE REPEATS FROM ADMIRAL ADVS TEMPLATE AND VIGNETTE ANYWAY)
-
-```{r eval=TRUE}
-data("adsl_peds")
-data("vs_peds")
-
-adsl <- adsl_peds
-vs <- convert_blanks_to_na(vs_peds)
-```
 ```{r echo=FALSE}
+data("vs_peds")
+data("adsl_peds")
+
+vs <- convert_blanks_to_na(vs_peds)
+adsl <- adsl_peds %>% select(-DOMAIN)
+
 vs <- filter(vs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
+
+param_lookup <- tibble::tribble(
+  ~VSTESTCD, ~PARAMCD, ~PARAM, ~PARAMN,
+  "WEIGHT", "WEIGHT", "Weight (kg)", 1,
+  "HEIGHT", "HEIGHT", "Height (cm)", 2,
+  "BMI", "BMI", "Body Mass Index(kg/m^2)", 3,
+  "HDCIRC", "HDCIRC", "Head Circumference (cm)", 4,
+  NA_character_, "WGTASDS", "Weight-for-age z-score", 5,
+  NA_character_, "WGTAPCTL", "Weight-for-age percentile", 6,
+  NA_character_, "HGTSDS", "Height-for-age z-score", 7,
+  NA_character_, "HGTPCTL", "Height-for-age percentile", 8,
+  NA_character_, "BMISDS", "BMI-for-age z-score", 9,
+  NA_character_, "BMIPCTL", "BMI-for-age percentile", 10,
+  NA_character_, "HDCSDS", "Head Circumference-for-age z-score", 11,
+  NA_character_, "HDCPCTL", "Head Circumference-for-age percentile", 12,
+  NA_character_, "WGTHSDS", "Weight-for-length/height Z-Score", 13,
+  NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 14
+)
+attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
+
+adsl_vars <- exprs(SEX, BRTHDTC, TRTSDT, TRTEDT, TRT01A, TRT01P)
+
+advs <- vs %>%
+  derive_vars_merged(
+    dataset_add = adsl,
+    new_vars = adsl_vars,
+    by_vars = get_admiral_option("subject_keys")
+  ) %>%
+  derive_vars_dt(
+    new_vars_prefix = "BRTH",
+    dtc = BRTHDTC
+  ) %>%
+  derive_vars_dt(
+    new_vars_prefix = "A",
+    dtc = VSDTC
+  ) %>%
+  derive_vars_dy(reference_date = TRTSDT, source_vars = exprs(ADT))
+
+advs <- advs %>%
+  derive_vars_merged_lookup(
+    dataset_add = param_lookup %>% filter(!is.na(VSTESTCD)),
+    new_vars = exprs(PARAMCD),
+    by_vars = exprs(VSTESTCD)
+  ) %>%
+  mutate(AVAL = VSSTRESN)
+
+advs <- advs %>%
+  mutate(
+    ATPTN = VSTPTNUM,
+    ATPT = VSTPT,
+    AVISIT = case_when(
+      str_detect(VISIT, "UNSCHED|RETRIEVAL|AMBUL") ~ NA_character_,
+      !is.na(VISIT) ~ str_to_title(VISIT),
+      TRUE ~ NA_character_
+    ),
+    AVISITN = as.numeric(case_when(
+      VISIT == "SCREENING 1" ~ "-1",
+      VISIT == "BASELINE" ~ "0",
+      str_detect(VISIT, "WEEK") ~ str_trim(str_replace(VISIT, "WEEK", "")),
+      TRUE ~ NA_character_
+    ))
+  )
 ```
 
 ## Derive Additional Variables for Anthropometric indicators {#derive_vars}
@@ -158,110 +265,220 @@ know each child's age and length/height respectively at the time of each
 vital signs assessment. So these need to be first derived as variables
 in your ADVS.
 
-Remember to ensure that the unit of these matches that of the
-reference files metadata you are comparing against, i.e. "days" for
-age and "cm" for length/height in our examples here.
+Remember to ensure that the unit of these matches that of the reference
+files metadata you are comparing against, i.e. "days" for age and "cm"
+for length/height in our examples here.
 
-Note that some of the standard reference files we use here have different
-units and intervals themselves. For example when you look at the "by Age"
-charts WHO provides this by day but CDC gives this every half month. So
-when converting all as days this still leaves the challenge of how to join
-when the patient's current age falls between an interval (e.g. between 24.5
-and 25 months for CDC). Here in our package functions we took the simple
-approach to use the nearest age from the metadata, rather than apply some
-form of interpolation. An alternative method you could use would be to derive
-current age according to the exact same intervals as the metadata in order for
-an exact join, but in our examples we just kept this by days.
+Note that some of the standard reference files we use here have
+different units and intervals themselves. For example when you look at
+the "by Age" charts WHO provides this by day but CDC gives this every
+half month. So when converting all as days this still leaves the
+challenge of how to join when the patient's current age falls between an
+interval (e.g. between 24.5 and 25 months for CDC). Here in our package
+functions we took the simple approach to use the nearest age from the
+metadata, rather than apply some form of interpolation. An alternative
+method you could use would be to derive current age according to the
+exact same intervals as the metadata in order for an exact join, but in
+our examples we just kept this by days.
 
 ### Derived Variables for Parameters by Age
 
 A variable for current analysis age could be achieved using the
-following code:
+following code (you might first need to derive `BRTHDT` if not already
+available in ADSL):
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE
+# Calculate Current Analysis Age AAGECUR and unit AAGECURU
+advs <- advs %>%
+  derive_vars_duration(
+    new_var = AAGECUR,
+    new_var_unit = AAGECURU,
+    start_date = BRTHDT,
+    end_date = ADT
+  )
+```
+
+Here is how these age variables look:
+
+```{r, eval=TRUE, echo=FALSE}
+dataset_vignette(
+  advs,
+  display_vars = exprs(USUBJID, BRTHDT, ADT, AAGECUR, AAGECURU)
+)
 ```
 
 ### Derived Variables for Weight by Length/Height
 
-A variable for current analysis length/height could be achieved using the
-following code:
+Similar to the above, a variable for current analysis length/height
+could be achieved using the following code:
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE
+# Derive Current HEIGHT/LENGTH at each time point Temporary variable
+advs <- advs %>%
+  derive_vars_merged(
+    dataset_add = advs,
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    filter_add = PARAMCD == "HEIGHT" & toupper(VSSTRESU) == "CM",
+    new_vars = exprs(HGTTMP = AVAL, HGTTMPU = VSSTRESU)
+  )
 ```
 
 ## Derive Additional Parameters for Anthropometric indicators {#derive_params}
 
 Now we get to the most important section where we show how to create the
 new records for each derived pediatrics parameter. Only certain examples
-are included here, but you'll find more parameters in the example template
-script.
+are included here, but you'll find more parameters in the example
+template script.
 
 ### Derived Parameters by Age
 
-Parameters for BMI by Age z-score and percentile could be achieved using the
-following code:
+Parameters for BMI by Age z-score and percentile could be achieved using
+the following code:
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE
+## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
+## For BMI by Age
+advs <- advs %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR,
+    age_unit = AAGECURU,
+    meta_criteria = bmi_for_age,
+    parameter = VSTESTCD == "BMI",
+    analysis_var = AVAL,
+    bmi_cdc_correction = TRUE,
+    set_values_to_sds = exprs(
+      PARAMCD = "BMISDS",
+      PARAM = "BMI-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "BMIPCTL",
+      PARAM = "BMI-for-age percentile"
+    )
+  )
 ```
 
-In the rare case where only z-score or percentile was needed and not both
-then you could leave out either of the respective `set_values_to_` arguments.
+In the rare case where only z-score or percentile was needed and not
+both then you could leave out either of the respective `set_values_to_`
+arguments.
 
-Here it is important once again to remind of the importance of the metadata
-being supplied to the above function via the `meta_criteria` argument. In
-our default case from this package this is taking WHO standards for children
-<2 years of age and CDC standards for children >=2 years of age. You as the
-user are free to supply any other choice of metadata here from the reference
-files you prefer.
+Here it is important once again to remind of the importance of the
+metadata being supplied to the above function via the `meta_criteria`
+argument. In our default case from this package this is taking WHO
+standards for children \<2 years of age and CDC standards for children
+\>=2 years of age. You as the user are free to supply any other choice
+of metadata here from the reference files you prefer.
 
-For BMI parameters only, you'll notice from the code above that we have set
-`bmi_cdc_correction = TRUE`. This is because we opted to use the CDC
-developed extended percentiles (>95%) to monitor high BMI values here.
+For BMI parameters only, you'll notice from the code above that we have
+set `bmi_cdc_correction = TRUE`. This is because we opted to use the CDC
+developed extended percentiles (\>95%) to monitor high BMI values here.
+
+Here is how these newly derived parameters look:
+
+```{r, eval=TRUE, echo=FALSE}
+dataset_vignette(
+  advs,
+  display_vars = exprs(USUBJID, AAGECUR, AAGECURU, PARAMCD, PARAM, AVAL),
+  filter = PARAMCD %in% c("BMISDS", "BMIPCTL")
+)
+```
 
 ### Derived Weight by Length/Height
 
-Parameters for Weight by Height z-score and percentile could be
-achieved using the following code, where it assumes the "HEIGHT" parameter
-is always collected as standing height (rather than body length). You'll
-notice the function is very similar to that used above, but now using height
-instead of age.
+Parameters for Weight by Height z-score and percentile could be achieved
+using the following code, where it assumes the "HEIGHT" parameter is
+always collected as standing height (rather than body length). You'll
+notice the function is very similar to that used above, but now using
+height instead of age.
 
 ```{r eval=FALSE}
-# ADD SINGLE CALL VERSION (PARAM = Weight by Height, metadata = height only)
+advs <- advs %>%
+  derive_params_growth_height(
+    sex = SEX,
+    height = HGTTMP,
+    height_unit = HGTTMPU,
+    meta_criteria = who_wt_for_ht,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGTHSDS",
+      PARAM = "Weight-for-height Z-Score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGTHPCTL",
+      PARAM = "Weight-for-height Percentile"
+    )
+  )
 ```
 
-However, if you had a study where children <2 years of age were
+However, if you had a study where children \<2 years of age were
 included then likely there would be different data collection rules
 around whether body length or height was collected. This is important
-here given each measure has it's own WHO reference file.
-In such a case for Weight by Length/Height you would need to call the
-function twice dependent on the child's age, once using the body length
-reference file and then once for height.
+here given each measure has it's own WHO reference file. In such a case
+for Weight by Length/Height you would need to call the function twice
+dependent on the child's age, once using the body length reference file
+and then once for height.
 
-We consulted with an acting pediatrician who advised that rarely
-they are guided as to which measure to take and it depends mainly on the
-age at which the child is able to stand (2 years being the average) as
-well as the preference of the measurer. So here in our package template
-and example function calls below, we have assumed that what was provided
-in the "HEIGHT" parameter data was actually body length up to the age of 2
-and then height from then onwards. If you have strict CRF (case report form)
-guidelines here then you could adjust via the filtering by current age.
+We consulted with an acting pediatrician who advised that rarely they
+are guided as to which measure to take and it depends mainly on the age
+at which the child is able to stand (2 years being the average) as well
+as the preference of the measurer. So here in our package template and
+example function calls below, we have assumed that what was provided in
+the "HEIGHT" parameter data was actually body length up to the age of 2
+and then height from then onwards. If you have strict CRF (case report
+form) guidelines here then you could adjust via the filtering by current
+age.
 
 ```{r eval=TRUE}
-# ADD CODE FROM TEMPLATE
+# Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts
+# Use measure=LENGTH for patient current age < 2 years
+advs <- advs %>%
+  filter(AAGECUR < 730.5) %>%
+  derive_params_growth_height(
+    sex = SEX,
+    height = HGTTMP,
+    height_unit = HGTTMPU,
+    meta_criteria = who_wt_for_lgth,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = AVAL,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGTHSDS",
+      PARAM = "Weight-for-length/height Z-Score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGTHPCTL",
+      PARAM = "Weight-for-length/height Percentile"
+    )
+  ) %>%
+  # Use measure=HEIGHT for patient current age >= 2 years
+  bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
+    derive_params_growth_height(
+      sex = SEX,
+      height = HGTTMP,
+      height_unit = HGTTMPU,
+      meta_criteria = who_wt_for_ht,
+      parameter = VSTESTCD == "WEIGHT",
+      analysis_var = AVAL,
+      set_values_to_sds = exprs(
+        PARAMCD = "WGTHSDS",
+        PARAM = "Weight-for-length/height Z-Score"
+      ),
+      set_values_to_pctl = exprs(
+        PARAMCD = "WGTHPCTL",
+        PARAM = "Weight-for-length/height Percentile"
+      )
+    ))
 ```
 
 ## Remaining ADVS Set-up {#advs_end}
 
 All remaining steps such as merging on the parameter level values and
 variables such as analysis flags are all covered in the `{admiral}`
-[Creating a BDS Finding ADaM vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
+[Creating a BDS Finding ADaM
+vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
 
 # Example Scripts {#example}
 
-ADaM | Sourcing Command
----- | --------------
-ADVS | `admiral::use_ad_template("ADVS", package = "admiralpeds")`
+| ADaM | Sourcing Command                                            |
+|------|-------------------------------------------------------------|
+| ADVS | `admiral::use_ad_template("ADVS", package = "admiralpeds")` |
