@@ -303,7 +303,6 @@ advs_age <- advs %>%
       PARAM = "BMI-for-age percentile"
     )
   ) %>%
-  select(-Sigma, -P95) %>%
   derive_params_growth_age(
     sex = SEX,
     age = AAGECUR,
