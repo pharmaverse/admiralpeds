@@ -2,7 +2,6 @@
 
 export(derive_params_growth_age)
 export(derive_params_growth_height)
-importFrom(admiral,derive_vars_dy)
 importFrom(admiraldev,assert_character_scalar)
 importFrom(admiraldev,assert_character_vector)
 importFrom(admiraldev,assert_data_frame)

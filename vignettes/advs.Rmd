@@ -127,7 +127,13 @@ dataset_vignette(
 )
 ```
 
-Note that head circumference metadata comes only from the WHO standards,
+To help interpret this metadata: the LMS parameters are the median (M), the
+generalized coefficient of variation (S), and the power in the Box-Cox
+transformation (L). Sigma is the dispersion parameter used in the calculation of
+BMI percentiles and z-scores above the 95th percentile, and P95 represents this
+sex and age-specific 95th percentile.
+
+Note that the head circumference metadata comes only from the WHO standards,
 as no equivalent for \>2 years of age are provided by CDC.
 
 ### Reference Files for Weight by Length/Height
@@ -186,14 +192,14 @@ include the pediatrics-specific parameters as needed - for example:
 | BMISDS    | BMI-for-age z-score    | 9        | Subject Characteristic | 1          |
 | BMIPCTL   | BMI-for-age percentile | 10       | Subject Characteristic | 1          |
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 data("vs_peds")
 data("adsl_peds")
 
 vs <- convert_blanks_to_na(vs_peds)
 adsl <- adsl_peds %>% select(-DOMAIN)
 
-vs <- filter(vs, USUBJID %in% c("01-701-1015", "01-701-1023", "01-703-1086", "01-703-1096", "01-707-1037", "01-716-1024"))
+vs <- filter(vs, USUBJID %in% c("01-701-1023"))
 
 param_lookup <- tibble::tribble(
   ~VSTESTCD, ~PARAMCD, ~PARAM, ~PARAMN,
@@ -376,9 +382,10 @@ developed extended percentiles (\>95%) to monitor high BMI values here.
 Here is how these newly derived parameters look:
 
 ```{r, eval=TRUE, echo=FALSE}
+advs_display <- advs %>% select(USUBJID, AAGECUR, AAGECURU, PARAMCD, PARAM, AVAL)
+
 dataset_vignette(
-  advs,
-  display_vars = exprs(USUBJID, AAGECUR, AAGECURU, PARAMCD, PARAM, AVAL),
+  advs_display,
   filter = PARAMCD %in% c("BMISDS", "BMIPCTL")
 )
 ```
