@@ -339,7 +339,7 @@ template script.
 ### Derived Parameters by Age
 
 Parameters for BMI by Age z-score and percentile could be achieved using
-the following code:
+the `derive_params_growth_age()` function as follows:
 
 ```{r eval=TRUE}
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
@@ -395,8 +395,8 @@ dataset_vignette(
 Parameters for Weight by Height z-score and percentile could be achieved
 using the following code, where it assumes the "HEIGHT" parameter is
 always collected as standing height (rather than body length). You'll
-notice the function is very similar to that used above, but now using
-height instead of age.
+notice the `derive_params_growth_height()` function used is very similar
+to that used above, but now passing in height instead of age.
 
 ```{r eval=FALSE}
 advs <- advs %>%
