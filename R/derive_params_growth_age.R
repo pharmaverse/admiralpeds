@@ -256,7 +256,8 @@ derive_params_growth_age <- function(dataset,
             qnorm(90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)),
             AVAL
           )
-        )
+        ) %>%
+        select(-c(P95, Sigma))
     }
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
@@ -279,7 +280,8 @@ derive_params_growth_age <- function(dataset,
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
           )
-        )
+        ) %>%
+        select(-c(P95, Sigma))
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%

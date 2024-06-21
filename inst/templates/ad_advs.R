@@ -34,18 +34,18 @@ bmi_for_age <- who_bmi_for_age_boys %>%
   filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
   bind_rows(who_bmi_for_age_girls %>%
-    filter(Day < 730.5) %>%
-    mutate(SEX = "F")) %>%
+              filter(Day < 730.5) %>%
+              mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   bind_rows(cdc_bmiage %>%
-    mutate(
-      SEX = case_when(
-        SEX == 1 ~ "M",
-        SEX == 2 ~ "F",
-        TRUE ~ NA_character_
-      ),
-      AGE = AGE * 30.4375
-    )) %>%
+              mutate(
+                SEX = case_when(
+                  SEX == 1 ~ "M",
+                  SEX == 2 ~ "F",
+                  TRUE ~ NA_character_
+                ),
+                AGE = AGE * 30.4375
+              )) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -61,18 +61,18 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
   filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
   bind_rows(who_lgth_ht_for_age_girls %>%
-    filter(Day < 730.5) %>%
-    mutate(SEX = "F")) %>%
+              filter(Day < 730.5) %>%
+              mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   bind_rows(cdc_htage %>%
-    mutate(
-      SEX = case_when(
-        SEX == 1 ~ "M",
-        SEX == 2 ~ "F",
-        TRUE ~ NA_character_
-      ),
-      AGE = AGE * 30.4375
-    )) %>%
+              mutate(
+                SEX = case_when(
+                  SEX == 1 ~ "M",
+                  SEX == 2 ~ "F",
+                  TRUE ~ NA_character_
+                ),
+                AGE = AGE * 30.4375
+              )) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -88,18 +88,18 @@ weight_for_age <- who_wt_for_age_boys %>%
   filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_age_girls %>%
-    filter(Day < 730.5) %>%
-    mutate(SEX = "F")) %>%
+              filter(Day < 730.5) %>%
+              mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   bind_rows(cdc_wtage %>%
-    mutate(
-      SEX = case_when(
-        SEX == 1 ~ "M",
-        SEX == 2 ~ "F",
-        TRUE ~ NA_character_
-      ),
-      AGE = AGE * 30.4375
-    )) %>%
+              mutate(
+                SEX = case_when(
+                  SEX == 1 ~ "M",
+                  SEX == 2 ~ "F",
+                  TRUE ~ NA_character_
+                ),
+                AGE = AGE * 30.4375
+              )) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -111,7 +111,7 @@ data(who_hc_for_age_girls)
 who_hc_for_age <- who_hc_for_age_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_hc_for_age_girls %>%
-    mutate(SEX = "F")) %>%
+              mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
@@ -124,7 +124,7 @@ data(who_wt_for_lgth_girls)
 who_wt_for_lgth <- who_wt_for_lgth_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_lgth_girls %>%
-    mutate(SEX = "F")) %>%
+              mutate(SEX = "F")) %>%
   mutate(HEIGHT_LENGTHU = "cm") %>%
   rename(HEIGHT_LENGTH = Length)
 
@@ -135,7 +135,7 @@ data(who_wt_for_ht_girls)
 who_wt_for_ht <- who_wt_for_ht_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_ht_girls %>%
-    mutate(SEX = "F")) %>%
+              mutate(SEX = "F")) %>%
   mutate(HEIGHT_LENGTHU = "cm") %>%
   rename(HEIGHT_LENGTH = Height)
 
@@ -193,33 +193,33 @@ advs <- vs %>%
     by_vars = get_admiral_option("subject_keys")
   ) %>%
   ## Calculate BRTHDT ----
-  derive_vars_dt(
-    new_vars_prefix = "BRTH",
-    dtc = BRTHDTC
-  ) %>%
+derive_vars_dt(
+  new_vars_prefix = "BRTH",
+  dtc = BRTHDTC
+) %>%
   ## Calculate ADT, ADY ----
-  derive_vars_dt(
-    new_vars_prefix = "A",
-    dtc = VSDTC
-  ) %>%
+derive_vars_dt(
+  new_vars_prefix = "A",
+  dtc = VSDTC
+) %>%
   derive_vars_dy(reference_date = TRTSDT, source_vars = exprs(ADT)) %>%
   ## Calculate Current Analysis Age AAGECUR and unit AAGECURU ----
-  derive_vars_duration(
-    new_var = AAGECUR,
-    new_var_unit = AAGECURU,
-    start_date = BRTHDT,
-    end_date = ADT
-  )
+derive_vars_duration(
+  new_var = AAGECUR,
+  new_var_unit = AAGECURU,
+  start_date = BRTHDT,
+  end_date = ADT
+)
 
 advs <- advs %>%
   ## Add PARAMCD only - add PARAM etc later ----
-  derive_vars_merged_lookup(
-    dataset_add = param_lookup %>% filter(!is.na(VSTESTCD)),
-    new_vars = exprs(PARAMCD),
-    by_vars = exprs(VSTESTCD)
-  ) %>%
+derive_vars_merged_lookup(
+  dataset_add = param_lookup %>% filter(!is.na(VSTESTCD)),
+  new_vars = exprs(PARAMCD),
+  by_vars = exprs(VSTESTCD)
+) %>%
   ## Calculate AVAL ----
-  mutate(AVAL = VSSTRESN)
+mutate(AVAL = VSSTRESN)
 
 ## Get visit info ----
 # See also the "Visit and Period Variables" vignette
@@ -347,22 +347,22 @@ advs_ht_lgth <- advs %>%
   ) %>%
   # Use measure=HEIGHT for patient current age >= 2 years
   bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
-    derive_params_growth_height(
-      sex = SEX,
-      height = HGTTMP,
-      height_unit = HGTTMPU,
-      meta_criteria = who_wt_for_ht,
-      parameter = VSTESTCD == "WEIGHT",
-      analysis_var = AVAL,
-      set_values_to_sds = exprs(
-        PARAMCD = "WGTHSDS",
-        PARAM = "Weight-for-length/height Z-Score"
-      ),
-      set_values_to_pctl = exprs(
-        PARAMCD = "WGTHPCTL",
-        PARAM = "Weight-for-length/height Percentile"
-      )
-    ))
+              derive_params_growth_height(
+                sex = SEX,
+                height = HGTTMP,
+                height_unit = HGTTMPU,
+                meta_criteria = who_wt_for_ht,
+                parameter = VSTESTCD == "WEIGHT",
+                analysis_var = AVAL,
+                set_values_to_sds = exprs(
+                  PARAMCD = "WGTHSDS",
+                  PARAM = "Weight-for-length/height Z-Score"
+                ),
+                set_values_to_pctl = exprs(
+                  PARAMCD = "WGTHPCTL",
+                  PARAM = "Weight-for-length/height Percentile"
+                )
+              ))
 
 # Combine the records for Weight by Height/Length
 advs <- advs_age %>%
