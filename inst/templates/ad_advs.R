@@ -238,7 +238,7 @@ advs <- advs %>%
     ))
   )
 
-# Derive Current HEIGHT/LENGTH at each time point Temporary variable----
+# Derive Current HEIGHT/LENGTH at each time point Temporary variable ----
 advs <- advs %>%
   derive_vars_merged(
     dataset_add = advs,
