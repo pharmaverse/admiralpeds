@@ -15,9 +15,10 @@ library(dplyr)
 library(lubridate)
 library(stringr)
 
-# Creation of the Growth by Age metadata combining WHO and CDC
+# Metadata ----
 
-# Load WHO and CDC metadata datasets ----
+# Creation of the Growth by Age metadata combining WHO and CDC
+# Load WHO and CDC metadata datasets
 message("Please be aware that our default reference source in our metadata by Age is :
 - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
@@ -158,6 +159,7 @@ adsl <- adsl_peds %>% select(-DOMAIN)
 vs <- convert_blanks_to_na(vs)
 
 # Lookup tables ----
+
 # Assign PARAMCD, PARAM, and PARAMN
 param_lookup <- tibble::tribble(
   ~VSTESTCD, ~PARAMCD, ~PARAM, ~PARAMN,
@@ -177,6 +179,8 @@ param_lookup <- tibble::tribble(
   NA_character_, "WGTHPCTL", "Weight-for-length/height Percentile", 14
 )
 attr(param_lookup$VSTESTCD, "label") <- "Vital Signs Test Short Name"
+
+# Derivations ----
 
 # Get list of ADSL vars required for derivations
 adsl_vars <- exprs(SEX, BRTHDTC, TRTSDT, TRTEDT, TRT01A, TRT01P)
@@ -238,7 +242,7 @@ advs <- advs %>%
     ))
   )
 
-# Derive Current HEIGHT/LENGTH at each time point Temporary variable ----
+## Derive Current HEIGHT/LENGTH at each time point Temporary variable ----
 advs <- advs %>%
   derive_vars_merged(
     dataset_add = advs,
@@ -247,7 +251,6 @@ advs <- advs %>%
     new_vars = exprs(HGTTMP = AVAL, HGTTMPU = VSSTRESU)
   )
 
-# Merge ADVS to the chosen Growth metadata as an input to meta_criteria ----
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts ----
 ## For Height/Weight/BMI/Head Circumference by Age ----
 advs_age <- advs %>%
@@ -323,7 +326,7 @@ message("To derive height/length parameters, below function needs to call separa
 for Height and Length based on the input data and current age of the patient,
 as it depends on your CRF guidelines.")
 
-### Use measure=LENGTH for patient current age < 2 years ----
+# Use measure=LENGTH for patient current age < 2 years
 advs_ht_lgth <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
@@ -361,7 +364,7 @@ advs_ht_lgth <- advs %>%
       )
     ))
 
-## Combine the records for Weight by Height/Length ----
+# Combine the records for Weight by Height/Length
 advs <- advs_age %>%
   bind_rows(advs_ht_lgth %>% filter(PARAMCD %in% c("WGTHSDS", "WGTHPCTL")))
 
