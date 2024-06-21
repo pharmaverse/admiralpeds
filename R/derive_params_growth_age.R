@@ -268,7 +268,6 @@ derive_params_growth_age <- function(dataset,
     add_pctl <- added_records %>%
       mutate(
         AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
-        AVAL = pnorm(AVAL) * 100,
         !!!set_values_to_pctl
       )
 
@@ -279,7 +278,8 @@ derive_params_growth_age <- function(dataset,
             {{ analysis_var }} >= P95 & !is.na(P95),
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
-          )
+          ),
+          AVAL = pnorm(AVAL) * 100
         ) %>%
         select(-c(P95, Sigma))
     }
