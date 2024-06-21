@@ -24,6 +24,8 @@ navbar:
        text: Reference
        href: reference/
 
+reference:
+
 - title: Derivations for Adding Parameters/Records
 - subtitle: Vital Signs-specific
   contents:
