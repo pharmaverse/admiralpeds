@@ -19,7 +19,7 @@ library(stringr)
 
 # Load WHO and CDC metadata datasets ----
 message("Please be aware that our default reference source in our metadata by Age is :
-        - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
+- for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
 
 ## BMI for age ----
@@ -300,6 +300,7 @@ advs_age <- advs %>%
       PARAM = "BMI-for-age percentile"
     )
   ) %>%
+  select(-Sigma, -P95) %>%
   derive_params_growth_age(
     sex = SEX,
     age = AAGECUR,
@@ -319,8 +320,8 @@ advs_age <- advs %>%
 
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts ----
 message("To derive height/length parameters, below function needs to call separately
-        for Height and Length based on the input data and current age of the patient,
-        as it depends on your CRF guidelines.")
+for Height and Length based on the input data and current age of the patient,
+as it depends on your CRF guidelines.")
 
 ### Use measure=LENGTH for patient current age < 2 years ----
 advs_ht_lgth <- advs %>%
