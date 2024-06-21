@@ -377,7 +377,7 @@ advs <- advs %>%
   restrict_derivation(
     derivation = derive_var_extreme_flag,
     args = params(
-      by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+      by_vars = c(get_admiral_option("subject_keys"), exprs(PARAMCD)),
       order = exprs(ADT, AVISITN, VSSEQ),
       new_var = ABLFL,
       mode = "last"
@@ -389,7 +389,7 @@ advs <- advs %>%
 advs <- advs %>%
   # Calculate BASE
   derive_var_base(
-    by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(PARAMCD)),
     source_var = AVAL,
     new_var = BASE
   ) %>%
