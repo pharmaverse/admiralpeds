@@ -66,6 +66,12 @@
 #'   `set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-age z-score”))`
 #'  defines the parameter code and parameter.
 #'
+#'  The formula to calculate the Z-score is as follows:
+#'
+#'  \deqn{\frac{((\frac{obs}{M})^L - 1)}{L * S}}
+#'
+#'  where "obs" is the observed value for the respective anthropometric measure being calculated.
+#'
 #' *Permitted Values*: List of variable-value pairs
 #'
 #'  If left as default value, `NULL`, then parameter not derived in output dataset
@@ -246,11 +252,12 @@ derive_params_growth_age <- function(dataset,
       add_sds <- add_sds %>%
         mutate(
           AVAL := ifelse( # nolint
-            {{ analysis_var }} >= P95,
+            {{ analysis_var }} >= P95 & !is.na(P95),
             qnorm(90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)),
             AVAL
           )
-        )
+        ) %>%
+        select(-c(P95, Sigma))
     }
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
@@ -261,7 +268,6 @@ derive_params_growth_age <- function(dataset,
     add_pctl <- added_records %>%
       mutate(
         AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
-        AVAL = pnorm(AVAL) * 100,
         !!!set_values_to_pctl
       )
 
@@ -269,11 +275,13 @@ derive_params_growth_age <- function(dataset,
       add_pctl <- add_pctl %>%
         mutate(
           AVAL := ifelse( # nolint
-            {{ analysis_var }} >= P95,
+            {{ analysis_var }} >= P95 & !is.na(P95),
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
-          )
-        )
+          ),
+          AVAL = pnorm(AVAL) * 100
+        ) %>%
+        select(-c(P95, Sigma))
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
