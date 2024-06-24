@@ -65,6 +65,12 @@
 #'   `set_values_to_sds(exprs(PARAMCD = “WTASDS”, PARAM = “Weight-for-height z-score”))`
 #'  defines the parameter code and parameter.
 #'
+#'  The formula to calculate the Z-score is as follows:
+#'
+#'  \deqn{\frac{((\frac{obs}{M})^L - 1)}{L * S}}
+#'
+#'  where "obs" is the observed value for the respective anthropometric measure being calculated.
+#'
 #' *Permitted Values*: List of variable-value pairs
 #'
 #'  If left as default value, `NULL`, then parameter not derived in output dataset
