@@ -282,6 +282,9 @@ derive_params_growth_age <- function(dataset,
           AVAL = pnorm(AVAL) * 100
         ) %>%
         select(-c(P95, Sigma))
+    } else {
+      add_pctl <- add_pctl %>%
+        mutate(AVAL = pnorm(AVAL) * 100)
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
