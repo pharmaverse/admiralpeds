@@ -60,8 +60,10 @@ Here we have made some default decisions in the package as to which
 metadata to use but you are free to replace these with any other source
 you prefer (as long as you keep the structure of the dataframe
 consistent - as expected by our downstream functions). For example, you
-might want to use a different age range selection of WHO metadata or
-even use International Obesity Task Force standards.
+might want to use a different age range selection of WHO metadata
+(such as including WHO reference data for between ages [5-19
+years](https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators))
+or even alternatively the International Obesity Task Force standards.
 
 The selection of standard reference files we included and used as
 metadata for this package are as follows:
@@ -72,7 +74,7 @@ metadata for this package are as follows:
     Charts](https://www.cdc.gov/growthcharts/extended-bmi.htm)
 -   [2006 WHO Growth
     Standards](https://www.who.int/toolkits/child-growth-standards/standards) -
-    Expanded Tables
+    Expanded Tables: Birth to 5 years
 
 ### Reference Files for Parameters by Age
 
