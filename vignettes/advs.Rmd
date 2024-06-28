@@ -21,7 +21,8 @@ library(admiraldev)
 
 This article describes creating a vital signs ADaM for pediatric
 clinical trials. The main focus is around Anthropometric indicators
-(i.e. growth development chart) parameter derivations.
+(i.e. growth development chart) parameter derivations for Height, Weight, Body
+Mass Index (BMI), and Head Circumference.
 
 We advise you first consult the `{admiral}` [Creating a BDS Finding ADaM
 vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
@@ -114,12 +115,12 @@ bmi_for_age <- who_bmi_for_age_boys %>%
       ),
       AGE = AGE * 30.4375
     )) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 ```
 
-Here is how the combined metadata now looks for the age ranges around 2
+Here is how the combined metadata for BMI now looks for the age ranges around 2
 years to show how the WHO and CDC standards have been combined:
 
 ```{r, eval=TRUE, echo=FALSE}
@@ -135,8 +136,10 @@ transformation (L). Sigma is the dispersion parameter used in the calculation of
 BMI percentiles and z-scores above the 95th percentile, and P95 represents this
 sex and age-specific 95th percentile.
 
-Note that the head circumference metadata comes only from the WHO standards,
-as no equivalent for \>2 years of age are provided by CDC.
+The above example only shows the parameter BMI, but similar follows for the
+other parameters like weight and height.
+Note however that for the head circumference parameter metadata comes only from
+the WHO standards, as no equivalent for \>2 years of age are provided by CDC.
 
 ### Reference Files for Weight by Length/Height
 
@@ -293,7 +296,8 @@ our examples we just kept this by days.
 
 A variable for current analysis age could be achieved using the
 following code (you might first need to derive `BRTHDT` if not already
-available in ADSL):
+available in ADSL, including any partial date imputation rules if those are
+possible in your study data collection rules):
 
 ```{r eval=TRUE}
 # Calculate Current Analysis Age AAGECUR and unit AAGECURU
@@ -336,7 +340,7 @@ advs <- advs %>%
 Now we get to the most important section where we show how to create the
 new records for each derived pediatrics parameter. Only certain examples
 are included here, but you'll find more parameters in the example
-template script.
+template script referenced at the bottom of this vignette.
 
 ### Derived Parameters by Age
 
@@ -380,6 +384,8 @@ of metadata here from the reference files you prefer.
 For BMI parameters only, you'll notice from the code above that we have
 set `bmi_cdc_correction = TRUE`. This is because we opted to use the CDC
 developed extended percentiles (\>95%) to monitor high BMI values here.
+If you left this argument as default `FALSE` value then from the CDC metadata
+only the 2000 CDC Growth Chart for BMI would be used.
 
 Here is how these newly derived parameters look:
 
