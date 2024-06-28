@@ -1,5 +1,5 @@
 name: Feature Request
-description: Enchancement to admiral functionality
+description: Enchancement to admiralpeds functionality
 title: "Feature Request:  <Insert Issue Title Here>"
 labels: ["enhancement", "programming"]
 assignees:
@@ -8,13 +8,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this feature request!  We love keeping admiral fresh!
+        Thanks for taking the time to fill out this feature request!  We love keeping admiralpeds fresh!
   - type: textarea
     id: feature
     attributes:
       label: Feature Idea
       description: Tell us your idea in as few words as possible
-      placeholder: "`derive_var_dtm` should do x, y and z"
+      placeholder: "Function xxx should do x, y and z"
     validations:
       required: true
   - type: textarea
