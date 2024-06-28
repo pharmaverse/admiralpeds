@@ -1,19 +1,55 @@
 ---
-title: "Getting Started with admiralpeds"
+title: "Get Started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with admiralpeds}
+  %\VignetteIndexEntry{Get Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
-library(admiralpeds)
+# Introduction
+
+As this is a package extension, if you are new to `{admiral}` then the best
+place to first start reading would be the [Get
+Started](https://pharmaverse.github.io/admiral/articles/admiral.html) page. This
+extension package follows the same main idea and conventions, and re-uses many
+functions from `{admiral}`, so it is important to thoroughly understand these to
+be able to use `{admiralpeds}`.
+
+# Creating Pediatrics ADaM Datasets
+
+You can see guidance on how to create select ADaMs for pediatric clinical trials
+by reading our vignettes under the User Guides section of this site.
+
+`{admiralpeds}` also provides template R scripts as a starting point. They can be
+created by calling `use_ad_template()` from `{admiral}`, e.g.,
+
+```{r}
+library(admiral)
 ```
+
+```r
+use_ad_template(
+  adam_name = "advs",
+  save_path = "./ad_advs.R",
+  package = "admiralpeds"
+)
+```
+
+A list of all available templates can be obtained by `list_all_templates()`
+from `{admiral}`:
+
+```{r}
+list_all_templates(package = "admiralpeds")
+```
+
+# Support
+
+Support is provided via [pharmaverse Slack](https://pharmaverse.slack.com/).
