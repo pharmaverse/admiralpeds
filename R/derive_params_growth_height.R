@@ -223,8 +223,14 @@ derive_params_growth_height <- function(dataset,
   height <- assert_symbol(enexpr(height))
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-  assert_data_frame(dataset, required_vars = expr_c(sex, height, height_unit, analysis_var))
-  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S)) # nolint
+  assert_data_frame(
+    dataset,
+    required_vars = expr_c(sex, height, height_unit, analysis_var, exprs(USUBJID))
+  )
+  assert_data_frame(
+    meta_criteria,
+    required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S)
+  )
 
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
@@ -250,7 +256,7 @@ derive_params_growth_height <- function(dataset,
     mutate(next_height = lead(HEIGHT_LENGTH)) %>%
     rename(
       sex_join = SEX,
-      prev_height = HEIGHT_LENGTH,
+      meta_height = HEIGHT_LENGTH,
       heightu_join = HEIGHT_LENGTHU
     )
 
@@ -263,7 +269,11 @@ derive_params_growth_height <- function(dataset,
       by = c("sex_join", "heightu_join"),
       relationship = "many-to-many"
     ) %>%
-    filter(prev_height <= {{ height }} & {{ height }} < next_height)
+    mutate(ht_diff := abs(meta_height - {{ height }})) %>%
+    group_by(USUBJID) %>%
+    mutate(is_lowest = ht_diff == min(ht_diff)) %>%
+    filter(is_lowest)
+
 
   dataset_final <- dataset
 
@@ -276,7 +286,7 @@ derive_params_growth_height <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, heightu_join, prev_height, next_height))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -288,7 +298,7 @@ derive_params_growth_height <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, heightu_join, prev_height, next_height))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 
   return(dataset_final)
