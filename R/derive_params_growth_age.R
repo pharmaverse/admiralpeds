@@ -234,7 +234,7 @@ derive_params_growth_age <- function(dataset,
       by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
-    mutate(age_diff = abs(AGE - AGECUR)) %>%
+    mutate(age_diff := abs(AGE - {{age}})) %>%
     group_by(USUBJID) %>%
     mutate(is_lowest = age_diff == min(age_diff)) %>%
     filter(is_lowest)
