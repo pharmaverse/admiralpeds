@@ -222,6 +222,7 @@ derive_params_growth_age <- function(dataset,
     group_by(SEX, AGEU) %>%
     rename(
       sex_join = SEX,
+      metadata_age = AGE,
       ageu_join = AGEU
     )
 
@@ -234,7 +235,7 @@ derive_params_growth_age <- function(dataset,
       by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
-    mutate(age_diff := abs(AGE - {{age}})) %>%
+    mutate(age_diff := abs(metadata_age - {{age}})) %>%
     group_by(USUBJID) %>%
     mutate(is_lowest = age_diff == min(age_diff)) %>%
     filter(is_lowest)
@@ -262,7 +263,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, ageu_join, age_diff, is_lowest))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -289,7 +290,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, ageu_join, age_diff, is_lowest))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
   }
 
   return(dataset_final)
