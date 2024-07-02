@@ -192,7 +192,7 @@ derive_params_growth_age <- function(dataset,
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-  assert_data_frame(dataset, required_vars = expr_c(sex, age, age_unit, analysis_var))
+  assert_data_frame(dataset, required_vars = expr_c(USUBJID, sex, age, age_unit, analysis_var))
 
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
   if (bmi_cdc_correction == TRUE) {
@@ -220,10 +220,8 @@ derive_params_growth_age <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, AGEU, AGE) %>%
     group_by(SEX, AGEU) %>%
-    mutate(next_age = lead(AGE)) %>% # needed for the join and filter later creates [x, y) range
     rename(
       sex_join = SEX,
-      prev_age = AGE,
       ageu_join = AGEU
     )
 
@@ -236,7 +234,10 @@ derive_params_growth_age <- function(dataset,
       by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
-    filter(prev_age <= {{ age }} & {{ age }} < next_age)
+    mutate(age_diff = abs(AGE - AGECUR)) %>%
+    group_by(USUBJID) %>%
+    mutate(is_lowest = age_diff == min(age_diff)) %>%
+    filter(is_lowest)
 
   dataset_final <- dataset
 
@@ -261,7 +262,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, age_diff, is_lowest))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -288,7 +289,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, age_diff, is_lowest))
   }
 
   return(dataset_final)
