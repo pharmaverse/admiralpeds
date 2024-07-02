@@ -192,7 +192,10 @@ derive_params_growth_age <- function(dataset,
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-  assert_data_frame(dataset, required_vars = expr_c(sex, age, age_unit, analysis_var, exprs(USUBJID)))
+  assert_data_frame(
+    dataset,
+    required_vars = expr_c(sex, age, age_unit, analysis_var, exprs(USUBJID))
+  )
 
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
   if (bmi_cdc_correction == TRUE) {
@@ -235,7 +238,7 @@ derive_params_growth_age <- function(dataset,
       by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
-    mutate(age_diff := abs(metadata_age - {{age}})) %>%
+    mutate(age_diff := abs(metadata_age - {{ age }})) %>%
     group_by(USUBJID) %>%
     mutate(is_lowest = age_diff == min(age_diff)) %>%
     filter(is_lowest)
