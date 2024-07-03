@@ -1,7 +1,7 @@
 # derive_params_growth_height----
 
 ## Test 1: derive_params_growth_height works ----
-test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height works", {
+test_that("derive_params_growth_height Test 1: derive_params_growth_height works", {
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
     "1001", "M", 30, "cm", "WEIGHT", 10,
@@ -40,29 +40,31 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
   )
 })
 
-## Test 2: derive_params_growth_heightlength works for subjects that are under or over 2 years old
+## Test 2: derive_params_growth_height works for subjects that are under or over 2 years old
 ## between visits
-test_that("derive_params_growth_heightlength Test 2: derive_params_growth_height works for subjects that are under or over 2 years old between visits", { # nolint
+test_that("derive_params_growth_height Test 2: derive_params_growth_height works for subjects that are under or over 2 years old between visits", { # nolint
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN, ~AAGECUR,
-    "1001", "M", 30, "cm", "WEIGHT", 10, 407,
-    "1002", "F", 25, "cm", "WEIGHT", 100, 1276,
+    "1001", "F", 30, "cm", "WEIGHT", 10, 407,
+    "1002", "M", 25, "cm", "WEIGHT", 100, 1276,
     "1003", "F", 26, "cm", "WEIGHT", 90, 760,
     "1004", "M", 31, "cm", "WEIGHT", 50, 729
   )
 
   fake_meta_under <- tibble::tribble(
     ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
-    "M", 30, "cm", 1, 2, 3,
+    "F", 30, "cm", 1, 2, 3,
+    "F", 31, "cm", 2, 3, 4,
     "M", 31, "cm", 4, 5, 6,
     "M", 32, "cm", 6, 8, 10
   )
 
   fake_meta_over <- tibble::tribble(
     ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
-    "F", 25, "cm", 7, 8, 9,
-    "F", 26, "cm", 10, 11, 12,
-    "F", 27, "cm", 13, 14, 15
+    "M", 25, "cm", 7, 8, 9,
+    "M", 26, "cm", 10, 11, 12,
+    "F", 26, "cm", 13, 14, 15,
+    "F", 27, "cm", 15, 16, 17
   )
 
   actual_sds_under <- derive_params_growth_height(
@@ -113,8 +115,50 @@ test_that("derive_params_growth_heightlength Test 2: derive_params_growth_height
   )
 })
 
-## Test 3: derive_params_growth_heightlength handles missing height/lengths
-test_that("derive_params_growth_heightlength Test 3: derive_params_growth_height handles missing height/lengths", { # nolint
+## Test 3: derive_params_growth_height derives correct z-scores in presence of outlying height/lengths # nolint
+test_that("derive_params_growth_height Test 3: derive_params_growth_height derives correct z-scores/percentiles in presence of outlying height/lengths", { # nolint
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 45, "cm", "WEIGHT", 1.1,
+    "1002", "F", 45, "cm", "WEIGHT", 7.5,
+    "1003", "M", 65, "cm", "WEIGHT", 5.44,
+    "1004", "F", 65, "cm", "WEIGHT", 10.73
+  )
+
+  fake_meta <- tibble::tribble(
+    ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
+    "M", 45, "cm", -0.352, 2.44, 0.0918,
+    "M", 45.1, "cm", -0.352, 2.46, 0.0918,
+    "F", 45, "cm", -0.383, 2.46, 0.0903,
+    "F", 45.1, "cm", -0.383, 2.48, 0.0903,
+    "M", 65, "cm", -0.352, 7.43, 0.0822,
+    "M", 65.1, "cm", -0.352, 7.46, 0.0822,
+    "F", 65, "cm", -0.383, 7.24, 0.0911,
+    "F", 65.1, "cm", -0.383, 7.26, 0.0911
+  )
+
+  out <- derive_params_growth_height(
+    dataset = vs_data,
+    sex = SEX,
+    height = HEIGHT,
+    height_unit = HEIGHTU,
+    meta_criteria = fake_meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WT2HTZ"
+    )
+  )
+
+  actual <- filter(out, PARAMCD == "WT2HTZ") %>%
+    mutate(AVAL = round(AVAL, 2)) %>%
+    pull(AVAL)
+
+  expect_equal(actual, c(-10.02, 10.05, -4.01, 4.01))
+})
+
+## Test 4: derive_params_growth_height handles missing height/lengths
+test_that("derive_params_growth_height Test 4: derive_params_growth_height handles missing height/lengths", { # nolint
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
     "1001", "M", NA_real_, NA_character_, "WEIGHT", 10,
@@ -154,8 +198,8 @@ test_that("derive_params_growth_heightlength Test 3: derive_params_growth_height
   expect_true(is.na(actual1))
 })
 
-## Test 4: derive_params_growth_height returns expected error message
-test_that("derive_params_growth_heightlength Test 4: derive_params_growth_height returns expected error message", { # nolint
+## Test 5: derive_params_growth_height returns expected error message
+test_that("derive_params_growth_height Test 5: derive_params_growth_height returns expected error message", { # nolint
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
     "1001", "M", NA_real_, NA_character_, "WEIGHT", 10
