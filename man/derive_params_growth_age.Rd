@@ -111,10 +111,10 @@ Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standar
 for Height/Weight/BMI/Head Circumference by Age
 }
 \examples{
-library(dplyr)
-library(lubridate)
-library(rlang)
-library(admiral)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(rlang))
+suppressPackageStartupMessages(library(admiral))
 
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
