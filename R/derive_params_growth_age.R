@@ -97,10 +97,10 @@
 #' @export
 #'
 #' @examples
-#' suppressPackageStartupMessages(library(dplyr))
-#' suppressPackageStartupMessages(library(lubridate))
-#' suppressPackageStartupMessages(library(rlang))
-#' suppressPackageStartupMessages(library(admiral))
+#' library(dplyr, warn.conflicts = FALSE)
+#' library(lubridate, warn.conflicts = FALSE)
+#' library(rlang, warn.conflicts = FALSE)
+#' library(admiral, warn.conflicts = FALSE)
 #'
 #' advs <- dm_peds %>%
 #'   select(USUBJID, BRTHDTC, SEX) %>%

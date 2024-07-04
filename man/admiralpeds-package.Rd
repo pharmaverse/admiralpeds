@@ -40,6 +40,7 @@ Other contributors:
   \item F. Hoffmann-La Roche AG [copyright holder, funder]
   \item Cytel [copyright holder, funder]
   \item Pfizer Inc. [copyright holder, funder]
+  \item Mahmoud Hamza \email{mahmoud.hamza@dataclin.com} [contributor]
 }
 
 }
