@@ -19,9 +19,9 @@
 #'
 #' @return The input dataset additional interpolated records with the input dataset records
 #'
-#' @family der_prm_bds_vs
+#' @family metadata
 #'
-#' @keywords der_prm_bds_vs
+#' @keywords metadata
 #'
 #' @export
 #'
