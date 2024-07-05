@@ -89,8 +89,16 @@ age (\<730.5 days) and CDC standards for children \>=2 years of age
 recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
 
 So, the first step here needed is to combine the various metadata by
-parameter and ensuring gender and age are shown in a consistent way. We
-do this using the following code for BMI as an example:
+parameter and ensuring gender and age are shown in a consistent way.
+
+Additionally, as the CDC growth charts only offer monthly intervals we
+took advice from an ex-CDC expert in this area and made the decision in
+our template to add interpolation code so that we have a record for each
+day of age. If you prefer to rely solely on the monthly chart here, then
+you could remove the call to the `derive_interp_records()` function.
+
+We do this pre-processing of the metadata using the following code for BMI
+as an example:
 
 ```{r eval=TRUE}
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
