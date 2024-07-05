@@ -37,10 +37,10 @@ Other contributors:
   \item Pierre Wallet [contributor]
   \item Amin Sherzad [contributor]
   \item David Freedman [contributor]
+  \item Mahmoud Hamza [contributor]
   \item F. Hoffmann-La Roche AG [copyright holder, funder]
   \item Cytel [copyright holder, funder]
   \item Pfizer Inc. [copyright holder, funder]
-  \item Mahmoud Hamza \email{mahmoud.hamza@dataclin.com} [contributor]
 }
 
 }
