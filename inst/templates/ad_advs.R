@@ -45,7 +45,12 @@ bmi_for_age <- who_bmi_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       AGE = AGE * 30.4375
-    )) %>%
+    ) %>%
+    # Interpolate the AGE by SEX
+    group_by(SEX) %>%
+    # Ensure first that Age unit is "DAYS"
+    do(derive_interp_records(., parameter = "BMI")) %>%
+    ungroup()) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -72,7 +77,12 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       AGE = AGE * 30.4375
-    )) %>%
+    ) %>%
+    # Interpolate the AGE by SEX
+    group_by(SEX) %>%
+    # Ensure first that Age unit is "DAYS"
+    do(derive_interp_records(., parameter = "HEIGHT")) %>%
+    ungroup()) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -99,7 +109,12 @@ weight_for_age <- who_wt_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       AGE = AGE * 30.4375
-    )) %>%
+    ) %>%
+    # Interpolate the AGE by SEX
+    group_by(SEX) %>%
+    # Ensure first that Age unit is "DAYS"
+    do(derive_interp_records(., parameter = "WEIGHT")) %>%
+    ungroup()) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
