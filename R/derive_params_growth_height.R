@@ -96,10 +96,10 @@
 #' @export
 #'
 #' @examples
-#' library(dplyr)
-#' library(lubridate)
-#' library(rlang)
-#' library(admiral)
+#' library(dplyr, warn.conflicts = FALSE)
+#' library(lubridate, warn.conflicts = FALSE)
+#' library(rlang, warn.conflicts = FALSE)
+#' library(admiral, warn.conflicts = FALSE)
 #'
 #' advs <- dm_peds %>%
 #'   select(USUBJID, BRTHDTC, SEX) %>%
