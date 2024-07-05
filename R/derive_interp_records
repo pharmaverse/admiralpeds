@@ -1,0 +1,52 @@
+#' Derive interpolated rows for the CDC charts (>=2 yrs old)
+#'
+#' Derive interpolated rows for the CDC charts (>=2 yrs old) by AGE
+#' for the following paramters: HEIGHT, WEIGHT and BMI
+#'
+#' @param dataset Input metadataset
+#'
+#'   The variables "AGE", "AGEU", "SEX", "L", "M", "S" are expected to be in the dataset
+#'   For BMI the additional variables "P95" and "Sigma" are expected to be in the dataset
+#'   Note that "AGE" must be in days so that "AGEU" = "days"
+#'
+#' @param parameter CDC/WHO metadata parameter
+#'
+#' *Permitted Values*: "WEIGHT", "HEIGHT" or "BMI" only - Must be not NULL
+#'
+#'   e.g. `parameter = "WEIGHT"`,
+#'   or   `parameter = "HEIGHT"`,
+#'   or   `parameter = "BMI"`.
+#'
+#' @return The input dataset additional interpolated records with the input dataset records
+#'
+#' @family der_prm_bds_vs
+#'
+#' @keywords der_prm_bds_vs
+#'
+#' @export
+#'
+#' @examples
+#' derive_interp_records(dataset = cdc_htage, parameter = "HEIGHT")
+derive_interp_records <- function(dataset, parameter = "WEIGHT") {
+  stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
+  if (parameter %in% c("HEIGHT", "WEIGHT")) {
+    metadata_vars <- c("AGE", "L", "M", "S")
+  }
+  if (parameter == "BMI") {
+    metadata_vars <- c("AGE", "L", "M", "S", "P95", "Sigma")
+  }
+
+  stopifnot("AGE" %in% colnames(dataset))
+  stopifnot("SEX" %in% colnames(dataset))
+  stopifnot("L" %in% colnames(dataset))
+  stopifnot("M" %in% colnames(dataset))
+  stopifnot("S" %in% colnames(dataset))
+  if (parameter == "BMI") {
+    stopifnot("P95" %in% colnames(dataset))
+    stopifnot("Sigma" %in% colnames(dataset))
+  }
+  arrange(dataset, SEX, AGE)
+  fapp <- function(v) approx(dataset$AGE, v, xout = 730:7305)$y
+  x <- lapply(dataset[, metadata_vars], fapp)
+  as.data.frame(do.call(bind_cols, x)) %>% filter(!is.na(AGE))
+}
