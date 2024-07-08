@@ -26,7 +26,23 @@
 #' @export
 #'
 #' @examples
-#' derive_interp_records(dataset = cdc_htage, parameter = "HEIGHT")
+#' library(admiral)
+#' library(admiralpeds)
+#' library(dplyr)
+#' data(cdc_htage)
+#' cdc_htage %>%
+#' mutate(
+#'  SEX = case_when(
+#'     SEX == 1 ~ "M",
+#'     SEX == 2 ~ "F",
+#'     TRUE ~ NA_character_
+#'     ),
+#'   AGE = AGE * 30.4375) %>%
+#' # Interpolate the AGE by SEX
+#' group_by(SEX) %>%
+#' # Ensure first that Age unit is "DAYS"
+#' do(derive_interp_records(., parameter = "HEIGHT")) %>%
+#' ungroup()
 derive_interp_records <- function(dataset, parameter = "WEIGHT") {
   stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
   if (parameter %in% c("HEIGHT", "WEIGHT")) {
