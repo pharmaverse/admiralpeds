@@ -1,18 +1,23 @@
 # derive_params_growth_age ----
 
-## Test 1: Weight SDS and percentile works (P3, P95) ----
-test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks (P3, P95)", {
+## Test 1: Weight SDS and percentile works (P3, P97) ----
+test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 30.5, "months", "WEIGHT", 11.12786972,
-    "1002", "F", 70.5, "months", "WEIGHT", 26.76154129,
+    "1001", "M", 1, "months", "WEIGHT", 5.8,
+    "1002", "F", 517, "days", "WEIGHT", 8.8,
+    "1003", "M", 870, "days", "WEIGHT", 11.3,
+    "1004", "F", 71, "months", "WEIGHT", 27.1,
   )
 
-  meta <- cdc_wtage %>%
-    mutate(SEX = case_when(SEX == 1 ~ "M",
-                           SEX == 2 ~ "F"),
-           AGEU = "months")
-
+  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 30, "days", 0.2303, 4.4525, 0.13413,
+    "F", 517, "days", -0.2561, 10.0196, 0.12305,
+    "M", 870, "days",-0.3310282164, 13.30298997, 0.1088506239,
+    "F", 2161, "days",-1.327138401, 20.03756384, 0.1484897955,
+  )
   actual <- derive_params_growth_age(
     dataset = vs_data,
     sex = SEX,
@@ -29,9 +34,16 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks (P3, 
     )
   )
 
-  vs_data_meta <- vs_data %>%
-    mutate(AGE = AGECUR) %>%
-    inner_join(meta, by=c("SEX", "AGE", "AGEU"))
+  vs_data_age <- vs_data %>%
+    mutate(AGECUR_c = case_when(
+      AGEU == "days"  ~ AGECUR,
+      AGEU == "months" ~ round(AGECUR*30.4375)),
+      AGEU_c = "days"
+    ) %>%
+    mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
+    select(-ends_with("_c"),-AGECUR)
+
+  vs_data_meta <- vs_data_age %>%inner_join(meta, by=c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>%mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -46,16 +58,23 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks (P3, 
 
 ## Test 2: Height SDS and percentile works (P50, P97) ----
 test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50, P97)", {
+  #LL: LENGTH?
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 40.5, "months", "HEIGHT", 97.78897727,
-    "1002", "F", 140.5, "months", "HEIGHT", 162.9362629,
+    "1001", "M", 2, "months", "HEIGHT", 58,
+    "1002", "F", 578, "days", "HEIGHT", 87,
+    "1003", "M", 910, "days", "HEIGHT", 92,
+    "1004", "F", 159, "months", "HEIGHT", 170,
   )
 
-  meta <- cdc_htage %>%
-    mutate(SEX = case_when(SEX == 1 ~ "M",
-                           SEX == 2 ~ "F"),
-           AGEU = "months")
+  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 61, "days", 1, 58.4384, 0.03423,
+    "F", 578, "days", 1, 81.6752, 0.03619,
+    "M", 910, "days", 0.2418532658, 90.91041609, 0.0409575918,
+    "F", 4840, "days",1.172254081, 158.2058471, 0.04304528616,
+  )
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
@@ -73,13 +92,20 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
     )
   )
 
-  vs_data_meta <- vs_data %>%
-    mutate(AGE = AGECUR) %>%
-    inner_join(meta, by=c("SEX", "AGE", "AGEU"))
+  vs_data_age <- vs_data %>%
+    mutate(AGECUR_c = case_when(
+      AGEU == "days"  ~ AGECUR,
+      AGEU == "months" ~ round(AGECUR*30.4375)),
+      AGEU_c = "days"
+    ) %>%
+    mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
+    select(-ends_with("_c"),-AGECUR)
+
+  vs_data_meta <- vs_data_age %>%inner_join(meta, by=c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>%mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
-  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
-  expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL)*100)
+  expected <- bind_rows(vs_sds, vs_pctl)  %>% pull(AVAL)
 
 
   expect_equal(
@@ -90,29 +116,22 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 
 ## Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5) ----
 test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5)", {
-  vs_data <- meta %>% mutate(z_n2 = M*(1+L*S*(-2))^(1/L),
-                             z_0 = M*(1+L*S*0)^(1/L),
-                             z_2 = M*(1+L*S*2)^(1/L),
-                             z_5 = M*(1+L*S*5)^(1/L)) %>%
-    filter((SEX == "M" & AGE == 70.5)|
-             (SEX == "M" & AGE == 135.5)|
-             (SEX == "F" & AGE == 88.5)|
-             (SEX == "F" & AGE == 193.5)) %>%
-    mutate(VSSTRESN = case_when(
-      SEX == "M" & AGE == 70.5 ~ z_n2,
-      SEX == "M" & AGE == 135.5 ~ z_0,
-      SEX == "F" & AGE == 88.5 ~ z_2,
-      SEX == "F" & AGE == 193.5 ~ z_5
-    )) %>%
-    mutate(USUBJID = paste0("100",(row.names(vs_data))),
-           VSTESTCD = "BMI",
-           AGECUR = AGE) %>%
-    select(USUBJID, SEX, AGECUR, AGEU, VSTESTCD, VSSTRESN)
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 2, "months", "BMI", 58,
+    "1002", "F", 578, "days", "BMI", 87,
+    "1003", "M", 2146, "days", "BMI", 13.5,
+    "1004", "F", 88.5, "months", "BMI", 21.9,
+  )
 
-  meta <- cdc_bmiage %>%
-    mutate(SEX = case_when(SEX == 1 ~ "M",
-                           SEX == 2 ~ "F"),
-           AGEU = "months")
+  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 61, "days", 0.1113, 16.3231, 0.08676,
+    "F", 578, "days", -0.5197, 15.6524, 0.08631,
+    "M", 2146, "days", -3.15039004, 15.37745304, 0.081706249,
+    "F", 2694, "days",-2.819657704, 15.56444426, 0.109308364,
+  )
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
@@ -130,9 +149,16 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
     )
   )
 
-  vs_data_meta <- vs_data %>%
-    mutate(AGE = AGECUR) %>%
-    inner_join(meta, by=c("SEX", "AGE", "AGEU"))
+  vs_data_age <- vs_data %>%
+    mutate(AGECUR_c = case_when(
+      AGEU == "days"  ~ AGECUR,
+      AGEU == "months" ~ round(AGECUR*30.4375)),
+      AGEU_c = "days"
+    ) %>%
+    mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
+    select(-ends_with("_c"),-AGECUR)
+
+  vs_data_meta <- vs_data_age %>%inner_join(meta, by=c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>%mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -147,3 +173,118 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 
 
 
+## Test 4: Head circumference derivation works ----
+test_that("derive_params_growth_age Test 4: Head circumference SDS and percentile works", {
+  #LL: Up to 5 years old?
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 2, "months", "HEADC", 39,
+    "1002", "F", 1157, "days", "HEADC", 50,
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 61, "days", 1, 39.1349, 0.02997,
+    "F", 1157, "days",1, 48.6732, 0.02906,
+  )
+
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "HEADC",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "HDCASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "HDCAPCTL"
+    )
+  )
+
+  vs_data_age <- vs_data %>%
+    mutate(AGECUR_c = case_when(
+      AGEU == "days"  ~ AGECUR,
+      AGEU == "months" ~ round(AGECUR*30.4375)),
+      AGEU_c = "days"
+    ) %>%
+    mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
+    select(-ends_with("_c"),-AGECUR)
+
+  vs_data_meta <- vs_data_age %>%inner_join(meta, by=c("SEX", "AGE", "AGEU"))
+
+  vs_sds <- vs_data_meta %>%mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
+
+  vs_sds <- vs_data_meta %>%mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
+
+
+  expect_equal(
+    expected,
+    filter(actual, PARAMCD %in% c("HDCASDS", "HDCAPCTL")) %>% pull(AVAL)
+  )
+})
+
+## Test 5: Extreme BMI value derivation works ----
+test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works", {
+  #LL: What about patients < 2 years old? No P95 and sigma in metadata
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 40.5, "months", "BMI", 19,
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S, ~P95, ~sigma,
+    "M", 1233, "days", -1.401671596, 15.85824093, 0.071691278, 18.0399, 2.022795,
+  )
+
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "BMI",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "BMIASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "BMIAPCTL"
+    )
+  )
+
+  vs_data_age <- vs_data %>%
+    mutate(AGECUR_c = case_when(
+      AGEU == "days"  ~ AGECUR,
+      AGEU == "months" ~ round(AGECUR*30.4375)),
+      AGEU_c = "days"
+    ) %>%
+    mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
+    select(-ends_with("_c"),-AGECUR)
+
+  vs_data_meta <- vs_data_age %>%inner_join(meta, by=c("SEX", "AGE", "AGEU"))
+
+  vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN/M)^L)-1)/(L*S))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  tmppctl <- vs_pctl %>% mutate(tmpPCTL = AVAL*100) %>% select(USUBJID, tmpPCTL)
+  expected <- vs_sds %>% mutate(tmpSDS = AVAL) %>% inner_join(tmppctl, by = "USUBJID") %>%
+    mutate(PCTL = ifelse(tmpPCTL/100 > 0.95, 90+10*pnorm((VSSTRESN-P95)/sigma), tmpPCTL),
+           SDS = ifelse(tmpPCTL/100 > 0.95, ifelse(tmpPCTL/100 == 1, 8.21, qnorm(PCTL/100)),tmpSDS)) %>%
+  pull(AVAL)
+
+  expect_equal(
+    expected,
+    filter(actual, PARAMCD %in% c("BMIASDS", "BMIAPCTL")) %>% pull(AVAL)
+  )
+})
+
+
+# Test out of bound age
+# Test missing value
+# Test extreme wt/ht/hc value
