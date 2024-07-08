@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9021</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9022</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,16 +181,16 @@ WHO Growth Standards</a> - Expanded Tables: Birth to 5 years</li>
 <div class="section level4">
 <h4 id="reference-files-for-parameters-by-age">Reference Files for Parameters by Age<a class="anchor" aria-label="anchor" href="#reference-files-for-parameters-by-age"></a>
 </h4>
-<p>As growth rates and patterns differ between gender, different
-reference values are used accordingly and for different age groups.</p>
+<p>As growth rates and patterns differ between sex, different reference
+values are used accordingly and for different age groups.</p>
 <p>For the applicable parameters here (height/weight/BMI), we made the
 default decision to rely on the WHO standards for children &lt;2 years
 of age (&lt;730.5 days) and CDC standards for children &gt;=2 years of
 age (&gt;=730.5 days). This is made in accordance with the <a href="https://www.cdc.gov/growthcharts/who_charts.htm" class="external-link">CDC
 recommendation</a>.</p>
 <p>So, the first step here needed is to combine the various metadata by
-parameter and ensuring gender and age are shown in a consistent way. We
-do this using the following code for BMI as an example:</p>
+parameter and ensuring sex and age are shown in a consistent way. We do
+this using the following code for BMI as an example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Default reference sources: WHO for children &lt;2 yrs old (&lt; 730.5 days),</span></span>
 <span><span class="co"># and CDC for children &gt;=2 yrs old (&gt;= 730.5 days)</span></span>
@@ -238,10 +238,10 @@ CDC.</p>
 </h4>
 <p>WHO provides additional standards for weight by body length and
 weight by height, instead of age. For these we again combined the
-metadata for gender so that we have a single reference file by body
-length and a single reference file by height. We also give the values
-and units consistent variable names so that we can pass either metadata
-into the same function. We do this using the following code:</p>
+metadata for sex so that we have a single reference file by body length
+and a single reference file by height. We also give the values and units
+consistent variable names so that we can pass either metadata into the
+same function. We do this using the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">who_wt_for_lgth_boys</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">who_wt_for_lgth_girls</span><span class="op">)</span></span>
