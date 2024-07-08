@@ -6,6 +6,7 @@
 \usage{
 derive_params_growth_age(
   dataset,
+  by_vars = exprs(USUBJID),
   sex,
   age,
   age_unit,
@@ -22,6 +23,10 @@ derive_params_growth_age(
 
 The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
+
+\item{by_vars}{Grouping variables
+
+The variable from \code{dataset} which identifies a unique subject.}
 
 \item{sex}{Sex
 
@@ -176,6 +181,7 @@ criteria <- bind_rows(
 
 derive_params_growth_age(
   advs,
+  by_vars = exprs(USUBJID),
   sex = SEX,
   age = AGECUR,
   age_unit = AGECURU,

@@ -8,6 +8,10 @@
 #'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @param by_vars Grouping variables
+#'
+#'   The variable from `dataset` which identifies a unique subject.
+#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -162,6 +166,7 @@
 #'
 #' derive_params_growth_age(
 #'   advs,
+#'   by_vars = exprs(USUBJID),
 #'   sex = SEX,
 #'   age = AGECUR,
 #'   age_unit = AGECURU,
@@ -178,6 +183,7 @@
 #'   )
 #' )
 derive_params_growth_age <- function(dataset,
+                                     by_vars = exprs(USUBJID),
                                      sex,
                                      age,
                                      age_unit,
@@ -188,13 +194,14 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
+  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(
     dataset,
-    required_vars = expr_c(sex, age, age_unit, analysis_var, exprs(USUBJID))
+    required_vars = expr_c(sex, age, age_unit, analysis_var, by_vars)
   )
 
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
@@ -239,7 +246,7 @@ derive_params_growth_age <- function(dataset,
       relationship = "many-to-many"
     ) %>%
     mutate(age_diff := abs(metadata_age - {{ age }})) %>%
-    group_by(USUBJID) %>%
+    group_by(!!!by_vars) %>%
     mutate(is_lowest = age_diff == min(age_diff)) %>%
     filter(is_lowest)
 

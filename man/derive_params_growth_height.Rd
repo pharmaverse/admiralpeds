@@ -7,6 +7,7 @@ based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
+  by_vars = exprs(USUBJID),
   sex,
   height,
   height_unit,
@@ -22,6 +23,10 @@ derive_params_growth_height(
 
 The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
+
+\item{by_vars}{Grouping variables
+
+The variable from \code{dataset} which identifies a unique subject.}
 
 \item{sex}{Sex
 

@@ -9,6 +9,10 @@
 #'   The variables specified in `sex`, `height`, `height_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @param by_vars Grouping variables
+#'
+#'   The variable from `dataset` which identifies a unique subject.
+#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -210,6 +214,7 @@
 #'
 #' bind_rows(advs_under2, advs_over2)
 derive_params_growth_height <- function(dataset,
+                                        by_vars = exprs(USUBJID),
                                         sex,
                                         height,
                                         height_unit,
@@ -219,13 +224,14 @@ derive_params_growth_height <- function(dataset,
                                         set_values_to_sds = NULL,
                                         set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
+  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   height <- assert_symbol(enexpr(height))
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(
     dataset,
-    required_vars = expr_c(sex, height, height_unit, analysis_var, exprs(USUBJID))
+    required_vars = expr_c(sex, height, height_unit, analysis_var, by_vars)
   )
   assert_data_frame(
     meta_criteria,
@@ -270,7 +276,7 @@ derive_params_growth_height <- function(dataset,
       relationship = "many-to-many"
     ) %>%
     mutate(ht_diff := abs(meta_height - {{ height }})) %>%
-    group_by(USUBJID) %>%
+    group_by(!!!by_vars) %>%
     mutate(is_lowest = ht_diff == min(ht_diff)) %>%
     filter(is_lowest)
 
