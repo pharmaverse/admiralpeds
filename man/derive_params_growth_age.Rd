@@ -51,6 +51,12 @@ A metadata dataset with the following expected variables:
 The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
 require small modifications.
+
+If the \code{age} value from \code{dataset} falls between two \code{AGE} values in \code{meta_criteria},
+then the \code{L}/\code{M}/\code{S} values that are chosen/mapped will be the \code{AGE} that has the
+smaller absolute difference to the value in \code{age}.
+e.g. If dataset has a current age of 27.49 months, and the metadata contains records
+for 27 and 28 months, the \code{L}/\code{M}/\code{S} corresponding to the 27 months record will be used.
 \itemize{
 \item \code{AGE} - Age
 \item \code{AGEU} - Age Unit

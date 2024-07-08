@@ -5,7 +5,9 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
     "1001", "M", 30, "cm", "WEIGHT", 10,
-    "1002", "F", 25, "cm", "WEIGHT", 100,
+    "1002", "F", 25.1, "cm", "WEIGHT", 100,
+    "1003", "F", 25.5, "cm", "WEIGHT", 100,
+    "1004", "F", 25.6, "cm", "WEIGHT", 100,
   )
 
   fake_meta <- tibble::tribble(
@@ -31,7 +33,9 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
 
   expected <- c(
     ((10 / 2)^1 - 1) / (1 * 3),
-    ((100 / 8)^7 - 1) / (7 * 9)
+    ((100 / 8)^7 - 1) / (7 * 9),
+    ((100 / 8)^7 - 1) / (7 * 9),
+    ((100 / 11)^10 - 1) / (10 * 12)
   )
 
   expect_equal(

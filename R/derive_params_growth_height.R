@@ -41,6 +41,12 @@
 #'   Datasets `who_wt_for_lgth_boys`/`who_wt_for_lgth_girls` are for subject age < 730.5 days.
 #'   Datasets `who_wt_for_ht_boys`/`who_wt_for_ht_girls` are for subjects age >= 730.5 days.
 #'
+#'   If the `height` value from `dataset` falls between two `HEIGHT_LENGTH` values in
+#'   `meta_criteria`, then the `L`/`M`/`S` values that are chosen/mapped will be the
+#'   `HEIGHT_LENGTH` that has the smaller absolute difference to the value in `height`.
+#'   e.g. If dataset has a current age of 27.49 months, and the metadata contains records
+#'   for 27 and 28 months, the `L`/`M`/`S` corresponding to the 27 months record will be used.
+#'
 #'   * `HEIGHT_LENGTH` - Height/Length
 #'   * `HEIGHT_LENGTHU` - Height/Length Unit
 #'   * `SEX` - Sex
@@ -278,8 +284,9 @@ derive_params_growth_height <- function(dataset,
     mutate(ht_diff := abs(meta_height - {{ height }})) %>%
     group_by(!!!by_vars) %>%
     mutate(is_lowest = ht_diff == min(ht_diff)) %>%
-    filter(is_lowest)
-
+    group_by(!!!by_vars, is_lowest) %>%
+    filter(is_lowest & row_number() == 1) %>%
+    ungroup()
 
   dataset_final <- dataset
 

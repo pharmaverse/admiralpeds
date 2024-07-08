@@ -36,6 +36,13 @@
 #'   The dataset can be derived from CDC/WHO or user-defined datasets.
 #'   The CDC/WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
+#'
+#'   If the `age` value from `dataset` falls between two `AGE` values in `meta_criteria`,
+#'   then the `L`/`M`/`S` values that are chosen/mapped will be the `AGE` that has the
+#'   smaller absolute difference to the value in `age`.
+#'   e.g. If dataset has a current age of 27.49 months, and the metadata contains records
+#'   for 27 and 28 months, the `L`/`M`/`S` corresponding to the 27 months record will be used.
+#'
 #'   * `AGE` - Age
 #'   * `AGEU` - Age Unit
 #'   * `SEX` - Sex
@@ -248,7 +255,11 @@ derive_params_growth_age <- function(dataset,
     mutate(age_diff := abs(metadata_age - {{ age }})) %>%
     group_by(!!!by_vars) %>%
     mutate(is_lowest = age_diff == min(age_diff)) %>%
-    filter(is_lowest)
+    ungroup() %>%
+    group_by(!!!by_vars, is_lowest) %>%
+    filter(is_lowest & row_number() == 1) %>%
+    ungroup()
+
 
   dataset_final <- dataset
 
