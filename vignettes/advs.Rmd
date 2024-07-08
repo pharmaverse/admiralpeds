@@ -406,6 +406,11 @@ dataset_vignette(
 )
 ```
 
+For height parameters by age, it should be noted that the WHO growth chart
+that we use for children \<2 years of age refers to body length, whereas
+the CDC growth chart for children \>=2 years of age refers to height.
+This is explained thoroughly in the next section.
+
 ### Derived Weight by Length/Height
 
 Parameters for Weight by Height z-score and percentile could be achieved
