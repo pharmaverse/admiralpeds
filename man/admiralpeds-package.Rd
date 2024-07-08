@@ -19,7 +19,29 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ross Farrugia \email{ross.farrugia@roche.com}
+\strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com}
+
+Authors:
+\itemize{
+  \item Ross Farrugia
+  \item Zelos Zhu
+  \item Sukalpo Saha
+  \item Lina Patil
+  \item Samia Kabi
+}
+
+Other contributors:
+\itemize{
+  \item Laura Liao [contributor]
+  \item Remigiusz Kudlacz [contributor]
+  \item Pierre Wallet [contributor]
+  \item Amin Sherzad [contributor]
+  \item David Freedman [contributor]
+  \item Mahmoud Hamza [contributor]
+  \item F. Hoffmann-La Roche AG [copyright holder, funder]
+  \item Cytel [copyright holder, funder]
+  \item Pfizer Inc. [copyright holder, funder]
+}
 
 }
 \concept{internal}
