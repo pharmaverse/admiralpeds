@@ -28,6 +28,7 @@ Metadata
 \code{\link{cdc_bmiage}},
 \code{\link{cdc_htage}},
 \code{\link{cdc_wtage}},
+\code{\link{derive_interp_records}()},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_hc_for_age_boys}},
 \code{\link{who_hc_for_age_girls}},
