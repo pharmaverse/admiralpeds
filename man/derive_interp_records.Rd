@@ -9,43 +9,45 @@ derive_interp_records(dataset, parameter = "WEIGHT")
 \arguments{
 \item{dataset}{Input metadataset
 
-The variables "AGE", "AGEU", "SEX", "L", "M", "S" are expected to be in the dataset
-For BMI the additional variables "P95" and "Sigma" are expected to be in the dataset
-Note that "AGE" must be in days so that "AGEU" = "days"}
+The variables \code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S} are expected to be in the dataset
+
+For BMI the additional variables \code{P95} and \code{Sigma} are expected to be in the dataset
+
+Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS"}}
 
 \item{parameter}{CDC/WHO metadata parameter
 
-\emph{Permitted Values}: "WEIGHT", "HEIGHT" or "BMI" only - Must be not NULL
+\emph{Permitted Values}: \code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
 
 e.g. \code{parameter = "WEIGHT"},
-or   \code{parameter = "HEIGHT"},
+\code{parameter = "HEIGHT"},
 or   \code{parameter = "BMI"}.}
 }
 \value{
-The input dataset additional interpolated records with the input dataset records
+The input dataset plus additional interpolated records
 }
 \description{
-Derive interpolated rows for the CDC charts (>=2 yrs old) by AGE
-for the following paramters: HEIGHT, WEIGHT and BMI
+Derive interpolated rows for the CDC charts (>=2 yrs old) by age in days
+for the following parameters: HEIGHT, WEIGHT and BMI
 }
 \examples{
-library(admiral)
-library(admiralpeds)
-library(dplyr)
-data(cdc_htage)
-cdc_htage \%>\%
-mutate(
- SEX = case_when(
-    SEX == 1 ~ "M",
-    SEX == 2 ~ "F",
-    TRUE ~ NA_character_
-    ),
-  AGE = AGE * 30.4375) \%>\%
-# Interpolate the AGE by SEX
-group_by(SEX) \%>\%
-# Ensure first that Age unit is "DAYS"
-do(derive_interp_records(., parameter = "HEIGHT")) \%>\%
-ungroup()
+library(dplyr, warn.conflicts = FALSE)
+
+cdc_htage <- admiralpeds::cdc_htage \%>\%
+  mutate(
+   SEX = case_when(
+      SEX == 1 ~ "M",
+      SEX == 2 ~ "F",
+      TRUE ~ NA_character_
+      ),
+    AGE = AGE * 30.4375) \%>\%
+  # Interpolate the AGE by SEX
+  group_by(SEX) \%>\%
+  # Ensure first that Age unit is "DAYS"
+  do(derive_interp_records(., parameter = "HEIGHT")) \%>\%
+  ungroup()
+
+  print(cdc_htage)
 }
 \seealso{
 Metadata
