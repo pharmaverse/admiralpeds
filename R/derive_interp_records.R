@@ -38,7 +38,7 @@
 #'       TRUE ~ NA_character_
 #'     ),
 #'     AGE = round(AGE * 30.4375)
-#'   ) %>% 
+#'   ) %>%
 #'   # Interpolate the AGE by SEX
 #'   group_by(SEX) %>%
 #'   # Ensure first that Age unit is "DAYS"
@@ -48,7 +48,7 @@
 #'   # must come from WHO metadata only
 #'   filter(AGE >= 730.5)
 #'
-#' print(cdc_htage) 
+#' print(cdc_htage)
 derive_interp_records <- function(dataset, parameter = "WEIGHT") {
   stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
   if (parameter %in% c("HEIGHT", "WEIGHT")) {
