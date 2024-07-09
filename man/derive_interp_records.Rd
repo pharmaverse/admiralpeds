@@ -40,12 +40,15 @@ cdc_htage <- admiralpeds::cdc_htage \%>\%
       SEX == 2 ~ "F",
       TRUE ~ NA_character_
       ),
-    AGE = AGE * 30.4375) \%>\%
+    AGE = round(AGE * 30.4375)) \%>\%
   # Interpolate the AGE by SEX
   group_by(SEX) \%>\%
   # Ensure first that Age unit is "DAYS"
   do(derive_interp_records(., parameter = "HEIGHT")) \%>\%
-  ungroup()
+  ungroup() \%>\%
+  # Keep patients >= 2 yrs only - Remove duplicates for 730 Days old which
+  # must come from WHO metadata only
+  filter(AGE >= 730.5)
 
   print(cdc_htage)
 }
