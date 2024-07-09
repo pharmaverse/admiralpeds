@@ -94,8 +94,10 @@ parameter and ensuring gender and age are shown in a consistent way.
 Additionally, as the CDC growth charts only offer monthly intervals we
 took advice from an ex-CDC expert in this area and made the decision in
 our template to add interpolation code so that we have a record for each
-day of age. If you prefer to rely solely on the monthly chart here, then
-you could remove the call to the `derive_interp_records()` function.
+day of age. When converting the CDC months into days we use rounding
+to bring them to a whole number of days. If you would prefer to rely
+solely on the monthly chart here, then you could remove the rounding
+and the call to the `derive_interp_records()` function.
 
 We do this pre-processing of the metadata using the following code for BMI
 as an example:
@@ -121,7 +123,7 @@ bmi_for_age <- who_bmi_for_age_boys %>%
         SEX == 2 ~ "F",
         TRUE ~ NA_character_
       ),
-      AGE = AGE * 30.4375
+      AGE = round(AGE * 30.4375)
     )) %>%
   # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
