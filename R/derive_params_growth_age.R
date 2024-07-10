@@ -173,7 +173,7 @@
 #'
 #' derive_params_growth_age(
 #'   advs,
-#'   by_vars = get_admiral_options("subject_keys"),
+#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   age = AGECUR,
 #'   age_unit = AGECURU,

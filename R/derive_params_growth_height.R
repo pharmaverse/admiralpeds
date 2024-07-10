@@ -184,7 +184,7 @@
 #'
 #' advs_under2 <- derive_params_growth_height(
 #'   advs_under2,
-#'   by_vars = exprs(USUBJID, VISIT),
+#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
@@ -203,7 +203,7 @@
 #'
 #' advs_over2 <- derive_params_growth_height(
 #'   advs_over2,
-#'   by_vars = get_admiral_options("subject_keys"),
+#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
