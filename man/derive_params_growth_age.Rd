@@ -6,7 +6,7 @@
 \usage{
 derive_params_growth_age(
   dataset,
-  by_vars = exprs(USUBJID),
+  by_vars = NULL,
   sex,
   age,
   age_unit,
@@ -187,7 +187,7 @@ criteria <- bind_rows(
 
 derive_params_growth_age(
   advs,
-  by_vars = exprs(USUBJID),
+  by_vars = get_admiral_options("subject_keys"),
   sex = SEX,
   age = AGECUR,
   age_unit = AGECURU,

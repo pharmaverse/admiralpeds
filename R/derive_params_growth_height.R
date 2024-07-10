@@ -44,8 +44,8 @@
 #'   If the `height` value from `dataset` falls between two `HEIGHT_LENGTH` values in
 #'   `meta_criteria`, then the `L`/`M`/`S` values that are chosen/mapped will be the
 #'   `HEIGHT_LENGTH` that has the smaller absolute difference to the value in `height`.
-#'   e.g. If dataset has a current age of 27.49 months, and the metadata contains records
-#'   for 27 and 28 months, the `L`/`M`/`S` corresponding to the 27 months record will be used.
+#'   e.g. If dataset has a current age of 50.49 cm, and the metadata contains records
+#'   for 50 and 51 cm, the `L`/`M`/`S` corresponding to the 50 cm record will be used.
 #'
 #'   * `HEIGHT_LENGTH` - Height/Length
 #'   * `HEIGHT_LENGTHU` - Height/Length Unit
@@ -184,6 +184,7 @@
 #'
 #' advs_under2 <- derive_params_growth_height(
 #'   advs_under2,
+#'   by_vars = get_admiral_options("subject_keys"),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
@@ -202,6 +203,7 @@
 #'
 #' advs_over2 <- derive_params_growth_height(
 #'   advs_over2,
+#'   by_vars = get_admiral_options("subject_keys"),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
@@ -220,7 +222,7 @@
 #'
 #' bind_rows(advs_under2, advs_over2)
 derive_params_growth_height <- function(dataset,
-                                        by_vars = exprs(USUBJID),
+                                        by_vars = NULL,
                                         sex,
                                         height,
                                         height_unit,
@@ -265,7 +267,6 @@ derive_params_growth_height <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, HEIGHT_LENGTHU, HEIGHT_LENGTH) %>%
     group_by(SEX, HEIGHT_LENGTHU) %>%
-    mutate(next_height = lead(HEIGHT_LENGTH)) %>%
     rename(
       sex_join = SEX,
       meta_height = HEIGHT_LENGTH,
@@ -273,7 +274,6 @@ derive_params_growth_height <- function(dataset,
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
-  # To parse out the appropriate age, create [x, y) using prev_height <= height < next_height
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,

@@ -3,11 +3,11 @@
 ## Test 1: derive_params_growth_age works ----
 test_that("derive_params_growth_age Test 1: derive_params_growth_age works", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "F", 24.5, "months", "WEIGHT", 10,
-    "1002", "F", 25.49, "months", "WEIGHT", 11,
-    "1003", "F", 25.51, "months", "WEIGHT", 12,
-    "1004", "F", 27.5, "months", "WEIGHT", 13
+    ~STUDYID, ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "STUDY", "1001", "F", 24.5, "months", "WEIGHT", 10,
+    "STUDY", "1002", "F", 25.49, "months", "WEIGHT", 11,
+    "STUDY", "1003", "F", 25.51, "months", "WEIGHT", 12,
+    "STUDY", "1004", "F", 27.5, "months", "WEIGHT", 13
   )
 
   fake_meta <- tibble::tribble(
@@ -21,6 +21,7 @@ test_that("derive_params_growth_age Test 1: derive_params_growth_age works", {
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = admiral::get_admiral_option("subject_keys"),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,

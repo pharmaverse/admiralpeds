@@ -3,11 +3,11 @@
 ## Test 1: derive_params_growth_heightlength works ----
 test_that("derive_params_growth_heightlength Test 1: derive_params_growth_heightlength works", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 30, "cm", "WEIGHT", 10,
-    "1002", "F", 25.1, "cm", "WEIGHT", 100,
-    "1003", "F", 25.5, "cm", "WEIGHT", 100,
-    "1004", "F", 25.6, "cm", "WEIGHT", 100,
+    ~STUDYID, ~USUBJID, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
+    "STUDY", "1001", "M", 30, "cm", "WEIGHT", 10,
+    "STUDY", "1002", "F", 25.1, "cm", "WEIGHT", 100,
+    "STUDY", "1003", "F", 25.5, "cm", "WEIGHT", 100,
+    "STUDY", "1004", "F", 25.6, "cm", "WEIGHT", 100,
   )
 
   fake_meta <- tibble::tribble(
@@ -20,6 +20,7 @@ test_that("derive_params_growth_heightlength Test 1: derive_params_growth_height
 
   actual <- derive_params_growth_height(
     dataset = vs_data,
+    by_vars = admiral::get_admiral_option("subject_keys"),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
