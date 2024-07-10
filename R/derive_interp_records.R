@@ -11,6 +11,13 @@
 #'
 #'   Note that `AGE` must be in days so that `AGEU` is equal to `"DAYS"`
 #'
+#' @param by_vars Grouping variables
+#'
+#'   The variable from `dataset` which identifies the group of observations
+#'   to interpolate separately.
+#'
+#'   Must not be `NULL`.
+#'
 #' @param parameter CDC/WHO metadata parameter
 #'
 #' *Permitted Values*: `"WEIGHT"`, `"HEIGHT"` or `"BMI"` only - Must not be `NULL`
@@ -40,16 +47,16 @@
 #'     AGE = round(AGE * 30.4375)
 #'   ) %>%
 #'   # Interpolate the AGE by SEX
-#'   group_by(SEX) %>%
 #'   # Ensure first that Age unit is "DAYS"
-#'   do(derive_interp_records(., parameter = "HEIGHT")) %>%
-#'   ungroup() %>%
+#'   derive_interp_records(., parameter = "HEIGHT") %>%
 #'   # Keep patients >= 2 yrs only - Remove duplicates for 730 Days old which
 #'   # must come from WHO metadata only
 #'   filter(AGE >= 730.5)
 #'
 #' print(cdc_htage)
-derive_interp_records <- function(dataset, parameter = "WEIGHT") {
+derive_interp_records <- function(dataset,
+                                  by_vars = exprs(SEX),
+                                  parameter = "WEIGHT") {
   stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
   if (parameter %in% c("HEIGHT", "WEIGHT")) {
     metadata_vars <- c("AGE", "L", "M", "S")
@@ -67,8 +74,25 @@ derive_interp_records <- function(dataset, parameter = "WEIGHT") {
     stopifnot("P95" %in% colnames(dataset))
     stopifnot("Sigma" %in% colnames(dataset))
   }
-  arrange(dataset, SEX, AGE)
-  fapp <- function(v) approx(dataset$AGE, v, xout = 730:7305)$y
-  x <- lapply(dataset[, metadata_vars], fapp)
-  as.data.frame(do.call(bind_cols, x)) %>% filter(!is.na(AGE))
+
+  arrange(dataset, !!!by_vars, AGE)
+
+  fapp <- function(v, age) {
+    approx(age, v, xout = seq(min(age), max(age)))$y
+  }
+
+  # Apply the function within each group and combine the results
+  result <- dataset %>%
+    group_by(!!!by_vars) %>%
+    do({
+      age <- .$AGE
+      x <- lapply(.[, metadata_vars], fapp, age = age)
+      as.data.frame(do.call(bind_cols, x))
+    }) %>%
+    ungroup() %>%
+    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+    # must come from WHO metadata only
+    filter(!is.na(AGE) & AGE >= 730.5 & AGE <= 7305)
+
+  return(result)
 }
