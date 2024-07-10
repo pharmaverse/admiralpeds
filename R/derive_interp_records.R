@@ -19,7 +19,7 @@
 #'        `parameter = "HEIGHT"`,
 #'   or   `parameter = "BMI"`.
 #'
-#' @return The input dataset plus additional interpolated records
+#' @return The input dataset plus additional interpolated records.
 #'
 #' @family metadata
 #'
