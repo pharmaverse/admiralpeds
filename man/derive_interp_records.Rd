@@ -4,7 +4,7 @@
 \alias{derive_interp_records}
 \title{Derive interpolated rows for the CDC charts (>=2 yrs old)}
 \usage{
-derive_interp_records(dataset, parameter = "WEIGHT")
+derive_interp_records(dataset, by_vars = exprs(SEX), parameter = "WEIGHT")
 }
 \arguments{
 \item{dataset}{Input metadataset
@@ -15,6 +15,13 @@ For BMI the additional variables \code{P95} and \code{Sigma} are expected to be 
 
 Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS"}}
 
+\item{by_vars}{Grouping variables
+
+The variable from \code{dataset} which identifies the group of observations
+to interpolate separately.
+
+Must not be \code{NULL}.}
+
 \item{parameter}{CDC/WHO metadata parameter
 
 \emph{Permitted Values}: \code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
@@ -24,7 +31,7 @@ e.g. \code{parameter = "WEIGHT"},
 or   \code{parameter = "BMI"}.}
 }
 \value{
-The input dataset plus additional interpolated records
+The input dataset plus additional interpolated records.
 }
 \description{
 Derive interpolated rows for the CDC charts (>=2 yrs old) by age in days
@@ -43,10 +50,8 @@ cdc_htage <- admiralpeds::cdc_htage \%>\%
     AGE = round(AGE * 30.4375)
   ) \%>\%
   # Interpolate the AGE by SEX
-  group_by(SEX) \%>\%
   # Ensure first that Age unit is "DAYS"
-  do(derive_interp_records(., parameter = "HEIGHT")) \%>\%
-  ungroup() \%>\%
+  derive_interp_records(., parameter = "HEIGHT") \%>\%
   # Keep patients >= 2 yrs only - Remove duplicates for 730 Days old which
   # must come from WHO metadata only
   filter(AGE >= 730.5)
