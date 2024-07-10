@@ -10,7 +10,6 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
     "1004", "F", 71, "months", "WEIGHT", 27.1,
   )
 
-  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
   meta <- tibble::tribble(
     ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
     "M", 30, "days", 0.2303, 4.4525, 0.13413,
@@ -68,7 +67,6 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
     "1004", "F", 159, "months", "HEIGHT", 170,
   )
 
-  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
   meta <- tibble::tribble(
     ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
     "M", 61, "days", 1, 58.4384, 0.03423,
@@ -127,7 +125,6 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
     "1004", "F", 88.5, "months", "BMI", 21.9,
   )
 
-  # pull WHO metadata for patients <2 years old, CDC metadata for patients >=2 years old
   meta <- tibble::tribble(
     ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
     "M", 61, "days", 0.1113, 16.3231, 0.08676,
@@ -180,7 +177,6 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 
 ## Test 4: Head circumference derivation works ----
 test_that("derive_params_growth_age Test 4: Head circumference SDS and percentile works", {
-  # LL: Up to 5 years old?
   vs_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "1001", "M", 2, "months", "HEADC", 39,
@@ -299,5 +295,99 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 })
 
 
-# Test out of bound age
-# Test missing value
+## Test 6: Test out of bound ages ----
+test_that("derive_params_growth_age Test 6: Test out of bound ages", {
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 250, "months", "WEIGHT", 58,
+  )
+
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WTASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WTAPCTL"
+    )
+  )
+
+  expected <- c(NA, NA)
+
+
+  expect_equal(
+    filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
+    expected
+  )
+})
+
+## Test 6: Test out of bound ages ----
+test_that("derive_params_growth_age Test 6: Test out of bound ages", {
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 250, "months", "WEIGHT", 58,
+  )
+
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WTASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WTAPCTL"
+    )
+  )
+
+  expected <- c(NA, NA)
+
+
+  expect_equal(
+    filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
+    expected
+  )
+})
+
+## Test 7: Test missing anthropocentric values ----
+test_that("derive_params_growth_age Test 7: Test missing anthropocentric values", {
+  vs_data <- tibble::tribble(
+    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "1001", "M", 210, "months", "WEIGHT", NA,
+  )
+
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WTASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WTAPCTL"
+    )
+  )
+
+  expected <- c(NA, NA)
+
+
+  expect_equal(
+    filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
+    expected
+  )
+})
+
