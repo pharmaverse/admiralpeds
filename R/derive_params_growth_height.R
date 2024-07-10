@@ -11,7 +11,7 @@
 #'
 #' @param by_vars Grouping variables
 #'
-#'   The variable from `dataset` which identifies a unique subject.
+#'   The variable from `dataset` which identifies a unique subject and their visit.
 #'
 #' @param sex Sex
 #'
@@ -184,7 +184,7 @@
 #'
 #' advs_under2 <- derive_params_growth_height(
 #'   advs_under2,
-#'   by_vars = get_admiral_options("subject_keys"),
+#'   by_vars = exprs(USUBJID, VISIT),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,

@@ -26,7 +26,7 @@ are expected to be in the dataset.}
 
 \item{by_vars}{Grouping variables
 
-The variable from \code{dataset} which identifies a unique subject.}
+The variable from \code{dataset} which identifies a unique subject and their visit.}
 
 \item{sex}{Sex
 

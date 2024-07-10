@@ -10,7 +10,7 @@
 #'
 #' @param by_vars Grouping variables
 #'
-#'   The variable from `dataset` which identifies a unique subject.
+#'   The variable from `dataset` which identifies a unique subject and their visit.
 #'
 #' @param sex Sex
 #'

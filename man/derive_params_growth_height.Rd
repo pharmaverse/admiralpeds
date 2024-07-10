@@ -26,7 +26,7 @@ are expected to be in the dataset.}
 
 \item{by_vars}{Grouping variables
 
-The variable from \code{dataset} which identifies a unique subject.}
+The variable from \code{dataset} which identifies a unique subject and their visit.}
 
 \item{sex}{Sex
 
@@ -197,7 +197,7 @@ who_over2 <- bind_rows(
 
 advs_under2 <- derive_params_growth_height(
   advs_under2,
-  by_vars = get_admiral_options("subject_keys"),
+  by_vars = exprs(USUBJID, VISIT),
   sex = SEX,
   height = HGTTMP,
   height_unit = HGTTMPU,
