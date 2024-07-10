@@ -48,10 +48,7 @@
 #'   ) %>%
 #'   # Interpolate the AGE by SEX
 #'   # Ensure first that Age unit is "DAYS"
-#'   derive_interp_records(., parameter = "HEIGHT") %>%
-#'   # Keep patients >= 2 yrs only - Remove duplicates for 730 Days old which
-#'   # must come from WHO metadata only
-#'   filter(AGE >= 730.5)
+#'   derive_interp_records(., parameter = "HEIGHT")
 #'
 #' print(cdc_htage)
 derive_interp_records <- function(dataset,
@@ -66,7 +63,7 @@ derive_interp_records <- function(dataset,
   }
 
   stopifnot("AGE" %in% colnames(dataset))
-  stopifnot("SEX" %in% colnames(dataset))
+  stopifnot(expr(!!by_vars) %in% colnames(dataset))
   stopifnot("L" %in% colnames(dataset))
   stopifnot("M" %in% colnames(dataset))
   stopifnot("S" %in% colnames(dataset))
