@@ -16,8 +16,6 @@
 #'   The variable from `dataset` which identifies the group of observations
 #'   to interpolate separately.
 #'
-#'   Must not be `NULL`.
-#'
 #' @param parameter CDC/WHO metadata parameter
 #'
 #' *Permitted Values*: `"WEIGHT"`, `"HEIGHT"` or `"BMI"` only - Must not be `NULL`
@@ -44,26 +42,35 @@
 #'       SEX == 2 ~ "F",
 #'       TRUE ~ NA_character_
 #'     ),
+#'     # Ensure first that Age unit is "DAYS"
 #'     AGE = round(AGE * 30.4375)
 #'   ) %>%
 #'   # Interpolate the AGE by SEX
-#'   # Ensure first that Age unit is "DAYS"
-#'   derive_interp_records(., parameter = "HEIGHT")
+#'   derive_interp_records(by_vars = exprs(SEX), parameter = "HEIGHT")
 #'
 #' print(cdc_htage)
 derive_interp_records <- function(dataset,
-                                  by_vars = exprs(SEX),
-                                  parameter = "WEIGHT") {
+                                  by_vars = NULL,
+                                  parameter) {
+  # Apply assertion to by_vars argument to ensure it is appropriate class
+  assert_vars(by_vars, optional = TRUE)
+
+  stopifnot(!is.null(parameter))
+  stopifnot(!is.na(parameter))
   stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
-  if (parameter %in% c("HEIGHT", "WEIGHT")) {
-    metadata_vars <- c("AGE", "L", "M", "S")
-  }
+
+  metadata_vars <- c("AGE", "L", "M", "S")
   if (parameter == "BMI") {
-    metadata_vars <- c("AGE", "L", "M", "S", "P95", "Sigma")
+    # metadata_vars <- c("AGE", "L", "M", "S", "P95", "Sigma")
+    metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
   }
 
   stopifnot("AGE" %in% colnames(dataset))
-  stopifnot(expr(!!by_vars) %in% colnames(dataset))
+
+  if (!is.null(by_vars)) {
+    stopifnot(!!by_vars %in% colnames(dataset))
+  }
+
   stopifnot("L" %in% colnames(dataset))
   stopifnot("M" %in% colnames(dataset))
   stopifnot("S" %in% colnames(dataset))
@@ -74,12 +81,26 @@ derive_interp_records <- function(dataset,
 
   arrange(dataset, !!!by_vars, AGE)
 
+  # Ensure to have unique combination when by_vars is not defined
+  if (is.null(by_vars)) {
+    other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
+
+    nb_occ <- nrow(dataset %>%
+      group_by_at(other_data_vars) %>%
+      slice(1) %>%
+      ungroup())
+
+    if (nb_occ > 1) {
+      stop(paste0("The combination of ", paste(other_data_vars, collapse = ", "), " must be unique. Please define `by_vars` otherwise."))
+    }
+  }
+
   fapp <- function(v, age) {
     approx(age, v, xout = seq(min(age), max(age)))$y
   }
 
   # Apply the function within each group and combine the results
-  result <- dataset %>%
+  dataset <- dataset %>%
     group_by(!!!by_vars) %>%
     do({
       age <- .$AGE
@@ -87,9 +108,7 @@ derive_interp_records <- function(dataset,
       as.data.frame(do.call(bind_cols, x))
     }) %>%
     ungroup() %>%
-    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
-    # must come from WHO metadata only
-    filter(!is.na(AGE) & AGE >= 730.5 & AGE <= 7305)
+    filter(!is.na(AGE))
 
-  return(result)
+  return(dataset)
 }
