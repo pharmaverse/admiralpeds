@@ -8,6 +8,12 @@
 #'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @param by_vars Grouping variables
+#'
+#'   The variables from `dataset` which identifies a unique subject and their visit is expected.
+#'
+#'   *Permitted Values*: A list of variables created by `exprs()`, e.g `exprs(USUBJID, VISIT)`.
+#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -32,6 +38,13 @@
 #'   The dataset can be derived from CDC/WHO or user-defined datasets.
 #'   The CDC/WHO growth chart metadata datasets are available in the package and will
 #'   require small modifications.
+#'
+#'   If the `age` value from `dataset` falls between two `AGE` values in `meta_criteria`,
+#'   then the `L`/`M`/`S` values that are chosen/mapped will be the `AGE` that has the
+#'   smaller absolute difference to the value in `age`.
+#'   e.g. If dataset has a current age of 27.49 months, and the metadata contains records
+#'   for 27 and 28 months, the `L`/`M`/`S` corresponding to the 27 months record will be used.
+#'
 #'   * `AGE` - Age
 #'   * `AGEU` - Age Unit
 #'   * `SEX` - Sex
@@ -162,6 +175,7 @@
 #'
 #' derive_params_growth_age(
 #'   advs,
+#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   age = AGECUR,
 #'   age_unit = AGECURU,
@@ -178,6 +192,7 @@
 #'   )
 #' )
 derive_params_growth_age <- function(dataset,
+                                     by_vars = NULL,
                                      sex,
                                      age,
                                      age_unit,
@@ -188,11 +203,18 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
+  if (is.null(by_vars)) {
+    warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
+  }
+  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-  assert_data_frame(dataset, required_vars = expr_c(sex, age, age_unit, analysis_var))
+  assert_data_frame(
+    dataset,
+    required_vars = expr_c(sex, age, age_unit, analysis_var, by_vars)
+  )
 
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
   if (bmi_cdc_correction == TRUE) {
@@ -220,10 +242,9 @@ derive_params_growth_age <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, AGEU, AGE) %>%
     group_by(SEX, AGEU) %>%
-    mutate(next_age = lead(AGE)) %>% # needed for the join and filter later creates [x, y) range
     rename(
       sex_join = SEX,
-      prev_age = AGE,
+      metadata_age = AGE,
       ageu_join = AGEU
     )
 
@@ -236,7 +257,14 @@ derive_params_growth_age <- function(dataset,
       by = c("sex_join", "ageu_join"),
       relationship = "many-to-many"
     ) %>%
-    filter(prev_age <= {{ age }} & {{ age }} < next_age)
+    mutate(age_diff := abs(metadata_age - {{ age }})) %>%
+    group_by(!!!by_vars) %>%
+    mutate(is_lowest = age_diff == min(age_diff)) %>%
+    ungroup() %>%
+    group_by(!!!by_vars, is_lowest) %>%
+    filter(is_lowest & row_number() == 1) %>%
+    ungroup()
+
 
   dataset_final <- dataset
 
@@ -261,7 +289,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -288,7 +316,7 @@ derive_params_growth_age <- function(dataset,
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, ageu_join, prev_age, next_age))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
   }
 
   return(dataset_final)

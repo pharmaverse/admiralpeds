@@ -255,6 +255,7 @@ advs <- advs %>%
 ## For Height/Weight/BMI/Head Circumference by Age ----
 advs_age <- advs %>%
   derive_params_growth_age(
+    by_vars = exprs(USUBJID, AVISIT),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -271,6 +272,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
+    by_vars = exprs(USUBJID, AVISIT),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -287,6 +289,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
+    by_vars = exprs(USUBJID, AVISIT),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -304,6 +307,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
+    by_vars = exprs(USUBJID, AVISIT),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -329,6 +333,7 @@ as it depends on your CRF guidelines.")
 advs_ht_lgth <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
+    by_vars = exprs(USUBJID, AVISIT),
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -347,6 +352,7 @@ advs_ht_lgth <- advs %>%
   # Use measure=HEIGHT for patient current age >= 2 years
   bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
     derive_params_growth_height(
+      by_vars = exprs(USUBJID, AVISIT),
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
