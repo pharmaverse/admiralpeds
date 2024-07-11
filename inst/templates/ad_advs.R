@@ -44,11 +44,17 @@ bmi_for_age <- who_bmi_for_age_boys %>%
         SEX == 2 ~ "F",
         TRUE ~ NA_character_
       ),
+      # Ensure first that Age unit is "DAYS"
       AGE = round(AGE * 30.4375)
     ) %>%
     # Interpolate the AGE by SEX
-    # Ensure first that Age unit is "DAYS"
-    derive_interp_records(., parameter = "BMI")) %>%
+    derive_interp_records(
+      by_vars = exprs(SEX),
+      parameter = "BMI"
+    ) %>%
+    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+    # must come from WHO metadata only
+    filter(AGE >= 730.5 & AGE <= 7305)) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -74,11 +80,17 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
         SEX == 2 ~ "F",
         TRUE ~ NA_character_
       ),
+      # Ensure first that Age unit is "DAYS"
       AGE = round(AGE * 30.4375)
     ) %>%
     # Interpolate the AGE by SEX
-    # Ensure first that Age unit is "DAYS"
-    derive_interp_records(., parameter = "HEIGHT")) %>%
+    derive_interp_records(
+      by_vars = exprs(SEX),
+      parameter = "HEIGHT"
+    ) %>%
+    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+    # must come from WHO metadata only
+    filter(AGE >= 730.5 & AGE <= 7305)) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
@@ -104,11 +116,17 @@ weight_for_age <- who_wt_for_age_boys %>%
         SEX == 2 ~ "F",
         TRUE ~ NA_character_
       ),
+      # Ensure first that Age unit is "DAYS"
       AGE = round(AGE * 30.4375)
     ) %>%
     # Interpolate the AGE by SEX
-    # Ensure first that Age unit is "DAYS"
-    derive_interp_records()) %>%
+    derive_interp_records(
+      by_vars = exprs(SEX),
+      parameter = "WEIGHT"
+    ) %>%
+    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+    # must come from WHO metadata only
+    filter(AGE >= 730.5 & AGE <= 7305)) %>%
   # AGEU is added in metadata, required for derive_params_growth_age
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
