@@ -90,6 +90,7 @@ test_that("derive_params_growth_height Test 2: works for subjects that are under
 
   actual_pctl_over <- derive_params_growth_height(
     dataset = filter(vs_data, AAGECUR >= 730.5),
+    by_vars = exprs(USUBJID, VISIT),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
