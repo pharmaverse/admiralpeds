@@ -352,7 +352,7 @@ the `derive_params_growth_age()` function as follows:
 ## For BMI by Age
 advs <- advs %>%
   derive_params_growth_age(
-    by_vars = exprs(USUBJID, AVISIT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),,
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -410,7 +410,7 @@ to that used above, but now passing in height instead of age.
 ```{r eval=FALSE}
 advs <- advs %>%
   derive_params_growth_height(
-    by_vars = exprs(USUBJID, AVISIT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),,
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -452,7 +452,7 @@ age.
 advs <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
-    by_vars = exprs(USUBJID, AVISIT),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),,
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -471,7 +471,7 @@ advs <- advs %>%
   # Use measure=HEIGHT for patient current age >= 2 years
   bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
     derive_params_growth_height(
-      by_vars = exprs(USUBJID, AVISIT),
+      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),,
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
