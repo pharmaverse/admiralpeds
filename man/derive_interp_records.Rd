@@ -4,7 +4,7 @@
 \alias{derive_interp_records}
 \title{Derive interpolated rows for the CDC charts (>=2 yrs old)}
 \usage{
-derive_interp_records(dataset, by_vars = exprs(SEX), parameter = "WEIGHT")
+derive_interp_records(dataset, by_vars = NULL, parameter)
 }
 \arguments{
 \item{dataset}{Input metadataset
@@ -18,9 +18,7 @@ Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS
 \item{by_vars}{Grouping variables
 
 The variable from \code{dataset} which identifies the group of observations
-to interpolate separately.
-
-Must not be \code{NULL}.}
+to interpolate separately.}
 
 \item{parameter}{CDC/WHO metadata parameter
 
@@ -47,11 +45,11 @@ cdc_htage <- admiralpeds::cdc_htage \%>\%
       SEX == 2 ~ "F",
       TRUE ~ NA_character_
     ),
+    # Ensure first that Age unit is "DAYS"
     AGE = round(AGE * 30.4375)
   ) \%>\%
   # Interpolate the AGE by SEX
-  # Ensure first that Age unit is "DAYS"
-  derive_interp_records(., parameter = "HEIGHT")
+  derive_interp_records(by_vars = exprs(SEX), parameter = "HEIGHT")
 
 print(cdc_htage)
 }
