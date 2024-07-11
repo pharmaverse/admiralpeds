@@ -26,7 +26,9 @@ are expected to be in the dataset.}
 
 \item{by_vars}{Grouping variables
 
-The variable from \code{dataset} which identifies a unique subject and their visit.}
+The variables from \code{dataset} which identifies a unique subject and their visit is expected.
+
+\emph{Permitted Values}: A list of variables created by \code{exprs()}, e.g \code{exprs(USUBJID, VISIT)}.}
 
 \item{sex}{Sex
 

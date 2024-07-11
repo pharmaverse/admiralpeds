@@ -10,7 +10,9 @@
 #'
 #' @param by_vars Grouping variables
 #'
-#'   The variable from `dataset` which identifies a unique subject and their visit.
+#'   The variables from `dataset` which identifies a unique subject and their visit is expected.
+#'
+#'   *Permitted Values*: A list of variables created by `exprs()`, e.g `exprs(USUBJID, VISIT)`.
 #'
 #' @param sex Sex
 #'
@@ -201,6 +203,9 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
+  if(is.null(by_vars)) {
+    warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
+  }
   assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   age <- assert_symbol(enexpr(age))

@@ -22,7 +22,7 @@ test_that("derive_params_growth_age Test 1: derive_params_growth_age works", {
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(USUBJID, VISIT),
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
