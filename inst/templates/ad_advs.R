@@ -281,7 +281,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
-    by_vars =  c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -298,7 +298,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
-    by_vars =  c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -316,7 +316,7 @@ advs_age <- advs %>%
     )
   ) %>%
   derive_params_growth_age(
-    by_vars =  c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -342,7 +342,7 @@ as it depends on your CRF guidelines.")
 advs_ht_lgth <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
-    by_vars =  c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -361,7 +361,7 @@ advs_ht_lgth <- advs %>%
   # Use measure=HEIGHT for patient current age >= 2 years
   bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
     derive_params_growth_height(
-      by_vars =  c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
