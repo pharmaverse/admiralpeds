@@ -3,11 +3,11 @@ library(dplyr)
 ## Test 1: Weight SDS and percentile works (P3, P97) ----
 test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 1, "months", "WEIGHT", 5.8,
-    "1002", "F", 517, "days", "WEIGHT", 8.8,
-    "1003", "M", 870, "days", "WEIGHT", 11.3,
-    "1004", "F", 71, "months", "WEIGHT", 27.1,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 1, "months", "WEIGHT", 5.8,
+    "Study", "1002", "Cycle 1 Day 1", "F", 517, "days", "WEIGHT", 8.8,
+    "Study", "1003", "Cycle 10 Day 1", "M", 870, "days", "WEIGHT", 11.3,
+    "Study", "1004", "Screening", "F", 71, "months", "WEIGHT", 27.1,
   )
 
   meta <- tibble::tribble(
@@ -19,6 +19,7 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
   )
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -60,11 +61,11 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
 ## Test 2: Height SDS and percentile works (P50, P97) ----
 test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50, P97)", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 2, "months", "HEIGHT", 58,
-    "1002", "F", 578, "days", "HEIGHT", 87,
-    "1003", "M", 910, "days", "HEIGHT", 92,
-    "1004", "F", 159, "months", "HEIGHT", 170,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 2, "months", "HEIGHT", 58,
+    "Study", "1002", "Cycle 1 Day 1", "F", 578, "days", "HEIGHT", 87,
+    "Study", "1003", "Cycle 10 Day 1", "days", "HEIGHT", 92,
+    "Study", "1004", "Screening", "F", 159, "months", "HEIGHT", 170,
   )
 
   meta <- tibble::tribble(
@@ -77,6 +78,7 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -118,11 +120,11 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 ## Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5) ----
 test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5)", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 2, "months", "BMI", 58,
-    "1002", "F", 578, "days", "BMI", 87,
-    "1003", "M", 2146, "days", "BMI", 13.5,
-    "1004", "F", 88.5, "months", "BMI", 21.9,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 2, "months", "BMI", 58,
+    "Study", "1002", "Cycle 1 Day 1", "F", 578, "days", "BMI", 87,
+    "Study", "1003", "Cycle 10 Day 1", "M", 2146, "days", "BMI", 13.5,
+    "Study", "1004", "Screening", "F", 88.5, "months", "BMI", 21.9,
   )
 
   meta <- tibble::tribble(
@@ -135,6 +137,7 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -178,9 +181,9 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 ## Test 4: Head circumference derivation works ----
 test_that("derive_params_growth_age Test 4: Head circumference SDS and percentile works", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 2, "months", "HEADC", 39,
-    "1002", "F", 1157, "days", "HEADC", 50,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 2, "months", "HEADC", 39,
+    "Study", "1002", "Cycle 1 Day 1", "F", 1157, "days", "HEADC", 50,
   )
 
   meta <- tibble::tribble(
@@ -191,6 +194,7 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -236,8 +240,8 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
 ## Test 5: Extreme BMI value derivation works ----
 test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 40.5, "months", "BMI", 19,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 40.5, "months", "BMI", 19,
   )
 
   meta <- tibble::tribble(
@@ -247,6 +251,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -298,12 +303,13 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 ## Test 6: Test out of bound ages ----
 test_that("derive_params_growth_age Test 6: Test out of bound ages", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 250, "months", "WEIGHT", 58,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 250, "months", "WEIGHT", 58,
   )
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
