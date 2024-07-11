@@ -234,7 +234,7 @@ derive_params_growth_height <- function(dataset,
                                         set_values_to_sds = NULL,
                                         set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
-  if(is.null(by_vars)) {
+  if (is.null(by_vars)) {
     warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
   }
   assert_vars(by_vars)

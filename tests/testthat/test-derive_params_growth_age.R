@@ -4,7 +4,7 @@
 test_that("derive_params_growth_age Test 1: derive_params_growth_age works", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "STUDY", "1001", "1","F", 24.5, "months", "WEIGHT", 10,
+    "STUDY", "1001", "1", "F", 24.5, "months", "WEIGHT", 10,
     "STUDY", "1002", "1", "F", 25.49, "months", "WEIGHT", 11,
     "STUDY", "1002", "2", "F", 26.7, "months", "WEIGHT", 11.5,
     "STUDY", "1003", "1", "F", 25.51, "months", "WEIGHT", 12,
