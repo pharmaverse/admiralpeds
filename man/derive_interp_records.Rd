@@ -49,7 +49,10 @@ cdc_htage <- admiralpeds::cdc_htage \%>\%
     AGE = round(AGE * 30.4375)
   ) \%>\%
   # Interpolate the AGE by SEX
-  derive_interp_records(by_vars = exprs(SEX), parameter = "HEIGHT")
+  derive_interp_records(
+    by_vars = exprs(SEX),
+    parameter = "HEIGHT"
+  )
 
 print(cdc_htage)
 }
