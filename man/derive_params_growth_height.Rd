@@ -7,6 +7,7 @@ based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
+  by_vars = NULL,
   sex,
   height,
   height_unit,
@@ -22,6 +23,12 @@ derive_params_growth_height(
 
 The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
+
+\item{by_vars}{Grouping variables
+
+The variables from \code{dataset} which identifies a unique subject and their visit is expected.
+
+\emph{Permitted Values}: A list of variables created by \code{exprs()}, e.g \code{exprs(USUBJID, VISIT)}.}
 
 \item{sex}{Sex
 
@@ -49,6 +56,12 @@ require small modifications.
 
 Datasets \code{who_wt_for_lgth_boys}/\code{who_wt_for_lgth_girls} are for subject age < 730.5 days.
 Datasets \code{who_wt_for_ht_boys}/\code{who_wt_for_ht_girls} are for subjects age >= 730.5 days.
+
+If the \code{height} value from \code{dataset} falls between two \code{HEIGHT_LENGTH} values in
+\code{meta_criteria}, then the \code{L}/\code{M}/\code{S} values that are chosen/mapped will be the
+\code{HEIGHT_LENGTH} that has the smaller absolute difference to the value in \code{height}.
+e.g. If dataset has a current age of 50.49 cm, and the metadata contains records
+for 50 and 51 cm, the \code{L}/\code{M}/\code{S} corresponding to the 50 cm record will be used.
 \itemize{
 \item \code{HEIGHT_LENGTH} - Height/Length
 \item \code{HEIGHT_LENGTHU} - Height/Length Unit
@@ -186,6 +199,7 @@ who_over2 <- bind_rows(
 
 advs_under2 <- derive_params_growth_height(
   advs_under2,
+  by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
   height = HGTTMP,
   height_unit = HGTTMPU,
@@ -204,6 +218,7 @@ advs_under2 <- derive_params_growth_height(
 
 advs_over2 <- derive_params_growth_height(
   advs_over2,
+  by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
   height = HGTTMP,
   height_unit = HGTTMPU,
