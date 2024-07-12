@@ -18,9 +18,6 @@ test_that("derive_interp_records Test 3 : SEX must be not NULL", {
   expect_error(derive_interp_records(SEX = ""))
 })
 
-library(admiraldev)
-library(dplyr)
-
 ## Test 4: derive_interp_records records are properly interpolated for WEIGHT ----
 test_that("derive_interp_records Test 4 : WEIGHT data properly interpolated", {
   wt_interp_expected <- tibble::tribble(
