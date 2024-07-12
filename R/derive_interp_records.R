@@ -52,36 +52,22 @@
 derive_interp_records <- function(dataset,
                                   by_vars = NULL,
                                   parameter) {
-  # Apply assertion to by_vars argument to ensure it is appropriate class
-  assert_vars(by_vars, optional = TRUE)
-
-  stopifnot(!is.null(parameter))
-  stopifnot(!is.na(parameter))
-  stopifnot(parameter %in% c("HEIGHT", "WEIGHT", "BMI"))
-
-  metadata_vars <- c("AGE", "L", "M", "S")
+  # Apply assertions to each argument to ensure each object is appropriate class
+  by_vars <- assert_vars(by_vars, optional = TRUE)
+  assert_character_scalar(parameter, values = c("HEIGHT", "WEIGHT", "BMI"))
+  assert_data_frame(dataset, required_vars = exprs(!!!by_vars, AGE, L, M, S))
   if (parameter == "BMI") {
-    # metadata_vars <- c("AGE", "L", "M", "S", "P95", "Sigma")
-    metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
-  }
-
-  stopifnot("AGE" %in% colnames(dataset))
-
-  if (!is.null(by_vars)) {
-    stopifnot(!!by_vars %in% colnames(dataset))
-  }
-
-  stopifnot("L" %in% colnames(dataset))
-  stopifnot("M" %in% colnames(dataset))
-  stopifnot("S" %in% colnames(dataset))
-  if (parameter == "BMI") {
-    stopifnot("P95" %in% colnames(dataset))
-    stopifnot("Sigma" %in% colnames(dataset))
+    assert_data_frame(dataset, required_vars = exprs(!!!by_vars, AGE, L, M, S, P95, Sigma))
   }
 
   arrange(dataset, !!!by_vars, AGE)
 
   # Ensure to have unique combination when by_vars is not defined
+  metadata_vars <- c("AGE", "L", "M", "S")
+  if (parameter == "BMI") {
+    metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
+  }
+
   if (is.null(by_vars)) {
     other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
 
@@ -95,6 +81,7 @@ derive_interp_records <- function(dataset,
     }
   }
 
+  # Linear interpolation
   fapp <- function(v, age) {
     approx(age, v, xout = seq(min(age), max(age)))$y
   }
@@ -109,6 +96,4 @@ derive_interp_records <- function(dataset,
     }) %>%
     ungroup() %>%
     filter(!is.na(AGE))
-
-  return(dataset)
 }
