@@ -12,7 +12,7 @@ for Height/Weight/BMI/Head Circumference by Age"><meta property="og:image" conte
     
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9022</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9023</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,6 +83,7 @@ for Height/Weight/BMI/Head Circumference by Age</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_params_growth_age</span><span class="op">(</span></span>
 <span>  <span class="va">dataset</span>,</span>
+<span>  by_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">sex</span>,</span>
 <span>  <span class="va">age</span>,</span>
 <span>  <span class="va">age_unit</span>,</span>
@@ -101,6 +102,12 @@ for Height/Weight/BMI/Head Circumference by Age</p>
 <dd><p>Input dataset</p>
 <p>The variables specified in <code>sex</code>, <code>age</code>, <code>age_unit</code>, <code>parameter</code>, <code>analysis_var</code>
 are expected to be in the dataset.</p></dd>
+
+
+<dt>by_vars</dt>
+<dd><p>Grouping variables</p>
+<p>The variables from <code>dataset</code> which identifies a unique subject and their visit is expected.</p>
+<p><em>Permitted Values</em>: A list of variables created by <code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs()</a></code>, e.g <code>exprs(USUBJID, VISIT)</code>.</p></dd>
 
 
 <dt>sex</dt>
@@ -126,7 +133,12 @@ A character vector is expected.</p>
 <code>AGE</code>, <code>AGEU</code>, <code>SEX</code>, <code>L</code>, <code>M</code>, <code>S</code></p>
 <p>The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
-require small modifications.</p><ul><li><p><code>AGE</code> - Age</p></li>
+require small modifications.</p>
+<p>If the <code>age</code> value from <code>dataset</code> falls between two <code>AGE</code> values in <code>meta_criteria</code>,
+then the <code>L</code>/<code>M</code>/<code>S</code> values that are chosen/mapped will be the <code>AGE</code> that has the
+smaller absolute difference to the value in <code>age</code>.
+e.g. If dataset has a current age of 27.49 months, and the metadata contains records
+for 27 and 28 months, the <code>L</code>/<code>M</code>/<code>S</code> corresponding to the 27 months record will be used.</p><ul><li><p><code>AGE</code> - Age</p></li>
 <li><p><code>AGEU</code> - Age Unit</p></li>
 <li><p><code>SEX</code> - Sex</p></li>
 <li><p><code>L</code> - Power in the Box-Cox transformation to normality</p></li>
@@ -258,6 +270,7 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">derive_params_growth_age</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">advs</span>,</span></span>
+<span class="r-in"><span>  by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">STUDYID</span>, <span class="va">USUBJID</span>, <span class="va">VISIT</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  sex <span class="op">=</span> <span class="va">SEX</span>,</span></span>
 <span class="r-in"><span>  age <span class="op">=</span> <span class="va">AGECUR</span>,</span></span>
 <span class="r-in"><span>  age_unit <span class="op">=</span> <span class="va">AGECURU</span>,</span></span>
