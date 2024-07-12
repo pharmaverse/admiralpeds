@@ -75,9 +75,9 @@ derive_interp_records <- function(dataset,
     other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
 
     nb_occ <- nrow(dataset %>%
-      group_by_at(other_data_vars) %>%
-      slice(1) %>%
-      ungroup())
+                     group_by_at(other_data_vars) %>%
+                     slice(1) %>%
+                     ungroup())
 
     if (nb_occ > 1) {
       stop(paste0(
