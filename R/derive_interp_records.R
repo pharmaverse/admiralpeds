@@ -46,7 +46,10 @@
 #'     AGE = round(AGE * 30.4375)
 #'   ) %>%
 #'   # Interpolate the AGE by SEX
-#'   derive_interp_records(by_vars = exprs(SEX), parameter = "HEIGHT")
+#'   derive_interp_records(
+#'     by_vars = exprs(SEX),
+#'     parameter = "HEIGHT"
+#'   )
 #'
 #' print(cdc_htage)
 derive_interp_records <- function(dataset,
@@ -77,7 +80,10 @@ derive_interp_records <- function(dataset,
       ungroup())
 
     if (nb_occ > 1) {
-      stop(paste0("The combination of ", paste(other_data_vars, collapse = ", "), " must be unique. Please define `by_vars` otherwise."))
+      stop(paste0(
+        "The combination of ", paste(other_data_vars, collapse = ", "),
+        " must be unique. Please define `by_vars` otherwise."
+      ))
     }
   }
 
