@@ -37,7 +37,8 @@ Imports:
     admiraldev (>= 1.0.0),
     dplyr (>= 1.0.5),
     magrittr (>= 1.5),
-    rlang (>= 0.4.4)
+    rlang (>= 0.4.4),
+    tidyselect (>= 1.1.0)
 Suggests:
     admiral (>= 1.0.0),
     knitr,
@@ -46,8 +47,7 @@ Suggests:
     rmarkdown,
     stringr (>= 1.4.0),
     testthat (>= 3.0.0),
-    tibble,
-    tidyselect (>= 1.1.0)
+    tibble
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
