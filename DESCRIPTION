@@ -44,7 +44,7 @@ Suggests:
     lubridate (>= 1.7.4),
     pharmaversesdtm (>= 0.2.0),
     rmarkdown,
-    stringr,
+    stringr (>= 1.4.0),
     testthat (>= 3.0.0),
     tibble
 VignetteBuilder: 
