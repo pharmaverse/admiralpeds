@@ -1,11 +1,11 @@
 # derive_params_growth_age ----
-library(dplyr)
 ## Test 1: Weight SDS and percentile works (P3, P97) ----
 test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 1, "months", "WEIGHT", 5.8,
     "Study", "1002", "Cycle 1 Day 1", "F", 517, "days", "WEIGHT", 8.8,
+    "Study", "1002", "Cycle 2 Day 1", "F", 547, "days", "WEIGHT", 9.8,
     "Study", "1003", "Cycle 10 Day 1", "M", 870, "days", "WEIGHT", 11.3,
     "Study", "1004", "Screening", "F", 71, "months", "WEIGHT", 27.1,
   )
@@ -14,6 +14,7 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
     ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
     "M", 30, "days", 0.2303, 4.4525, 0.13413,
     "F", 517, "days", -0.2561, 10.0196, 0.12305,
+    "F", 547, "days", -0.2635, 10.2255, 0.12309,
     "M", 870, "days", -0.3310282164, 13.30298997, 0.1088506239,
     "F", 2161, "days", -1.327138401, 20.03756384, 0.1484897955,
   )
@@ -45,7 +46,7 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
     mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
     select(-ends_with("_c"), -AGECUR)
 
-  vs_data_meta <- vs_data_age %>% inner_join(meta, by = c("SEX", "AGE", "AGEU"))
+  vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -104,7 +105,7 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
     mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
     select(-ends_with("_c"), -AGECUR)
 
-  vs_data_meta <- vs_data_age %>% inner_join(meta, by = c("SEX", "AGE", "AGEU"))
+  vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL) * 100)
@@ -163,7 +164,7 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
     mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
     select(-ends_with("_c"), -AGECUR)
 
-  vs_data_meta <- vs_data_age %>% inner_join(meta, by = c("SEX", "AGE", "AGEU"))
+  vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -220,7 +221,7 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
     mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
     select(-ends_with("_c"), -AGECUR)
 
-  vs_data_meta <- vs_data_age %>% inner_join(meta, by = c("SEX", "AGE", "AGEU"))
+  vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -277,7 +278,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     mutate(AGE = AGECUR_c, AGEU = AGEU_c) %>%
     select(-ends_with("_c"), -AGECUR)
 
-  vs_data_meta <- vs_data_age %>% inner_join(meta, by = c("SEX", "AGE", "AGEU"))
+  vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
   vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
@@ -286,7 +287,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     select(USUBJID, tmpPCTL)
   expected <- vs_sds %>%
     mutate(tmpSDS = AVAL) %>%
-    inner_join(tmppctl, by = "USUBJID") %>%
+    dplyr::inner_join(tmppctl, by = "USUBJID") %>%
     mutate(
       PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / sigma), tmpPCTL),
       SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS)
