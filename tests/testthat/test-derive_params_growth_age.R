@@ -49,7 +49,7 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
   vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
-  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL) * 100)
   expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
 
 
@@ -65,7 +65,7 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 2, "months", "HEIGHT", 58,
     "Study", "1002", "Cycle 1 Day 1", "F", 578, "days", "HEIGHT", 87,
-    "Study", "1003", "Cycle 10 Day 1", "days", "HEIGHT", 92,
+    "Study", "1003", "Cycle 10 Day 1", "M", 910, "days", "HEIGHT", 92,
     "Study", "1004", "Screening", "F", 159, "months", "HEIGHT", 170,
   )
 
@@ -168,7 +168,7 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
   vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
-  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL) * 100)
   expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
 
 
@@ -225,13 +225,8 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
   vs_data_meta <- vs_data_age %>% dplyr::inner_join(meta, by = c("SEX", "AGE", "AGEU"))
 
   vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
-  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL) * 100)
   expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
-
-  vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
-  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL))
-  expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
-
 
   expect_equal(
     filter(actual, PARAMCD %in% c("HDCASDS", "HDCAPCTL")) %>% pull(AVAL),
@@ -326,8 +321,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
     )
   )
 
-  expected <- c(NA, NA)
-
+  expected <- as.numeric()
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
@@ -338,12 +332,13 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
 ## Test 6: Test out of bound ages ----
 test_that("derive_params_growth_age Test 6: Test out of bound ages", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 250, "months", "WEIGHT", 58,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Cycle 1 Day 1", "M", 250, "months", "WEIGHT", 58,
   )
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -357,7 +352,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
       PARAMCD = "WTAPCTL"
     )
   )
-  expected <- c(NA, NA)
+  expected <- as.numeric()
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
@@ -368,12 +363,13 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
 ## Test 7: Test missing anthropocentric values ----
 test_that("derive_params_growth_age Test 7: Test missing anthropocentric values", {
   vs_data <- tibble::tribble(
-    ~USUBJID, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "1001", "M", 210, "months", "WEIGHT", NA,
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 210, "months", "WEIGHT", NA,
   )
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -388,8 +384,7 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
     )
   )
 
-  expected <- c(NA, NA)
-
+  expected <- as.numeric()
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
