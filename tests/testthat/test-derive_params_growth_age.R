@@ -77,6 +77,7 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
     "F", 4840, "days", 1.172254081, 158.2058471, 0.04304528616,
   )
 
+
   actual <- derive_params_growth_age(
     dataset = vs_data,
     by_vars = exprs(STUDYID, USUBJID, VISIT),
@@ -356,9 +357,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
       PARAMCD = "WTAPCTL"
     )
   )
-
   expected <- c(NA, NA)
-
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
