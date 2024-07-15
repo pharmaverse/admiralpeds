@@ -86,34 +86,6 @@
 #' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
 "who_wt_for_lgth_boys"
 
-#' @title WHO Weight-for-height for girls
-#' @description WHO Weight-for-height charts for girls from 65cm to 120cm
-#' @format A data frame with 551 rows and 4 variables:
-#' \describe{
-#'   \item{\code{Height}}{double Height in cm}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
-#' }
-#' @family metadata
-#' @keywords metadata
-#' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"who_wt_for_ht_girls"
-
-#' @title WHO Weight-for-height for boys
-#' @description WHO Weight-for-height charts for boys from 65cm to 120cm
-#' @format A data frame with 551 rows and 4 variables:
-#' \describe{
-#'   \item{\code{Height}}{double Height in cm}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
-#' }
-#' @family metadata
-#' @keywords metadata
-#' @source \url{https://www.who.int/tools/child-growth-standards/standards/weight-for-length-height}
-"who_wt_for_ht_boys"
-
 #' @title WHO BMI-for-age for girls
 #' @description WHO BMI-for-age charts for girls from day 0 (birth) to
 #' day 1856
