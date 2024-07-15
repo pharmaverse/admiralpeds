@@ -9,6 +9,12 @@
 #'   The variables specified in `sex`, `height`, `height_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @param by_vars Grouping variables
+#'
+#'   The variables from `dataset` which identifies a unique subject and their visit is expected.
+#'
+#'   *Permitted Values*: A list of variables created by `exprs()`, e.g `exprs(USUBJID, VISIT)`.
+#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -36,6 +42,12 @@
 #'
 #'   Datasets `who_wt_for_lgth_boys`/`who_wt_for_lgth_girls` are applicable for
 #'   subject age < 730.5 days.
+#'
+#'   If the `height` value from `dataset` falls between two `HEIGHT_LENGTH` values in
+#'   `meta_criteria`, then the `L`/`M`/`S` values that are chosen/mapped will be the
+#'   `HEIGHT_LENGTH` that has the smaller absolute difference to the value in `height`.
+#'   e.g. If dataset has a current age of 50.49 cm, and the metadata contains records
+#'   for 50 and 51 cm, the `L`/`M`/`S` corresponding to the 50 cm record will be used.
 #'
 #'   * `HEIGHT_LENGTH` - Height/Length
 #'   * `HEIGHT_LENGTHU` - Height/Length Unit
@@ -153,6 +165,7 @@
 #'
 #' advs_under2 <- derive_params_growth_height(
 #'   advs_under2,
+#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
@@ -169,6 +182,7 @@
 #'   )
 #' )
 derive_params_growth_height <- function(dataset,
+                                        by_vars = NULL,
                                         sex,
                                         height,
                                         height_unit,
@@ -178,12 +192,22 @@ derive_params_growth_height <- function(dataset,
                                         set_values_to_sds = NULL,
                                         set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
+  if (is.null(by_vars)) {
+    warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
+  }
+  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   height <- assert_symbol(enexpr(height))
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
-  assert_data_frame(dataset, required_vars = expr_c(sex, height, height_unit, analysis_var))
-  assert_data_frame(meta_criteria, required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S)) # nolint
+  assert_data_frame(
+    dataset,
+    required_vars = expr_c(sex, height, height_unit, analysis_var, by_vars)
+  )
+  assert_data_frame(
+    meta_criteria,
+    required_vars = exprs(SEX, HEIGHT_LENGTH, HEIGHT_LENGTHU, L, M, S)
+  )
 
   assert_expr(enexpr(parameter))
   assert_varval_list(set_values_to_sds, optional = TRUE)
@@ -206,15 +230,13 @@ derive_params_growth_height <- function(dataset,
   processed_md <- meta_criteria %>%
     arrange(SEX, HEIGHT_LENGTHU, HEIGHT_LENGTH) %>%
     group_by(SEX, HEIGHT_LENGTHU) %>%
-    mutate(next_height = lead(HEIGHT_LENGTH)) %>%
     rename(
       sex_join = SEX,
-      prev_height = HEIGHT_LENGTH,
+      meta_height = HEIGHT_LENGTH,
       heightu_join = HEIGHT_LENGTHU
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
-  # To parse out the appropriate age, create [x, y) using prev_height <= height < next_height
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
@@ -222,7 +244,12 @@ derive_params_growth_height <- function(dataset,
       by = c("sex_join", "heightu_join"),
       relationship = "many-to-many"
     ) %>%
-    filter(prev_height <= {{ height }} & {{ height }} < next_height)
+    mutate(ht_diff := abs(meta_height - {{ height }})) %>%
+    group_by(!!!by_vars) %>%
+    mutate(is_lowest = ht_diff == min(ht_diff)) %>%
+    group_by(!!!by_vars, is_lowest) %>%
+    filter(is_lowest & row_number() == 1) %>%
+    ungroup()
 
   dataset_final <- dataset
 
@@ -235,7 +262,7 @@ derive_params_growth_height <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, heightu_join, prev_height, next_height))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -247,7 +274,7 @@ derive_params_growth_height <- function(dataset,
       )
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, heightu_join, prev_height, next_height))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 
   return(dataset_final)

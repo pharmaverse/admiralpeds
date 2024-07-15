@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
+library(admiral)
 library(admiraldev)
 ```
 
@@ -79,7 +79,7 @@ metadata for this package are as follows:
 
 ### Reference Files for Parameters by Age
 
-As growth rates and patterns differ between gender, different reference
+As growth rates and patterns differ between sex, different reference
 values are used accordingly and for different age groups.
 
 For the applicable parameters here (height/weight/BMI), we made the
@@ -89,7 +89,7 @@ age (\<730.5 days) and CDC standards for children \>=2 years of age
 recommendation](https://www.cdc.gov/growthcharts/who_charts.htm).
 
 So, the first step here needed is to combine the various metadata by
-parameter and ensuring gender and age are shown in a consistent way.
+parameter and ensuring sex and age are shown in a consistent way.
 
 Additionally, as the CDC growth charts only offer monthly intervals we
 took advice from an ex-CDC expert in this area and made the decision in
@@ -155,7 +155,7 @@ the WHO standards, as no equivalent for \>2 years of age are provided by CDC.
 
 WHO provides additional standards for weight by body length and weight
 by height, instead of age. For these we again combined the metadata for
-gender so that we have a single reference file by body length and a
+sex so that we have a single reference file by body length and a
 single reference file by height. We also give the values and units
 consistent variable names so that we can pass either metadata into the
 same function. We do this using the following code:
@@ -362,6 +362,7 @@ the `derive_params_growth_age()` function as follows:
 ## For BMI by Age
 advs <- advs %>%
   derive_params_growth_age(
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -424,6 +425,7 @@ to that used above, but now passing in height instead of age.
 ```{r eval=FALSE}
 advs <- advs %>%
   derive_params_growth_height(
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -465,6 +467,7 @@ age.
 advs <- advs %>%
   filter(AAGECUR < 730.5) %>%
   derive_params_growth_height(
+    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     height = HGTTMP,
     height_unit = HGTTMPU,
@@ -483,6 +486,7 @@ advs <- advs %>%
   # Use measure=HEIGHT for patient current age >= 2 years
   bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
     derive_params_growth_height(
+      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
