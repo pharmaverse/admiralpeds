@@ -38,7 +38,7 @@ Expected Values: \code{M}, \code{F}}
 
 \item{height}{Current Height/length
 
-A numeric vector is expected. Note that this is the actual height at the current visit.}
+A numeric vector is expected. Note that this is the actual height/length at the current visit.}
 
 \item{height_unit}{Height/Length Unit
 A character vector is expected.
@@ -126,8 +126,8 @@ library(lubridate, warn.conflicts = FALSE)
 library(rlang, warn.conflicts = FALSE)
 library(admiral, warn.conflicts = FALSE)
 
-# derive weight for height only for those under 2 years old using WHO height
-# for length reference file
+# derive weight for height/length only for those under 2 years old using WHO
+# weight for length reference file
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
   right_join(., vs_peds, by = "USUBJID") \%>\%
@@ -187,11 +187,11 @@ advs_under2 <- derive_params_growth_height(
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
     PARAMCD = "WGTHSDS",
-    PARAM = "Weight-for-height z-score"
+    PARAM = "Weight-for-height/length z-score"
   ),
   set_values_to_pctl = exprs(
     PARAMCD = "WGTHPCTL",
-    PARAM = "Weight-for-height percentile"
+    PARAM = "Weight-for-height/length percentile"
   )
 )
 }
