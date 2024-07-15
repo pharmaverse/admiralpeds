@@ -176,7 +176,7 @@ who_under2 <- bind_rows(
     HEIGHT_LENGTHU = height_unit
   )
 
-advs_under2 <- derive_params_growth_height(
+derive_params_growth_height(
   advs_under2,
   by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
