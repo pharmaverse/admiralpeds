@@ -64,11 +64,7 @@ derive_interp_records <- function(dataset,
     assert_data_frame(dataset, required_vars = exprs(!!!by_vars, AGE, L, M, S, P95, Sigma))
   }
 
-  if (is.null(by_vars)) {
-    arrange(dataset, AGE)
-  } else {
-    arrange(dataset, !!!by_vars, AGE)
-  }
+  arrange(dataset, !!!by_vars, AGE)
 
   # Ensure to have unique combination when by_vars is not defined
   metadata_vars <- c("AGE", "L", "M", "S")
@@ -80,9 +76,9 @@ derive_interp_records <- function(dataset,
     other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
 
     nb_occ <- nrow(dataset %>%
-      group_by_at(other_data_vars) %>%
-      slice(1) %>%
-      ungroup())
+                     group_by(across(all_of(other_data_vars))) %>%
+                     slice(1) %>%
+                     ungroup())
 
     if (nb_occ > 1) {
       stop(paste0(
@@ -98,23 +94,14 @@ derive_interp_records <- function(dataset,
   }
 
   # Apply the function within each group and combine the results
-  if (is.null(by_vars)) {
-    dataset <- dataset %>%
-      do({
-        age <- .$AGE
-        x <- lapply(.[, metadata_vars], fapp, age = age)
-        as.data.frame(do.call(bind_cols, x))
-      }) %>%
-      filter(!is.na(AGE))
-  } else {
-    dataset <- dataset %>%
-      group_by(!!!by_vars) %>%
-      do({
-        age <- .$AGE
-        x <- lapply(.[, metadata_vars], fapp, age = age)
-        as.data.frame(do.call(bind_cols, x))
-      }) %>%
-      ungroup() %>%
-      filter(!is.na(AGE))
-  }
+  dataset <- dataset %>%
+    group_by(!!!by_vars) %>%
+    do({
+      age <- .$AGE
+      x <- lapply(.[, metadata_vars], fapp, age = age)
+      as.data.frame(do.call(bind_cols, x))
+    }) %>%
+    ungroup() %>%
+    filter(!is.na(AGE))
+
 }
