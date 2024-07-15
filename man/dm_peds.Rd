@@ -3,7 +3,7 @@
 \docType{data}
 \name{dm_peds}
 \alias{dm_peds}
-\title{Demographic Dataset-updated}
+\title{Demographic Dataset-pediatrics}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 5 rows and 26 columns.
 }
