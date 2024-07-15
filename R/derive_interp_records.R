@@ -81,10 +81,10 @@ derive_interp_records <- function(dataset,
       ungroup())
 
     if (nb_occ > 1) {
-      stop(paste0(
-        "The combination of ", paste(other_data_vars, collapse = ", "),
-        " must be unique. Please define `by_vars` otherwise."
-      ))
+      cli_abort(paste0(
+          "The combination of ", paste(other_data_vars, collapse = ", "),
+          " must be unique. Please define `by_vars` otherwise."
+        ))
     }
   }
 
