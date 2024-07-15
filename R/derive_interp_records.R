@@ -76,9 +76,9 @@ derive_interp_records <- function(dataset,
     other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
 
     nb_occ <- nrow(dataset %>%
-                     group_by(across(all_of(other_data_vars))) %>%
-                     slice(1) %>%
-                     ungroup())
+      group_by(across(all_of(other_data_vars))) %>%
+      slice(1) %>%
+      ungroup())
 
     if (nb_occ > 1) {
       stop(paste0(
@@ -94,14 +94,23 @@ derive_interp_records <- function(dataset,
   }
 
   # Apply the function within each group and combine the results
-  dataset <- dataset %>%
-    group_by(!!!by_vars) %>%
-    do({
-      age <- .$AGE
-      x <- lapply(.[, metadata_vars], fapp, age = age)
-      as.data.frame(do.call(bind_cols, x))
-    }) %>%
-    ungroup() %>%
-    filter(!is.na(AGE))
-
+  if (is.null(by_vars)) {
+    dataset <- dataset %>%
+      reframe({
+        age <- AGE
+        x <- lapply(select(., all_of(metadata_vars)), fapp, age = age)
+        as.data.frame(do.call(bind_cols, x))
+      }) %>%
+      filter(!is.na(AGE))
+  } else {
+    dataset <- dataset %>%
+      group_by(across(!!!syms(map(replace_values_by_names(by_vars), as_label)))) %>%
+      reframe({
+        age <- AGE
+        x <- lapply(across(all_of(metadata_vars)), fapp, age = age)
+        as.data.frame(do.call(bind_cols, x))
+      }) %>%
+      ungroup() %>%
+      filter(!is.na(AGE))
+  }
 }
