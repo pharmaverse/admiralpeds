@@ -288,8 +288,9 @@ test_that("derive_interp_records Test 6 : BMI data properly interpolated", {
   expect_equal(bmi_interp_actual, bmi_interp_expected, tolerance = 1e-5)
 })
 
-## Test 7: derive_interp_records - by_vars argument set to NULL with no unique combination within metadata variables ----
-test_that("derive_interp_records Test 7 : by_vars argument set to NULL with no unique combination within metadata variables", {
+## Test 7: derive_interp_records - by_vars=NULL with no unique combination within metadata variables ----
+test_that("derive_interp_records Test 7 : by_vars argument set to NULL with no unique combination within
+          metadata variables", {
   expect_error(
     bmi_interp_actual <- admiralpeds::cdc_bmiage %>%
       mutate(
@@ -311,8 +312,9 @@ test_that("derive_interp_records Test 7 : by_vars argument set to NULL with no u
   )
 })
 
-## Test 8: derive_interp_records - by_vars argument set to NULL with unique combination within metadata variables ----
-test_that("derive_interp_records Test 8 : by_vars argument set to NULL with unique combination within metadata variables", {
+## Test 8: derive_interp_records - by_vars=NULL with unique combination within metadata variables ----
+test_that("derive_interp_records Test 8 : by_vars argument set to NULL with unique combination within
+          metadata variables", {
   bmi_interp_expected_female <- tibble::tribble(
     ~AGE, ~L, ~M, ~S, ~P95, ~Sigma,
     731, -0.988976549, 16.42118689, 0.085425163, 19.1032, 1.572355063,
