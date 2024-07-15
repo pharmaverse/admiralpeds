@@ -34,6 +34,7 @@
 #'
 #' @examples
 #' library(dplyr, warn.conflicts = FALSE)
+#' library(rlang, warn.conflicts = FALSE)
 #'
 #' cdc_htage <- admiralpeds::cdc_htage %>%
 #'   mutate(
