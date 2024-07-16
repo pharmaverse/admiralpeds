@@ -120,7 +120,7 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 })
 
 ## Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5) ----
-test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5)", {
+test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5)", { # nolint
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 61, "days", "BMI", 58,
@@ -287,12 +287,15 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     dplyr::inner_join(tmppctl, by = "USUBJID") %>%
     mutate(
       PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / Sigma), tmpPCTL),
-      SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS)
+      SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS) # nolint
     ) %>%
     select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
   expected <- tmpexpected %>%
     mutate(AVAL = SDS) %>%
-    rbind(tmpexpected %>% mutate(AVAL = PCTL)) %>%
+    rbind(
+      tmpexpected %>%
+        mutate(AVAL = PCTL)
+    ) %>%
     pull(AVAL)
 
   expect_equal(
@@ -309,36 +312,8 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
     "Study", "1001", "Screening", "M", 250, "months", "WEIGHT", 58,
   )
 
-  actual <- derive_params_growth_age(
-    dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
-    sex = SEX,
-    age = AGECUR,
-    age_unit = AGEU,
-    meta_criteria = meta,
-    parameter = VSTESTCD == "WEIGHT",
-    analysis_var = VSSTRESN,
-    set_values_to_sds = exprs(
-      PARAMCD = "WTASDS"
-    ),
-    set_values_to_pctl = exprs(
-      PARAMCD = "WTAPCTL"
-    )
-  )
-
-  expected <- as.numeric()
-
-  expect_equal(
-    filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
-    expected
-  )
-})
-
-## Test 6: Test out of bound ages ----
-test_that("derive_params_growth_age Test 6: Test out of bound ages", {
-  vs_data <- tibble::tribble(
-    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Cycle 1 Day 1", "M", 250, "months", "WEIGHT", 58,
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S, ~P95, ~Sigma
   )
 
   actual <- derive_params_growth_age(
@@ -357,6 +332,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
       PARAMCD = "WTAPCTL"
     )
   )
+
   expected <- as.numeric()
 
   expect_equal(
@@ -370,6 +346,11 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 210, "months", "WEIGHT", NA,
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 210, "days", -1.0354022, 66.10749, 0.1634387
   )
 
   actual <- derive_params_growth_age(
