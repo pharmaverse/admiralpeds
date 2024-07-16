@@ -1,13 +1,13 @@
 # derive_params_growth_age ----
 ## Test 1: Weight SDS and percentile works (P3, P97) ----
-test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
+test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 1, "months", "WEIGHT", 5.8,
+    "Study", "1001", "Screening", "M", 30, "days", "WEIGHT", 5.8,
     "Study", "1002", "Cycle 1 Day 1", "F", 517, "days", "WEIGHT", 8.8,
     "Study", "1002", "Cycle 2 Day 1", "F", 547, "days", "WEIGHT", 9.8,
     "Study", "1003", "Cycle 10 Day 1", "M", 870, "days", "WEIGHT", 11.3,
-    "Study", "1004", "Screening", "F", 71, "months", "WEIGHT", 27.1,
+    "Study", "1004", "Screening", "F", 2161, "days", "WEIGHT", 27.1,
   )
 
   meta <- tibble::tribble(
@@ -63,10 +63,10 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentileworks", {
 test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50, P97)", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 2, "months", "HEIGHT", 58,
+    "Study", "1001", "Screening", "M", 61, "days", "HEIGHT", 58,
     "Study", "1002", "Cycle 1 Day 1", "F", 578, "days", "HEIGHT", 87,
     "Study", "1003", "Cycle 10 Day 1", "M", 910, "days", "HEIGHT", 92,
-    "Study", "1004", "Screening", "F", 159, "months", "HEIGHT", 170,
+    "Study", "1004", "Screening", "F", 4840, "days", "HEIGHT", 170,
   )
 
   meta <- tibble::tribble(
@@ -123,10 +123,10 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-score of -2, 0, 2, 5)", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 2, "months", "BMI", 58,
+    "Study", "1001", "Screening", "M", 61, "days", "BMI", 58,
     "Study", "1002", "Cycle 1 Day 1", "F", 578, "days", "BMI", 87,
     "Study", "1003", "Cycle 10 Day 1", "M", 2146, "days", "BMI", 13.5,
-    "Study", "1004", "Screening", "F", 88.5, "months", "BMI", 21.9,
+    "Study", "1004", "Screening", "F", 2694, "days", "BMI", 21.9,
   )
 
   meta <- tibble::tribble(
@@ -184,7 +184,7 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 test_that("derive_params_growth_age Test 4: Head circumference SDS and percentile works", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 2, "months", "HEADC", 39,
+    "Study", "1001", "Screening", "M", 61, "days", "HEADC", 39,
     "Study", "1002", "Cycle 1 Day 1", "F", 1157, "days", "HEADC", 50,
   )
 
@@ -238,7 +238,7 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
 test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 40.5, "months", "BMI", 19,
+    "Study", "1001", "Screening", "M", 1233, "days", "BMI", 19,
   )
 
   meta <- tibble::tribble(
@@ -281,13 +281,16 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
   tmppctl <- vs_pctl %>%
     mutate(tmpPCTL = AVAL * 100) %>%
     select(USUBJID, tmpPCTL)
-  expected <- vs_sds %>%
+  tmpexpected <- vs_sds %>%
     mutate(tmpSDS = AVAL) %>%
     dplyr::inner_join(tmppctl, by = "USUBJID") %>%
     mutate(
       PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / sigma), tmpPCTL),
       SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS)
     ) %>%
+    select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
+    expected <- tmpexpected %>% mutate(AVAL=SDS)  %>%
+      rbind (tmpexpected %>% mutate(AVAL=PCTL)) %>%
     pull(AVAL)
 
   expect_equal(
@@ -385,6 +388,54 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
   )
 
   expected <- as.numeric()
+
+  expect_equal(
+    filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
+    expected
+  )
+})
+
+## Test 8: Age unit/Metadata in months works ----
+test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", {
+  vs_data <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Cycle 10 Day 1", "M", 28.6, "months", "WEIGHT", 11.3,
+    "Study", "1002", "Screening", "F", 71, "months", "WEIGHT", 27.1,
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 28.5, "months", -0.3277294, 13.28990, 0.1088257,
+    "F", 70.5, "months", -1.327138401, 20.03756384, 0.1484897955,
+  )
+  actual <- derive_params_growth_age(
+    dataset = vs_data,
+    by_vars = exprs(STUDYID, USUBJID, VISIT),
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WTASDS"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WTAPCTL"
+    )
+  )
+
+  vs_data_meta <- vs_data %>%
+    dplyr::full_join(meta, by = c("SEX","AGEU")) %>%
+    mutate(tmpAgeDiff = abs(AGECUR - AGE)) %>%
+    group_by(STUDYID, USUBJID, VISIT, SEX, AGECUR, AGEU, VSTESTCD, VSSTRESN) %>%
+    arrange(STUDYID, USUBJID, tmpAgeDiff) %>%
+    slice(1)
+
+  vs_sds <- vs_data_meta %>% mutate(AVAL = (((VSSTRESN / M)^L) - 1) / (L * S))
+  vs_pctl <- vs_sds %>% mutate(AVAL = pnorm(AVAL) * 100)
+  expected <- bind_rows(vs_sds, vs_pctl) %>% pull(AVAL)
+
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
