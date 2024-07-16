@@ -281,7 +281,7 @@ derive_params_growth_age <- function(dataset,
         mutate(
           AVAL := ifelse( # nolint
             {{ analysis_var }} >= P95 & !is.na(P95),
-            qnorm((90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma))/100),
+            qnorm((90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)) /100),
             AVAL
           )
         ) %>%
