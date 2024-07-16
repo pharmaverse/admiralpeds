@@ -256,10 +256,10 @@ derive_params_growth_age <- function(dataset,
     ) %>%
     ungroup() %>%
     mutate(
-      SD2pos = (M * (1 + 2*L*S) ^ (1/L)),
-      SD3pos = (M * (1 + 3*L*S) ^ (1/L)),
-      SD2neg = (M * (1 - 2*L*S) ^ (1/L)),
-      SD3neg = (M * (1 - 3*L*S) ^ (1/L))
+      SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
+      SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
+      SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
@@ -293,9 +293,9 @@ derive_params_growth_age <- function(dataset,
     if (right_skew_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL := case_when(
-            AVAL > 3 ~  3 + ({{ analysis_var}} - SD3pos)/(SD3pos - SD2pos),
-            AVAL < -3 ~ -3 + ({{ analysis_var}} - SD3neg)/(SD2neg - SD3neg),
+          AVAL := case_when(  # nolint
+            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         ) %>%
@@ -328,9 +328,9 @@ derive_params_growth_age <- function(dataset,
     if (right_skew_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL := case_when(
-            AVAL > 3 ~  3 + ({{ analysis_var}} - SD3pos)/(SD3pos - SD2pos),
-            AVAL < -3 ~ -3 + ({{ analysis_var}} - SD3neg)/(SD2neg - SD3neg),
+          AVAL := case_when(  # nolint
+            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         ) %>%

@@ -459,10 +459,10 @@ test_that("derive_params_growth_age Test 8: Right skew adjustment works", {
     )
   )
 
-  SD2pos <- (9.0342 * (1 + 2*0.0868*0.10885) ^ (1/0.0868))
-  SD3pos <- (9.0342 * (1 + 3*0.0868*0.10885) ^ (1/0.0868))
-  expected_sds <- 3 + (20.4 - SD3pos)/(SD3pos - SD2pos)
-  expected_pctl <- pnorm(expected_sds)*100
+  sd2pos <- (9.0342 * (1 + 2 * 0.0868 * 0.10885)^(1 / 0.0868))
+  sd3pos <- (9.0342 * (1 + 3 * 0.0868 * 0.10885)^(1 / 0.0868))
+  expected_sds <- 3 + (20.4 - sd3pos) / (sd3pos - sd2pos)
+  expected_pctl <- pnorm(expected_sds) * 100
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WGASDS", "WGAPCTL")) %>% pull(AVAL),
