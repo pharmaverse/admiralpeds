@@ -72,6 +72,12 @@
 #'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
+#' @param right_skew_correction Right skew correction
+#'
+#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  WHO developed a modification to the z-score calculation to accomodate for right-skewness
+#'  in certain data, if set to `TRUE` the WHOs correction is applied.
+#'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
 #'  The specified variables are set to the specified values for the new
@@ -200,6 +206,7 @@ derive_params_growth_age <- function(dataset,
                                      parameter,
                                      analysis_var,
                                      bmi_cdc_correction = FALSE,
+                                     right_skew_correction = FALSE,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
@@ -246,6 +253,13 @@ derive_params_growth_age <- function(dataset,
       sex_join = SEX,
       metadata_age = AGE,
       ageu_join = AGEU
+    ) %>%
+    ungroup() %>%
+    mutate(
+      SD2pos = (M * (1 + 2*L*S) ^ (1/L)),
+      SD3pos = (M * (1 + 3*L*S) ^ (1/L)),
+      SD2neg = (M * (1 - 2*L*S) ^ (1/L)),
+      SD3neg = (M * (1 - 3*L*S) ^ (1/L))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
@@ -276,6 +290,18 @@ derive_params_growth_age <- function(dataset,
         !!!set_values_to_sds
       )
 
+    if (right_skew_correction) {
+      add_sds <- add_sds %>%
+        mutate(
+          AVAL := case_when(
+            AVAL > 3 ~  3 + ({{ analysis_var}} - SD3pos)/(SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var}} - SD3neg)/(SD2neg - SD3neg),
+            TRUE ~ AVAL
+          )
+        ) %>%
+        select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
+    }
+
     if (bmi_cdc_correction) {
       add_sds <- add_sds %>%
         mutate(
@@ -298,6 +324,18 @@ derive_params_growth_age <- function(dataset,
         AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
         !!!set_values_to_pctl
       )
+
+    if (right_skew_correction) {
+      add_pctl <- add_pctl %>%
+        mutate(
+          AVAL := case_when(
+            AVAL > 3 ~  3 + ({{ analysis_var}} - SD3pos)/(SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var}} - SD3neg)/(SD2neg - SD3neg),
+            TRUE ~ AVAL
+          )
+        ) %>%
+        select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
+    }
 
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
