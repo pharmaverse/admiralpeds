@@ -1,10 +1,13 @@
 #' @keywords internal
 #' @family internal
-#' @importFrom admiraldev assert_data_frame assert_expr assert_symbol assert_varval_list
-#' assert_vars expr_c
-#' @importFrom dplyr arrange bind_rows filter group_by lead left_join mutate pull rename
-#' row_number select ungroup
+#' @importFrom admiraldev assert_character_scalar assert_data_frame assert_expr assert_symbol
+#'             assert_vars assert_varval_list expr_c replace_values_by_names
+#' @importFrom cli cli_abort
+#' @importFrom dplyr across arrange bind_cols bind_rows filter group_by lead
+#'             left_join mutate pull reframe rename row_number select slice ungroup
 #' @importFrom magrittr %>%
-#' @importFrom rlang abort enexpr exprs is_empty
-#' @importFrom stats pnorm qnorm
+#' @importFrom purrr map
+#' @importFrom rlang abort as_label enexpr exprs is_empty syms
+#' @importFrom stats approx pnorm qnorm
+#' @importFrom tidyselect all_of
 "_PACKAGE"
