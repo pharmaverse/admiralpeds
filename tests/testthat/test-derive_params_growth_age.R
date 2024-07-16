@@ -242,7 +242,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
   )
 
   meta <- tibble::tribble(
-    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S, ~P95, ~sigma,
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S, ~P95, ~Sigma,
     "M", 1233, "days", -1.401671596, 15.85824093, 0.071691278, 18.0399, 2.022795,
   )
 
@@ -254,6 +254,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     age_unit = AGEU,
     meta_criteria = meta,
     parameter = VSTESTCD == "BMI",
+    bmi_cdc_correction = TRUE,
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
       PARAMCD = "BMIASDS"
@@ -285,7 +286,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     mutate(tmpSDS = AVAL) %>%
     dplyr::inner_join(tmppctl, by = "USUBJID") %>%
     mutate(
-      PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / sigma), tmpPCTL),
+      PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / Sigma), tmpPCTL),
       SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS)
     ) %>%
     select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
