@@ -289,8 +289,9 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
       SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS)
     ) %>%
     select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
-    expected <- tmpexpected %>% mutate(AVAL=SDS)  %>%
-      rbind (tmpexpected %>% mutate(AVAL=PCTL)) %>%
+  expected <- tmpexpected %>%
+    mutate(AVAL = SDS) %>%
+    rbind(tmpexpected %>% mutate(AVAL = PCTL)) %>%
     pull(AVAL)
 
   expect_equal(
@@ -426,7 +427,7 @@ test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", 
   )
 
   vs_data_meta <- vs_data %>%
-    dplyr::full_join(meta, by = c("SEX","AGEU")) %>%
+    dplyr::full_join(meta, by = c("SEX", "AGEU")) %>%
     mutate(tmpAgeDiff = abs(AGECUR - AGE)) %>%
     group_by(STUDYID, USUBJID, VISIT, SEX, AGECUR, AGEU, VSTESTCD, VSSTRESN) %>%
     arrange(STUDYID, USUBJID, tmpAgeDiff) %>%
