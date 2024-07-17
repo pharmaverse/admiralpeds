@@ -74,33 +74,20 @@ derive_interp_records <- function(dataset,
     slice(1) %>%
     ungroup()
 
-  if (nrow(ageu)>0){
+  if (nrow(ageu) > 0) {
     cli_abort("The Age Unit (AGEU) from the input dataset must be in 'DAYS'")
   }
 
   # Sort the data for the interpolation
   arrange(dataset, !!!by_vars, AGE)
 
-  # Ensure to have unique combination when by_vars is not defined
-  metadata_vars <- c("AGE", "AGEU", "L", "M", "S")
+  # Ensure the uniqueness of records to interpolate
+  signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE))
+
+  # Define the metadata variables to be interpolated
+  metadata_vars <- c("AGE", "L", "M", "S")
   if (parameter == "BMI") {
     metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
-  }
-
-  if (is.null(by_vars)) {
-    other_data_vars <- names(dataset %>% select(-all_of(metadata_vars)))
-
-    nb_occ <- nrow(dataset %>%
-      group_by(across(all_of(other_data_vars))) %>%
-      slice(1) %>%
-      ungroup())
-
-    if (nb_occ > 1) {
-      cli_abort(paste0(
-        "The combination of ", paste(other_data_vars, collapse = ", "),
-        " must be unique. Please define `by_vars` otherwise."
-      ))
-    }
   }
 
   # Linear interpolation
@@ -128,5 +115,6 @@ derive_interp_records <- function(dataset,
       ungroup() %>%
       filter(!is.na(AGE))
   }
+
   return(dataset)
 }
