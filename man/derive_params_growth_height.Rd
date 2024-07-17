@@ -14,6 +14,7 @@ derive_params_growth_height(
   meta_criteria,
   parameter,
   analysis_var,
+  who_correction = FALSE,
   set_values_to_sds = NULL,
   set_values_to_pctl = NULL
 )
@@ -84,6 +85,12 @@ Weight measures are expected to be in the unit "kg".}
 \item{analysis_var}{Variable containing anthropometric measurement
 
 A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
+
+\item{who_correction}{Right skew correction
+
+A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+WHO developed a modification to the z-score calculation to accomodate for right-skewness
+in certain data, if set to \code{TRUE} the WHOs correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 

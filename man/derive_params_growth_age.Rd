@@ -14,7 +14,7 @@ derive_params_growth_age(
   parameter,
   analysis_var,
   bmi_cdc_correction = FALSE,
-  right_skew_correction = FALSE,
+  who_correction = FALSE,
   set_values_to_sds = NULL,
   set_values_to_pctl = NULL
 )
@@ -89,7 +89,7 @@ A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
 CDC developed extended percentiles (>95\%) to monitor high BMI values,
 if set to \code{TRUE} the CDC's correction is applied.}
 
-\item{right_skew_correction}{Right skew correction
+\item{who_correction}{Right skew correction
 
 A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
 WHO developed a modification to the z-score calculation to accomodate for right-skewness
