@@ -239,6 +239,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 1233, "days", "BMI", 19,
+    "Study", "1002", "Screening", "M", 1233, "days", "BMI", 100,
   )
 
   meta <- tibble::tribble(

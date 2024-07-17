@@ -308,7 +308,8 @@ derive_params_growth_age <- function(dataset,
             {{ analysis_var }} >= P95 & !is.na(P95),
             qnorm((90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)) / 100),
             AVAL
-          )
+          ),
+          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
     }
@@ -342,7 +343,8 @@ derive_params_growth_age <- function(dataset,
             {{ analysis_var }} >= P95 & !is.na(P95),
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
-          )
+          ),
+          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
     } else {
