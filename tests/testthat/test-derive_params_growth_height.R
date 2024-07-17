@@ -251,23 +251,23 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
   )
 
   actual <- derive_params_growth_height(
-      dataset = vs_data,
-      by_vars = exprs(USUBJID, VISIT),
-      sex = SEX,
-      height = HEIGHT,
-      height_unit = HEIGHTU,
-      meta_criteria = meta,
-      parameter = VSTESTCD == "WEIGHT",
-      analysis_var = VSSTRESN,
-      who_correction = TRUE,
-      set_values_to_sds = exprs(
-        PARAMCD = "WGHSDS",
-        PARAM = "Weight-for-height Z-Score"
-      ),
-      set_values_to_pctl = exprs(
-        PARAMCD = "WGHPCTL",
-        PARAM = "Weight-for-height percentile"
-      )
+    dataset = vs_data,
+    by_vars = exprs(USUBJID, VISIT),
+    sex = SEX,
+    height = HEIGHT,
+    height_unit = HEIGHTU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    who_correction = TRUE,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGHSDS",
+      PARAM = "Weight-for-height Z-Score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGHPCTL",
+      PARAM = "Weight-for-height percentile"
+    )
   )
 
   sd2pos <- (3.3278 * (1 + 2 * -0.3521 * 0.08890)^(1 / -0.3521))
@@ -285,4 +285,3 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
     c(expected_sds, expected_pctl)
   )
 })
-

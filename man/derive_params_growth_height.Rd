@@ -89,8 +89,8 @@ A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 \item{who_correction}{Right skew correction
 
 A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
-WHO developed a modification to the z-score calculation to accomodate for right-skewness
-in certain data, if set to \code{TRUE} the WHOs correction is applied.}
+WHO developed a modification to the z-score calculation to accommodate for right-skewness
+in certain data, if set to \code{TRUE} the WHO correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 

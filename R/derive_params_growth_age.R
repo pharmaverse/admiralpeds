@@ -75,8 +75,8 @@
 #' @param who_correction Right skew correction
 #'
 #'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
-#'  WHO developed a modification to the z-score calculation to accomodate for right-skewness
-#'  in certain data, if set to `TRUE` the WHOs correction is applied.
+#'  WHO developed a modification to the z-score calculation to accommodate for right-skewness
+#'  in certain data, if set to `TRUE` the WHO correction is applied.
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
@@ -293,7 +293,7 @@ derive_params_growth_age <- function(dataset,
     if (who_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL := case_when(  # nolint
+          AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
             AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
@@ -327,7 +327,7 @@ derive_params_growth_age <- function(dataset,
     if (who_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL := case_when(  # nolint
+          AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
             AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
