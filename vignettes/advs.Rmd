@@ -417,6 +417,7 @@ advs <- advs %>%
     meta_criteria = who_wt_for_ht,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = AVAL,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WGTHSDS",
       PARAM = "Weight-for-height Z-Score"
@@ -459,6 +460,7 @@ advs <- advs %>%
     meta_criteria = who_wt_for_lgth,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = AVAL,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WGTHSDS",
       PARAM = "Weight-for-length/height Z-Score"
@@ -478,6 +480,7 @@ advs <- advs %>%
       meta_criteria = who_wt_for_ht,
       parameter = VSTESTCD == "WEIGHT",
       analysis_var = AVAL,
+      who_correction = TRUE,
       set_values_to_sds = exprs(
         PARAMCD = "WGTHSDS",
         PARAM = "Weight-for-length/height Z-Score"

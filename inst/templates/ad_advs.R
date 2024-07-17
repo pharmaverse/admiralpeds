@@ -367,6 +367,7 @@ advs_ht_lgth <- advs %>%
     meta_criteria = who_wt_for_lgth,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = AVAL,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WGTHSDS",
       PARAM = "Weight-for-length/height Z-Score"
@@ -385,6 +386,7 @@ advs_ht_lgth <- advs %>%
       height_unit = HGTTMPU,
       meta_criteria = who_wt_for_ht,
       parameter = VSTESTCD == "WEIGHT",
+      who_correction = TRUE,
       analysis_var = AVAL,
       set_values_to_sds = exprs(
         PARAMCD = "WGTHSDS",

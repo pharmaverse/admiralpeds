@@ -26,6 +26,7 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
     age_unit = AGEU,
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
+    who_correction = TRUE,
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
       PARAMCD = "WTASDS"
@@ -325,6 +326,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
     age_unit = AGEU,
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
+    who_correction = TRUE,
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
       PARAMCD = "WTASDS"
@@ -363,6 +365,7 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WTASDS"
     ),
@@ -401,6 +404,7 @@ test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", 
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WTASDS"
     ),

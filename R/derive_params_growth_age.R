@@ -188,6 +188,7 @@
 #'   meta_criteria = criteria,
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
+#'   who_correction = TRUE,
 #'   set_values_to_sds = exprs(
 #'     PARAMCD = "WGASDS",
 #'     PARAM = "Weight-for-age z-score"

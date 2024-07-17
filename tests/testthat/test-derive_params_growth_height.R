@@ -28,6 +28,7 @@ test_that("derive_params_growth_height Test 1: derive_params_growth_height works
     meta_criteria = fake_meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WT2HTZ"
     )
@@ -83,6 +84,7 @@ test_that("derive_params_growth_height Test 2: works for subjects that are under
     meta_criteria = fake_meta_under,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WT2HTZ"
     )
@@ -97,6 +99,7 @@ test_that("derive_params_growth_height Test 2: works for subjects that are under
     meta_criteria = fake_meta_over,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_pctl = exprs(
       PARAMCD = "WGHPCTL",
       PARAM = "Weight-for-height percentile"
@@ -155,6 +158,7 @@ test_that("derive_params_growth_height Test 3: derives correct z-scores/percenti
     meta_criteria = fake_meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WT2HTZ"
     )
@@ -192,6 +196,7 @@ test_that("derive_params_growth_height Test 4: handles missing height/lengths", 
     meta_criteria = fake_meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WT2HTZ"
     )

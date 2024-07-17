@@ -199,6 +199,7 @@
 #'   meta_criteria = who_under2,
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
+#'   who_correction = TRUE,
 #'   set_values_to_sds = exprs(
 #'     PARAMCD = "WGHSDS",
 #'     PARAM = "Weight-for-height z-score"
@@ -218,6 +219,7 @@
 #'   meta_criteria = who_over2,
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
+#'   who_correction = TRUE,
 #'   set_values_to_sds = exprs(
 #'     PARAMCD = "WGHSDS",
 #'     PARAM = "Weight-for-height z-score"
