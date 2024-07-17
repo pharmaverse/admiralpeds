@@ -82,7 +82,7 @@ derive_interp_records <- function(dataset,
   arrange(dataset, !!!by_vars, AGE)
 
   # Ensure to have unique combination when by_vars is not defined
-  metadata_vars <- c("AGE", "L", "M", "S")
+  metadata_vars <- c("AGE", "AGEU", "L", "M", "S")
   if (parameter == "BMI") {
     metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
   }
