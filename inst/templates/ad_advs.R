@@ -37,6 +37,8 @@ bmi_for_age <- who_bmi_for_age_boys %>%
     filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age()
+  mutate(AGEU = "DAYS") %>%
   bind_rows(cdc_bmiage %>%
     mutate(
       SEX = case_when(
@@ -45,7 +47,8 @@ bmi_for_age <- who_bmi_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       # Ensure first that Age unit is "DAYS"
-      AGE = round(AGE * 30.4375)
+      AGE = round(AGE * 30.4375),
+      AGEU = "DAYS"
     ) %>%
     # Interpolate the AGE by SEX
     derive_interp_records(
@@ -55,8 +58,6 @@ bmi_for_age <- who_bmi_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
-  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
@@ -73,6 +74,8 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
     filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age()
+  mutate(AGEU = "DAYS") %>%
   bind_rows(cdc_htage %>%
     mutate(
       SEX = case_when(
@@ -81,7 +84,8 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       # Ensure first that Age unit is "DAYS"
-      AGE = round(AGE * 30.4375)
+      AGE = round(AGE * 30.4375),
+      AGEU = "DAYS"
     ) %>%
     # Interpolate the AGE by SEX
     derive_interp_records(
@@ -91,8 +95,6 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
-  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WEIGHT for age ----
@@ -109,6 +111,8 @@ weight_for_age <- who_wt_for_age_boys %>%
     filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age()
+  mutate(AGEU = "DAYS") %>%
   bind_rows(cdc_wtage %>%
     mutate(
       SEX = case_when(
@@ -117,7 +121,8 @@ weight_for_age <- who_wt_for_age_boys %>%
         TRUE ~ NA_character_
       ),
       # Ensure first that Age unit is "DAYS"
-      AGE = round(AGE * 30.4375)
+      AGE = round(AGE * 30.4375),
+      AGEU = "DAYS"
     ) %>%
     # Interpolate the AGE by SEX
     derive_interp_records(
@@ -127,8 +132,6 @@ weight_for_age <- who_wt_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
-  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
@@ -140,7 +143,7 @@ who_hc_for_age <- who_hc_for_age_boys %>%
   bind_rows(who_hc_for_age_girls %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
