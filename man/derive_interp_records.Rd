@@ -29,10 +29,11 @@ e.g. \code{parameter = "WEIGHT"},
 or   \code{parameter = "BMI"}.}
 }
 \value{
-The input dataset plus additional interpolated records.
+The input dataset plus additional interpolated records: a record
+for each day from the minimum age to the maximum age.
 }
 \description{
-Derive interpolated rows for the CDC charts (>=2 yrs old) by age in days
+Derive a linear interpolation of rows for the CDC charts (>=2 yrs old) by age in days
 for the following parameters: HEIGHT, WEIGHT and BMI
 }
 \examples{
@@ -47,15 +48,16 @@ cdc_htage <- admiralpeds::cdc_htage \%>\%
       TRUE ~ NA_character_
     ),
     # Ensure first that Age unit is "DAYS"
-    AGE = round(AGE * 30.4375)
-  ) \%>\%
-  # Interpolate the AGE by SEX
-  derive_interp_records(
-    by_vars = exprs(SEX),
-    parameter = "HEIGHT"
+    AGE = round(AGE * 30.4375),
+    AGEU = "DAYS"
   )
 
-print(cdc_htage)
+# Interpolate the AGE by SEX
+derive_interp_records(
+  dataset = cdc_htage,
+  by_vars = exprs(SEX),
+  parameter = "HEIGHT"
+)
 }
 \seealso{
 Metadata
