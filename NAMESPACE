@@ -3,6 +3,7 @@
 export(derive_interp_records)
 export(derive_params_growth_age)
 export(derive_params_growth_height)
+importFrom(admiral,signal_duplicate_records)
 importFrom(admiraldev,assert_character_scalar)
 importFrom(admiraldev,assert_data_frame)
 importFrom(admiraldev,assert_expr)
