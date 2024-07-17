@@ -85,9 +85,17 @@ derive_interp_records <- function(dataset,
   signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE))
 
   # Define the metadata variables to be interpolated
-  metadata_vars <- c("AGE", "L", "M", "S")
+  interp_vars <- c("AGE", "L", "M", "S")
   if (parameter == "BMI") {
-    metadata_vars <- append(metadata_vars, c("P95", "Sigma"))
+    interp_vars <- append(interp_vars, c("P95", "Sigma"))
+  }
+
+  # Define the non-interpolated variables and keep the corresponding unique records
+  non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
+  if (length(non_interp_vars) > 0){
+    non_interp_dataset <- dataset %>%
+      select(map_chr(replace_values_by_names(by_vars), as_label), all_of(non_interp_vars)) %>%
+      unique()
   }
 
   # Linear interpolation
@@ -97,24 +105,32 @@ derive_interp_records <- function(dataset,
 
   # Apply the function within each group and combine the results
   if (is.null(by_vars)) {
-    dataset <- dataset %>%
+    interp_dataset <- dataset %>%
       reframe({
         age <- AGE
-        x <- lapply(select(., all_of(metadata_vars)), fapp, age = age)
+        x <- lapply(select(., all_of(interp_vars)), fapp, age = age)
         as.data.frame(do.call(bind_cols, x))
       }) %>%
       filter(!is.na(AGE))
   } else {
-    dataset <- dataset %>%
+    interp_dataset <- dataset %>%
       group_by(across(!!!syms(map(replace_values_by_names(by_vars), as_label)))) %>%
       reframe({
         age <- AGE
-        x <- lapply(across(all_of(metadata_vars)), fapp, age = age)
+        x <- lapply(across(all_of(interp_vars)), fapp, age = age)
         as.data.frame(do.call(bind_cols, x))
       }) %>%
       ungroup() %>%
       filter(!is.na(AGE))
   }
 
-  return(dataset)
+  # Merge non-interpolated variables (if any) back into the interpolated dataset
+  if (length(non_interp_vars) > 0){
+    final_dataset <- interp_dataset %>%
+      left_join(non_interp_dataset, by = map_chr(replace_values_by_names(by_vars), as_label))
+  } else {
+    final_dataset <- dataset
+  }
+
+  return(final_dataset)
 }
