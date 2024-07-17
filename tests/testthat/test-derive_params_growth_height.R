@@ -264,7 +264,6 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
-    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WGHSDS",
       PARAM = "Weight-for-height Z-Score"
