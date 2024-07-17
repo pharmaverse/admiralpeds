@@ -92,7 +92,7 @@ derive_interp_records <- function(dataset,
 
   # Define the non-interpolated variables and keep the corresponding unique records
   non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
-  if (length(non_interp_vars) > 0){
+  if (length(non_interp_vars) > 0) {
     non_interp_dataset <- dataset %>%
       select(map_chr(replace_values_by_names(by_vars), as_label), all_of(non_interp_vars)) %>%
       unique()
@@ -125,7 +125,7 @@ derive_interp_records <- function(dataset,
   }
 
   # Merge non-interpolated variables (if any) back into the interpolated dataset
-  if (length(non_interp_vars) > 0){
+  if (length(non_interp_vars) > 0) {
     final_dataset <- interp_dataset %>%
       left_join(non_interp_dataset, by = map_chr(replace_values_by_names(by_vars), as_label))
   } else {
