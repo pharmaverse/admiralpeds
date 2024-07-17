@@ -7,7 +7,7 @@
 #' @importFrom dplyr across arrange bind_cols bind_rows filter group_by lead
 #'             left_join mutate pull reframe rename row_number select slice ungroup
 #' @importFrom magrittr %>%
-#' @importFrom purrr map
+#' @importFrom purrr map map_chr
 #' @importFrom rlang abort as_label enexpr exprs is_empty syms
 #' @importFrom stats approx pnorm qnorm
 #' @importFrom tidyselect all_of
