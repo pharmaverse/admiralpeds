@@ -462,7 +462,7 @@ If you have strict CRF (case report form) guidelines that standing height
 (rather than body length) was measured, you could add 0.7 cm to these values to
 approximate the child’s body length. Or alternatively you could provide a
 different source of reference files by height which could allow for this
-parameter derivation for children >2 years of age, but this is not our package
+parameter derivation for children \>2 years of age, but this is not our package
 recommendation.
 
 ## Remaining ADVS Set-up {#advs_end}
