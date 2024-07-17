@@ -427,11 +427,12 @@ test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", 
 })
 
 
-## Test 8: Right skew adjustment works ----
-test_that("derive_params_growth_age Test 8: Right skew adjustment works", {
+## Test 8: WHO outlier adjustment works ----
+test_that("derive_params_growth_age Test 8: WHO outlier adjustment works", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
     "Study", "1001", "Screening", "M", 289, "days", "WEIGHT", 20.4,
+    "Study", "1002", "Screening", "M", 289, "days", "WEIGHT", 2.4
   )
 
   meta <- tibble::tribble(
@@ -447,7 +448,7 @@ test_that("derive_params_growth_age Test 8: Right skew adjustment works", {
     age_unit = AGEU,
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
-    right_skew_correction = TRUE,
+    who_correction = TRUE,
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
       PARAMCD = "WGASDS",
@@ -461,7 +462,12 @@ test_that("derive_params_growth_age Test 8: Right skew adjustment works", {
 
   sd2pos <- (9.0342 * (1 + 2 * 0.0868 * 0.10885)^(1 / 0.0868))
   sd3pos <- (9.0342 * (1 + 3 * 0.0868 * 0.10885)^(1 / 0.0868))
-  expected_sds <- 3 + (20.4 - sd3pos) / (sd3pos - sd2pos)
+  sd2neg <- (9.0342 * (1 - 2 * 0.0868 * 0.10885)^(1 / 0.0868))
+  sd3neg <- (9.0342 * (1 - 3 * 0.0868 * 0.10885)^(1 / 0.0868))
+  expected_sds <- c(
+    3 + (20.4 - sd3pos) / (sd3pos - sd2pos),
+    -3 + (2.4 - sd3neg) / (sd2neg - sd3neg)
+  )
   expected_pctl <- pnorm(expected_sds) * 100
 
   expect_equal(

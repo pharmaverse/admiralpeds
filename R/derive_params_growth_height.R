@@ -68,7 +68,13 @@
 #'
 #' @param analysis_var Variable containing anthropometric measurement
 #'
-#' A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
+#'  A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
+#'
+#' @param who_correction Right skew correction
+#'
+#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  WHO developed a modification to the z-score calculation to accomodate for right-skewness
+#'  in certain data, if set to `TRUE` the WHOs correction is applied.
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
@@ -231,6 +237,7 @@ derive_params_growth_height <- function(dataset,
                                         meta_criteria,
                                         parameter,
                                         analysis_var,
+                                        who_correction = FALSE,
                                         set_values_to_sds = NULL,
                                         set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
@@ -276,6 +283,13 @@ derive_params_growth_height <- function(dataset,
       sex_join = SEX,
       meta_height = HEIGHT_LENGTH,
       heightu_join = HEIGHT_LENGTHU
+    ) %>%
+    ungroup() %>%
+    mutate(
+      SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
+      SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
+      SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
@@ -303,6 +317,17 @@ derive_params_growth_height <- function(dataset,
         !!!set_values_to_sds
       )
 
+    if (who_correction) {
+      add_sds <- add_sds %>%
+        mutate(
+          AVAL := case_when(  # nolint
+            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            TRUE ~ AVAL
+          )
+        )
+    }
+
     dataset_final <- bind_rows(dataset, add_sds) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
@@ -311,13 +336,29 @@ derive_params_growth_height <- function(dataset,
     add_pctl <- added_records %>%
       mutate(
         AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
-        AVAL = pnorm(AVAL) * 100,
         !!!set_values_to_pctl
       )
+
+    if (who_correction) {
+      add_pctl <- add_pctl %>%
+        mutate(
+          AVAL := case_when(  # nolint
+            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
+            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            TRUE ~ AVAL
+          ),
+        )
+    }
+
+    add_pctl <- add_pctl %>%
+      mutate(AVAL = pnorm(AVAL) * 100)
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
+
+  dataset_final <- dataset_final %>%
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
 
   return(dataset_final)
 }
