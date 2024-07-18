@@ -157,14 +157,14 @@ advs <- dm_peds \%>\%
     AGECURU = ifelse(AGECUR_D >= 365.25 * 2, CURU_M, CURU_D)
   )
 
-#' metadata is in months
+# metadata is in months
 cdc_meta_criteria <- admiralpeds::cdc_wtage \%>\%
   mutate(
     age_unit = "months",
     SEX = ifelse(SEX == 1, "M", "F")
   )
 
-#' metadata is in days
+# metadata is in days
 who_meta_criteria <- bind_rows(
   (admiralpeds::who_wt_for_age_boys \%>\%
     mutate(
