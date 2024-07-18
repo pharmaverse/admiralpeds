@@ -117,7 +117,7 @@ bmi_for_age <- who_bmi_for_age_boys %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age()
-  mutate(AGEU = "DAYS") %>%  
+  mutate(AGEU = "DAYS") %>%
   bind_rows(cdc_bmiage %>%
     mutate(
       SEX = case_when(
