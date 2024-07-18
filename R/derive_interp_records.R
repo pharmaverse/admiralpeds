@@ -82,7 +82,7 @@ derive_interp_records <- function(dataset,
   arrange(dataset, !!!by_vars, AGE)
 
   # Ensure the uniqueness of records to interpolate
-  signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE)) # nolint
+  signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE))
 
   # Define the metadata variables to be interpolated
   interp_vars <- c("AGE", "L", "M", "S")
