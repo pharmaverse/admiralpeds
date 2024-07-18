@@ -129,7 +129,7 @@ derive_interp_records <- function(dataset,
     final_dataset <- interp_dataset %>%
       left_join(non_interp_dataset, by = map_chr(replace_values_by_names(by_vars), as_label))
   } else {
-    final_dataset <- dataset
+    final_dataset <- interp_dataset
   }
 
   return(final_dataset)
