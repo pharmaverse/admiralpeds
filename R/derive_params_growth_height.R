@@ -70,11 +70,15 @@
 #'
 #'  A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
 #'
-#' @param who_correction Right skew correction
+#' @param who_correction WHO right skew correction for weight-based indicators
 #'
 #'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
-#'  WHO developed a modification to the z-score calculation to accommodate for right-skewness
-#'  in certain data, if set to `TRUE` the WHO correction is applied.
+#'  According to WHO guidelines for any weight-based indicator, to overcome right
+#'  skewness in the data WHO decided to not rely on usual LMS method for extreme
+#'  values and instead an extrapolation approach is recommended.
+#'  More details on these exact rules applied can be found at the document page
+#'  302 of the [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).
+#'  If set to `TRUE` the WHO correction is applied.
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
@@ -281,7 +285,7 @@ derive_params_growth_height <- function(dataset,
         mutate(
           AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            AVAL < -3 ~ -3 - ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         )
@@ -303,7 +307,7 @@ derive_params_growth_height <- function(dataset,
         mutate(
           AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 + ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            AVAL < -3 ~ -3 - ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           ),
         )

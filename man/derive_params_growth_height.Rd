@@ -86,11 +86,15 @@ Weight measures are expected to be in the unit "kg".}
 
 A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 
-\item{who_correction}{Right skew correction
+\item{who_correction}{WHO right skew correction for weight-based indicators
 
 A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
-WHO developed a modification to the z-score calculation to accommodate for right-skewness
-in certain data, if set to \code{TRUE} the WHO correction is applied.}
+According to WHO guidelines for any weight-based indicator, to overcome right
+skewness in the data WHO decided to not rely on usual LMS method for extreme
+values and instead an extrapolation approach is recommended.
+More details on these exact rules applied can be found at the document page
+302 of the \href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
+If set to \code{TRUE} the WHO correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 

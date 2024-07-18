@@ -378,6 +378,7 @@ advs <- advs %>%
     parameter = VSTESTCD == "BMI",
     analysis_var = AVAL,
     bmi_cdc_correction = TRUE,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "BMISDS",
       PARAM = "BMI-for-age z-score"
@@ -405,6 +406,16 @@ set `bmi_cdc_correction = TRUE`. This is because we opted to use the CDC
 developed extended percentiles (\>95%) to monitor high BMI values here.
 If you left this argument as default `FALSE` value then from the CDC metadata
 only the 2000 CDC Growth Chart for BMI would be used.
+
+For any weight-based indicator (including BMI), you'll also see in the code
+above that we have set `who_correction = TRUE`. This comes from the
+[WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X)
+(see document page 302). The intended rationale is to overcome right skewness in
+the data, where WHO decided to not rely on the usual LMS method for extreme
+values and instead an extrapolation approach is recommended.
+Of course here if you were choosing to not use WHO metadata then you could
+equally leave `who_correction = FALSE` and the extra extrapolation step would
+be ignored.
 
 Here is how these newly derived parameters look:
 

@@ -280,6 +280,7 @@ advs_age <- advs %>%
     meta_criteria = weight_for_age,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = AVAL,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WGTASDS",
       PARAM = "Weight-for-age z-score"
@@ -315,6 +316,7 @@ advs_age <- advs %>%
     parameter = VSTESTCD == "BMI",
     analysis_var = AVAL,
     bmi_cdc_correction = TRUE,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "BMISDS",
       PARAM = "BMI-for-age z-score"
