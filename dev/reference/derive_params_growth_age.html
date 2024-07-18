@@ -12,7 +12,7 @@ for Height/Weight/BMI/Head Circumference by Age"><meta property="og:image" conte
     
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9024</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9025</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -238,14 +238,14 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span>    AGECURU <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">AGECUR_D</span> <span class="op">&gt;=</span> <span class="fl">365.25</span> <span class="op">*</span> <span class="fl">2</span>, <span class="va">CURU_M</span>, <span class="va">CURU_D</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#' metadata is in months</span></span></span>
+<span class="r-in"><span><span class="co"># metadata is in months</span></span></span>
 <span class="r-in"><span><span class="va">cdc_meta_criteria</span> <span class="op">&lt;-</span> <span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="cdc_wtage.html">cdc_wtage</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    age_unit <span class="op">=</span> <span class="st">"months"</span>,</span></span>
 <span class="r-in"><span>    SEX <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">SEX</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#' metadata is in days</span></span></span>
+<span class="r-in"><span><span class="co"># metadata is in days</span></span></span>
 <span class="r-in"><span><span class="va">who_meta_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="op">(</span><span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="who_wt_for_age_boys.html">who_wt_for_age_boys</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
