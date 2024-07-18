@@ -227,7 +227,7 @@ derive_params_growth_height <- function(dataset,
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
   if (is.null(set_values_to_sds) && is.null(set_values_to_pctl)) {
-    abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
+    cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
   # create a unified join naming convention, hard to figure out in by argument
