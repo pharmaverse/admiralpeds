@@ -70,8 +70,6 @@ Metadata
 \code{\link{who_lgth_ht_for_age_girls}},
 \code{\link{who_wt_for_age_boys}},
 \code{\link{who_wt_for_age_girls}},
-\code{\link{who_wt_for_ht_boys}},
-\code{\link{who_wt_for_ht_girls}},
 \code{\link{who_wt_for_lgth_boys}},
 \code{\link{who_wt_for_lgth_girls}}
 }

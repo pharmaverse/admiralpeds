@@ -7,7 +7,7 @@
 #        who_lgth_ht_for_age_boys, who_lgth_ht_for_age_girls, cdc_htage,
 #        who_wt_for_age_boys, who_wt_for_age_girls, cdc_wtage,
 #        who_hc_for_age_boys, who_hc_for_age_girls,
-#        who_wt_for_ht_boys, who_wt_for_ht_girls, who_wt_for_lgth_boys, who_wt_for_lgth_girls
+#        who_wt_for_lgth_boys, who_wt_for_lgth_girls
 
 library(admiral)
 library(admiralpeds)
@@ -55,7 +55,7 @@ bmi_for_age <- who_bmi_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
@@ -91,7 +91,7 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
@@ -127,11 +127,12 @@ weight_for_age <- who_wt_for_age_boys %>%
     # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
     # must come from WHO metadata only
     filter(AGE >= 730.5 & AGE <= 7305)) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
+# Default reference sources: WHO for children up to 5 yrs old
 data(who_hc_for_age_boys)
 data(who_hc_for_age_girls)
 
@@ -140,11 +141,12 @@ who_hc_for_age <- who_hc_for_age_boys %>%
   bind_rows(who_hc_for_age_girls %>%
     mutate(SEX = "F")) %>%
   rename(AGE = Day) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age
+  # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - WEIGHT for LENGTH ----
+# Default reference sources: WHO for children <2 yrs old (< 730.5 days)
 data(who_wt_for_lgth_boys)
 data(who_wt_for_lgth_girls)
 
@@ -154,17 +156,6 @@ who_wt_for_lgth <- who_wt_for_lgth_boys %>%
     mutate(SEX = "F")) %>%
   mutate(HEIGHT_LENGTHU = "cm") %>%
   rename(HEIGHT_LENGTH = Length)
-
-## WHO - WEIGHT for LENGTH/HEIGHT ----
-data(who_wt_for_ht_boys)
-data(who_wt_for_ht_girls)
-
-who_wt_for_ht <- who_wt_for_ht_boys %>%
-  mutate(SEX = "M") %>%
-  bind_rows(who_wt_for_ht_girls %>%
-    mutate(SEX = "F")) %>%
-  mutate(HEIGHT_LENGTHU = "cm") %>%
-  rename(HEIGHT_LENGTH = Height)
 
 # Load source datasets ----
 
@@ -352,39 +343,20 @@ advs_age <- advs %>%
   )
 
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts ----
-message("To derive height/length parameters, below function needs to call separately
-for Height and Length based on the input data and current age of the patient,
-as it depends on your CRF guidelines.")
+message("To derive height/length parameters, below function assumes that the
+values in your height parameter input data are for body length - therefore
+it uses WHO weight-for-length metadata, but this depends on your CRF guidelines.")
 
-# Use measure=LENGTH for patient current age < 2 years
+# Only derive for patients with current age < 2 years as we use body length
 advs_ht_lgth <- advs %>%
-  filter(AAGECUR < 730.5) %>%
-  derive_params_growth_height(
-    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
-    sex = SEX,
-    height = HGTTMP,
-    height_unit = HGTTMPU,
-    meta_criteria = who_wt_for_lgth,
-    parameter = VSTESTCD == "WEIGHT",
-    analysis_var = AVAL,
-    who_correction = TRUE,
-    set_values_to_sds = exprs(
-      PARAMCD = "WGTHSDS",
-      PARAM = "Weight-for-length/height Z-Score"
-    ),
-    set_values_to_pctl = exprs(
-      PARAMCD = "WGTHPCTL",
-      PARAM = "Weight-for-length/height Percentile"
-    )
-  ) %>%
-  # Use measure=HEIGHT for patient current age >= 2 years
-  bind_rows(advs %>% filter(AAGECUR >= 730.5) %>%
-    derive_params_growth_height(
+  restrict_derivation(
+    derivation = derive_params_growth_height,
+    args = params(
       by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,
-      meta_criteria = who_wt_for_ht,
+      meta_criteria = who_wt_for_lgth,
       parameter = VSTESTCD == "WEIGHT",
       who_correction = TRUE,
       analysis_var = AVAL,
@@ -396,7 +368,9 @@ advs_ht_lgth <- advs %>%
         PARAMCD = "WGTHPCTL",
         PARAM = "Weight-for-length/height Percentile"
       )
-    ))
+    ),
+    filter = AAGECUR < 730.5
+  )
 
 # Combine the records for Weight by Height/Length
 advs <- advs_age %>%
