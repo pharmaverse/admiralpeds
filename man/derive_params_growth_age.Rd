@@ -96,7 +96,8 @@ According to WHO guidelines for any weight-based indicator, to overcome right
 skewness in the data WHO decided to not rely on usual LMS method for extreme
 values and instead an extrapolation approach is recommended.
 More details on these exact rules applied can be found at the document page
-302 of the \href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
+302 of the
+\href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
 If set to \code{TRUE} the WHO correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
