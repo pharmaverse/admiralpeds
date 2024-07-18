@@ -118,47 +118,7 @@
       10   45.9 -0.352  2.59 0.0913
       # i 641 more rows
 
-# WHO_growth_charts Test 7: WHO weight-for-height for girls
-
-    Code
-      who_wt_for_ht_girls
-    Output
-      # A tibble: 551 x 4
-         Height      L     M      S
-          <dbl>  <dbl> <dbl>  <dbl>
-       1   65   -0.383  7.24 0.0911
-       2   65.1 -0.383  7.26 0.0911
-       3   65.2 -0.383  7.29 0.0911
-       4   65.3 -0.383  7.31 0.0911
-       5   65.4 -0.383  7.33 0.0911
-       6   65.5 -0.383  7.35 0.0911
-       7   65.6 -0.383  7.37 0.0911
-       8   65.7 -0.383  7.40 0.0911
-       9   65.8 -0.383  7.42 0.0911
-      10   65.9 -0.383  7.44 0.0911
-      # i 541 more rows
-
-# WHO_growth_charts Test 8: WHO weight-for-height for boys
-
-    Code
-      who_wt_for_ht_boys
-    Output
-      # A tibble: 551 x 4
-         Height      L     M      S
-          <dbl>  <dbl> <dbl>  <dbl>
-       1   65   -0.352  7.43 0.0822
-       2   65.1 -0.352  7.46 0.0822
-       3   65.2 -0.352  7.48 0.0822
-       4   65.3 -0.352  7.50 0.0822
-       5   65.4 -0.352  7.53 0.0821
-       6   65.5 -0.352  7.55 0.0821
-       7   65.6 -0.352  7.57 0.0821
-       8   65.7 -0.352  7.60 0.0821
-       9   65.8 -0.352  7.62 0.0821
-      10   65.9 -0.352  7.64 0.0821
-      # i 541 more rows
-
-# WHO_growth_charts Test 9: WHO BMI-for-age for girls
+# WHO_growth_charts Test 7: WHO BMI-for-age for girls
 
     Code
       who_bmi_for_age_girls
@@ -178,7 +138,7 @@
       10     9  0.596   13.3 0.0984
       # i 1,847 more rows
 
-# WHO_growth_charts Test 10: WHO BMI-for-age for boys
+# WHO_growth_charts Test 8: WHO BMI-for-age for boys
 
     Code
       who_bmi_for_age_boys
@@ -198,7 +158,7 @@
       10     9  0.494   13.4 0.0972
       # i 1,847 more rows
 
-# WHO_growth_charts Test 11: WHO Head circumference-for-age for girls
+# WHO_growth_charts Test 9: WHO Head circumference-for-age for girls
 
     Code
       who_hc_for_age_girls
@@ -218,7 +178,7 @@
       10     9     1  34.7 0.0334
       # i 1,847 more rows
 
-# WHO_growth_charts Test 12: WHO Head circumference-for-age for boys
+# WHO_growth_charts Test 10: WHO Head circumference-for-age for boys
 
     Code
       who_hc_for_age_boys

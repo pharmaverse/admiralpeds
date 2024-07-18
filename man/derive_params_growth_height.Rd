@@ -38,7 +38,7 @@ Expected Values: \code{M}, \code{F}}
 
 \item{height}{Current Height/length
 
-A numeric vector is expected. Note that this is the actual height at the current visit.}
+A numeric vector is expected. Note that this is the actual height/length at the current visit.}
 
 \item{height_unit}{Height/Length Unit
 A character vector is expected.
@@ -54,8 +54,8 @@ The dataset can be derived from WHO or user-defined datasets.
 The WHO growth chart metadata datasets are available in the package and will
 require small modifications.
 
-Datasets \code{who_wt_for_lgth_boys}/\code{who_wt_for_lgth_girls} are for subject age < 730.5 days.
-Datasets \code{who_wt_for_ht_boys}/\code{who_wt_for_ht_girls} are for subjects age >= 730.5 days.
+Datasets \code{who_wt_for_lgth_boys}/\code{who_wt_for_lgth_girls} are applicable for
+subject age < 730.5 days.
 
 If the \code{height} value from \code{dataset} falls between two \code{HEIGHT_LENGTH} values in
 \code{meta_criteria}, then the \code{L}/\code{M}/\code{S} values that are chosen/mapped will be the
@@ -89,7 +89,7 @@ A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_sds(exprs(PARAMCD = “WTASDS”, PARAM = “Weight-for-height z-score”))}
+\code{set_values_to_sds(exprs(PARAMCD = "WGTHSDS", PARAM = "Weight-for-height z-score"))}
 defines the parameter code and parameter.
 
 The formula to calculate the Z-score is as follows:
@@ -106,7 +106,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_pctl(exprs(PARAMCD = “WTHPCTL”, PARAM = “Weight-for-height percentile”))}
+\code{set_values_to_pctl(exprs(PARAMCD = "WGTHPCTL", PARAM = "Weight-for-height percentile"))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pair
@@ -126,6 +126,8 @@ library(lubridate, warn.conflicts = FALSE)
 library(rlang, warn.conflicts = FALSE)
 library(admiral, warn.conflicts = FALSE)
 
+# derive weight for height/length only for those under 2 years old using WHO
+# weight for length reference file
 advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
   right_join(., vs_peds, by = "USUBJID") \%>\%
@@ -153,10 +155,7 @@ advs <- advs \%>\%
   right_join(., heights, by = c("USUBJID", "VSDTC"))
 
 advs_under2 <- advs \%>\%
-  filter(AAGECUR < 730)
-
-advs_over2 <- advs \%>\%
-  filter(AAGECUR >= 730.5)
+  filter(AAGECUR < 730.5)
 
 who_under2 <- bind_rows(
   (admiralpeds::who_wt_for_lgth_boys \%>\%
@@ -177,27 +176,7 @@ who_under2 <- bind_rows(
     HEIGHT_LENGTHU = height_unit
   )
 
-who_over2 <- bind_rows(
-  (admiralpeds::who_wt_for_ht_boys \%>\%
-    mutate(
-      SEX = "M",
-      height_unit = "cm"
-    )
-  ),
-  (admiralpeds::who_wt_for_ht_girls \%>\%
-    mutate(
-      SEX = "F",
-      height_unit = "cm"
-    )
-  )
-) \%>\%
-  rename(
-    HEIGHT_LENGTH = Height,
-    HEIGHT_LENGTHU = height_unit
-  )
-
-
-advs_under2 <- derive_params_growth_height(
+derive_params_growth_height(
   advs_under2,
   by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
@@ -207,35 +186,14 @@ advs_under2 <- derive_params_growth_height(
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "WGHSDS",
-    PARAM = "Weight-for-height z-score"
+    PARAMCD = "WGTHSDS",
+    PARAM = "Weight-for-height/length z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WGHPCTL",
-    PARAM = "Weight-for-height percentile"
+    PARAMCD = "WGTHPCTL",
+    PARAM = "Weight-for-height/length percentile"
   )
 )
-
-advs_over2 <- derive_params_growth_height(
-  advs_over2,
-  by_vars = exprs(STUDYID, USUBJID, VISIT),
-  sex = SEX,
-  height = HGTTMP,
-  height_unit = HGTTMPU,
-  meta_criteria = who_over2,
-  parameter = VSTESTCD == "WEIGHT",
-  analysis_var = VSSTRESN,
-  set_values_to_sds = exprs(
-    PARAMCD = "WGHSDS",
-    PARAM = "Weight-for-height z-score"
-  ),
-  set_values_to_pctl = exprs(
-    PARAMCD = "WGHPCTL",
-    PARAM = "Weight-for-height percentile"
-  )
-)
-
-bind_rows(advs_under2, advs_over2)
 }
 \seealso{
 Vital Signs Functions for adding Parameters/Records
