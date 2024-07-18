@@ -277,16 +277,18 @@ derive_params_growth_height <- function(dataset,
   if (!is_empty(set_values_to_sds)) {
     add_sds <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
+        temp_val := {{ analysis_var }},
+        AVAL = ((temp_val / M)^L - 1) / (L * S), # nolint
+        temp_z = AVAL,
         !!!set_values_to_sds
       )
 
     if (who_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL := case_when( # nolint
-            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 - abs({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+          AVAL = case_when( # nolint
+            temp_z > 3 ~ 3 + (temp_val - SD3pos) / (SD3pos - SD2pos),
+            temp_z < -3 ~ -3 + (temp_val - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         )
@@ -299,16 +301,18 @@ derive_params_growth_height <- function(dataset,
   if (!is_empty(set_values_to_pctl)) {
     add_pctl <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
+        temp_val := {{ analysis_var }},
+        AVAL = ((temp_val / M)^L - 1) / (L * S), # nolint
+        temp_z = AVAL,
         !!!set_values_to_pctl
       )
 
     if (who_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL := case_when( # nolint
-            AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 - abs({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+          AVAL = case_when( # nolint
+            temp_z > 3 ~ 3 + (temp_val - SD3pos) / (SD3pos - SD2pos),
+            temp_z < -3 ~ -3 + (temp_val - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           ),
         )
