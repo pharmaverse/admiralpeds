@@ -22,6 +22,8 @@ globalVariables(c(
   "sex_join",
   "SEX",
   "Sigma",
+  "temp_val",
+  "temp_z",
   "VSSTRESN",
   ":=",
   "."

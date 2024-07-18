@@ -26,7 +26,6 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
     age_unit = AGEU,
     meta_criteria = meta,
     parameter = VSTESTCD == "WEIGHT",
-    who_correction = TRUE,
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
       PARAMCD = "WTASDS"
@@ -471,7 +470,7 @@ test_that("derive_params_growth_age Test 8: WHO outlier adjustment works", {
   sd3neg <- (9.0342 * (1 - 3 * 0.0868 * 0.10885)^(1 / 0.0868))
   expected_sds <- c(
     3 + (20.4 - sd3pos) / (sd3pos - sd2pos),
-    -3 - abs((2.4 - sd3neg) / (sd2neg - sd3neg))
+    -3 + ((2.4 - sd3neg) / (sd2neg - sd3neg))
   )
   expected_pctl <- pnorm(expected_sds) * 100
 
