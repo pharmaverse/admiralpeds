@@ -301,7 +301,7 @@ derive_params_growth_age <- function(dataset,
         mutate(
           AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 - ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            AVAL < -3 ~ -3 - abs({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         )
@@ -338,7 +338,7 @@ derive_params_growth_age <- function(dataset,
         mutate(
           AVAL := case_when( # nolint
             AVAL > 3 ~ 3 + ({{ analysis_var }} - SD3pos) / (SD3pos - SD2pos),
-            AVAL < -3 ~ -3 - ({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
+            AVAL < -3 ~ -3 - abs({{ analysis_var }} - SD3neg) / (SD2neg - SD3neg),
             TRUE ~ AVAL
           )
         )

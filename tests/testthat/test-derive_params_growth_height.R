@@ -200,7 +200,7 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
   sd3neg <- (3.3278 * (1 - 3 * -0.3521 * 0.08890)^(1 / -0.3521))
   expected_sds <- c(
     3 + (5 - sd3pos) / (sd3pos - sd2pos),
-    -3 - (2 - sd3neg) / (sd2neg - sd3neg)
+    -3 - abs((2 - sd3neg) / (sd2neg - sd3neg))
   )
   expected_pctl <- pnorm(expected_sds) * 100
 
