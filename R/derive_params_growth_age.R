@@ -72,14 +72,11 @@
 #'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
-#' @param who_correction WHO right skew correction for weight-based indicators
+#' @param who_correction WHO adjustment for weight-based indicators
 #'
 #'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
-#'  According to WHO guidelines for any weight-based indicator, to overcome right
-#'  skewness in the data WHO decided to not rely on usual LMS method for extreme
-#'  values and instead an extrapolation approach is recommended.
-#'  More details on these exact rules applied can be found at the document page
-#'  302 of the
+#'  WHO constructed a restricted application of the LMS method for weight-based indicators.
+#'  More details on these exact rules applied can be found at the document page 302 of the
 #'  [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).
 #'  If set to `TRUE` the WHO correction is applied.
 #'
