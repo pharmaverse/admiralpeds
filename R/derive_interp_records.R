@@ -132,7 +132,12 @@ derive_interp_records <- function(dataset,
         map_chr(replace_values_by_names(by_vars), as_label),
         "AGE"
       )) %>%
-      mutate(across(all_of(non_interp_vars), apply_locf))
+      group_by(across(
+        map_chr(replace_values_by_names(by_vars), as_label)
+      )) %>%
+      # Apply LOCF to the non-interpolated variables
+      mutate(across(all_of(non_interp_vars), apply_locf)) %>%
+      ungroup()
   } else {
     final_dataset <- interp_dataset
   }
