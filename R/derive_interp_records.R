@@ -67,22 +67,12 @@ derive_interp_records <- function(dataset,
   }
 
   # Ensure to have AGE unit in "Days"
-  ageu <- dataset %>%
-    select(AGEU) %>%
-    filter(toupper(AGEU) != "DAYS") %>%
-    group_by(AGEU) %>%
-    slice(1) %>%
-    ungroup()
-
-  if (nrow(ageu) > 0) {
+  if (any(toupper(dataset$AGEU) != "DAYS")) {
     cli_abort("The Age Unit (AGEU) from the input dataset must be in 'DAYS'")
   }
 
   # Sort the data for the interpolation
-  arrange(dataset, !!!by_vars, AGE)
-
-  # Ensure the uniqueness of records to interpolate
-  signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE))
+  dataset <- arrange(dataset, !!!by_vars, AGE)
 
   # Define the metadata variables to be interpolated
   interp_vars <- c("AGE", "L", "M", "S")
@@ -90,17 +80,25 @@ derive_interp_records <- function(dataset,
     interp_vars <- append(interp_vars, c("P95", "Sigma"))
   }
 
+  # Ensure the uniqueness of records to interpolate
+  signal_duplicate_records(dataset, by_vars = exprs(!!!by_vars, AGE))
+
   # Define the non-interpolated variables and keep the corresponding unique records
   non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
   if (length(non_interp_vars) > 0) {
     non_interp_dataset <- dataset %>%
-      select(map_chr(replace_values_by_names(by_vars), as_label), all_of(non_interp_vars)) %>%
+      select(map_chr(replace_values_by_names(by_vars), as_label), c(all_of(non_interp_vars), "AGE")) %>%
       unique()
   }
 
   # Linear interpolation
   fapp <- function(v, age) {
     approx(age, v, xout = seq(min(age), max(age)))$y
+  }
+
+  # Apply LOCF to non-interpolated variables
+  apply_locf <- function(x) {
+    na.locf(x, na.rm = FALSE)
   }
 
   # Apply the function within each group and combine the results
@@ -114,7 +112,7 @@ derive_interp_records <- function(dataset,
       filter(!is.na(AGE))
   } else {
     interp_dataset <- dataset %>%
-      group_by(across(!!!syms(map(replace_values_by_names(by_vars), as_label)))) %>%
+      group_by(across(map_chr(replace_values_by_names(by_vars), as_label))) %>%
       reframe({
         age <- AGE
         x <- lapply(across(all_of(interp_vars)), fapp, age = age)
@@ -127,7 +125,8 @@ derive_interp_records <- function(dataset,
   # Merge non-interpolated variables (if any) back into the interpolated dataset
   if (length(non_interp_vars) > 0) {
     final_dataset <- interp_dataset %>%
-      left_join(non_interp_dataset, by = map_chr(replace_values_by_names(by_vars), as_label))
+      left_join(non_interp_dataset, by = c(map_chr(replace_values_by_names(by_vars), as_label), "AGE")) %>%
+      mutate(across(all_of(non_interp_vars), apply_locf))
   } else {
     final_dataset <- interp_dataset
   }
