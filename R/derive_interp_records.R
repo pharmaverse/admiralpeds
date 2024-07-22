@@ -87,7 +87,8 @@ derive_interp_records <- function(dataset,
   non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
   if (length(non_interp_vars) > 0) {
     non_interp_dataset <- dataset %>%
-      select(map_chr(replace_values_by_names(by_vars), as_label), c(all_of(non_interp_vars), "AGE")) %>%
+      select(map_chr(replace_values_by_names(by_vars), as_label),
+             c(all_of(non_interp_vars), "AGE")) %>%
       unique()
   }
 
@@ -125,7 +126,8 @@ derive_interp_records <- function(dataset,
   # Merge non-interpolated variables (if any) back into the interpolated dataset
   if (length(non_interp_vars) > 0) {
     final_dataset <- interp_dataset %>%
-      left_join(non_interp_dataset, by = c(map_chr(replace_values_by_names(by_vars), as_label), "AGE")) %>%
+      left_join(non_interp_dataset, by = c(map_chr(replace_values_by_names(by_vars), as_label),
+                                           "AGE")) %>%
       mutate(across(all_of(non_interp_vars), apply_locf))
   } else {
     final_dataset <- interp_dataset
