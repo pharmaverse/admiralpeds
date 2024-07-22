@@ -11,4 +11,5 @@
 #' @importFrom rlang abort as_label enexpr exprs is_empty syms
 #' @importFrom stats approx pnorm qnorm
 #' @importFrom tidyselect all_of
+#' @importFrom zoo na.locf
 "_PACKAGE"
