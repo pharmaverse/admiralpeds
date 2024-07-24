@@ -1,7 +1,7 @@
 Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.1.0.9026
+Version: 0.1.0.9027
 Authors@R: c(
     person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre")),
     person("Ross", "Farrugia", role = "aut"),
@@ -34,15 +34,16 @@ URL: https://pharmaverse.github.io/admiralpeds,
 Depends: 
     R (>= 4.1)
 Imports:
+    admiral (>= 1.0.0),
     admiraldev (>= 1.0.0),
     cli (>= 3.6.2),
     dplyr (>= 1.0.5),
     magrittr (>= 1.5),
     purrr (>= 0.3.3),
     rlang (>= 0.4.4),
-    tidyselect (>= 1.1.0)
+    tidyselect (>= 1.1.0),
+    zoo (>= 1.8.12)
 Suggests:
-    admiral (>= 1.0.0),
     knitr,
     lubridate (>= 1.7.4),
     pharmaversesdtm (>= 0.2.0),
