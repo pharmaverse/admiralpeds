@@ -335,7 +335,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
     )
   )
 
-  expected <- as.numeric()
+  expected <- c(NA_real_, NA_real_)
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
@@ -373,7 +373,7 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
     )
   )
 
-  expected <- as.numeric()
+  expected <- c(NA_real_, NA_real_)
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),

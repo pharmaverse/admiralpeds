@@ -266,7 +266,6 @@ derive_params_growth_age <- function(dataset,
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
-  # To parse out the appropriate age, create [x, y) brackets using a prev_age <= AGECUR < next_age
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
@@ -282,6 +281,10 @@ derive_params_growth_age <- function(dataset,
     filter(is_lowest & row_number() == 1) %>%
     ungroup()
 
+
+  by_exprs <- enexpr(by_vars)
+  by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
+  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
 
   dataset_final <- dataset
 
@@ -321,7 +324,10 @@ derive_params_growth_age <- function(dataset,
         select(-c(P95, Sigma))
     }
 
-    dataset_final <- bind_rows(dataset, add_sds) %>%
+    unmatched_sds <- unmatched_records %>%
+      mutate(!!!set_values_to_sds)
+
+    dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
   }
 
@@ -363,7 +369,10 @@ derive_params_growth_age <- function(dataset,
         mutate(AVAL = pnorm(AVAL) * 100)
     }
 
-    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
+    unmatched_pctl <- unmatched_records %>%
+      mutate(!!!set_values_to_pctl)
+
+    dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
   }
 
