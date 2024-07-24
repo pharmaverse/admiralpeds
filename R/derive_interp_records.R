@@ -19,13 +19,14 @@
 #' @param parameter CDC/WHO metadata parameter
 #'
 #' *Permitted Values*: `"WEIGHT"`, `"HEIGHT"` or `"BMI"` only - Must not be `NULL`
+#'   e.g. `parameter = "WEIGHT"`, `parameter = "HEIGHT"`, or   `parameter =
+#'   "BMI"`.
 #'
-#'   e.g. `parameter = "WEIGHT"`,
-#'        `parameter = "HEIGHT"`,
-#'   or   `parameter = "BMI"`.
+#' @return The input dataset plus additional interpolated records: a record for
+#'   each day from the minimum age to the maximum age.
 #'
-#' @return The input dataset plus additional interpolated records: a record
-#'         for each day from the minimum age to the maximum age.
+#'   If any variables in addition to the expected ones are in the input dataset,
+#'   LOCF is applied to populate them for the new records.
 #'
 #' @family metadata
 #'
@@ -85,14 +86,8 @@ derive_interp_records <- function(dataset,
 
   # Define the non-interpolated variables and keep the corresponding unique records
   non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
-  if (length(non_interp_vars) > 0) {
-    non_interp_dataset <- dataset %>%
-      select(
-        map_chr(replace_values_by_names(by_vars), as_label),
-        c(all_of(non_interp_vars), "AGE")
-      ) %>%
-      unique()
-  }
+  non_interp_dataset <- dataset %>%
+      select(!!!by_vars, AGE, all_of(non_interp_vars))
 
   # Linear interpolation
   fapp <- function(v, age) {
@@ -115,7 +110,7 @@ derive_interp_records <- function(dataset,
       filter(!is.na(AGE))
   } else {
     interp_dataset <- dataset %>%
-      group_by(across(map_chr(replace_values_by_names(by_vars), as_label))) %>%
+      group_by(!!!by_vars) %>%
       reframe({
         age <- AGE
         x <- lapply(across(all_of(interp_vars)), fapp, age = age)
@@ -126,21 +121,10 @@ derive_interp_records <- function(dataset,
   }
 
   # Merge non-interpolated variables (if any) back into the interpolated dataset
-  if (length(non_interp_vars) > 0) {
-    final_dataset <- interp_dataset %>%
-      left_join(non_interp_dataset, by = c(
-        map_chr(replace_values_by_names(by_vars), as_label),
-        "AGE"
-      )) %>%
-      group_by(across(
-        map_chr(replace_values_by_names(by_vars), as_label)
-      )) %>%
-      # Apply LOCF to the non-interpolated variables
-      mutate(across(all_of(non_interp_vars), apply_locf)) %>%
-      ungroup()
-  } else {
-    final_dataset <- interp_dataset
-  }
-
-  return(final_dataset)
+  interp_dataset %>%
+    left_join(non_interp_dataset, by = c(vars2chr(by_vars), "AGE")) %>%
+    group_by(!!!by_vars) %>%
+    # Apply LOCF to the non-interpolated variables
+    mutate(across(all_of(non_interp_vars), apply_locf)) %>%
+    ungroup()
 }

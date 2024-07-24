@@ -23,14 +23,14 @@ to interpolate separately.}
 \item{parameter}{CDC/WHO metadata parameter
 
 \emph{Permitted Values}: \code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
-
-e.g. \code{parameter = "WEIGHT"},
-\code{parameter = "HEIGHT"},
-or   \code{parameter = "BMI"}.}
+e.g. \code{parameter = "WEIGHT"}, \code{parameter = "HEIGHT"}, or   \code{parameter = "BMI"}.}
 }
 \value{
-The input dataset plus additional interpolated records: a record
-for each day from the minimum age to the maximum age.
+The input dataset plus additional interpolated records: a record for
+each day from the minimum age to the maximum age.
+
+If any variables in addition to the expected ones are in the input dataset,
+LOCF is applied to populate them for the new records.
 }
 \description{
 Derive a linear interpolation of rows for the CDC charts (>=2 yrs old) by age in days
