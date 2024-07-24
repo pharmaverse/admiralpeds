@@ -1,0 +1,12 @@
+---
+upstream_repos:
+  - repo: pharmaverse/admiral
+    host: https://github.com
+  - repo: pharmaverse/admiraldev
+    host: https://github.com
+
+downstream_repos:
+
+current_repo:
+  repo: pharmaverse/admiralpeds
+  host: https://github.com
