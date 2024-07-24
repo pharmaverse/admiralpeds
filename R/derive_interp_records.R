@@ -87,7 +87,7 @@ derive_interp_records <- function(dataset,
   # Define the non-interpolated variables and keep the corresponding unique records
   non_interp_vars <- setdiff(names(dataset), c(interp_vars, by_vars))
   non_interp_dataset <- dataset %>%
-      select(!!!by_vars, AGE, all_of(non_interp_vars))
+    select(!!!by_vars, AGE, all_of(non_interp_vars))
 
   # Linear interpolation
   fapp <- function(v, age) {
