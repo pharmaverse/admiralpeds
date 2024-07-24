@@ -52,7 +52,8 @@ cdc_bmi_for_age <- cdc_bmiage %>%
       TRUE ~ NA_character_
     ),
     # Ensure first that Age unit is "DAYS"
-    AGE = round(AGE * 30.4375)
+    AGE = round(AGE * 30.4375),
+    AGEU = "DAYS"
   ) %>%
   # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
   # month in the same way as WHO metadata
@@ -63,8 +64,6 @@ cdc_bmi_for_age <- cdc_bmiage %>%
   # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
   # must come from WHO metadata only
   filter(AGE >= 730.5 & AGE <= 7305) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age()
-  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
@@ -135,7 +134,8 @@ cdc_wt_for_age <- cdc_wtage %>%
       TRUE ~ NA_character_
     ),
     # Ensure first that Age unit is "DAYS"
-    AGE = round(AGE * 30.4375)
+    AGE = round(AGE * 30.4375),
+    AGEU = "DAYS"
   ) %>%
   # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
   # month in the same way as WHO metadata
@@ -146,8 +146,6 @@ cdc_wt_for_age <- cdc_wtage %>%
   # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
   # must come from WHO metadata only
   filter(AGE >= 730.5 & AGE <= 7305) %>%
-  # AGEU is added in metadata, required for derive_params_growth_age()
-  mutate(AGEU = "DAYS") %>%
   arrange(AGE, SEX)
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
