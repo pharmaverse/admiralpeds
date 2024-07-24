@@ -26,7 +26,8 @@
 #'   each day from the minimum age to the maximum age.
 #'
 #'   If any variables in addition to the expected ones are in the input dataset,
-#'   LOCF is applied to populate them for the new records.
+#'   LOCF (Last Observation Carried Forward) is applied to populate them for the
+#'   new records.
 #'
 #' @family metadata
 #'

@@ -30,7 +30,8 @@ The input dataset plus additional interpolated records: a record for
 each day from the minimum age to the maximum age.
 
 If any variables in addition to the expected ones are in the input dataset,
-LOCF is applied to populate them for the new records.
+LOCF (Last Observation Carried Forward) is applied to populate them for the
+new records.
 }
 \description{
 Derive a linear interpolation of rows for the CDC charts (>=2 yrs old) by age in days
