@@ -10,10 +10,7 @@
     <loc>https://pharmaverse.github.io/admiralpeds/articles/admiralpeds.html</loc>
   </url>
   <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/articles/admiraltemplate.html</loc>
-  </url>
-  <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/articles/adxx.html</loc>
+    <loc>https://pharmaverse.github.io/admiralpeds/articles/advs.html</loc>
   </url>
   <url>
     <loc>https://pharmaverse.github.io/admiralpeds/articles/index.html</loc>
@@ -28,15 +25,66 @@
     <loc>https://pharmaverse.github.io/admiralpeds/news/index.html</loc>
   </url>
   <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/pull_request_template.html</loc>
-  </url>
-  <url>
     <loc>https://pharmaverse.github.io/admiralpeds/reference/admiralpeds-package.html</loc>
   </url>
   <url>
-    <loc>https://pharmaverse.github.io/admiralpeds/reference/hello_admiral.html</loc>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/adsl_peds.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/cdc_bmiage.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/cdc_htage.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/cdc_wtage.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/derive_interp_records.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/derive_params_growth_age.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/derive_params_growth_height.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/dm_peds.html</loc>
   </url>
   <url>
     <loc>https://pharmaverse.github.io/admiralpeds/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/vs_peds.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_bmi_for_age_boys.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_bmi_for_age_girls.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_hc_for_age_boys.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_hc_for_age_girls.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_lgth_ht_for_age_boys.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_lgth_ht_for_age_girls.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_wt_for_age_boys.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_wt_for_age_girls.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_wt_for_lgth_boys.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/who_wt_for_lgth_girls.html</loc>
   </url>
 </urlset>
