@@ -12,7 +12,7 @@ based on Standard Growth Charts for Weight by Height/Length"><meta property="og:
     
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9026</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9027</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,7 @@ based on Standard Growth Charts for Weight by Height/Length</p>
 <span>  <span class="va">meta_criteria</span>,</span>
 <span>  <span class="va">parameter</span>,</span>
 <span>  <span class="va">analysis_var</span>,</span>
+<span>  who_correction <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  set_values_to_sds <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  set_values_to_pctl <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -160,6 +161,15 @@ Weight measures are expected to be in the unit "kg".</p></dd>
 <dt>analysis_var</dt>
 <dd><p>Variable containing anthropometric measurement</p>
 <p>A numeric vector is expected, e.g. <code>AVAL</code>, <code>VSSTRESN</code></p></dd>
+
+
+<dt>who_correction</dt>
+<dd><p>WHO adjustment for weight-based indicators</p>
+<p>A logical scalar, e.g. <code>TRUE</code>/<code>FALSE</code> is expected.
+WHO constructed a restricted application of the LMS method for weight-based indicators.
+More details on these exact rules applied can be found at the document page 302 of the
+<a href="https://www.who.int/publications/i/item/924154693X" class="external-link">WHO Child Growth Standards Guidelines</a>.
+If set to <code>TRUE</code> the WHO correction is applied.</p></dd>
 
 
 <dt>set_values_to_sds</dt>
@@ -263,6 +273,7 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span>  meta_criteria <span class="op">=</span> <span class="va">who_under2</span>,</span></span>
 <span class="r-in"><span>  parameter <span class="op">=</span> <span class="va">VSTESTCD</span> <span class="op">==</span> <span class="st">"WEIGHT"</span>,</span></span>
 <span class="r-in"><span>  analysis_var <span class="op">=</span> <span class="va">VSSTRESN</span>,</span></span>
+<span class="r-in"><span>  who_correction <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  set_values_to_sds <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    PARAMCD <span class="op">=</span> <span class="st">"WGTHSDS"</span>,</span></span>
 <span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Weight-for-height/length z-score"</span></span></span>
@@ -272,7 +283,7 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Weight-for-height/length percentile"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 162 × 37</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 162 × 39</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    USUBJID     BRTHDTC  SEX   STUDYID DOMAIN VSSEQ VSTESTCD VSTEST VSPOS VSORRES</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01-701-1015 2013-01… F     CDISCP… VS         1 BMI      BMI    <span style="color: #BB0000;">NA</span>    16.577…</span>
@@ -286,12 +297,12 @@ defines the parameter code and parameter.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01-701-1015 2013-01… F     CDISCP… VS        33 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.248…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01-701-1015 2013-01… F     CDISCP… VS        37 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.433…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 152 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 27 more variables: VSORRESU &lt;chr&gt;, VSSTRESC &lt;chr&gt;, VSSTRESN &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more variables: VSORRESU &lt;chr&gt;, VSSTRESC &lt;chr&gt;, VSSTRESN &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSSTRESU &lt;chr&gt;, VSSTAT &lt;chr&gt;, VSLOC &lt;chr&gt;, VSBLFL &lt;chr&gt;, VISITNUM &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VISIT &lt;chr&gt;, VISITDY &lt;int&gt;, VSDTC &lt;chr&gt;, VSDY &lt;int&gt;, VSTPT &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSTPTNUM &lt;dbl&gt;, VSELTM &lt;chr&gt;, VSTPTREF &lt;chr&gt;, VSEVAL &lt;chr&gt;, EPOCH &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSDT &lt;date&gt;, BRTHDT &lt;date&gt;, AAGECUR &lt;dbl&gt;, AAGECURU &lt;chr&gt;, HGTTMP &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   HGTTMPU &lt;chr&gt;, AVAL &lt;dbl&gt;, PARAMCD &lt;chr&gt;, PARAM &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   HGTTMPU &lt;chr&gt;, temp_val &lt;dbl&gt;, AVAL &lt;dbl&gt;, temp_z &lt;dbl&gt;, PARAMCD &lt;chr&gt;, …</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
