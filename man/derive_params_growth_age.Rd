@@ -14,6 +14,7 @@ derive_params_growth_age(
   parameter,
   analysis_var,
   bmi_cdc_correction = FALSE,
+  who_correction = FALSE,
   set_values_to_sds = NULL,
   set_values_to_pctl = NULL
 )
@@ -87,6 +88,14 @@ A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
 A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
 CDC developed extended percentiles (>95\%) to monitor high BMI values,
 if set to \code{TRUE} the CDC's correction is applied.}
+
+\item{who_correction}{WHO adjustment for weight-based indicators
+
+A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+WHO constructed a restricted application of the LMS method for weight-based indicators.
+More details on these exact rules applied can be found at the document page 302 of the
+\href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
+If set to \code{TRUE} the WHO correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 
@@ -196,6 +205,7 @@ derive_params_growth_age(
   meta_criteria = criteria,
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
+  who_correction = TRUE,
   set_values_to_sds = exprs(
     PARAMCD = "WGASDS",
     PARAM = "Weight-for-age z-score"

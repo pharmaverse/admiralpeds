@@ -115,6 +115,7 @@ test_that("derive_params_growth_height Test 3: handles missing height/lengths", 
     meta_criteria = fake_meta,
     parameter = VSTESTCD == "WEIGHT",
     analysis_var = VSSTRESN,
+    who_correction = TRUE,
     set_values_to_sds = exprs(
       PARAMCD = "WT2HTZ"
     )
@@ -128,8 +129,8 @@ test_that("derive_params_growth_height Test 3: handles missing height/lengths", 
     filter(USUBJID == "1001") %>%
     pull(HEIGHT)
 
-  expect_true(is.na(actual))
-  expect_true(is.na(actual1))
+  expect_true(all(is.na(actual)))
+  expect_true(all(is.na(actual1)))
 })
 
 ## Test 4: derive_params_growth_height returns expected error message
@@ -157,5 +158,54 @@ test_that("derive_params_growth_height Test 4: returns expected error message", 
       analysis_var = VSSTRESN
     ),
     "One of `set_values_to_sds`/`set_values_to_pctl` has to be specified."
+  )
+})
+
+## Test 6: WHO outlier adjustment works ----
+test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
+  vs_data <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 50, "cm", "WEIGHT", 5,
+    "Study", "1002", "Screening", "M", 50, "cm", "WEIGHT", 2
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
+    "M", 50.0, "cm", -0.3521, 3.3278, 0.08890
+  )
+
+  actual <- derive_params_growth_height(
+    dataset = vs_data,
+    by_vars = exprs(USUBJID, VISIT),
+    sex = SEX,
+    height = HEIGHT,
+    height_unit = HEIGHTU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    who_correction = TRUE,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGHSDS",
+      PARAM = "Weight-for-height Z-Score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGHPCTL",
+      PARAM = "Weight-for-height percentile"
+    )
+  )
+
+  sd2pos <- (3.3278 * (1 + 2 * -0.3521 * 0.08890)^(1 / -0.3521))
+  sd3pos <- (3.3278 * (1 + 3 * -0.3521 * 0.08890)^(1 / -0.3521))
+  sd2neg <- (3.3278 * (1 - 2 * -0.3521 * 0.08890)^(1 / -0.3521))
+  sd3neg <- (3.3278 * (1 - 3 * -0.3521 * 0.08890)^(1 / -0.3521))
+  expected_sds <- c(
+    3 + (5 - sd3pos) / (sd3pos - sd2pos),
+    -3 - abs((2 - sd3neg) / (sd2neg - sd3neg))
+  )
+  expected_pctl <- pnorm(expected_sds) * 100
+
+  expect_equal(
+    filter(actual, PARAMCD %in% c("WGHSDS", "WGHPCTL")) %>% pull(AVAL),
+    c(expected_sds, expected_pctl)
   )
 })

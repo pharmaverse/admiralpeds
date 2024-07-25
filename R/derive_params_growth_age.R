@@ -72,6 +72,14 @@
 #'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
+#' @param who_correction WHO adjustment for weight-based indicators
+#'
+#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  WHO constructed a restricted application of the LMS method for weight-based indicators.
+#'  More details on these exact rules applied can be found at the document page 302 of the
+#'  [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).
+#'  If set to `TRUE` the WHO correction is applied.
+#'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
 #'  The specified variables are set to the specified values for the new
@@ -182,6 +190,7 @@
 #'   meta_criteria = criteria,
 #'   parameter = VSTESTCD == "WEIGHT",
 #'   analysis_var = VSSTRESN,
+#'   who_correction = TRUE,
 #'   set_values_to_sds = exprs(
 #'     PARAMCD = "WGASDS",
 #'     PARAM = "Weight-for-age z-score"
@@ -200,6 +209,7 @@ derive_params_growth_age <- function(dataset,
                                      parameter,
                                      analysis_var,
                                      bmi_cdc_correction = FALSE,
+                                     who_correction = FALSE,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
@@ -226,7 +236,7 @@ derive_params_growth_age <- function(dataset,
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
   if (is.null(set_values_to_sds) && is.null(set_values_to_pctl)) {
-    abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
+    cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
   # create a unified join naming convention, hard to figure out in by argument
@@ -246,10 +256,16 @@ derive_params_growth_age <- function(dataset,
       sex_join = SEX,
       metadata_age = AGE,
       ageu_join = AGEU
+    ) %>%
+    ungroup() %>%
+    mutate(
+      SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
+      SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
+      SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
-  # To parse out the appropriate age, create [x, y) brackets using a prev_age <= AGECUR < next_age
   added_records <- dataset %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
@@ -266,38 +282,74 @@ derive_params_growth_age <- function(dataset,
     ungroup()
 
 
+  by_exprs <- enexpr(by_vars)
+  by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
+  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
+
   dataset_final <- dataset
 
   # create separate records objects as appropriate depending if user specific sds and/or pctl
   if (!is_empty(set_values_to_sds)) {
     add_sds <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
+        temp_val := {{ analysis_var }},
+        AVAL = ((temp_val / M)^L - 1) / (L * S), # nolint
+        temp_z = AVAL,
         !!!set_values_to_sds
       )
+
+    if (who_correction) {
+      add_sds <- add_sds %>%
+        mutate(
+          AVAL = case_when( # nolint
+            temp_z > 3 ~ 3 + (temp_val - SD3pos) / (SD3pos - SD2pos),
+            temp_z < -3 ~ -3 + (temp_val - SD3neg) / (SD2neg - SD3neg),
+            TRUE ~ AVAL
+          )
+        )
+    }
 
     if (bmi_cdc_correction) {
       add_sds <- add_sds %>%
         mutate(
           AVAL := ifelse( # nolint
             {{ analysis_var }} >= P95 & !is.na(P95),
-            qnorm(90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)),
+            qnorm((90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)) / 100),
             AVAL
-          )
+          ),
+          # Cover the most extreme high BMI values for percentiles of 99.9 recurring
+          # in case of Infinity being returned
+          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
     }
 
-    dataset_final <- bind_rows(dataset, add_sds) %>%
-      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
+    unmatched_sds <- unmatched_records %>%
+      mutate(!!!set_values_to_sds)
+
+    dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
   }
 
   if (!is_empty(set_values_to_pctl)) {
     add_pctl <- added_records %>%
       mutate(
-        AVAL := (({{ analysis_var }} / M)^L - 1) / (L * S), # nolint
+        temp_val := {{ analysis_var }},
+        AVAL = ((temp_val / M)^L - 1) / (L * S), # nolint
+        temp_z = AVAL,
         !!!set_values_to_pctl
       )
+
+    if (who_correction) {
+      add_pctl <- add_pctl %>%
+        mutate(
+          AVAL = case_when( # nolint
+            temp_z > 3 ~ 3 + (temp_val - SD3pos) / (SD3pos - SD2pos),
+            temp_z < -3 ~ -3 + (temp_val - SD3neg) / (SD2neg - SD3neg),
+            TRUE ~ AVAL
+          )
+        )
+    }
 
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
@@ -307,7 +359,9 @@ derive_params_growth_age <- function(dataset,
             90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
             AVAL
           ),
-          AVAL = pnorm(AVAL) * 100
+          # Cover the most extreme high BMI values for percentiles of 99.9 recurring
+          # in case of Infinity being returned
+          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
     } else {
@@ -315,9 +369,15 @@ derive_params_growth_age <- function(dataset,
         mutate(AVAL = pnorm(AVAL) * 100)
     }
 
-    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
-      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest))
+    unmatched_pctl <- unmatched_records %>%
+      mutate(!!!set_values_to_pctl)
+
+    dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
   }
+
+  dataset_final <- dataset_final %>%
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
 
   return(dataset_final)
 }

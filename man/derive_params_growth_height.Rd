@@ -14,6 +14,7 @@ derive_params_growth_height(
   meta_criteria,
   parameter,
   analysis_var,
+  who_correction = FALSE,
   set_values_to_sds = NULL,
   set_values_to_pctl = NULL
 )
@@ -84,6 +85,14 @@ Weight measures are expected to be in the unit "kg".}
 \item{analysis_var}{Variable containing anthropometric measurement
 
 A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
+
+\item{who_correction}{WHO adjustment for weight-based indicators
+
+A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+WHO constructed a restricted application of the LMS method for weight-based indicators.
+More details on these exact rules applied can be found at the document page 302 of the
+\href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
+If set to \code{TRUE} the WHO correction is applied.}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 
@@ -185,6 +194,7 @@ derive_params_growth_height(
   meta_criteria = who_under2,
   parameter = VSTESTCD == "WEIGHT",
   analysis_var = VSSTRESN,
+  who_correction = TRUE,
   set_values_to_sds = exprs(
     PARAMCD = "WGTHSDS",
     PARAM = "Weight-for-height/length z-score"

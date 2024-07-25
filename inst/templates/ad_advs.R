@@ -17,7 +17,7 @@ library(stringr)
 
 # Metadata ----
 
-# Creation of the Growth by Age metadata combining WHO and CDC
+# Creation of the Growth by Age metadata from WHO and CDC sources
 # Load WHO and CDC metadata datasets
 message("Please be aware that our default reference source in our metadata by Age is :
 - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
@@ -26,53 +26,60 @@ The user could replace these metadata with their own chosen metadata")
 ## BMI for age ----
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
+# For weight-based indicators we keep WHO and CDC separate due to the WHO
+# adjustment (restricted application of the LMS method) needed for the
+# anthropometric indicator derivations
 data(WHO_bmi_for_age_boys)
 data(WHO_bmi_for_age_girls)
 data(cdc_bmiage)
 
-bmi_for_age <- who_bmi_for_age_boys %>%
-  filter(Day < 730.5) %>%
+who_bmi_for_age <- who_bmi_for_age_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_bmi_for_age_girls %>%
-    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
+  # Keep patients < 2 yrs old
+  filter(Day < 730.5) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
-  bind_rows(cdc_bmiage %>%
-    mutate(
-      SEX = case_when(
-        SEX == 1 ~ "M",
-        SEX == 2 ~ "F",
-        TRUE ~ NA_character_
-      ),
-      # Ensure first that Age unit is "DAYS"
-      AGE = round(AGE * 30.4375),
-      AGEU = "DAYS"
-    ) %>%
-    # Interpolate the AGE by SEX
-    derive_interp_records(
-      by_vars = exprs(SEX),
-      parameter = "BMI"
-    ) %>%
-    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
-    # must come from WHO metadata only
-    filter(AGE >= 730.5 & AGE <= 7305)) %>%
+  arrange(AGE, SEX)
+
+cdc_bmi_for_age <- cdc_bmiage %>%
+  mutate(
+    SEX = case_when(
+      SEX == 1 ~ "M",
+      SEX == 2 ~ "F",
+      TRUE ~ NA_character_
+    ),
+    # Ensure first that Age unit is "DAYS"
+    AGE = round(AGE * 30.4375),
+    AGEU = "DAYS"
+  ) %>%
+  # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
+  # month in the same way as WHO metadata
+  derive_interp_records(
+    by_vars = exprs(SEX),
+    parameter = "BMI"
+  ) %>%
+  # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+  # must come from WHO metadata only
+  filter(AGE >= 730.5 & AGE <= 7305) %>%
   arrange(AGE, SEX)
 
 ## HEIGHT for age ----
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
+# Combine WHO and CDC metadata
 data(who_lgth_ht_for_age_boys)
 data(who_lgth_ht_for_age_girls)
 data(cdc_htage)
 
 height_for_age <- who_lgth_ht_for_age_boys %>%
-  filter(Day < 730.5) %>%
   mutate(SEX = "M") %>%
   bind_rows(who_lgth_ht_for_age_girls %>%
-    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
+  # Keep patients < 2 yrs old
+  filter(Day < 730.5) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
@@ -87,7 +94,8 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
       AGE = round(AGE * 30.4375),
       AGEU = "DAYS"
     ) %>%
-    # Interpolate the AGE by SEX
+    # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
+    # month in the same way as WHO metadata
     derive_interp_records(
       by_vars = exprs(SEX),
       parameter = "HEIGHT"
@@ -100,38 +108,44 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
 ## WEIGHT for age ----
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
+# For weight-based indicators we keep WHO and CDC separate due to the WHO
+# adjustment (restricted application of the LMS method) needed for the
+# anthropometric indicator derivations
 data(who_wt_for_age_boys)
 data(who_wt_for_age_girls)
 data(cdc_wtage)
 
-weight_for_age <- who_wt_for_age_boys %>%
-  filter(Day < 730.5) %>%
+who_wt_for_age <- who_wt_for_age_boys %>%
   mutate(SEX = "M") %>%
   bind_rows(who_wt_for_age_girls %>%
-    filter(Day < 730.5) %>%
     mutate(SEX = "F")) %>%
+  # Keep patients < 2 yrs old
+  filter(Day < 730.5) %>%
   rename(AGE = Day) %>%
   # AGEU is added in metadata, required for derive_params_growth_age()
   mutate(AGEU = "DAYS") %>%
-  bind_rows(cdc_wtage %>%
-    mutate(
-      SEX = case_when(
-        SEX == 1 ~ "M",
-        SEX == 2 ~ "F",
-        TRUE ~ NA_character_
-      ),
-      # Ensure first that Age unit is "DAYS"
-      AGE = round(AGE * 30.4375),
-      AGEU = "DAYS"
-    ) %>%
-    # Interpolate the AGE by SEX
-    derive_interp_records(
-      by_vars = exprs(SEX),
-      parameter = "WEIGHT"
-    ) %>%
-    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
-    # must come from WHO metadata only
-    filter(AGE >= 730.5 & AGE <= 7305)) %>%
+  arrange(AGE, SEX)
+
+cdc_wt_for_age <- cdc_wtage %>%
+  mutate(
+    SEX = case_when(
+      SEX == 1 ~ "M",
+      SEX == 2 ~ "F",
+      TRUE ~ NA_character_
+    ),
+    # Ensure first that Age unit is "DAYS"
+    AGE = round(AGE * 30.4375),
+    AGEU = "DAYS"
+  ) %>%
+  # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
+  # month in the same way as WHO metadata
+  derive_interp_records(
+    by_vars = exprs(SEX),
+    parameter = "WEIGHT"
+  ) %>%
+  # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+  # must come from WHO metadata only
+  filter(AGE >= 730.5 & AGE <= 7305) %>%
   arrange(AGE, SEX)
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
@@ -273,25 +287,82 @@ advs <- advs %>%
   )
 
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts ----
-## For Height/Weight/BMI/Head Circumference by Age ----
-advs_age <- advs %>%
-  derive_params_growth_age(
-    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
-    sex = SEX,
-    age = AAGECUR,
-    age_unit = AAGECURU,
-    meta_criteria = weight_for_age,
-    parameter = VSTESTCD == "WEIGHT",
-    analysis_var = AVAL,
-    set_values_to_sds = exprs(
-      PARAMCD = "WGTASDS",
-      PARAM = "Weight-for-age z-score"
+### For Weight/BMI by Age ----
+# For weight-based indicators we need to apply the WHO adjustment (restricted
+# application of the LMS method) only for those < 2 yrs old where we use the
+# WHO metadata
+advs_age_wt <- advs %>%
+  slice_derivation(
+    derivation = derive_params_growth_age,
+    args = params(
+      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+      sex = SEX,
+      age = AAGECUR,
+      age_unit = AAGECURU,
+      parameter = VSTESTCD == "WEIGHT",
+      analysis_var = AVAL,
+      set_values_to_sds = exprs(
+        PARAMCD = "WGTASDS",
+        PARAM = "Weight-for-age z-score"
+      ),
+      set_values_to_pctl = exprs(
+        PARAMCD = "WGTAPCTL",
+        PARAM = "Weight-for-age percentile"
+      )
     ),
-    set_values_to_pctl = exprs(
-      PARAMCD = "WGTAPCTL",
-      PARAM = "Weight-for-age percentile"
+    derivation_slice(
+      filter = AAGECUR < 730.5,
+      args = params(
+        who_correction = TRUE,
+        meta_criteria = who_wt_for_age
+      )
+    ),
+    derivation_slice(
+      filter = AAGECUR >= 730.5,
+      args = params(
+        meta_criteria = cdc_wt_for_age
+      )
     )
   ) %>%
+  # For BMI we need to apply the CDC developed extended percentiles only for
+  # those >= 2 yrs old where we use the CDC metadata
+  slice_derivation(
+    derivation = derive_params_growth_age,
+    args = params(
+      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
+      sex = SEX,
+      age = AAGECUR,
+      age_unit = AAGECURU,
+      parameter = VSTESTCD == "BMI",
+      analysis_var = AVAL,
+      set_values_to_sds = exprs(
+        PARAMCD = "BMISDS",
+        PARAM = "BMI-for-age z-score"
+      ),
+      set_values_to_pctl = exprs(
+        PARAMCD = "BMIPCTL",
+        PARAM = "BMI-for-age percentile"
+      )
+    ),
+    derivation_slice(
+      filter = AAGECUR < 730.5,
+      args = params(
+        who_correction = TRUE,
+        meta_criteria = who_bmi_for_age
+      )
+    ),
+    derivation_slice(
+      filter = AAGECUR >= 730.5,
+      args = params(
+        bmi_cdc_correction = TRUE,
+        meta_criteria = cdc_bmi_for_age
+      )
+    )
+  )
+
+### For Height/Head Circumference by Age ----
+
+advs_age <- advs_age_wt %>%
   derive_params_growth_age(
     by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
@@ -307,24 +378,6 @@ advs_age <- advs %>%
     set_values_to_pctl = exprs(
       PARAMCD = "HGTPCTL",
       PARAM = "Height-for-age percentile"
-    )
-  ) %>%
-  derive_params_growth_age(
-    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
-    sex = SEX,
-    age = AAGECUR,
-    age_unit = AAGECURU,
-    meta_criteria = bmi_for_age,
-    parameter = VSTESTCD == "BMI",
-    analysis_var = AVAL,
-    bmi_cdc_correction = TRUE,
-    set_values_to_sds = exprs(
-      PARAMCD = "BMISDS",
-      PARAM = "BMI-for-age z-score"
-    ),
-    set_values_to_pctl = exprs(
-      PARAMCD = "BMIPCTL",
-      PARAM = "BMI-for-age percentile"
     )
   ) %>%
   derive_params_growth_age(
@@ -361,6 +414,7 @@ advs_ht_lgth <- advs %>%
       height_unit = HGTTMPU,
       meta_criteria = who_wt_for_lgth,
       parameter = VSTESTCD == "WEIGHT",
+      who_correction = TRUE,
       analysis_var = AVAL,
       set_values_to_sds = exprs(
         PARAMCD = "WGTHSDS",
