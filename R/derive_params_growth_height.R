@@ -268,6 +268,10 @@ derive_params_growth_height <- function(dataset,
     filter(is_lowest & row_number() == 1) %>%
     ungroup()
 
+  by_exprs <- enexpr(by_vars)
+  by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
+  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
+
   dataset_final <- dataset
 
   # create separate records objects as appropriate depending if user specific sds and/or pctl
@@ -290,8 +294,10 @@ derive_params_growth_height <- function(dataset,
           )
         )
     }
+    unmatched_sds <- unmatched_records %>%
+      mutate(!!!set_values_to_sds)
 
-    dataset_final <- bind_rows(dataset, add_sds) %>%
+    dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 
@@ -318,7 +324,10 @@ derive_params_growth_height <- function(dataset,
     add_pctl <- add_pctl %>%
       mutate(AVAL = pnorm(AVAL) * 100)
 
-    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
+    unmatched_pctl <- unmatched_records %>%
+      mutate(!!!set_values_to_pctl)
+
+    dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
   }
 

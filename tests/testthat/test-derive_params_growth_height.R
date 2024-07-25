@@ -129,8 +129,8 @@ test_that("derive_params_growth_height Test 3: handles missing height/lengths", 
     filter(USUBJID == "1001") %>%
     pull(HEIGHT)
 
-  expect_true(is.na(actual))
-  expect_true(is.na(actual1))
+  expect_true(all(is.na(actual)))
+  expect_true(all(is.na(actual1)))
 })
 
 ## Test 4: derive_params_growth_height returns expected error message
