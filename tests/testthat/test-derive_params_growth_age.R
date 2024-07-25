@@ -314,7 +314,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
   )
 
   meta <- tibble::tribble(
-    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S, ~P95, ~Sigma
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S
   )
 
   actual <- derive_params_growth_age(
