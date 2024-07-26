@@ -24,8 +24,6 @@ Creates unique age/heights-bins for each record to speed up joining
 \seealso{
 Other internal: 
 \code{\link{admiralpeds-package}},
-\code{\link{get_age_bins}()},
-\code{\link{set_age_bins}()},
 \code{\link{set_bins}()}
 }
 \concept{internal}
