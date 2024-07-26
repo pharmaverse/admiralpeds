@@ -4,7 +4,8 @@
 #'
 #' @param meta_criteria Metadata dataset
 #'
-#'   A metadata dataset that is the same as that in `derive_params_growth_age()`/`derive_params_growth_height()`
+#'   A metadata dataset that is the same as that in
+#'   `derive_params_growth_age()`/`derive_params_growth_height()`
 #'
 #' @param param Character vector
 #'
@@ -14,10 +15,9 @@
 #' @keywords internal
 #' @return list of breaks and labels for age/height bins
 get_bins <- function(meta_criteria, param) {
-  if(param == "AGE") {
+  if (param == "AGE") {
     unique_vals <- sort(unique(meta_criteria$AGE))
-  }
-  else if(param == "HEIGHT_LENGTH") {
+  } else if (param == "HEIGHT_LENGTH") {
     unique_vals <- sort(unique(meta_criteria$HEIGHT_LENGTH))
   }
   breaks <- c(unique_vals, Inf)
@@ -38,7 +38,6 @@ get_bins <- function(meta_criteria, param) {
 #'
 #' @return detects appropriate bin
 find_closest_bin <- function(param, breaks, labels) {
-
   if (is.na(param)) {
     return(NA)
   }
@@ -83,6 +82,6 @@ find_closest_bin <- function(param, breaks, labels) {
 #' @keywords internal
 #' @return Character vector of unique age/height bins based on metadata
 set_bins <- function(param, breaks, labels) {
-  mapped_labels <- sapply(param, find_closest_bin, breaks = breaks, labels = labels)
+  mapped_labels <- sapply(param, find_closest_bin, breaks = breaks, labels = labels) # nolint
   return(mapped_labels)
 }
