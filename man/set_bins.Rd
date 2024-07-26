@@ -6,9 +6,6 @@
 \usage{
 set_bins(param, breaks, labels)
 }
-\arguments{
-\item{age}{Age column of dataset}
-}
 \value{
 Character vector of unique age/height bins based on metadata
 }

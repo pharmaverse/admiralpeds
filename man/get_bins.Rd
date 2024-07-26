@@ -10,6 +10,10 @@ get_bins(meta_criteria, param)
 \item{meta_criteria}{Metadata dataset
 
 A metadata dataset that is the same as that in \code{derive_params_growth_age()}/\code{derive_params_growth_height()}}
+
+\item{param}{Character vector
+
+Accepted values: "AGE"/"HEIGHT_LENGTH"}
 }
 \value{
 list of breaks and labels for age/height bins
