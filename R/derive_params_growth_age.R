@@ -276,7 +276,8 @@ derive_params_growth_age <- function(dataset,
     left_join(.,
       processed_md,
       by = c("sex_join", "ageu_join", "age_bins")
-    )
+    ) %>%
+    filter(!is.na(metadata_age))
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
@@ -373,7 +374,7 @@ derive_params_growth_age <- function(dataset,
   }
 
   dataset_final <- dataset_final %>%
-    select(-c(SD2pos, SD3pos, SD2neg, SD3neg, age_bins))
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
 
   return(dataset_final)
 }
