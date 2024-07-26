@@ -263,7 +263,8 @@ derive_params_growth_height <- function(dataset,
     left_join(.,
       processed_md,
       by = c("sex_join", "heightu_join", "ht_bins")
-    )
+    ) %>%
+    filter(!is.na(meta_height))
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
