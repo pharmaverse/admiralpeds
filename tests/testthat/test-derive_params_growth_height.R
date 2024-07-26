@@ -209,4 +209,3 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
     c(expected_sds, expected_pctl)
   )
 })
-
