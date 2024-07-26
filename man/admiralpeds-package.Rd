@@ -17,6 +17,10 @@ Useful links:
   \item \url{https://github.com/pharmaverse/admiralpeds}
 }
 
+
+Other internal: 
+\code{\link{get_age_bins}()},
+\code{\link{set_age_bins}()}
 }
 \author{
 \strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com}

@@ -310,11 +310,12 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 test_that("derive_params_growth_age Test 6: Test out of bound ages", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 250, "months", "WEIGHT", 58,
+    "Study", "1001", "Screening", "M", 209, "months", "WEIGHT", 58,
   )
 
   meta <- tibble::tribble(
-    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 210, "months", -1.0354022, 66.10749, 0.1634387
   )
 
   actual <- derive_params_growth_age(

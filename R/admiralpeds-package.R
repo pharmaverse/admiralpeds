@@ -10,6 +10,7 @@
 #' @importFrom purrr map map_chr
 #' @importFrom rlang abort as_label enexpr exprs is_empty syms
 #' @importFrom stats approx pnorm qnorm setNames
+#' @importFrom tidyr unnest
 #' @importFrom tidyselect all_of
 #' @importFrom zoo na.locf
 "_PACKAGE"

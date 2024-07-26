@@ -239,12 +239,18 @@ derive_params_growth_age <- function(dataset,
     cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
+  # Get the breaks and labels
+  bins <- get_age_bins(meta_criteria)
+
   # create a unified join naming convention, hard to figure out in by argument
-  dataset <- dataset %>%
+  dataset2 <- dataset %>%
     mutate(
       sex_join := {{ sex }},
-      ageu_join := {{ age_unit }}
+      ageu_join := {{ age_unit }},
+      age_bins := map({{ age }}, ~ set_age_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
+  # %>%
+  #   unnest(cols = c(age_bins))
 
   # Process metadata
   # Metadata should contain SEX, AGE, AGEU, L, M, S
@@ -262,24 +268,30 @@ derive_params_growth_age <- function(dataset,
       SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
       SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
       SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
-      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L)),
+      age_bins = map(metadata_age, ~ set_age_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
+  # %>%
+  #   unnest(cols = c(age_bins))
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
-  added_records <- dataset %>%
+  added_records <- dataset2 %>%
     filter(!!enexpr(parameter)) %>%
     left_join(.,
-      processed_md,
-      by = c("sex_join", "ageu_join"),
-      relationship = "many-to-many"
-    ) %>%
-    mutate(age_diff := abs(metadata_age - {{ age }})) %>%
-    group_by(!!!by_vars) %>%
-    mutate(is_lowest = age_diff == min(age_diff)) %>%
-    ungroup() %>%
-    group_by(!!!by_vars, is_lowest) %>%
-    filter(is_lowest & row_number() == 1) %>%
-    ungroup()
+              processed_md,
+              by = c("sex_join", "ageu_join", "age_bins"))
+  #   # left_join(.,
+  #   #   processed_md,
+  #   #   by = c("sex_join", "ageu_join"),
+  #   #   relationship = "many-to-many"
+  #   # ) %>%
+  #   # mutate(age_diff := abs(metadata_age - {{ age }})) %>%
+  #   # group_by(!!!by_vars) %>%
+  #   # mutate(is_lowest = age_diff == min(age_diff)) %>%
+  #   # ungroup() %>%
+  #   # group_by(!!!by_vars, is_lowest) %>%
+  #   # filter(is_lowest & row_number() == 1) %>%
+  #   # ungroup()
 
 
   by_exprs <- enexpr(by_vars)
@@ -328,7 +340,9 @@ derive_params_growth_age <- function(dataset,
       mutate(!!!set_values_to_sds)
 
     dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
-      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age,
+                #age_diff, is_lowest,
+                temp_val, temp_z))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -373,11 +387,13 @@ derive_params_growth_age <- function(dataset,
       mutate(!!!set_values_to_pctl)
 
     dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
-      select(-c(L, M, S, sex_join, ageu_join, metadata_age, age_diff, is_lowest, temp_val, temp_z))
+      select(-c(L, M, S, sex_join, ageu_join, metadata_age,
+                #age_diff, is_lowest,
+                temp_val, temp_z))
   }
 
   dataset_final <- dataset_final %>%
-    select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg, age_bins))
 
   return(dataset_final)
 }
