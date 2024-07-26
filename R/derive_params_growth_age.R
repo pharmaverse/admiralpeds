@@ -240,14 +240,14 @@ derive_params_growth_age <- function(dataset,
   }
 
   # Get the breaks and labels
-  bins <- get_age_bins(meta_criteria)
+  bins <- get_bins(meta_criteria, param = "AGE")
 
   # create a unified join naming convention, hard to figure out in by argument
   dataset2 <- dataset %>%
     mutate(
       sex_join := {{ sex }},
       ageu_join := {{ age_unit }},
-      age_bins := map({{ age }}, ~ set_age_bins(.x, breaks = bins$breaks, labels = bins$labels))
+      age_bins := map({{ age }}, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Process metadata
@@ -267,7 +267,7 @@ derive_params_growth_age <- function(dataset,
       SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
       SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
       SD3neg = (M * (1 - 3 * L * S)^(1 / L)),
-      age_bins = map(metadata_age, ~ set_age_bins(.x, breaks = bins$breaks, labels = bins$labels))
+      age_bins = map(metadata_age, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age

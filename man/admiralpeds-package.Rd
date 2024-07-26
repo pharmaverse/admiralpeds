@@ -20,7 +20,9 @@ Useful links:
 
 Other internal: 
 \code{\link{get_age_bins}()},
-\code{\link{set_age_bins}()}
+\code{\link{get_bins}()},
+\code{\link{set_age_bins}()},
+\code{\link{set_bins}()}
 }
 \author{
 \strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com}

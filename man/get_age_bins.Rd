@@ -20,7 +20,9 @@ Creates unique age-bins for each record to speed up joining
 \seealso{
 Other internal: 
 \code{\link{admiralpeds-package}},
-\code{\link{set_age_bins}()}
+\code{\link{get_bins}()},
+\code{\link{set_age_bins}()},
+\code{\link{set_bins}()}
 }
 \concept{internal}
 \keyword{internal}

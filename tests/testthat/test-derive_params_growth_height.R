@@ -38,7 +38,7 @@ test_that("derive_params_growth_height Test 1: derive_params_growth_height works
     ((100 / 8)^7 - 1) / (7 * 9),
     ((110 / 11)^10 - 1) / (10 * 12),
     ((100 / 8)^7 - 1) / (7 * 9),
-    ((100 / 11)^10 - 1) / (10 * 12)
+    ((100 / 8)^7 - 1) / (7 * 9)
   )
 
   expect_equal(
@@ -209,3 +209,4 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
     c(expected_sds, expected_pctl)
   )
 })
+

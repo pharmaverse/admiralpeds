@@ -227,11 +227,14 @@ derive_params_growth_height <- function(dataset,
     cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
+  bins <- get_bins(meta_criteria, param = "HEIGHT_LENGTH")
+
   # create a unified join naming convention, hard to figure out in by argument
   dataset <- dataset %>%
     mutate(
       sex_join := {{ sex }},
-      heightu_join := {{ height_unit }}
+      heightu_join := {{ height_unit }},
+      ht_bins := map({{ height }}, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Process metadata
@@ -250,7 +253,8 @@ derive_params_growth_height <- function(dataset,
       SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
       SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
       SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
-      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L)),
+      ht_bins = map(meta_height, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
@@ -258,15 +262,8 @@ derive_params_growth_height <- function(dataset,
     filter(!!enexpr(parameter)) %>%
     left_join(.,
       processed_md,
-      by = c("sex_join", "heightu_join"),
-      relationship = "many-to-many"
-    ) %>%
-    mutate(ht_diff := abs(meta_height - {{ height }})) %>%
-    group_by(!!!by_vars) %>%
-    mutate(is_lowest = ht_diff == min(ht_diff)) %>%
-    group_by(!!!by_vars, is_lowest) %>%
-    filter(is_lowest & row_number() == 1) %>%
-    ungroup()
+      by = c("sex_join", "heightu_join", "ht_bins")
+    )
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
@@ -298,7 +295,7 @@ derive_params_growth_height <- function(dataset,
       mutate(!!!set_values_to_sds)
 
     dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
-      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -328,7 +325,7 @@ derive_params_growth_height <- function(dataset,
       mutate(!!!set_values_to_pctl)
 
     dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
-      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
+      select(-c(L, M, S, sex_join, heightu_join, meta_height))
   }
 
   dataset_final <- dataset_final %>%
