@@ -374,7 +374,7 @@ derive_params_growth_age <- function(dataset,
   }
 
   dataset_final <- dataset_final %>%
-    select(-c(SD2pos, SD3pos, SD2neg, SD3neg, age_bins))
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg, age_bins, temp_val, temp_z))
 
   return(dataset_final)
 }
