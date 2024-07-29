@@ -19,17 +19,12 @@ library(admiraldev)
 
 # Introduction
 
-This article describes creating a vital signs ADaM for pediatric
-clinical trials. The main focus is around Anthropometric indicators
-(i.e. growth development chart) parameter derivations for Height, Weight, Body
-Mass Index (BMI), and Head Circumference.
+This article describes creating a vital signs ADaM for pediatric clinical trials. This package creates SD scores (z-scores) and percentiles among children and adolescents for various body measures, such as Height, Weight, Body Mass Index (BMI), Weight-for-Length, and Head Circumference.  Among adults, standard cut-points can be used (e.g., a BMI \>= 30 for obesity), but because of the large changes that occur during growth and development, these measures are typically expressed relative to other children of the same sex and age. For example, the CDC classifies obesity as a BMI-for-age \>= 95th percentile (a z-score of 1.645), while the WHO cut point is a weight-for-length \>= 3 SDs among children under 2 years of age.
 
 We advise you first consult the `{admiral}` [Creating a BDS Finding ADaM
 vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
 The programming workflow around how to create the general set-up of an
-ADVS using `{admiral}` functions is the same as this, so to save
-repeating information and maintaining the same content in two places we
-have instead opted to only focus on the pediatric-specific steps here.
+ADVS using `{admiral}` functions is the same. We focus on only the pediatric-specific steps here to avoid repeating information and maintaining the same content in two places.
 
 **Note**: *All examples assume CDISC SDTM and/or ADaM format as input
 unless otherwise specified.*
@@ -64,7 +59,7 @@ consistent - as expected by our downstream functions). For example, you
 might want to use a different age range selection of WHO metadata
 (such as including WHO reference data for between ages [5-19
 years](https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators))
-or even alternatively the International Obesity Task Force standards.
+or even alternatively the International Obesity Task Force reference data.
 
 The selection of standard reference files we included and used as
 metadata for this package are as follows:
