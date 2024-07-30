@@ -418,7 +418,7 @@ If only a z-score or percentile were needed, you leave out one of the `set_value
 arguments.
 
 Once again, it is essential to remember the importance of the metadata being
-supplied to the above function via the via the `meta_criteria` argument.
+supplied to the above function via the `meta_criteria` argument.
 Our default case from this package uses WHO standards for children \< 2 years of
 age and CDC reference data for children \>= 2 years of age. As the user, you can 
 use other (e.g., IOTF) reference data files created with the LMS method.
