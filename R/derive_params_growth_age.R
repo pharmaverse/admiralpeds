@@ -281,7 +281,7 @@ derive_params_growth_age <- function(dataset,
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin) %>%
+  unmatched_records <- anti_join(dataset2, added_records, by = by_antijoin) %>%
     filter(!!enexpr(parameter))
 
   dataset_final <- dataset
