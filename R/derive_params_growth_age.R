@@ -311,8 +311,8 @@ derive_params_growth_age <- function(dataset,
       add_sds <- add_sds %>%
         mutate(
           AVAL := ifelse( # nolint
-            {{ analysis_var }} >= P95 & !is.na(P95),
-            qnorm((90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma)) / 100),
+            temp_val >= P95 & !is.na(P95),
+            qnorm((90 + 10 * pnorm((temp_val - P95) / Sigma)) / 100),
             AVAL
           ),
           # Cover the most extreme high BMI values for percentiles of 99.9 recurring
@@ -353,8 +353,8 @@ derive_params_growth_age <- function(dataset,
       add_pctl <- add_pctl %>%
         mutate(
           AVAL := ifelse( # nolint
-            {{ analysis_var }} >= P95 & !is.na(P95),
-            90 + 10 * pnorm(({{ analysis_var }} - P95) / Sigma),
+            temp_val >= P95 & !is.na(P95),
+            90 + 10 * pnorm((temp_val - P95) / Sigma),
             AVAL
           ),
           # Cover the most extreme high BMI values for percentiles of 99.9 recurring
