@@ -244,6 +244,7 @@ derive_params_growth_age <- function(dataset,
 
   # create a unified join naming convention, hard to figure out in by argument
   dataset2 <- dataset %>%
+    filter(!!enexpr(parameter)) %>%
     mutate(
       sex_join := {{ sex }},
       ageu_join := {{ age_unit }},
@@ -272,7 +273,6 @@ derive_params_growth_age <- function(dataset,
 
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
   added_records <- dataset2 %>%
-    filter(!!enexpr(parameter)) %>%
     left_join(.,
       processed_md,
       by = c("sex_join", "ageu_join", "age_bins")
@@ -281,7 +281,8 @@ derive_params_growth_age <- function(dataset,
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
+  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin) %>%
+    filter(!!enexpr(parameter))
 
   dataset_final <- dataset
 

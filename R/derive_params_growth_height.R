@@ -230,7 +230,8 @@ derive_params_growth_height <- function(dataset,
   bins <- get_bins(meta_criteria, param = "HEIGHT_LENGTH")
 
   # create a unified join naming convention, hard to figure out in by argument
-  dataset <- dataset %>%
+  dataset2 <- dataset %>%
+    filter(!!enexpr(parameter)) %>%
     mutate(
       sex_join := {{ sex }},
       heightu_join := {{ height_unit }},
@@ -258,8 +259,7 @@ derive_params_growth_height <- function(dataset,
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
-  added_records <- dataset %>%
-    filter(!!enexpr(parameter)) %>%
+  added_records <- dataset2 %>%
     left_join(.,
       processed_md,
       by = c("sex_join", "heightu_join", "ht_bins")
@@ -268,7 +268,8 @@ derive_params_growth_height <- function(dataset,
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
+  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin) %>%
+    filter(!!enexpr(parameter))
 
   dataset_final <- dataset
 
