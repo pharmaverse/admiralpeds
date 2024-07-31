@@ -19,6 +19,7 @@ Useful links:
 
 
 Other internal: 
+\code{\link{find_closest_bin}()},
 \code{\link{get_bins}()},
 \code{\link{set_bins}()}
 }

@@ -21,3 +21,11 @@ detects appropriate bin
 \description{
 Find closest bin
 }
+\seealso{
+Other internal: 
+\code{\link{admiralpeds-package}},
+\code{\link{get_bins}()},
+\code{\link{set_bins}()}
+}
+\concept{internal}
+\keyword{internal}

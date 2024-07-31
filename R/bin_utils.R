@@ -36,6 +36,9 @@ get_bins <- function(meta_criteria, param) {
 #'
 #' @param labels Labels created in `get_bins()`
 #'
+#' @family internal
+#' @keywords internal
+#'
 #' @return detects appropriate bin
 find_closest_bin <- function(param, breaks, labels) {
   if (is.na(param)) {

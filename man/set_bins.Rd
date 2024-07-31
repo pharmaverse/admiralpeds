@@ -15,6 +15,7 @@ Adds the unique age/height-bins to each dataframe to have a column for \code{by}
 \seealso{
 Other internal: 
 \code{\link{admiralpeds-package}},
+\code{\link{find_closest_bin}()},
 \code{\link{get_bins}()}
 }
 \concept{internal}
