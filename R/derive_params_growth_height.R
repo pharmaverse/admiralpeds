@@ -120,6 +120,7 @@
 #' library(lubridate, warn.conflicts = FALSE)
 #' library(rlang, warn.conflicts = FALSE)
 #' library(admiral, warn.conflicts = FALSE)
+#' library(pharmaversesdtm, warn.conflicts = FALSE)
 #'
 #' # derive weight for height/length only for those under 2 years old using WHO
 #' # weight for length reference file
