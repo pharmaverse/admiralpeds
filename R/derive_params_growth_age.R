@@ -281,8 +281,8 @@ derive_params_growth_age <- function(dataset,
 
   by_exprs <- enexpr(by_vars)
   by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  unmatched_records <- anti_join(dataset2, added_records, by = by_antijoin) %>%
-    filter(!!enexpr(parameter))
+  # unmatched_records <- anti_join(dataset2, added_records, by = by_antijoin) %>%
+  #   filter(!!enexpr(parameter))
 
   dataset_final <- dataset
 
@@ -322,10 +322,10 @@ derive_params_growth_age <- function(dataset,
         select(-c(P95, Sigma))
     }
 
-    unmatched_sds <- unmatched_records %>%
-      mutate(!!!set_values_to_sds)
+    # unmatched_sds <- unmatched_records %>%
+    #   mutate(!!!set_values_to_sds)
 
-    dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
+    dataset_final <- bind_rows(dataset, add_sds) %>%  #, unmatched_sds) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, temp_val, temp_z))
   }
 
@@ -367,10 +367,10 @@ derive_params_growth_age <- function(dataset,
         mutate(AVAL = pnorm(AVAL) * 100)
     }
 
-    unmatched_pctl <- unmatched_records %>%
-      mutate(!!!set_values_to_pctl)
+    # unmatched_pctl <- unmatched_records %>%
+    #   mutate(!!!set_values_to_pctl)
 
-    dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
+    dataset_final <- bind_rows(dataset_final, add_pctl) %>%  #, unmatched_pctl) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, temp_val, temp_z))
   }
 
