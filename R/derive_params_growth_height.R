@@ -296,7 +296,7 @@ derive_params_growth_height <- function(dataset,
     # unmatched_sds <- unmatched_records %>%
     #   mutate(!!!set_values_to_sds)
 
-    dataset_final <- bind_rows(dataset, add_sds) %>%   #, unmatched_sds) %>%
+    dataset_final <- bind_rows(dataset, add_sds) %>% # , unmatched_sds) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, temp_val, temp_z))
   }
 
@@ -326,7 +326,7 @@ derive_params_growth_height <- function(dataset,
     # unmatched_pctl <- unmatched_records %>%
     #   mutate(!!!set_values_to_pctl)
 
-    dataset_final <- bind_rows(dataset_final, add_pctl) %>%  #, unmatched_pctl) %>%
+    dataset_final <- bind_rows(dataset_final, add_pctl) %>% # , unmatched_pctl) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, temp_val, temp_z))
   }
 
