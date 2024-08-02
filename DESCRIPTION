@@ -40,7 +40,6 @@ Imports:
     cli (>= 3.6.2),
     dplyr (>= 1.0.5),
     magrittr (>= 1.5),
-    pharmaversesdtm,
     purrr (>= 0.3.3),
     rlang (>= 0.4.4),
     tidyselect (>= 1.1.0),
@@ -48,6 +47,7 @@ Imports:
 Suggests:
     knitr,
     lubridate (>= 1.7.4),
+    pharmaversesdtm,
     rmarkdown,
     stringr (>= 1.4.0),
     testthat (>= 3.0.0),
