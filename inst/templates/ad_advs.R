@@ -180,7 +180,7 @@ who_wt_for_lgth <- who_wt_for_lgth_boys %>%
 # as needed and assign to the variables below.
 # For illustration purposes read in admiral test data
 
-data("vs_peds")
+vs_peds <- pharmaversesdtm::vs_peds
 data("adsl_peds")
 
 vs <- vs_peds
