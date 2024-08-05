@@ -83,7 +83,7 @@ This is in accord with the [CDC
 recommendation](https://www.cdc.gov/growthcharts/who_charts.htm). The reference 
 data for both charts include the LMS parameters, in which L is the Box-Cox 
 transformation for normality, M is the median, and S is the coefficient of 
-variation (S). 
+variation. 
 
 So, the first step is combining the metadata for each measure and ensuring sex 
 and age are shown consistently.
