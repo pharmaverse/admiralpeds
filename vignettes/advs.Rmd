@@ -73,8 +73,8 @@ for this package are as follows:
 
 ### Reference Files for Parameters by Age
 
-As growth rates and patterns by age and sex, reference values differ by these
-two characteristics. 
+As growth rates and patterns differ by age and sex, reference values differ by
+these two characteristics. 
 
 For the various measures, we use the WHO reference data for children <2 years 
 of age (\<730.5 days) and CDC growth charts for children >=2 years of age 
@@ -309,16 +309,6 @@ So, these need to be first derived as variables in your ADVS.
 Remember to ensure that the unit of these matches that of the reference
 files metadata you are comparing against, i.e. "days" for age and "cm"
 for length/height in our examples here.
-
-Note that some growth reference files we use here have different units and intervals. 
-For example when you look at the "by Age" charts, the WHO provides this by day,
-but the CDC gives this every month (25.5, 26.5, etc.). So, converting all ages 
-to days leaves the challenge of joining when the patient's current age falls 
-between the monthly CDC reference data. In our package functions, we used the
-nearest age from the metadata rather than applying some form of interpolation.
-An alternative method would be to derive the current age according to the same
-intervals as the metadata, with 30.4375 days in a month, for an exact join.
-But, in our examples, we use days. 
 
 ### Derived Variables for Parameters by Age
 
