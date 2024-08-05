@@ -178,7 +178,7 @@ as CDC provides no equivalent for children \> 2 years of age.
 
 ### Reference Files for Weight by Length/Height
 
-WHO provides additional standards for weight-for-length (recumbent length), 
+WHO provides additional reference data for weight-for-length (recumbent length),
 instead of age. Again, we combined the metadata for sex to create a single 
 reference file. 
 
