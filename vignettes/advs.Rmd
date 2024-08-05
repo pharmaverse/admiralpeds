@@ -215,7 +215,7 @@ dataset_vignette(
 ## Initial ADVS Set-up {#advs_start}
 
 The following steps are to read in the source data, merge ADSL variables,
-and derive the usual ADVS analysis variable. The
+and derive the usual ADVS analysis variables. The
 `{admiral}` [Creating a BDS Finding ADaM
 vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html)
 gives detailed guidance on all these steps.
