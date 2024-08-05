@@ -173,7 +173,7 @@ BMI percentiles and z-scores above the sex- and age-specific 95th percentile (P9
 The above example only shows the parameter BMI, but this follows other parameters
 like weight and height. We can combine WHO and CDC metadata for height as a
 WHO adjustment is unnecessary.
-Note that the head circumference parameter metadata comes only from the WHO standards,
+Note that the head circumference parameter metadata comes only from the WHO reference data,
 as CDC provides no equivalent for children \> 2 years of age.
 
 ### Reference Files for Weight by Length/Height
