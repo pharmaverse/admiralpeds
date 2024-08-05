@@ -421,7 +421,7 @@ Once again, it is essential to remember the importance of the metadata being
 supplied to the above function via the `meta_criteria` argument.
 Our default case from this package uses WHO reference data for children \< 2 years of
 age and CDC reference data for children \>= 2 years of age. As the user, you can 
-use other (e.g., IOTF) reference data files created with the LMS method.
+use other (e.g., International Obesity Task Force) reference data files created with the LMS method.
 
 For BMI only, you'll notice from the code above that we have
 set `bmi_cdc_correction = TRUE`. This is because we used the CDC
