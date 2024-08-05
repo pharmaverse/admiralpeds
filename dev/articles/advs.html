@@ -34,7 +34,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9027</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,15 +123,22 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This article describes creating a vital signs ADaM for pediatric
-clinical trials. The main focus is around Anthropometric indicators
-(i.e. growth development chart) parameter derivations for Height,
-Weight, Body Mass Index (BMI), and Head Circumference.</p>
+clinical trials. This package creates SD scores (z-scores) and
+percentiles among children and adolescents for various body measures,
+such as Height, Weight, Body Mass Index (BMI), Weight-for-Length, and
+Head Circumference. Among adults, standard cut-points can be used (e.g.,
+a BMI &gt;= 30 for obesity), but because of the large changes that occur
+during growth and development, these measures are typically expressed
+relative to other children of the same sex and age. For example, the CDC
+classifies obesity as a BMI-for-age &gt;= 95th percentile (a z-score of
+1.645), while the WHO cut point is a weight-for-length &gt;= 3 SDs among
+children under 2 years of age.</p>
 <p>We advise you first consult the <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> <a href="https://pharmaverse.github.io/admiral/articles/bds_finding.html" class="external-link">Creating
-a BDS Finding ADaM vignette</a>. The programming workflow around how to
-create the general set-up of an ADVS using <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a>
-functions is the same as this, so to save repeating information and
-maintaining the same content in two places we have instead opted to only
-focus on the pediatric-specific steps here.</p>
+a BDS Finding ADaM vignette</a>. The programming workflow around
+creating the general set-up of an ADVS using <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a>
+functions is the same. We focus on only the pediatric-specific steps
+here to avoid repeating information and maintaining the same content in
+two places.</p>
 <p><strong>Note</strong>: <em>All examples assume CDISC SDTM and/or ADaM
 format as input unless otherwise specified.</em></p>
 </div>
@@ -150,23 +157,22 @@ Anthropometric indicators</a></li>
 <div class="section level3">
 <h3 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
 </h3>
-<p>Once the required packages have been loaded, the first step is then
-to prepare the metadata.</p>
+<p>Once the required packages have been loaded, the first step is
+preparing the metadata.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pharmaverse.github.io/admiralpeds">admiralpeds</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span></code></pre></div>
-<p>Here we have made some default decisions in the package as to which
-metadata to use but you are free to replace these with any other source
-you prefer (as long as you keep the structure of the dataframe
+<p>Here, we have made some default decisions regarding which metadata to
+use in the package. But you are free to replace these with any other
+source you prefer (as long as you keep the structure of the dataframe
 consistent - as expected by our downstream functions). For example, you
 might want to use a different age range selection of WHO metadata (such
 as including WHO reference data for between ages <a href="https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators" class="external-link">5-19
-years</a>) or even alternatively the International Obesity Task Force
-standards.</p>
-<p>The selection of standard reference files we included and used as
+years</a>) or the International Obesity Task Force reference data.</p>
+<p>The selection of growth reference files we included and used as
 metadata for this package are as follows:</p>
 <ul>
 <li><a href="https://www.cdc.gov/growthcharts/percentile_data_files.htm" class="external-link">2000
@@ -181,26 +187,29 @@ WHO Growth Standards</a> - Expanded Tables: Birth to 5 years</li>
 <div class="section level4">
 <h4 id="reference-files-for-parameters-by-age">Reference Files for Parameters by Age<a class="anchor" aria-label="anchor" href="#reference-files-for-parameters-by-age"></a>
 </h4>
-<p>As growth rates and patterns differ between sex, different reference
-values are used accordingly and for different age groups.</p>
-<p>For the applicable parameters here (height/weight/BMI), we made the
-default decision to rely on the WHO standards for children &lt;2 years
-of age (&lt;730.5 days) and CDC standards for children &gt;=2 years of
-age (&gt;=730.5 days). This is made in accordance with the <a href="https://www.cdc.gov/growthcharts/who_charts.htm" class="external-link">CDC
-recommendation</a>.</p>
-<p>So, the first step here needed is to combine the various metadata by
-parameter and ensuring sex and age are shown in a consistent way. For
-weight-based indicators we keep WHO and CDC metadata separate due to the
-WHO adjustment (restricted application of the LMS method) needed for the
-anthropometric indicator derivations.</p>
-<p>Additionally, as the CDC growth charts only offer monthly intervals
-we took advice from an ex-CDC expert in this area and made the decision
-in our template to add interpolation code so that we have a record for
-each day of age. When converting the CDC months into days we use
-rounding to bring them to a whole number of days. If you would prefer to
-rely solely on the monthly chart here, then you could remove the
-rounding and the call to the <code><a href="../reference/derive_interp_records.html">derive_interp_records()</a></code>
-function.</p>
+<p>As growth rates and patterns differ by age and sex, reference values
+differ by these two characteristics.</p>
+<p>For the various measures, we use the WHO reference data for children
+&lt;2 years of age (&lt;730.5 days) and CDC growth charts for children
+&gt;=2 years of age (&gt;=730.5 days). This is in accord with the <a href="https://www.cdc.gov/growthcharts/who_charts.htm" class="external-link">CDC
+recommendation</a>. The reference data for both charts include the LMS
+parameters, in which L is the Box-Cox transformation for normality, M is
+the median, and S is the coefficient of variation.</p>
+<p>So, the first step is combining the metadata for each measure and
+ensuring sex and age are shown consistently. We separate WHO and CDC
+metadata for weight-based derivations due to (1) the WHO adjustment
+(restricted application of the LMS method) and (2) the CDC extended
+method for high BMIs.</p>
+<p>Additionally, as the CDC growth charts only offer monthly age
+intervals, on the advice of a retired CDC expert in this area, we added
+interpolation code in our template to have a record for each day of age.
+When converting the CDC months into days (30.4375 days in a month), we
+rounded to the nearest whole number of days. Relying on the monthly
+charts will result in less accurate calculations, particularly for
+weight and height values among children who are 2 years of age. If you
+would prefer to rely solely on the monthly chart here, then you could
+remove the rounding and the call to the
+<code><a href="../reference/derive_interp_records.html">derive_interp_records()</a></code> function.</p>
 <p>We do this pre-processing of the metadata using the following code
 for BMI as an example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -243,34 +252,31 @@ for BMI as an example:</p>
 <p>Here is how the first records of the WHO metadata for BMI now
 look:</p>
 <div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:auto;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"19\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;DAYS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;F&quot;,&quot;M&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-0.3053\" data-max=\"0.6319\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"13.2113\" data-max=\"14.0558\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.09272\" data-max=\"0.09887\" data-scale=\"5\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","ColReorder","Scroller"],"data":[[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19],["DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS"],["F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M"],[-0.0631,-0.3053,0.0362,-0.1867,0.1355,-0.06809999999999999,0.2347,0.0505,0.334,0.169,0.4333,0.2876,0.5326,0.4062,0.6319,0.5247000000000001,0.6142,0.5094,0.5965,0.4941,0.5789,0.4789,0.5612,0.4636,0.5435,0.4483,0.5258,0.433,0.5082,0.4177,0.4947,0.4059,0.482,0.3946,0.4699,0.3839,0.4583,0.3735,0.4472,0.3636],[13.3363,13.4069,13.3185,13.3976,13.3006,13.3883,13.2828,13.3791,13.2649,13.3698,13.247,13.3606,13.2292,13.3513,13.2113,13.3421,13.2455,13.3843,13.2796,13.4265,13.3137,13.4687,13.3478,13.511,13.3819,13.5532,13.416,13.5954,13.4501,13.6377,13.5169,13.7174,13.5873,13.8006,13.6595,13.8854,13.7325,13.9707,13.8056,14.0558],[0.09272,0.0956,0.0936,0.09597,0.09447999999999999,0.09634,0.09535,0.09672,0.09623,0.09709,0.09711,0.09746,0.09798999999999999,0.09784,0.09887,0.09821000000000001,0.09866,0.09769,0.09845,0.09716,0.09823999999999999,0.09664,0.09804,0.09611,0.09783,0.09558999999999999,0.09762,0.09507,0.09741,0.09454,0.09726,0.09415999999999999,0.09711,0.09379999999999999,0.09697,0.09347,0.09684,0.09315,0.09671,0.09285]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AGE<\/th>\n      <th>AGEU<\/th>\n      <th>SEX<\/th>\n      <th>L<\/th>\n      <th>M<\/th>\n      <th>S<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,3,4,5]},{"name":"AGE","targets":0},{"name":"AGEU","targets":1},{"name":"SEX","targets":2},{"name":"L","targets":3},{"name":"M","targets":4},{"name":"S","targets":5}],"searchHighlight":true,"searching":true,"pageLength":5,"lengthMenu":[5,10,15,20,50,100],"dom":"<Bfr<\"dt-scroll\"t>ipl>","buttons":[{"extend":"colvis","text":"Choose the columns to display","scroller":true,"collectionLayout":"fixed two-column"}],"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script><p>As well as similar for the CDC metadata:</p>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"19\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;DAYS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;F&quot;,&quot;M&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-0.3053\" data-max=\"0.6319\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"13.2113\" data-max=\"14.0558\" data-scale=\"4\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.09272\" data-max=\"0.09887\" data-scale=\"5\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","ColReorder","Scroller"],"data":[[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19],["DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS"],["F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M"],[-0.0631,-0.3053,0.0362,-0.1867,0.1355,-0.06809999999999999,0.2347,0.0505,0.334,0.169,0.4333,0.2876,0.5326,0.4062,0.6319,0.5247000000000001,0.6142,0.5094,0.5965,0.4941,0.5789,0.4789,0.5612,0.4636,0.5435,0.4483,0.5258,0.433,0.5082,0.4177,0.4947,0.4059,0.482,0.3946,0.4699,0.3839,0.4583,0.3735,0.4472,0.3636],[13.3363,13.4069,13.3185,13.3976,13.3006,13.3883,13.2828,13.3791,13.2649,13.3698,13.247,13.3606,13.2292,13.3513,13.2113,13.3421,13.2455,13.3843,13.2796,13.4265,13.3137,13.4687,13.3478,13.511,13.3819,13.5532,13.416,13.5954,13.4501,13.6377,13.5169,13.7174,13.5873,13.8006,13.6595,13.8854,13.7325,13.9707,13.8056,14.0558],[0.09272,0.0956,0.0936,0.09597,0.09447999999999999,0.09634,0.09535,0.09672,0.09623,0.09709,0.09711,0.09746,0.09798999999999999,0.09784,0.09887,0.09821000000000001,0.09866,0.09769,0.09845,0.09716,0.09823999999999999,0.09664,0.09804,0.09611,0.09783,0.09558999999999999,0.09762,0.09507,0.09741,0.09454,0.09726,0.09415999999999999,0.09711,0.09379999999999999,0.09697,0.09347,0.09684,0.09315,0.09671,0.09285]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AGE<\/th>\n      <th>AGEU<\/th>\n      <th>SEX<\/th>\n      <th>L<\/th>\n      <th>M<\/th>\n      <th>S<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,3,4,5]},{"name":"AGE","targets":0},{"name":"AGEU","targets":1},{"name":"SEX","targets":2},{"name":"L","targets":3},{"name":"M","targets":4},{"name":"S","targets":5}],"searchHighlight":true,"searching":true,"pageLength":5,"lengthMenu":[5,10,15,20,50,100],"dom":"<Bfr<\"dt-scroll\"t>ipl>","buttons":[{"extend":"colvis","text":"Choose the columns to display","scroller":true,"collectionLayout":"fixed two-column"}],"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script><p>Similarly, for the CDC metadata:</p>
 <div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:auto;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"731\" data-max=\"749\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;DAYS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;F&quot;,&quot;M&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-2.0093806028125\" data-max=\"-0.9889765485625\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"16.381133695\" data-max=\"16.5733243745\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.0800380855\" data-max=\"0.0854251633125\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"19.049009595\" data-max=\"19.334316089375\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1.376857375\" data-max=\"1.5897362\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","ColReorder","Scroller"],"data":[[731,731,732,732,733,733,734,734,735,735,736,736,737,737,738,738,739,739,740,740,741,741,742,742,743,743,744,744,745,745,746,746,747,747,748,748,749,749],["DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS"],["F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M"],[-0.9889765485625001,-2.0093806028125,-0.9913445671250001,-2.007580135625,-0.9937125856875001,-2.0057796684375,-0.9960806042500001,-2.00397920125,-0.9984486228125,-2.0021787340625,-1.000816641375,-2.000378266875,-1.0031846599375,-1.9985777996875,-1.0055526785,-1.9967773325,-1.0079206970625,-1.9949768653125,-1.010288715625,-1.993176398125,-1.0126567341875,-1.9913759309375,-1.01502475275,-1.98957546375,-1.0173927713125,-1.9877749965625,-1.019760789875,-1.985974529375,-1.0221288084375,-1.9841740621875,-1.024496827,-1.982373595,-1.027103544533333,-1.980431147466667,-1.029710262066667,-1.978488699933333,-1.0323169796,-1.9765462524],[16.421186887875,16.5733243745,16.41897713275,16.571621074,16.416767377625,16.5699177735,16.4145576225,16.568214473,16.412347867375,16.5665111725,16.41013811225,16.564807872,16.407928357125,16.5631045715,16.405718602,16.561401271,16.403508846875,16.5596979705,16.40129909175,16.55799467,16.399089336625,16.5562913695,16.3968795815,16.554588069,16.394669826375,16.5528847685,16.39246007125,16.551181468,16.390250316125,16.5494781675,16.388040561,16.547774867,16.38573827233333,16.54599662583334,16.38343598366667,16.54421838466667,16.381133695,16.5424401435],[0.0854251633125,0.08056340025,0.085398541625,0.0805343355,0.0853719199375,0.08050527075,0.08534529825000001,0.08047620599999999,0.0853186765625,0.08044714125000001,0.08529205487500001,0.0804180765,0.0852654331875,0.08038901175,0.08523881150000001,0.080359947,0.08521218981250001,0.08033088225,0.085185568125,0.0803018175,0.08515894643750001,0.08027275275,0.08513232475,0.08024368800000001,0.08510570306250001,0.08021462325000001,0.085079081375,0.0801855585,0.08505245968750001,0.08015649375,0.08502583800000001,0.080127429,0.08499877846666667,0.08009764783333333,0.08497171893333334,0.08006786666666667,0.08494465940000001,0.08003808549999999],[19.103235421875,19.334316089375,19.10023562375,19.33062155875,19.097235825625,19.326927028125,19.0942360275,19.3232324975,19.091236229375,19.319537966875,19.08823643125,19.31584343625,19.085236633125,19.312148905625,19.082236835,19.308454375,19.079237036875,19.304759844375,19.07623723875,19.30106531375,19.073237440625,19.297370783125,19.0702376425,19.2936762525,19.067237844375,19.289981721875,19.06423804625,19.28628719125,19.061238248125,19.282592660625,19.05823845,19.27889813,19.055162165,19.27509018066667,19.05208588,19.27128223133333,19.049009595,19.267474282],[1.5723550625,1.376857375,1.573310125,1.37811475,1.5742651875,1.379372125,1.57522025,1.3806295,1.5761753125,1.381886875,1.577130375,1.38314425,1.5780854375,1.384401625,1.5790405,1.385659,1.5799955625,1.386916375,1.580950625,1.38817375,1.5819056875,1.389431125,1.58286075,1.3906885,1.5838158125,1.391945875,1.584770875,1.39320325,1.5857259375,1.394460625,1.586681,1.395718,1.5876994,1.397056,1.5887178,1.398394,1.5897362,1.399732]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AGE<\/th>\n      <th>AGEU<\/th>\n      <th>SEX<\/th>\n      <th>L<\/th>\n      <th>M<\/th>\n      <th>S<\/th>\n      <th>P95<\/th>\n      <th>Sigma<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7]},{"name":"AGE","targets":0},{"name":"AGEU","targets":1},{"name":"SEX","targets":2},{"name":"L","targets":3},{"name":"M","targets":4},{"name":"S","targets":5},{"name":"P95","targets":6},{"name":"Sigma","targets":7}],"searchHighlight":true,"searching":true,"pageLength":5,"lengthMenu":[5,10,15,20,50,100],"dom":"<Bfr<\"dt-scroll\"t>ipl>","buttons":[{"extend":"colvis","text":"Choose the columns to display","scroller":true,"collectionLayout":"fixed two-column"}],"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script><p>To help interpret this metadata: the LMS parameters are the median
-(M), the generalized coefficient of variation (S), and the power in the
-Box-Cox transformation (L).</p>
-<p>For CDC metadata only, Sigma is the dispersion parameter used in the
-calculation of BMI percentiles and z-scores above the 95th percentile,
-and P95 represents this sex and age-specific 95th percentile.</p>
-<p>The above example only shows the parameter BMI, but similar follows
-for the other parameters like weight and height (except no Sigma and P95
-for those), and for height we are able to combine WHO and CDC metadata
-as there is no WHO adjustment needed. Note that the head circumference
-parameter metadata comes only from the WHO standards, as no equivalent
-for &gt;2 years of age are provided by CDC.</p>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"731\" data-max=\"749\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;DAYS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;F&quot;,&quot;M&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-2.0093806028125\" data-max=\"-0.9889765485625\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"16.381133695\" data-max=\"16.5733243745\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.0800380855\" data-max=\"0.0854251633125\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"19.049009595\" data-max=\"19.334316089375\" data-scale=\"14\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1.376857375\" data-max=\"1.5897362\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","ColReorder","Scroller"],"data":[[731,731,732,732,733,733,734,734,735,735,736,736,737,737,738,738,739,739,740,740,741,741,742,742,743,743,744,744,745,745,746,746,747,747,748,748,749,749],["DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS"],["F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M"],[-0.9889765485625001,-2.0093806028125,-0.9913445671250001,-2.007580135625,-0.9937125856875001,-2.0057796684375,-0.9960806042500001,-2.00397920125,-0.9984486228125,-2.0021787340625,-1.000816641375,-2.000378266875,-1.0031846599375,-1.9985777996875,-1.0055526785,-1.9967773325,-1.0079206970625,-1.9949768653125,-1.010288715625,-1.993176398125,-1.0126567341875,-1.9913759309375,-1.01502475275,-1.98957546375,-1.0173927713125,-1.9877749965625,-1.019760789875,-1.985974529375,-1.0221288084375,-1.9841740621875,-1.024496827,-1.982373595,-1.027103544533333,-1.980431147466667,-1.029710262066667,-1.978488699933333,-1.0323169796,-1.9765462524],[16.421186887875,16.5733243745,16.41897713275,16.571621074,16.416767377625,16.5699177735,16.4145576225,16.568214473,16.412347867375,16.5665111725,16.41013811225,16.564807872,16.407928357125,16.5631045715,16.405718602,16.561401271,16.403508846875,16.5596979705,16.40129909175,16.55799467,16.399089336625,16.5562913695,16.3968795815,16.554588069,16.394669826375,16.5528847685,16.39246007125,16.551181468,16.390250316125,16.5494781675,16.388040561,16.547774867,16.38573827233333,16.54599662583334,16.38343598366667,16.54421838466667,16.381133695,16.5424401435],[0.0854251633125,0.08056340025,0.085398541625,0.0805343355,0.0853719199375,0.08050527075,0.08534529825000001,0.08047620599999999,0.0853186765625,0.08044714125000001,0.08529205487500001,0.0804180765,0.0852654331875,0.08038901175,0.08523881150000001,0.080359947,0.08521218981250001,0.08033088225,0.085185568125,0.0803018175,0.08515894643750001,0.08027275275,0.08513232475,0.08024368800000001,0.08510570306250001,0.08021462325000001,0.085079081375,0.0801855585,0.08505245968750001,0.08015649375,0.08502583800000001,0.080127429,0.08499877846666667,0.08009764783333333,0.08497171893333334,0.08006786666666667,0.08494465940000001,0.08003808549999999],[19.103235421875,19.334316089375,19.10023562375,19.33062155875,19.097235825625,19.326927028125,19.0942360275,19.3232324975,19.091236229375,19.319537966875,19.08823643125,19.31584343625,19.085236633125,19.312148905625,19.082236835,19.308454375,19.079237036875,19.304759844375,19.07623723875,19.30106531375,19.073237440625,19.297370783125,19.0702376425,19.2936762525,19.067237844375,19.289981721875,19.06423804625,19.28628719125,19.061238248125,19.282592660625,19.05823845,19.27889813,19.055162165,19.27509018066667,19.05208588,19.27128223133333,19.049009595,19.267474282],[1.5723550625,1.376857375,1.573310125,1.37811475,1.5742651875,1.379372125,1.57522025,1.3806295,1.5761753125,1.381886875,1.577130375,1.38314425,1.5780854375,1.384401625,1.5790405,1.385659,1.5799955625,1.386916375,1.580950625,1.38817375,1.5819056875,1.389431125,1.58286075,1.3906885,1.5838158125,1.391945875,1.584770875,1.39320325,1.5857259375,1.394460625,1.586681,1.395718,1.5876994,1.397056,1.5887178,1.398394,1.5897362,1.399732]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AGE<\/th>\n      <th>AGEU<\/th>\n      <th>SEX<\/th>\n      <th>L<\/th>\n      <th>M<\/th>\n      <th>S<\/th>\n      <th>P95<\/th>\n      <th>Sigma<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7]},{"name":"AGE","targets":0},{"name":"AGEU","targets":1},{"name":"SEX","targets":2},{"name":"L","targets":3},{"name":"M","targets":4},{"name":"S","targets":5},{"name":"P95","targets":6},{"name":"Sigma","targets":7}],"searchHighlight":true,"searching":true,"pageLength":5,"lengthMenu":[5,10,15,20,50,100],"dom":"<Bfr<\"dt-scroll\"t>ipl>","buttons":[{"extend":"colvis","text":"Choose the columns to display","scroller":true,"collectionLayout":"fixed two-column"}],"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script><p>For BMI in the CDC metadata, a dispersion parameter (Sigma) is used
+to calculate BMI percentiles and z-scores above the sex- and
+age-specific 95th percentile (P95).</p>
+<p>The above example only shows the parameter BMI, but this follows
+other parameters like weight and height. We can combine WHO and CDC
+metadata for height as a WHO adjustment is unnecessary. Note that the
+head circumference parameter metadata comes only from the WHO reference
+data, as CDC provides no equivalent for children &gt; 2 years of
+age.</p>
 </div>
 <div class="section level4">
 <h4 id="reference-files-for-weight-by-lengthheight">Reference Files for Weight by Length/Height<a class="anchor" aria-label="anchor" href="#reference-files-for-weight-by-lengthheight"></a>
 </h4>
-<p>WHO provides additional standards for weight by body length
-(recumbent length), instead of age. For these we again combined the
-metadata for sex so that we have a single reference file.</p>
-<p>There are also weight by height files available, but upon advice from
-an ex-CDC expert in this area we chose to only include the by body
-length files, as once children are able to stand then BMI by age is a
-more appropriate measure to use. However, in our template we do give the
-metadata values variable a more generic name as
-<code>HEIGHT_LENGTH</code> so that any user could equally choose to pass
-weight by height files if they so preferred.</p>
+<p>WHO provides additional reference data for weight-for-length
+(recumbent length), instead of age. Again, we combined the metadata for
+sex to create a single reference file.</p>
+<p>There are also weight-by-height files available, but upon advice from
+a retired CDC expert in this area, we chose only to include the
+weight-for-length files, as once children can stand, BMI by age is a
+more appropriate measure to use. However, in our template, we give the
+metadata values variable a generic name, <code>HEIGHT_LENGTH</code>, so
+that any user could equally choose to pass weight-for-height files if
+preferred.</p>
 <p>We do this using the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">who_wt_for_lgth_boys</span><span class="op">)</span></span>
@@ -290,8 +296,8 @@ weight by height files if they so preferred.</p>
 <div class="section level3">
 <h3 id="advs_start">Initial ADVS Set-up<a class="anchor" aria-label="anchor" href="#advs_start"></a>
 </h3>
-<p>The next step would be reading in the source data, merging ADSL
-variables and deriving the usual ADVS analysis variables. The
+<p>The following steps are to read in the source data, merge ADSL
+variables, and derive the usual ADVS analysis variables. The
 <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> <a href="https://pharmaverse.github.io/admiral/articles/bds_finding.html" class="external-link">Creating
 a BDS Finding ADaM vignette</a> gives detailed guidance on all these
 steps.</p>
@@ -334,24 +340,12 @@ example:</p>
 <div class="section level3">
 <h3 id="derive_vars">Derive Additional Variables for Anthropometric indicators<a class="anchor" aria-label="anchor" href="#derive_vars"></a>
 </h3>
-<p>In order to be able to compare against the reference files we need to
-know each child’s age and length/height respectively at the time of each
-vital signs assessment. So these need to be first derived as variables
-in your ADVS.</p>
+<p>To compare against the reference files, we need to know each child’s
+age and length/height at the time of each vital signs assessment. So,
+these need to be first derived as variables in your ADVS.</p>
 <p>Remember to ensure that the unit of these matches that of the
 reference files metadata you are comparing against, i.e. “days” for age
 and “cm” for length/height in our examples here.</p>
-<p>Note that some of the standard reference files we use here have
-different units and intervals themselves. For example when you look at
-the “by Age” charts WHO provides this by day but CDC gives this every
-half month. So when converting all as days this still leaves the
-challenge of how to join when the patient’s current age falls between an
-interval (e.g. between 24.5 and 25 months for CDC). Here in our package
-functions we took the simple approach to use the nearest age from the
-metadata, rather than apply some form of interpolation. An alternative
-method you could use would be to derive current age according to the
-exact same intervals as the metadata in order for an exact join, but in
-our examples we just kept this by days.</p>
 <div class="section level4">
 <h4 id="derived-variables-for-parameters-by-age">Derived Variables for Parameters by Age<a class="anchor" aria-label="anchor" href="#derived-variables-for-parameters-by-age"></a>
 </h4>
@@ -391,14 +385,14 @@ could be achieved using the following code:</p>
 <div class="section level3">
 <h3 id="derive_params">Derive Additional Parameters for Anthropometric indicators<a class="anchor" aria-label="anchor" href="#derive_params"></a>
 </h3>
-<p>Now we get to the most important section where we show how to create
-the new records for each derived pediatrics parameter. Only certain
+<p>Now, we get to the most important section, which shows how to create
+new records for each derived pediatrics parameter. Only specific
 examples are included here, but you’ll find more parameters in the
 example template script referenced at the bottom of this vignette.</p>
 <div class="section level4">
 <h4 id="derived-parameters-by-age">Derived Parameters by Age<a class="anchor" aria-label="anchor" href="#derived-parameters-by-age"></a>
 </h4>
-<p>Parameters for BMI by Age z-score and percentile could be achieved
+<p>Parameters for BMI-for-age z-scores and percentiles could be achieved
 using the <code><a href="../reference/derive_params_growth_age.html">derive_params_growth_age()</a></code> function as
 follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -438,47 +432,50 @@ follows:</p>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>In the rare case where only z-score or percentile was needed and not
-both then you could leave out either of the respective
+<p>If only a z-score or percentile were needed, you leave out one of the
 <code>set_values_to_</code> arguments.</p>
-<p>Here it is important once again to remind of the importance of the
+<p>Once again, it is essential to remember the importance of the
 metadata being supplied to the above function via the
-<code>meta_criteria</code> argument. In our default case from this
-package this is taking WHO standards for children &lt;2 years of age and
-CDC standards for children &gt;=2 years of age. You as the user are free
-to supply any other choice of metadata here from the reference files you
-prefer.</p>
-<p>For BMI parameters only, you’ll notice from the code above that we
-have set <code>bmi_cdc_correction = TRUE</code>. This is because we
-opted to use the CDC developed extended percentiles (&gt;95%) to monitor
-high BMI values here. If you left this argument as default
-<code>FALSE</code> value then from the CDC metadata only the 2000 CDC
-Growth Chart for BMI would be used.</p>
-<p>For any weight-based indicator (including BMI), you’ll also see in
+<code>meta_criteria</code> argument. Our default case from this package
+uses WHO reference data for children &lt; 2 years of age and CDC
+reference data for children &gt;= 2 years of age. As the user, you can
+use other (e.g., International Obesity Task Force) reference data files
+created with the LMS method.</p>
+<p>For BMI only, you’ll notice from the code above that we have set
+<code>bmi_cdc_correction = TRUE</code>. This is because we used the CDC
+extended percentiles (&gt; 95th percentile) to monitor high BMI values
+here. If you left this argument as default <code>FALSE</code> value,
+only the 2000 CDC Growth Chart for BMI would be used from the CDC
+metadata. In 2022, the CDC released extended percentiles (and z-scores)
+for BMIs &gt; 95th percentile because the original CDC method did not
+accurately characterize very high BMIs.</p>
+<p>For all weight-based parameters (including BMI), you’ll also see in
 the code above that we have set <code>who_correction = TRUE</code>. This
 comes from the <a href="https://www.who.int/publications/i/item/924154693X" class="external-link">WHO Child
-Growth Standards Guidelines</a> (see document page 302). The rationale
-is that WHO constructed a restricted application of the LMS method here.
-Of course if you were choosing to not use WHO metadata then you could
-equally leave <code>who_correction = FALSE</code> and only the usual LMS
-method would be applied.</p>
+Growth Standards Guidelines</a> (pages 301-304). This correction is made
+because the WHO used the LMS method only for weight-based measures for
+which the calculated z-scores were between -3 and +3; this correction
+allows for the calculation of more extreme z-scores. If you are not
+using the WHO metadata (or WHO metadata for length or head
+circumference), you could leave <code>who_correction = FALSE</code>, and
+only the usual LMS method would be applied. WHO recommends using this
+correction for all parameters that involve weight (including BMI).</p>
 <p>Here is how these newly derived parameters look:</p>
 <div id="htmlwidget-1fb4450895fe099f74a1" style="width:auto;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;01-701-1023&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"718\" data-max=\"760\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;DAYS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;BMIPCTL&quot;,&quot;BMISDS&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;BMI-for-age percentile&quot;,&quot;BMI-for-age z-score&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"-0.015501749259466\" data-max=\"64.7910776545628\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","ColReorder","Scroller"],"data":[["01-701-1023","01-701-1023","01-701-1023","01-701-1023","01-701-1023","01-701-1023","01-701-1023","01-701-1023"],[718,718,732,754,760,732,754,760],["DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS","DAYS"],["BMISDS","BMIPCTL","BMISDS","BMISDS","BMISDS","BMIPCTL","BMIPCTL","BMIPCTL"],["BMI-for-age z-score","BMI-for-age percentile","BMI-for-age z-score","BMI-for-age z-score","BMI-for-age z-score","BMI-for-age percentile","BMI-for-age percentile","BMI-for-age percentile"],[0.3796860899542759,64.79107765456281,-0.01550174925946553,0.1112090877817789,0.2718149817496772,-0.01550174925946553,0.1112090877817789,0.2718149817496772]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>USUBJID<\/th>\n      <th>AAGECUR<\/th>\n      <th>AAGECURU<\/th>\n      <th>PARAMCD<\/th>\n      <th>PARAM<\/th>\n      <th>AVAL<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,5]},{"name":"USUBJID","targets":0},{"name":"AAGECUR","targets":1},{"name":"AAGECURU","targets":2},{"name":"PARAMCD","targets":3},{"name":"PARAM","targets":4},{"name":"AVAL","targets":5}],"searchHighlight":true,"searching":true,"pageLength":5,"lengthMenu":[5,10,15,20,50,100],"dom":"<Bfr<\"dt-scroll\"t>ipl>","buttons":[{"extend":"colvis","text":"Choose the columns to display","scroller":true,"collectionLayout":"fixed two-column"}],"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script><p>For height parameters by age, it should be noted that the WHO growth
-chart that we use for children &lt;2 years of age refers to body length,
+chart we use for children &lt;2 years of age refers to body length,
 whereas the CDC growth chart for children &gt;=2 years of age refers to
 height. This is explained thoroughly in the next section.</p>
 </div>
 <div class="section level4">
 <h4 id="derived-weight-by-lengthheight">Derived Weight by Length/Height<a class="anchor" aria-label="anchor" href="#derived-weight-by-lengthheight"></a>
 </h4>
-<p>Parameters for Weight by Length/Height z-score and percentile for
-children under 2 years of age could be achieved using the following
-code, where it assumes the “HEIGHT” parameter is always collected as
-body length (recumbent length).</p>
+<p>The following code is for Weight by Length/Height z-score and
+percentile for children &lt; 2 years of age, which assumes the “HEIGHT”
+parameter is always collected as recumbent length.</p>
 <p>You’ll notice the <code><a href="../reference/derive_params_growth_height.html">derive_params_growth_height()</a></code> function
-used is very similar to that used above, but now passing in height
-instead of age.</p>
+used is very similar to that used above, but now passing in height or
+length instead of age.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://pharmaverse.github.io/admiral/reference/restrict_derivation.html" class="external-link">restrict_derivation</a></span><span class="op">(</span></span>
@@ -503,25 +500,22 @@ instead of age.</p>
 <span>    <span class="op">)</span>,</span>
 <span>    filter <span class="op">=</span> <span class="va">AAGECUR</span> <span class="op">&lt;</span> <span class="fl">730.5</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>We consulted with an acting pediatrician who advised that rarely
-investigators are guided as to which measure to use. It depends mainly
-on the age at which the child is able to stand (2 years on average) as
-well as the preference of the measurer.</p>
+<p>We consulted with a pediatrician with extensive experience working
+with length and height data, who advised that analysts rarely know
+whether standing height or recumbent length was measured. It depends
+mainly on the age at which the child can stand (on average, two years)
+and the preference of the measurer.</p>
 <p>If you have strict CRF (case report form) guidelines that standing
 height (rather than body length) was measured, you could add 0.7 cm to
-these values to approximate the child’s body length. Or alternatively
-you could provide a different source of reference files by height which
-could allow for this parameter derivation for children &gt;2 years of
-age, but this is not our package recommendation.</p>
+these values to approximate the child’s body length.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="advs_end">Remaining ADVS Set-up<a class="anchor" aria-label="anchor" href="#advs_end"></a>
 </h3>
-<p>All remaining steps such as merging on the parameter level values and
-variables such as analysis flags are all covered in the
-<a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> <a href="https://pharmaverse.github.io/admiral/articles/bds_finding.html" class="external-link">Creating
-a BDS Finding ADaM vignette</a>.</p>
+<p>The <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> <a href="https://pharmaverse.github.io/admiral/articles/bds_finding.html" class="external-link">Creating
+a BDS Finding ADaM vignette</a> covers all remaining steps, such as
+merging the parameter-level values, variables, and analysis flags.</p>
 </div>
 </div>
 <div class="section level2">
