@@ -462,7 +462,7 @@ This is explained thoroughly in the next section.
 
 The following code is for Weight by Length/Height z-score and percentile for
 children \< 2 years of age, which assumes the "HEIGHT" parameter is always
-collected as recumbent length. 
+collected as recumbent length.
 
 You'll notice the `derive_params_growth_height()` function used is very similar
 to that used above, but now passing in height or length instead of age.
