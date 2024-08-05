@@ -358,7 +358,7 @@ advs <- advs %>%
 Now, we get to the most important section, which shows how to create new records
 for each derived pediatrics parameter.
 Only specific examples are included here, but you'll find more parameters in the
-example template script referenced at the bottom of this vignette. 
+example template script referenced at the bottom of this vignette.
 
 ### Derived Parameters by Age
 
