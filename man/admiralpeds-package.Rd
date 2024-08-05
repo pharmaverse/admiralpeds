@@ -46,6 +46,7 @@ Other contributors:
   \item F. Hoffmann-La Roche AG [copyright holder, funder]
   \item Cytel [copyright holder, funder]
   \item Pfizer Inc. [copyright holder, funder]
+  \item Atorus Research [copyright holder, funder]
 }
 
 }
