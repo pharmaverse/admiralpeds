@@ -493,7 +493,7 @@ advs <- advs %>%
   )
 ```
 
-We consulted with a pediatrician with extensive experience working with length 
+We consulted with a pediatrician with extensive experience working with length
 and height data, who advised that analysts rarely know whether standing height 
 or recumbent length was measured. It depends mainly on the age at which the
 child can stand (on average, two years) and the preference of the measurer.
