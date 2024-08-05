@@ -180,7 +180,6 @@ who_under2 <- bind_rows(
 
 derive_params_growth_height(
   advs_under2,
-  by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
   height = HGTTMP,
   height_unit = HGTTMPU,
