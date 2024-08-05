@@ -8,12 +8,6 @@
 #'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
-#' @param by_vars Grouping variables
-#'
-#'   The variables from `dataset` which identifies a unique subject and their visit is expected.
-#'
-#'   *Permitted Values*: A list of variables created by `exprs()`, e.g `exprs(USUBJID, VISIT)`.
-#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -183,7 +177,6 @@
 #'
 #' derive_params_growth_age(
 #'   advs,
-#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   age = AGECUR,
 #'   age_unit = AGECURU,
@@ -201,7 +194,6 @@
 #'   )
 #' )
 derive_params_growth_age <- function(dataset,
-                                     by_vars = NULL,
                                      sex,
                                      age,
                                      age_unit,
@@ -213,17 +205,13 @@ derive_params_growth_age <- function(dataset,
                                      set_values_to_sds = NULL,
                                      set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
-  if (is.null(by_vars)) {
-    warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
-  }
-  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   age <- assert_symbol(enexpr(age))
   age_unit <- assert_symbol(enexpr(age_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(
     dataset,
-    required_vars = expr_c(sex, age, age_unit, analysis_var, by_vars)
+    required_vars = expr_c(sex, age, age_unit, analysis_var)
   )
 
   assert_data_frame(meta_criteria, required_vars = exprs(SEX, AGE, AGEU, L, M, S))
@@ -279,11 +267,6 @@ derive_params_growth_age <- function(dataset,
     ) %>%
     filter(!is.na(metadata_age))
 
-  by_exprs <- enexpr(by_vars)
-  by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  # unmatched_records <- anti_join(dataset2, added_records, by = by_antijoin) %>%
-  #   filter(!!enexpr(parameter))
-
   dataset_final <- dataset
 
   # create separate records objects as appropriate depending if user specific sds and/or pctl
@@ -322,10 +305,7 @@ derive_params_growth_age <- function(dataset,
         select(-c(P95, Sigma))
     }
 
-    # unmatched_sds <- unmatched_records %>%
-    #   mutate(!!!set_values_to_sds)
-
-    dataset_final <- bind_rows(dataset, add_sds) %>% # , unmatched_sds) %>%
+    dataset_final <- bind_rows(dataset, add_sds) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, temp_val, temp_z))
   }
 
@@ -364,13 +344,10 @@ derive_params_growth_age <- function(dataset,
         select(-c(P95, Sigma))
     } else {
       add_pctl <- add_pctl %>%
-        mutate(AVAL = pnorm(AVAL) * 100)
+        mutate(AVAL = pnorm(temp_z) * 100)
     }
 
-    # unmatched_pctl <- unmatched_records %>%
-    #   mutate(!!!set_values_to_pctl)
-
-    dataset_final <- bind_rows(dataset_final, add_pctl) %>% # , unmatched_pctl) %>%
+    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
       select(-c(L, M, S, sex_join, ageu_join, metadata_age, temp_val, temp_z))
   }
 

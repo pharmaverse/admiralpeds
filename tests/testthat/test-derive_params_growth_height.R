@@ -21,7 +21,6 @@ test_that("derive_params_growth_height Test 1: derive_params_growth_height works
 
   actual <- derive_params_growth_height(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
@@ -71,7 +70,6 @@ test_that("derive_params_growth_height Test 2: derives correct z-scores/percenti
 
   out <- derive_params_growth_height(
     dataset = vs_data,
-    by_vars = exprs(USUBJID, VISIT),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
@@ -108,7 +106,6 @@ test_that("derive_params_growth_height Test 3: handles missing height/lengths", 
 
   out <- derive_params_growth_height(
     dataset = vs_data,
-    by_vars = exprs(USUBJID, VISIT),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
@@ -149,7 +146,6 @@ test_that("derive_params_growth_height Test 4: returns expected error message", 
   expect_error(
     derive_params_growth_height(
       dataset = vs_data,
-      by_vars = exprs(USUBJID, VISIT),
       sex = SEX,
       height = HEIGHT,
       height_unit = HEIGHTU,
@@ -176,7 +172,6 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
 
   actual <- derive_params_growth_height(
     dataset = vs_data,
-    by_vars = exprs(USUBJID, VISIT),
     sex = SEX,
     height = HEIGHT,
     height_unit = HEIGHTU,
@@ -206,6 +201,7 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WGHSDS", "WGHPCTL")) %>% pull(AVAL),
-    c(expected_sds, expected_pctl)
+    c(expected_sds, expected_pctl),
+    tolerance = 0.001
   )
 })

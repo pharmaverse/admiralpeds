@@ -7,7 +7,6 @@ based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
-  by_vars = NULL,
   sex,
   height,
   height_unit,
@@ -24,12 +23,6 @@ derive_params_growth_height(
 
 The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
-
-\item{by_vars}{Grouping variables
-
-The variables from \code{dataset} which identifies a unique subject and their visit is expected.
-
-\emph{Permitted Values}: A list of variables created by \code{exprs()}, e.g \code{exprs(USUBJID, VISIT)}.}
 
 \item{sex}{Sex
 
