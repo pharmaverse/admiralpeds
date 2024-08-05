@@ -187,7 +187,7 @@ CDC expert in this area, we chose only to include the weight-for-length files,
 as once children can stand, BMI by age is a more appropriate measure to use.
 However, in our template, we give the metadata values variable a generic name,
 `HEIGHT_LENGTH`, so that any user could equally choose to pass weight-for-height
-files if preferred. 
+files if preferred.
 
 We do this using the following code:
 
