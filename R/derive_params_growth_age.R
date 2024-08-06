@@ -154,13 +154,13 @@
 #'
 #' # metadata is in days
 #' who_meta_criteria <- bind_rows(
-#'   (admiralpeds::who_ht_for_age_boys %>%
+#'   (admiralpeds::who_lgth_ht_for_age_boys %>%
 #'     mutate(
 #'       SEX = "M",
 #'       age_unit = "days"
 #'     )
 #'   ),
-#'   (admiralpeds::who_ht_for_age_girls %>%
+#'   (admiralpeds::who_lgth_ht_for_age_girls %>%
 #'     mutate(
 #'       SEX = "F",
 #'       age_unit = "days"
