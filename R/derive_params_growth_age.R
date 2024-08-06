@@ -338,10 +338,7 @@ derive_params_growth_age <- function(dataset,
             temp_val >= P95 & !is.na(P95),
             90 + 10 * pnorm((temp_val - P95) / Sigma),
             AVAL
-          ),
-          # Cover the most extreme high BMI values for percentiles of 99.9 recurring
-          # in case of Infinity being returned
-          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
+          )
         ) %>%
         select(-c(P95, Sigma))
     }
