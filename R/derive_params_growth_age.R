@@ -329,6 +329,8 @@ derive_params_growth_age <- function(dataset,
         )
     }
 
+    add_pctl <- add_pctl %>% mutate(AVAL = pnorm(temp_z) * 100)
+
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
         mutate(
@@ -342,9 +344,6 @@ derive_params_growth_age <- function(dataset,
           AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
-    } else {
-      add_pctl <- add_pctl %>%
-        mutate(AVAL = pnorm(temp_z) * 100)
     }
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
