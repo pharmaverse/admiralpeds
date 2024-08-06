@@ -160,7 +160,7 @@ advs <- dm_peds \%>\%
   )
 
 # metadata is in months
-cdc_meta_criteria <- admiralpeds::cdc_wtage \%>\%
+cdc_meta_criteria <- admiralpeds::cdc_htage \%>\%
   mutate(
     age_unit = "months",
     SEX = ifelse(SEX == 1, "M", "F")
@@ -168,13 +168,13 @@ cdc_meta_criteria <- admiralpeds::cdc_wtage \%>\%
 
 # metadata is in days
 who_meta_criteria <- bind_rows(
-  (admiralpeds::who_wt_for_age_boys \%>\%
+  (admiralpeds::who_ht_for_age_boys \%>\%
     mutate(
       SEX = "M",
       age_unit = "days"
     )
   ),
-  (admiralpeds::who_wt_for_age_girls \%>\%
+  (admiralpeds::who_ht_for_age_girls \%>\%
     mutate(
       SEX = "F",
       age_unit = "days"
@@ -195,15 +195,14 @@ derive_params_growth_age(
   age = AGECUR,
   age_unit = AGECURU,
   meta_criteria = criteria,
-  parameter = VSTESTCD == "WEIGHT",
+  parameter = VSTESTCD == "HEIGHT",
   analysis_var = VSSTRESN,
-  who_correction = TRUE,
   set_values_to_sds = exprs(
-    PARAMCD = "WGASDS",
+    PARAMCD = "HTSDS",
     PARAM = "Weight-for-age z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WGAPCTL",
+    PARAMCD = "HTPCTL",
     PARAM = "Weight-for-age percentile"
   )
 )
