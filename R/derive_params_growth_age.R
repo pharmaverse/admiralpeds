@@ -22,7 +22,7 @@
 #
 #'   A character vector is expected.
 #'
-#'   Expected values: 'days' 'weeks' 'months'
+#'   Expected values: `days`, `weeks`, `months`
 #'
 #' @param meta_criteria Metadata dataset
 #'

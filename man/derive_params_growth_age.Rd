@@ -37,7 +37,7 @@ A numeric vector is expected. Note that this is the actual age at the current vi
 \item{age_unit}{Age Unit
 A character vector is expected.
 
-Expected values: 'days' 'weeks' 'months'}
+Expected values: \code{days}, \code{weeks}, \code{months}}
 
 \item{meta_criteria}{Metadata dataset
 

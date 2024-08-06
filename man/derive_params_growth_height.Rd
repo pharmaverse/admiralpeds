@@ -37,7 +37,7 @@ A numeric vector is expected. Note that this is the actual height/length at the 
 \item{height_unit}{Height/Length Unit
 A character vector is expected.
 
-Expected values: 'cm'}
+Expected values: \code{cm}}
 
 \item{meta_criteria}{Metadata dataset
 

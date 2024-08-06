@@ -23,7 +23,7 @@
 #
 #'   A character vector is expected.
 #'
-#'   Expected values: 'cm'
+#'   Expected values: `cm`
 #'
 #' @param meta_criteria Metadata dataset
 #'
