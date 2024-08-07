@@ -94,7 +94,7 @@ If set to \code{TRUE} the WHO correction is applied.}
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-age z-score”))}
+\code{set_values_to_sds(exprs(PARAMCD = "BMIASDS", PARAM = "BMI-for-age z-score"))}
 defines the parameter code and parameter.
 
 The formula to calculate the Z-score is as follows:
@@ -111,7 +111,7 @@ If left as default value, \code{NULL}, then parameter not derived in output data
 
 The specified variables are set to the specified values for the new
 observations. For example,
-\verb{set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-age percentile”))}
+\code{set_values_to_pctl(exprs(PARAMCD = "BMIAPCTL", PARAM = "BMI-for-age percentile"))}
 defines the parameter code and parameter.
 
 \emph{Permitted Values}: List of variable-value pair
