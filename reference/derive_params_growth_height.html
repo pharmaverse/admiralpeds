@@ -83,7 +83,6 @@ based on Standard Growth Charts for Weight by Height/Length</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_params_growth_height</span><span class="op">(</span></span>
 <span>  <span class="va">dataset</span>,</span>
-<span>  by_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">sex</span>,</span>
 <span>  <span class="va">height</span>,</span>
 <span>  <span class="va">height_unit</span>,</span>
@@ -104,12 +103,6 @@ based on Standard Growth Charts for Weight by Height/Length</p>
 are expected to be in the dataset.</p></dd>
 
 
-<dt>by_vars</dt>
-<dd><p>Grouping variables</p>
-<p>The variables from <code>dataset</code> which identifies a unique subject and their visit is expected.</p>
-<p><em>Permitted Values</em>: A list of variables created by <code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs()</a></code>, e.g <code>exprs(USUBJID, VISIT)</code>.</p></dd>
-
-
 <dt>sex</dt>
 <dd><p>Sex</p>
 <p>A character vector is expected.</p>
@@ -124,7 +117,7 @@ are expected to be in the dataset.</p></dd>
 <dt>height_unit</dt>
 <dd><p>Height/Length Unit
 A character vector is expected.</p>
-<p>Expected values: 'cm'</p></dd>
+<p>Expected values: <code>cm</code></p></dd>
 
 
 <dt>meta_criteria</dt>
@@ -266,7 +259,6 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">derive_params_growth_height</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">advs_under2</span>,</span></span>
-<span class="r-in"><span>  by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">STUDYID</span>, <span class="va">USUBJID</span>, <span class="va">VISIT</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  sex <span class="op">=</span> <span class="va">SEX</span>,</span></span>
 <span class="r-in"><span>  height <span class="op">=</span> <span class="va">HGTTMP</span>,</span></span>
 <span class="r-in"><span>  height_unit <span class="op">=</span> <span class="va">HGTTMPU</span>,</span></span>
@@ -283,7 +275,7 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Weight-for-height/length percentile"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 162 × 39</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 162 × 37</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    USUBJID     BRTHDTC  SEX   STUDYID DOMAIN VSSEQ VSTESTCD VSTEST VSPOS VSORRES</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01-701-1015 2013-01… F     CDISCP… VS         1 BMI      BMI    <span style="color: #BB0000;">NA</span>    16.577…</span>
@@ -297,12 +289,12 @@ defines the parameter code and parameter.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01-701-1015 2013-01… F     CDISCP… VS        33 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.248…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01-701-1015 2013-01… F     CDISCP… VS        37 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.433…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 152 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more variables: VSORRESU &lt;chr&gt;, VSSTRESC &lt;chr&gt;, VSSTRESN &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 27 more variables: VSORRESU &lt;chr&gt;, VSSTRESC &lt;chr&gt;, VSSTRESN &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSSTRESU &lt;chr&gt;, VSSTAT &lt;chr&gt;, VSLOC &lt;chr&gt;, VSBLFL &lt;chr&gt;, VISITNUM &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VISIT &lt;chr&gt;, VISITDY &lt;int&gt;, VSDTC &lt;chr&gt;, VSDY &lt;int&gt;, VSTPT &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSTPTNUM &lt;dbl&gt;, VSELTM &lt;chr&gt;, VSTPTREF &lt;chr&gt;, VSEVAL &lt;chr&gt;, EPOCH &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSDT &lt;date&gt;, BRTHDT &lt;date&gt;, AAGECUR &lt;dbl&gt;, AAGECURU &lt;chr&gt;, HGTTMP &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   HGTTMPU &lt;chr&gt;, temp_val &lt;dbl&gt;, AVAL &lt;dbl&gt;, temp_z &lt;dbl&gt;, PARAMCD &lt;chr&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   HGTTMPU &lt;chr&gt;, AVAL &lt;dbl&gt;, PARAMCD &lt;chr&gt;, PARAM &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -310,7 +302,7 @@ defines the parameter code and parameter.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, F. Hoffmann-La Roche AG, Cytel, Pfizer Inc..</p>
+  <p>Developed by Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, F. Hoffmann-La Roche AG, Cytel, Pfizer Inc., Atorus Research.</p>
 </div>
 
 <div class="pkgdown-footer-right">

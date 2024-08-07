@@ -52,7 +52,16 @@
     <loc>https://pharmaverse.github.io/admiralpeds/reference/dm_peds.html</loc>
   </url>
   <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/find_closest_bin.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/get_bins.html</loc>
+  </url>
+  <url>
     <loc>https://pharmaverse.github.io/admiralpeds/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pharmaverse.github.io/admiralpeds/reference/set_bins.html</loc>
   </url>
   <url>
     <loc>https://pharmaverse.github.io/admiralpeds/reference/vs_peds.html</loc>

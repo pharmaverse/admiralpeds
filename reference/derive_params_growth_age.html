@@ -83,7 +83,6 @@ for Height/Weight/BMI/Head Circumference by Age</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">derive_params_growth_age</span><span class="op">(</span></span>
 <span>  <span class="va">dataset</span>,</span>
-<span>  by_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">sex</span>,</span>
 <span>  <span class="va">age</span>,</span>
 <span>  <span class="va">age_unit</span>,</span>
@@ -105,12 +104,6 @@ for Height/Weight/BMI/Head Circumference by Age</p>
 are expected to be in the dataset.</p></dd>
 
 
-<dt>by_vars</dt>
-<dd><p>Grouping variables</p>
-<p>The variables from <code>dataset</code> which identifies a unique subject and their visit is expected.</p>
-<p><em>Permitted Values</em>: A list of variables created by <code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs()</a></code>, e.g <code>exprs(USUBJID, VISIT)</code>.</p></dd>
-
-
 <dt>sex</dt>
 <dd><p>Sex</p>
 <p>A character vector is expected.</p>
@@ -125,7 +118,7 @@ are expected to be in the dataset.</p></dd>
 <dt>age_unit</dt>
 <dd><p>Age Unit
 A character vector is expected.</p>
-<p>Expected values: 'days' 'weeks' 'months'</p></dd>
+<p>Expected values: <code>days</code>, <code>weeks</code>, <code>months</code></p></dd>
 
 
 <dt>meta_criteria</dt>
@@ -249,7 +242,7 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># metadata is in months</span></span></span>
-<span class="r-in"><span><span class="va">cdc_meta_criteria</span> <span class="op">&lt;-</span> <span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="cdc_wtage.html">cdc_wtage</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">cdc_meta_criteria</span> <span class="op">&lt;-</span> <span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="cdc_htage.html">cdc_htage</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    age_unit <span class="op">=</span> <span class="st">"months"</span>,</span></span>
 <span class="r-in"><span>    SEX <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">SEX</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span></span>
@@ -257,13 +250,13 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># metadata is in days</span></span></span>
 <span class="r-in"><span><span class="va">who_meta_criteria</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="op">(</span><span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="who_wt_for_age_boys.html">who_wt_for_age_boys</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="op">(</span><span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="who_lgth_ht_for_age_boys.html">who_lgth_ht_for_age_boys</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      SEX <span class="op">=</span> <span class="st">"M"</span>,</span></span>
 <span class="r-in"><span>      age_unit <span class="op">=</span> <span class="st">"days"</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="op">(</span><span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="who_wt_for_age_girls.html">who_wt_for_age_girls</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="op">(</span><span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="who_lgth_ht_for_age_girls.html">who_lgth_ht_for_age_girls</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      SEX <span class="op">=</span> <span class="st">"F"</span>,</span></span>
 <span class="r-in"><span>      age_unit <span class="op">=</span> <span class="st">"days"</span></span></span>
@@ -280,24 +273,22 @@ defines the parameter code and parameter.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">derive_params_growth_age</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">advs</span>,</span></span>
-<span class="r-in"><span>  by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">STUDYID</span>, <span class="va">USUBJID</span>, <span class="va">VISIT</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  sex <span class="op">=</span> <span class="va">SEX</span>,</span></span>
 <span class="r-in"><span>  age <span class="op">=</span> <span class="va">AGECUR</span>,</span></span>
 <span class="r-in"><span>  age_unit <span class="op">=</span> <span class="va">AGECURU</span>,</span></span>
 <span class="r-in"><span>  meta_criteria <span class="op">=</span> <span class="va">criteria</span>,</span></span>
-<span class="r-in"><span>  parameter <span class="op">=</span> <span class="va">VSTESTCD</span> <span class="op">==</span> <span class="st">"WEIGHT"</span>,</span></span>
+<span class="r-in"><span>  parameter <span class="op">=</span> <span class="va">VSTESTCD</span> <span class="op">==</span> <span class="st">"HEIGHT"</span>,</span></span>
 <span class="r-in"><span>  analysis_var <span class="op">=</span> <span class="va">VSSTRESN</span>,</span></span>
-<span class="r-in"><span>  who_correction <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  set_values_to_sds <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    PARAMCD <span class="op">=</span> <span class="st">"WGASDS"</span>,</span></span>
-<span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Weight-for-age z-score"</span></span></span>
+<span class="r-in"><span>    PARAMCD <span class="op">=</span> <span class="st">"HGTSDS"</span>,</span></span>
+<span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Height-for-age z-score"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  set_values_to_pctl <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    PARAMCD <span class="op">=</span> <span class="st">"WGAPCTL"</span>,</span></span>
-<span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Weight-for-age percentile"</span></span></span>
+<span class="r-in"><span>    PARAMCD <span class="op">=</span> <span class="st">"HGTPCTL"</span>,</span></span>
+<span class="r-in"><span>    PARAM <span class="op">=</span> <span class="st">"Height-for-age percentile"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 246 × 39</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 232 × 39</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    USUBJID     BRTHDTC  SEX   STUDYID DOMAIN VSSEQ VSTESTCD VSTEST VSPOS VSORRES</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01-701-1015 2013-01… F     CDISCP… VS         1 BMI      BMI    <span style="color: #BB0000;">NA</span>    16.577…</span>
@@ -310,7 +301,7 @@ defines the parameter code and parameter.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 01-701-1015 2013-01… F     CDISCP… VS        29 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.162…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 01-701-1015 2013-01… F     CDISCP… VS        33 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.248…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 01-701-1015 2013-01… F     CDISCP… VS        37 BMI      BMI    <span style="color: #BB0000;">NA</span>    17.433…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 236 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 222 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more variables: VSORRESU &lt;chr&gt;, VSSTRESC &lt;chr&gt;, VSSTRESN &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VSSTRESU &lt;chr&gt;, VSSTAT &lt;chr&gt;, VSLOC &lt;chr&gt;, VSBLFL &lt;chr&gt;, VISITNUM &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   VISIT &lt;chr&gt;, VISITDY &lt;int&gt;, VSDTC &lt;chr&gt;, VSDY &lt;int&gt;, VSTPT &lt;chr&gt;,</span></span>
@@ -324,7 +315,7 @@ defines the parameter code and parameter.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, F. Hoffmann-La Roche AG, Cytel, Pfizer Inc..</p>
+  <p>Developed by Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, F. Hoffmann-La Roche AG, Cytel, Pfizer Inc., Atorus Research.</p>
 </div>
 
 <div class="pkgdown-footer-right">
