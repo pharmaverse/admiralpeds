@@ -489,7 +489,7 @@ child can stand (on average, two years) and the preference of the measurer.
 
 If you have strict CRF (case report form) guidelines that standing height
 (rather than body length) was measured, you could add 0.7 cm to these values to
-approximate the child’s body length.
+approximate the child's body length.
 
 ## Remaining ADVS Set-up {#advs_end}
 

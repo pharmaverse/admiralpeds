@@ -13,7 +13,7 @@ A toolbox for programming Clinical Data Standards Interchange Consortium (CDISC)
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://pharmaverse.github.io/admiralpeds}
+  \item \url{https://pharmaverse.github.io/admiralpeds/}
   \item \url{https://github.com/pharmaverse/admiralpeds}
 }
 

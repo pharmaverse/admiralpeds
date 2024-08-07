@@ -78,7 +78,7 @@
 #'
 #'  The specified variables are set to the specified values for the new
 #'  observations. For example,
-#'   `set_values_to_sds(exprs(PARAMCD = “BMIASDS”, PARAM = “BMI-for-age z-score”))`
+#'   `set_values_to_sds(exprs(PARAMCD = "BMIASDS", PARAM = "BMI-for-age z-score"))`
 #'  defines the parameter code and parameter.
 #'
 #'  The formula to calculate the Z-score is as follows:
@@ -95,7 +95,7 @@
 #'
 #'  The specified variables are set to the specified values for the new
 #'  observations. For example,
-#'   `set_values_to_pctl(exprs(PARAMCD = “BMIAPCTL”, PARAM = “BMI-for-age percentile”))`
+#'   `set_values_to_pctl(exprs(PARAMCD = "BMIAPCTL", PARAM = "BMI-for-age percentile"))`
 #'  defines the parameter code and parameter.
 #'
 #' *Permitted Values*: List of variable-value pair
