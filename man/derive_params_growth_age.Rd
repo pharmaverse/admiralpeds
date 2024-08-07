@@ -198,12 +198,12 @@ derive_params_growth_age(
   parameter = VSTESTCD == "HEIGHT",
   analysis_var = VSSTRESN,
   set_values_to_sds = exprs(
-    PARAMCD = "HTSDS",
-    PARAM = "Weight-for-age z-score"
+    PARAMCD = "HGTSDS",
+    PARAM = "Height-for-age z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "HTPCTL",
-    PARAM = "Weight-for-age percentile"
+    PARAMCD = "HGTPCTL",
+    PARAM = "Height-for-age percentile"
   )
 )
 }
