@@ -127,12 +127,13 @@ library(dplyr, warn.conflicts = FALSE)
 library(lubridate, warn.conflicts = FALSE)
 library(rlang, warn.conflicts = FALSE)
 library(admiral, warn.conflicts = FALSE)
+library(pharmaversesdtm, warn.conflicts = FALSE)
 
 # derive weight for height/length only for those under 2 years old using WHO
 # weight for length reference file
-advs <- dm_peds \%>\%
+advs <- pharmaversesdtm::dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
-  right_join(., vs_peds, by = "USUBJID") \%>\%
+  right_join(., pharmaversesdtm::vs_peds, by = "USUBJID") \%>\%
   mutate(
     VSDT = ymd(VSDTC),
     BRTHDT = ymd(BRTHDTC)
@@ -145,7 +146,7 @@ advs <- dm_peds \%>\%
     out_unit = "days"
   )
 
-heights <- vs_peds \%>\%
+heights <- pharmaversesdtm::vs_peds \%>\%
   filter(VSTESTCD == "HEIGHT") \%>\%
   select(USUBJID, VSSTRESN, VSSTRESU, VSDTC) \%>\%
   rename(
