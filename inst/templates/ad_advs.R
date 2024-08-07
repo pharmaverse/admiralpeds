@@ -295,7 +295,6 @@ advs_age_wt <- advs %>%
   slice_derivation(
     derivation = derive_params_growth_age,
     args = params(
-      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       age = AAGECUR,
       age_unit = AAGECURU,
@@ -329,7 +328,6 @@ advs_age_wt <- advs %>%
   slice_derivation(
     derivation = derive_params_growth_age,
     args = params(
-      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       age = AAGECUR,
       age_unit = AAGECURU,
@@ -364,7 +362,6 @@ advs_age_wt <- advs %>%
 
 advs_age <- advs_age_wt %>%
   derive_params_growth_age(
-    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -381,7 +378,6 @@ advs_age <- advs_age_wt %>%
     )
   ) %>%
   derive_params_growth_age(
-    by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
     sex = SEX,
     age = AAGECUR,
     age_unit = AAGECURU,
@@ -408,7 +404,6 @@ advs_ht_lgth <- advs %>%
   restrict_derivation(
     derivation = derive_params_growth_height,
     args = params(
-      by_vars = c(get_admiral_option("subject_keys"), exprs(AVISIT)),
       sex = SEX,
       height = HGTTMP,
       height_unit = HGTTMPU,

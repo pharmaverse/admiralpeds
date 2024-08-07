@@ -17,6 +17,11 @@ Useful links:
   \item \url{https://github.com/pharmaverse/admiralpeds}
 }
 
+
+Other internal: 
+\code{\link{find_closest_bin}()},
+\code{\link{get_bins}()},
+\code{\link{set_bins}()}
 }
 \author{
 \strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com}
@@ -41,6 +46,7 @@ Other contributors:
   \item F. Hoffmann-La Roche AG [copyright holder, funder]
   \item Cytel [copyright holder, funder]
   \item Pfizer Inc. [copyright holder, funder]
+  \item Atorus Research [copyright holder, funder]
 }
 
 }

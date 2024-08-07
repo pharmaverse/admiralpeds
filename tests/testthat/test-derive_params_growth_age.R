@@ -20,7 +20,6 @@ test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
   )
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -80,7 +79,6 @@ test_that("derive_params_growth_age Test 2: Height SDS and percentile works (P50
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -139,7 +137,6 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -196,7 +193,6 @@ test_that("derive_params_growth_age Test 4: Head circumference SDS and percentil
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -249,7 +245,6 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -319,7 +314,6 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -335,7 +329,7 @@ test_that("derive_params_growth_age Test 6: Test out of bound ages", {
     )
   )
 
-  expected <- c(NA_real_, NA_real_)
+  expected <- numeric()
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
@@ -357,7 +351,6 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
 
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -373,7 +366,7 @@ test_that("derive_params_growth_age Test 7: Test missing anthropocentric values"
     )
   )
 
-  expected <- c(NA_real_, NA_real_)
+  expected <- numeric()
 
   expect_equal(
     filter(actual, PARAMCD %in% c("WTASDS", "WTAPCTL")) %>% pull(AVAL),
@@ -396,7 +389,6 @@ test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", 
   )
   actual <- derive_params_growth_age(
     dataset = vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,
@@ -446,7 +438,6 @@ test_that("derive_params_growth_age Test 8: WHO outlier adjustment works", {
 
   actual <- derive_params_growth_age(
     vs_data,
-    by_vars = exprs(STUDYID, USUBJID, VISIT),
     sex = SEX,
     age = AGECUR,
     age_unit = AGEU,

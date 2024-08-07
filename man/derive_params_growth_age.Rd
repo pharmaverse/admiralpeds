@@ -6,7 +6,6 @@
 \usage{
 derive_params_growth_age(
   dataset,
-  by_vars = NULL,
   sex,
   age,
   age_unit,
@@ -25,12 +24,6 @@ derive_params_growth_age(
 The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
 
-\item{by_vars}{Grouping variables
-
-The variables from \code{dataset} which identifies a unique subject and their visit is expected.
-
-\emph{Permitted Values}: A list of variables created by \code{exprs()}, e.g \code{exprs(USUBJID, VISIT)}.}
-
 \item{sex}{Sex
 
 A character vector is expected.
@@ -44,7 +37,7 @@ A numeric vector is expected. Note that this is the actual age at the current vi
 \item{age_unit}{Age Unit
 A character vector is expected.
 
-Expected values: 'days' 'weeks' 'months'}
+Expected values: \code{days}, \code{weeks}, \code{months}}
 
 \item{meta_criteria}{Metadata dataset
 
@@ -167,7 +160,7 @@ advs <- dm_peds \%>\%
   )
 
 # metadata is in months
-cdc_meta_criteria <- admiralpeds::cdc_wtage \%>\%
+cdc_meta_criteria <- admiralpeds::cdc_htage \%>\%
   mutate(
     age_unit = "months",
     SEX = ifelse(SEX == 1, "M", "F")
@@ -175,13 +168,13 @@ cdc_meta_criteria <- admiralpeds::cdc_wtage \%>\%
 
 # metadata is in days
 who_meta_criteria <- bind_rows(
-  (admiralpeds::who_wt_for_age_boys \%>\%
+  (admiralpeds::who_lgth_ht_for_age_boys \%>\%
     mutate(
       SEX = "M",
       age_unit = "days"
     )
   ),
-  (admiralpeds::who_wt_for_age_girls \%>\%
+  (admiralpeds::who_lgth_ht_for_age_girls \%>\%
     mutate(
       SEX = "F",
       age_unit = "days"
@@ -198,21 +191,19 @@ criteria <- bind_rows(
 
 derive_params_growth_age(
   advs,
-  by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
   age = AGECUR,
   age_unit = AGECURU,
   meta_criteria = criteria,
-  parameter = VSTESTCD == "WEIGHT",
+  parameter = VSTESTCD == "HEIGHT",
   analysis_var = VSSTRESN,
-  who_correction = TRUE,
   set_values_to_sds = exprs(
-    PARAMCD = "WGASDS",
-    PARAM = "Weight-for-age z-score"
+    PARAMCD = "HGTSDS",
+    PARAM = "Height-for-age z-score"
   ),
   set_values_to_pctl = exprs(
-    PARAMCD = "WGAPCTL",
-    PARAM = "Weight-for-age percentile"
+    PARAMCD = "HGTPCTL",
+    PARAM = "Height-for-age percentile"
   )
 )
 }
