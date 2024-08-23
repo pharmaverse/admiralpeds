@@ -10,7 +10,7 @@
 #        who_wt_for_lgth_boys, who_wt_for_lgth_girls
 
 library(admiral)
-library(pharamversesdtm)
+library(pharmaversesdtm)
 library(admiralpeds)
 library(dplyr)
 library(lubridate)
