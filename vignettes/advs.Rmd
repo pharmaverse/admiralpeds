@@ -47,6 +47,7 @@ Once the required packages have been loaded, the first step is preparing the met
 
 ```{r message=FALSE}
 library(admiral)
+library(pharmaversesdtm, warn.conflicts = FALSE)
 library(admiralpeds)
 library(dplyr, warn.conflicts = FALSE)
 library(lubridate)

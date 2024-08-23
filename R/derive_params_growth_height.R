@@ -118,9 +118,9 @@
 #'
 #' # derive weight for height/length only for those under 2 years old using WHO
 #' # weight for length reference file
-#' advs <- pharmaversesdtm::dm_peds %>%
+#' advs <- dm_peds %>%
 #'   select(USUBJID, BRTHDTC, SEX) %>%
-#'   right_join(., pharmaversesdtm::vs_peds, by = "USUBJID") %>%
+#'   right_join(., vs_peds, by = "USUBJID") %>%
 #'   mutate(
 #'     VSDT = ymd(VSDTC),
 #'     BRTHDT = ymd(BRTHDTC)
@@ -133,7 +133,7 @@
 #'     out_unit = "days"
 #'   )
 #'
-#' heights <- pharmaversesdtm::vs_peds %>%
+#' heights <- vs_peds %>%
 #'   filter(VSTESTCD == "HEIGHT") %>%
 #'   select(USUBJID, VSSTRESN, VSSTRESU, VSDTC) %>%
 #'   rename(
