@@ -132,9 +132,9 @@ library(rlang, warn.conflicts = FALSE)
 library(admiral, warn.conflicts = FALSE)
 library(pharmaversesdtm, warn.conflicts = FALSE)
 
-advs <- pharmaversesdtm::dm_peds \%>\%
+advs <- dm_peds \%>\%
   select(USUBJID, BRTHDTC, SEX) \%>\%
-  right_join(., pharmaversesdtm::vs_peds, by = "USUBJID") \%>\%
+  right_join(., vs_peds, by = "USUBJID") \%>\%
   mutate(
     VSDT = ymd(VSDTC),
     BRTHDT = ymd(BRTHDTC)
