@@ -11,7 +11,7 @@ library(stringr)
 # Create a basic ADSL for pediatrics ----
 
 # Read in input data ----
-dm_peds <- dm_peds
+dm_peds <- pharmaversesdtm::dm_peds
 ex <- ex
 
 # Derivations ----
