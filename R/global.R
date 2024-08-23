@@ -1,4 +1,5 @@
 globalVariables(c(
+  "age_bins",
   "ageu_join",
   "age_diff",
   "AGE",
@@ -7,6 +8,7 @@ globalVariables(c(
   "heightu_join",
   "HEIGHT_LENGTH",
   "HEIGHT_LENGTHU",
+  "ht_bins",
   "ht_diff",
   "is_lowest",
   "L",

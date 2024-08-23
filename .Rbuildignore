@@ -21,3 +21,4 @@
 ^data-raw$
 ^\.devcontainer$
 ^data-raw$
+^cran-comments\.md$

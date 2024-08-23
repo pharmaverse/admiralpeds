@@ -1,7 +1,7 @@
 Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.1.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre")),
     person("Ross", "Farrugia", role = "aut"),
@@ -17,7 +17,8 @@ Authors@R: c(
     person("Mahmoud", "Hamza", role = "ctb"),
     person("F. Hoffmann-La Roche AG", role = c("cph", "fnd")),
     person("Cytel", role = c("cph", "fnd")),
-    person("Pfizer Inc.", role = c("cph", "fnd"))
+    person("Pfizer Inc.", role = c("cph", "fnd")),
+    person("Atorus Research", role = c("cph", "fnd"))
   )
 Description: A toolbox for programming Clinical Data Standards Interchange
     Consortium (CDISC) compliant Analysis Data Model (ADaM) datasets in R.
@@ -30,7 +31,7 @@ Description: A toolbox for programming Clinical Data Standards Interchange
     an extension package of the 'admiral' package for pediatric clinical
     trials.
 License: Apache License (>= 2)
-URL: https://pharmaverse.github.io/admiralpeds,
+URL: https://pharmaverse.github.io/admiralpeds/,
     https://github.com/pharmaverse/admiralpeds
 Depends: 
     R (>= 4.1)

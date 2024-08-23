@@ -9,12 +9,6 @@
 #'   The variables specified in `sex`, `height`, `height_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
-#' @param by_vars Grouping variables
-#'
-#'   The variables from `dataset` which identifies a unique subject and their visit is expected.
-#'
-#'   *Permitted Values*: A list of variables created by `exprs()`, e.g `exprs(USUBJID, VISIT)`.
-#'
 #' @param sex Sex
 #'
 #'   A character vector is expected.
@@ -29,7 +23,7 @@
 #
 #'   A character vector is expected.
 #'
-#'   Expected values: 'cm'
+#'   Expected values: `cm`
 #'
 #' @param meta_criteria Metadata dataset
 #'
@@ -174,7 +168,6 @@
 #'
 #' derive_params_growth_height(
 #'   advs_under2,
-#'   by_vars = exprs(STUDYID, USUBJID, VISIT),
 #'   sex = SEX,
 #'   height = HGTTMP,
 #'   height_unit = HGTTMPU,
@@ -192,7 +185,6 @@
 #'   )
 #' )
 derive_params_growth_height <- function(dataset,
-                                        by_vars = NULL,
                                         sex,
                                         height,
                                         height_unit,
@@ -203,17 +195,13 @@ derive_params_growth_height <- function(dataset,
                                         set_values_to_sds = NULL,
                                         set_values_to_pctl = NULL) {
   # Apply assertions to each argument to ensure each object is appropriate class
-  if (is.null(by_vars)) {
-    warning("A list of variables created by `exprs()` is expected in argument `by_vars`.")
-  }
-  assert_vars(by_vars)
   sex <- assert_symbol(enexpr(sex))
   height <- assert_symbol(enexpr(height))
   height_unit <- assert_symbol(enexpr(height_unit))
   analysis_var <- assert_symbol(enexpr(analysis_var))
   assert_data_frame(
     dataset,
-    required_vars = expr_c(sex, height, height_unit, analysis_var, by_vars)
+    required_vars = expr_c(sex, height, height_unit, analysis_var)
   )
   assert_data_frame(
     meta_criteria,
@@ -228,11 +216,15 @@ derive_params_growth_height <- function(dataset,
     cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
+  bins <- get_bins(meta_criteria, param = "HEIGHT_LENGTH")
+
   # create a unified join naming convention, hard to figure out in by argument
-  dataset <- dataset %>%
+  relevant_records <- dataset %>%
+    filter(!!enexpr(parameter)) %>%
     mutate(
       sex_join := {{ sex }},
-      heightu_join := {{ height_unit }}
+      heightu_join := {{ height_unit }},
+      ht_bins := map({{ height }}, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Process metadata
@@ -251,27 +243,17 @@ derive_params_growth_height <- function(dataset,
       SD2pos = (M * (1 + 2 * L * S)^(1 / L)),
       SD3pos = (M * (1 + 3 * L * S)^(1 / L)),
       SD2neg = (M * (1 - 2 * L * S)^(1 / L)),
-      SD3neg = (M * (1 - 3 * L * S)^(1 / L))
+      SD3neg = (M * (1 - 3 * L * S)^(1 / L)),
+      ht_bins = map(meta_height, ~ set_bins(.x, breaks = bins$breaks, labels = bins$labels))
     )
 
   # Merge the dataset that contains the vs records and filter the L/M/S that match height
-  added_records <- dataset %>%
-    filter(!!enexpr(parameter)) %>%
+  added_records <- relevant_records %>%
     left_join(.,
       processed_md,
-      by = c("sex_join", "heightu_join"),
-      relationship = "many-to-many"
+      by = c("sex_join", "heightu_join", "ht_bins")
     ) %>%
-    mutate(ht_diff := abs(meta_height - {{ height }})) %>%
-    group_by(!!!by_vars) %>%
-    mutate(is_lowest = ht_diff == min(ht_diff)) %>%
-    group_by(!!!by_vars, is_lowest) %>%
-    filter(is_lowest & row_number() == 1) %>%
-    ungroup()
-
-  by_exprs <- enexpr(by_vars)
-  by_antijoin <- setNames(as.character(by_exprs), as.character(by_exprs))
-  unmatched_records <- anti_join(dataset, added_records, by = by_antijoin)
+    filter(!is.na(meta_height))
 
   dataset_final <- dataset
 
@@ -295,11 +277,9 @@ derive_params_growth_height <- function(dataset,
           )
         )
     }
-    unmatched_sds <- unmatched_records %>%
-      mutate(!!!set_values_to_sds)
 
-    dataset_final <- bind_rows(dataset, add_sds, unmatched_sds) %>%
-      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
+    dataset_final <- bind_rows(dataset, add_sds) %>%
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, temp_val, temp_z))
   }
 
   if (!is_empty(set_values_to_pctl)) {
@@ -323,17 +303,14 @@ derive_params_growth_height <- function(dataset,
     }
 
     add_pctl <- add_pctl %>%
-      mutate(AVAL = pnorm(AVAL) * 100)
+      mutate(AVAL = pnorm(temp_z) * 100)
 
-    unmatched_pctl <- unmatched_records %>%
-      mutate(!!!set_values_to_pctl)
-
-    dataset_final <- bind_rows(dataset_final, add_pctl, unmatched_pctl) %>%
-      select(-c(L, M, S, sex_join, heightu_join, meta_height, ht_diff, is_lowest))
+    dataset_final <- bind_rows(dataset_final, add_pctl) %>%
+      select(-c(L, M, S, sex_join, heightu_join, meta_height, temp_val, temp_z))
   }
 
   dataset_final <- dataset_final %>%
-    select(-c(SD2pos, SD3pos, SD2neg, SD3neg))
+    select(-c(SD2pos, SD3pos, SD2neg, SD3neg, ht_bins))
 
   return(dataset_final)
 }

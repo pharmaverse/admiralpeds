@@ -7,7 +7,6 @@ based on Standard Growth Charts}
 \usage{
 derive_params_growth_height(
   dataset,
-  by_vars = NULL,
   sex,
   height,
   height_unit,
@@ -25,12 +24,6 @@ derive_params_growth_height(
 The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{parameter}, \code{analysis_var}
 are expected to be in the dataset.}
 
-\item{by_vars}{Grouping variables
-
-The variables from \code{dataset} which identifies a unique subject and their visit is expected.
-
-\emph{Permitted Values}: A list of variables created by \code{exprs()}, e.g \code{exprs(USUBJID, VISIT)}.}
-
 \item{sex}{Sex
 
 A character vector is expected.
@@ -44,7 +37,7 @@ A numeric vector is expected. Note that this is the actual height/length at the 
 \item{height_unit}{Height/Length Unit
 A character vector is expected.
 
-Expected values: 'cm'}
+Expected values: \code{cm}}
 
 \item{meta_criteria}{Metadata dataset
 
@@ -188,7 +181,6 @@ who_under2 <- bind_rows(
 
 derive_params_growth_height(
   advs_under2,
-  by_vars = exprs(STUDYID, USUBJID, VISIT),
   sex = SEX,
   height = HGTTMP,
   height_unit = HGTTMPU,
