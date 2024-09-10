@@ -232,8 +232,8 @@ include the pediatrics-specific parameters as needed - for example:
 | BMIPCTL   | BMI-for-age percentile | 10       | Subject Characteristic | 1          |
 
 ```{r echo=FALSE, message=FALSE}
-vs_peds <- vs_peds
-data("adsl_peds")
+vs_peds <- pharmaversesdtm::vs_peds
+adsl_peds <- admiralpeds::adsl_peds
 
 vs <- convert_blanks_to_na(vs_peds)
 adsl <- adsl_peds %>% select(-DOMAIN)
