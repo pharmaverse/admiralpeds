@@ -1,5 +1,13 @@
 # admiralpeds <img src="man/figures/logo.png" align="right" width="200" style="margin-left:50px;"/>
 
+<!-- badges: start -->
+
+[<img src="http://pharmaverse.org/shields/admiralpeds.svg">](https://pharmaverse.org)
+[![CRAN status](https://www.r-pkg.org/badges/version/admiralpeds)](https://CRAN.R-project.org/package=admiralpeds)
+[![Test Coverage](https://raw.githubusercontent.com/pharmaverse/admiralpeds/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiral/actions/workflows/code-coverage.yml)
+
+<!-- badges: end -->
+
 Pediatrics extension package for ADaM in R Asset Library `{admiral}`
 
 ## Purpose
@@ -8,6 +16,12 @@ To provide a complementary (to `{admiral}`) toolbox that enables users
 to develop specifics for pediatric clinical trials.
 
 ## Installation
+
+The package is available from CRAN and can be installed with:
+
+```r
+install.packages("admiralpeds")
+```
 
 To install the development version of the package from GitHub run:
 
