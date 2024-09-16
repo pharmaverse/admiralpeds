@@ -12,7 +12,7 @@ library(stringr)
 
 # Read in input data ----
 dm_peds <- pharmaversesdtm::dm_peds
-ex <- ex
+ex <- pharmaversesdtm::ex
 
 # Derivations ----
 
