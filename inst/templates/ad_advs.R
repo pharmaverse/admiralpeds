@@ -30,9 +30,9 @@ The user could replace these metadata with their own chosen metadata")
 # For weight-based indicators we keep WHO and CDC separate due to the WHO
 # adjustment (restricted application of the LMS method) needed for the
 # anthropometric indicator derivations
-data(WHO_bmi_for_age_boys)
-data(WHO_bmi_for_age_girls)
-data(cdc_bmiage)
+who_bmi_for_age_boys <- admiralpeds::who_bmi_for_age_boys
+who_bmi_for_age_girls <- admiralpeds::who_bmi_for_age_girls
+cdc_bmiage <- admiralpeds::cdc_bmiage
 
 who_bmi_for_age <- who_bmi_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -71,9 +71,9 @@ cdc_bmi_for_age <- cdc_bmiage %>%
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
 # Combine WHO and CDC metadata
-data(who_lgth_ht_for_age_boys)
-data(who_lgth_ht_for_age_girls)
-data(cdc_htage)
+who_lgth_ht_for_age_boys <- admiralpeds::who_wt_for_age_boys
+who_lgth_ht_for_age_girls <- admiralpeds::who_wt_for_age_girls
+cdc_wtage <- admiralpeds::cdc_wtage
 
 height_for_age <- who_lgth_ht_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -112,9 +112,9 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
 # For weight-based indicators we keep WHO and CDC separate due to the WHO
 # adjustment (restricted application of the LMS method) needed for the
 # anthropometric indicator derivations
-data(who_wt_for_age_boys)
-data(who_wt_for_age_girls)
-data(cdc_wtage)
+who_wt_for_age_boys <- admiralpeds::who_lgth_ht_for_age_boys
+who_wt_for_age_girls <- admiralpeds::who_lgth_ht_for_age_girls
+cdc_htage <- admiralpeds::cdc_htage
 
 who_wt_for_age <- who_wt_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -151,8 +151,8 @@ cdc_wt_for_age <- cdc_wtage %>%
 
 ## WHO - HEAD CIRCUMFERENCE for age ----
 # Default reference sources: WHO for children up to 5 yrs old
-data(who_hc_for_age_boys)
-data(who_hc_for_age_girls)
+who_hc_for_age_boys <- admiralpeds::who_hc_for_age_boys
+who_hc_for_age_girls <- admiralpeds::who_hc_for_age_girls
 
 who_hc_for_age <- who_hc_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -165,8 +165,8 @@ who_hc_for_age <- who_hc_for_age_boys %>%
 
 ## WHO - WEIGHT for LENGTH ----
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days)
-data(who_wt_for_lgth_boys)
-data(who_wt_for_lgth_girls)
+who_wt_for_lgth_boys <- admiralpeds::who_wt_for_lgth_boys
+who_wt_for_lgth_girls <- admiralpeds::who_wt_for_lgth_girls
 
 who_wt_for_lgth <- who_wt_for_lgth_boys %>%
   mutate(SEX = "M") %>%

@@ -108,9 +108,9 @@ We do this pre-processing of the metadata using the following code for BMI
 as an example:
 
 ```{r eval=TRUE}
-data(WHO_bmi_for_age_boys)
-data(WHO_bmi_for_age_girls)
-data(cdc_bmiage)
+who_bmi_for_age_boys <- admiralpeds::who_bmi_for_age_boys
+who_bmi_for_age_girls <- admiralpeds::who_bmi_for_age_girls
+cdc_bmiage <- admiralpeds::cdc_bmiage
 
 who_bmi_for_age <- who_bmi_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -195,8 +195,8 @@ files if preferred.
 We do this using the following code:
 
 ```{r eval=TRUE}
-data(who_wt_for_lgth_boys)
-data(who_wt_for_lgth_girls)
+who_wt_for_lgth_boys <- admiralpeds::who_wt_for_lgth_boys
+who_wt_for_lgth_girls <- admiralpeds::who_wt_for_lgth_girls
 
 who_wt_for_lgth <- who_wt_for_lgth_boys %>%
   mutate(SEX = "M") %>%
