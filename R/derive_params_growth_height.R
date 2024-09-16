@@ -133,7 +133,7 @@
 #'     out_unit = "days"
 #'   )
 #'
-#' heights <- pharmaverse::vs_peds %>%
+#' heights <- pharmaversesdtm::vs_peds %>%
 #'   filter(VSTESTCD == "HEIGHT") %>%
 #'   select(USUBJID, VSSTRESN, VSSTRESU, VSDTC) %>%
 #'   rename(
