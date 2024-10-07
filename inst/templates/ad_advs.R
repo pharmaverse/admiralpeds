@@ -71,13 +71,13 @@ cdc_bmi_for_age <- cdc_bmiage %>%
 # Default reference sources: WHO for children <2 yrs old (< 730.5 days),
 # and CDC for children >=2 yrs old (>= 730.5 days)
 # Combine WHO and CDC metadata
-who_lgth_ht_for_age_boys <- admiralpeds::who_wt_for_age_boys
-who_lgth_ht_for_age_girls <- admiralpeds::who_wt_for_age_girls
-cdc_wtage <- admiralpeds::cdc_wtage
+who_ht_for_age_boys <- admiralpeds::who_ht_for_age_boys
+who_ht_for_age_girls <- admiralpeds::who_ht_for_age_girls
+cdc_htage <- admiralpeds::cdc_htage
 
-height_for_age <- who_lgth_ht_for_age_boys %>%
+height_for_age <- who_ht_for_age_boys %>%
   mutate(SEX = "M") %>%
-  bind_rows(who_lgth_ht_for_age_girls %>%
+  bind_rows(who_ht_for_age_girls %>%
     mutate(SEX = "F")) %>%
   # Keep patients < 2 yrs old
   filter(Day < 730.5) %>%
@@ -112,9 +112,9 @@ height_for_age <- who_lgth_ht_for_age_boys %>%
 # For weight-based indicators we keep WHO and CDC separate due to the WHO
 # adjustment (restricted application of the LMS method) needed for the
 # anthropometric indicator derivations
-who_wt_for_age_boys <- admiralpeds::who_lgth_ht_for_age_boys
-who_wt_for_age_girls <- admiralpeds::who_lgth_ht_for_age_girls
-cdc_htage <- admiralpeds::cdc_htage
+who_wt_for_age_boys <- admiralpeds::who_wt_for_age_boys
+who_wt_for_age_girls <- admiralpeds::who_wt_for_age_girls
+cdc_wtage <- admiralpeds::cdc_wtage
 
 who_wt_for_age <- who_wt_for_age_boys %>%
   mutate(SEX = "M") %>%
