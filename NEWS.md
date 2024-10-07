@@ -9,6 +9,7 @@
 ## Documentation
 
 - Added CRAN installation instructions to README (#10).
+- Subject based data (e.g. DM, VS) has been migrated out of `admiralpeds` to `pharmaversesdtm` (#40)
 
 ## Various
 
