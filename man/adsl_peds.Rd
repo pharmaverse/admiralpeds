@@ -13,10 +13,5 @@ adsl_peds
 \description{
 An updated ADaM ADSL dataset with pediatric patients
 }
-\seealso{
-Datasets
-\code{\link{dm_peds}},
-\code{\link{vs_peds}}
-}
 \concept{datasets}
 \keyword{datasets}

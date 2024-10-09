@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 )
 library(admiral)
 library(admiraldev)
+library(rlang)
 ```
 
 # Introduction
@@ -46,6 +47,7 @@ Once the required packages have been loaded, the first step is preparing the met
 
 ```{r message=FALSE}
 library(admiral)
+library(pharmaversesdtm, warn.conflicts = FALSE)
 library(admiralpeds)
 library(dplyr, warn.conflicts = FALSE)
 library(lubridate)
@@ -106,9 +108,9 @@ We do this pre-processing of the metadata using the following code for BMI
 as an example:
 
 ```{r eval=TRUE}
-data(WHO_bmi_for_age_boys)
-data(WHO_bmi_for_age_girls)
-data(cdc_bmiage)
+who_bmi_for_age_boys <- admiralpeds::who_bmi_for_age_boys
+who_bmi_for_age_girls <- admiralpeds::who_bmi_for_age_girls
+cdc_bmiage <- admiralpeds::cdc_bmiage
 
 who_bmi_for_age <- who_bmi_for_age_boys %>%
   mutate(SEX = "M") %>%
@@ -193,8 +195,8 @@ files if preferred.
 We do this using the following code:
 
 ```{r eval=TRUE}
-data(who_wt_for_lgth_boys)
-data(who_wt_for_lgth_girls)
+who_wt_for_lgth_boys <- admiralpeds::who_wt_for_lgth_boys
+who_wt_for_lgth_girls <- admiralpeds::who_wt_for_lgth_girls
 
 who_wt_for_lgth <- who_wt_for_lgth_boys %>%
   mutate(SEX = "M") %>%
@@ -230,8 +232,8 @@ include the pediatrics-specific parameters as needed - for example:
 | BMIPCTL   | BMI-for-age percentile | 10       | Subject Characteristic | 1          |
 
 ```{r echo=FALSE, message=FALSE}
-data("vs_peds")
-data("adsl_peds")
+vs_peds <- pharmaversesdtm::vs_peds
+adsl_peds <- admiralpeds::adsl_peds
 
 vs <- convert_blanks_to_na(vs_peds)
 adsl <- adsl_peds %>% select(-DOMAIN)
