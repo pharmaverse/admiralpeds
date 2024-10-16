@@ -4,6 +4,8 @@
 
 ## Updates of Existing Functions
 
+- `ADVS` template updated in line with {admiral} to calculate change from baseline variables only for post-baseline records (#95).
+
 ## Breaking Changes
 
 ## Documentation
