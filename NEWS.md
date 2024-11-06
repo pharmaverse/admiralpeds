@@ -1,4 +1,4 @@
-# admiralpeds 0.1.0.9000
+# admiralpeds 0.1.0.9001
 
 ## New Features
 
@@ -9,6 +9,7 @@
 ## Documentation
 
 - Added CRAN installation instructions to README (#10).
+- Subject based test data (e.g. DM, VS) has been migrated out of `{admiralpeds}` to `{pharmaversesdtm}` (#40)
 
 ## Various
 

@@ -1,7 +1,7 @@
 Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.1.0.9000
+Version: 0.1.0.9001
 Authors@R: c(
     person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre")),
     person("Ross", "Farrugia", role = "aut"),
@@ -48,7 +48,7 @@ Imports:
 Suggests:
     knitr,
     lubridate (>= 1.7.4),
-    pharmaversesdtm (>= 0.2.0),
+    pharmaversesdtm (>= 1.1.0),
     rmarkdown,
     stringr (>= 1.4.0),
     testthat (>= 3.0.0),

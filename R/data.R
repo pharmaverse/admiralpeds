@@ -193,20 +193,6 @@
 #' @source \url{https://www.cdc.gov/growthcharts/percentile_data_files.htm}
 "cdc_bmiage"
 
-#' Demographic Dataset-pediatrics
-#'
-#' An updated SDTM DM dataset with pediatric patients
-#' @keywords datasets
-#' @family datasets
-"dm_peds"
-
-#' Vital signs Dataset-pediatrics
-#'
-#' An updated SDTM VS dataset with anthropometric measurements for pediatric patients
-#' @keywords datasets
-#' @family datasets
-"vs_peds"
-
 #' Subject Level Analysis Dataset-pediatrics
 #'
 #' An updated ADaM ADSL dataset with pediatric patients
