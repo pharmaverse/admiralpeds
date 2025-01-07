@@ -4,6 +4,8 @@
 
 ## Updates of Existing Functions
 
+- `ADVS` template updated in line with {admiral} to calculate change from baseline variables only for post-baseline records (#95).
+
 ## Breaking Changes
 
 ## Documentation
@@ -15,4 +17,4 @@
 # admiralpeds 0.1.0
 
 - Initial package release focused mainly on Anthropometric indicators (i.e. child growth
-development charts).
+  development charts).
