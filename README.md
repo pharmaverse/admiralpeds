@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 
-[<img src="http://pharmaverse.org/shields/admiralpeds.svg">](https://pharmaverse.org)
+[![pharmaverse admiralpeds Badge](http://pharmaverse.org/shields/admiralpeds.svg)](https://pharmaverse.org)
 [![CRAN status](https://www.r-pkg.org/badges/version/admiralpeds)](https://CRAN.R-project.org/package=admiralpeds)
 [![Test Coverage](https://raw.githubusercontent.com/pharmaverse/admiralpeds/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiral/actions/workflows/code-coverage.yml)
 
