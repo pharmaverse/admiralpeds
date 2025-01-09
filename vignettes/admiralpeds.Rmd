@@ -31,7 +31,7 @@ by reading our vignettes under the User Guides section of this site.
 `{admiralpeds}` also provides template R scripts as a starting point. They can be
 created by calling `use_ad_template()` from `{admiral}`, e.g.,
 
-```{r}
+```{r, eval = FALSE}
 library(admiral)
 ```
 
@@ -46,7 +46,7 @@ use_ad_template(
 A list of all available templates can be obtained by `list_all_templates()`
 from `{admiral}`:
 
-```{r}
+```{r, eval = FALSE}
 list_all_templates(package = "admiralpeds")
 ```
 
