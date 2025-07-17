@@ -20,8 +20,8 @@ development:
 
 authors:
   footer:
-    roles: [aut, ctb, cre, fnd]
-    text: "Developed by"
+    roles: [aut, ctb, cre]
+    text: "Developed by F. Hoffmann-La Roche AG, Cytel, Pfizer Inc., Atorus Research, "
   sidebar:
     roles: [aut, fnd]
   F. Hoffmann-La Roche AG:
