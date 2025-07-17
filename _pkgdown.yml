@@ -18,6 +18,25 @@ news:
 development:
   mode: auto
 
+authors:
+  footer:
+    roles: [aut, ctb, cre, fnd]
+    text: "Developed by"
+  sidebar:
+    roles: [aut, fnd]
+  F. Hoffmann-La Roche AG:
+    html: "<a href='https://www.roche.com/'><img src='man/figures/roche_logo.svg' height='32' alt='Roche logo' /></a>"
+    href: https://www.roche.com
+  Cytel:
+    html: "<a href='https://www.cytel.com/'><img src='man/figures/cytel_logo.svg' height='25' alt='Cytel logo' /></a>"
+    href: https://www.cytel.com
+  Pfizer Inc.:
+    html: "<a href='https://www.pfizer.com/'><img src='man/figures/pfizer_logo.svg' height='25' alt='Pfizer logo' /></a>"
+    href: https://www.pfizer.com
+  Atorus Research:
+    html: "<a href='https://www.atorusresearch.com/'><img src='man/figures/atorus_logo.png' height='50' alt='Atorus logo' /></a>"
+    href: https://www.atorusresearch.com/
+
 reference:
 
 - title: Derivations for Adding Parameters/Records
