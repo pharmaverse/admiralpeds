@@ -3,7 +3,7 @@ Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
 Version: 0.2.0
 Authors@R: c(
-    person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre")),
+    person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0004-3581-0131")),
     person("Ross", "Farrugia", role = "aut"),
     person("Zelos", "Zhu", role = "aut"),
     person("Sukalpo", "Saha", role = "aut"),
