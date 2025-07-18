@@ -24,7 +24,7 @@ Other internal:
 \code{\link{set_bins}()}
 }
 \author{
-\strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com}
+\strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com} (\href{https://orcid.org/0009-0004-3581-0131}{ORCID})
 
 Authors:
 \itemize{
