@@ -1,3 +1,14 @@
+# admiralpeds 0.2.1
+
+## Various
+
+<details>
+<summary>Developer Notes</summary>
+
+* Added copyright holder logos (#106)
+
+</details>
+
 # admiralpeds 0.2.0
 
 ## Updates of Template program
