@@ -21,21 +21,21 @@ development:
 authors:
   footer:
     roles: [aut, ctb, cre]
-    text: "Developed by F. Hoffmann-La Roche AG, Cytel, Pfizer Inc., Atorus Research, "
+    text: "Developed by Cytel, F. Hoffmann-La Roche AG, Pfizer Inc., Atorus Research, "
   sidebar:
     roles: [aut, fnd]
-  F. Hoffmann-La Roche AG:
-    html: "<a href='https://www.roche.com/'><img src='man/figures/roche_logo.svg' height='32' alt='Roche logo' /></a>"
-    href: https://www.roche.com
   Cytel:
-    html: "<a href='https://www.cytel.com/'><img src='man/figures/cytel_logo.svg' height='25' alt='Cytel logo' /></a>"
+    html: "<a href='https://www.cytel.com/'><img src='man/figures/cytel_logo.png' height='25' alt='Cytel logo' /></a>"
     href: https://www.cytel.com
+  F. Hoffmann-La Roche AG:
+    html: "<a href='https://www.roche.com/'><img src='man/figures/roche_logo.png' height='32' alt='Roche logo' /></a>"
+    href: https://www.roche.com
   Pfizer Inc.:
-    html: "<a href='https://www.pfizer.com/'><img src='man/figures/pfizer_logo.svg' height='25' alt='Pfizer logo' /></a>"
+    html: "<a href='https://www.pfizer.com/'><img src='man/figures/pfizer_logo.png' height='30' alt='Pfizer logo' /></a>"
     href: https://www.pfizer.com
   Atorus Research:
     html: "<a href='https://www.atorusresearch.com/'><img src='man/figures/atorus_logo.png' height='50' alt='Atorus logo' /></a>"
-    href: https://www.atorusresearch.com/
+    href: https://www.atorusresearch.com
 
 reference:
 
