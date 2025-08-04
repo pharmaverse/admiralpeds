@@ -3,9 +3,13 @@
 ## Various
 
 <details>
+
+* Dropped display of data types in the `WHO` metadata (#104)
+
 <summary>Developer Notes</summary>
 
 * Added copyright holder logos (#106)
+* Default math-rendering updated to `mathjax` (#104)
 
 </details>
 
