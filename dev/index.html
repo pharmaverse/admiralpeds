@@ -16,7 +16,7 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Pediatrics Extension Package for ADaM in R Asset Library">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><script src="deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Pediatrics Extension Package for ADaM in R Asset Library">
 <meta name="description" content='A toolbox for programming Clinical Data Standards Interchange Consortium (CDISC) compliant Analysis Data Model (ADaM) datasets in R. ADaM datasets are a mandatory part of any New Drug or Biologics License Application submitted to the United States Food and Drug Administration (FDA). Analysis derivations are implemented in accordance with the "Analysis Data Model Implementation Guide" (CDISC Analysis Data Model Team, 2021, &lt;https://www.cdisc.org/standards/foundational/adam&gt;). The package is an extension package of the admiral package for pediatric clinical trials.'>
 <meta property="og:description" content='A toolbox for programming Clinical Data Standards Interchange Consortium (CDISC) compliant Analysis Data Model (ADaM) datasets in R. ADaM datasets are a mandatory part of any New Drug or Biologics License Application submitted to the United States Food and Drug Administration (FDA). Analysis derivations are implemented in accordance with the "Analysis Data Model Implementation Guide" (CDISC Analysis Data Model Team, 2021, &lt;https://www.cdisc.org/standards/foundational/adam&gt;). The package is an extension package of the admiral package for pediatric clinical trials.'>
 <meta property="og:image" content="https://pharmaverse.github.io/admiralpeds/logo.png">
@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,16 +165,20 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Fanny Gautier <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Fanny Gautier <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0009-0004-3581-0131" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Ross Farrugia <br><small class="roles"> Author </small>  </li>
 <li>Zelos Zhu <br><small class="roles"> Author </small>  </li>
 <li>Sukalpo Saha <br><small class="roles"> Author </small>  </li>
 <li>Lina Patil <br><small class="roles"> Author </small>  </li>
 <li>Samia Kabi <br><small class="roles"> Author </small>  </li>
-<li>F. Hoffmann-La Roche AG <br><small class="roles"> Copyright holder, funder </small>  </li>
-<li>Cytel <br><small class="roles"> Copyright holder, funder </small>  </li>
-<li>Pfizer Inc. <br><small class="roles"> Copyright holder, funder </small>  </li>
-<li>Atorus Research <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>
+<a href="https://www.cytel.com" class="external-link"></a><a href="https://www.cytel.com/" class="external-link"><img src="reference/figures/cytel_logo.png" height="25" alt="Cytel logo"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>
+<a href="https://www.roche.com" class="external-link"></a><a href="https://www.roche.com/" class="external-link"><img src="reference/figures/roche_logo.png" height="32" alt="Roche logo"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>
+<a href="https://www.pfizer.com" class="external-link"></a><a href="https://www.pfizer.com/" class="external-link"><img src="reference/figures/pfizer_logo.png" height="30" alt="Pfizer logo"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<li>
+<a href="https://www.atorusresearch.com" class="external-link"></a><a href="https://www.atorusresearch.com/" class="external-link"><img src="reference/figures/atorus_logo.png" height="50" alt="Atorus logo"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -193,7 +197,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, F. Hoffmann-La Roche AG, Cytel, Pfizer Inc., Atorus Research.</p>
+  <p>Developed by Cytel, F. Hoffmann-La Roche AG, Pfizer Inc., Atorus Research, Fanny Gautier, Ross Farrugia, Zelos Zhu, Sukalpo Saha, Lina Patil, Samia Kabi, Laura Liao, Remigiusz Kudlacz, Pierre Wallet, Amin Sherzad, David Freedman, Mahmoud Hamza.</p>
 </div>
 
 <div class="pkgdown-footer-right">
