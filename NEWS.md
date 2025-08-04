@@ -1,11 +1,17 @@
 # admiralpeds 0.2.0.9000
 
+## Documentation
+
+- Removed display of data types from the `WHO` metadata (#104)
+
 ## Various
 
 <details>
+
 <summary>Developer Notes</summary>
 
 * Added copyright holder logos (#106)
+* Updated the default math-rendering to `mathjax` (#104)
 
 </details>
 

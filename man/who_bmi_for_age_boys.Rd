@@ -7,10 +7,10 @@
 \format{
 A data frame with 1857 rows and 4 variables:
 \describe{
-\item{\code{Day}}{integer Age in days}
-\item{\code{L}}{double Box-Cox transformation for normality}
-\item{\code{M}}{double Median}
-\item{\code{S}}{double Coefficient of variation}
+\item{\code{Day}}{Age in days}
+\item{\code{L}}{Box-Cox transformation for normality}
+\item{\code{M}}{Median}
+\item{\code{S}}{Coefficient of variation}
 }
 }
 \source{

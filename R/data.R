@@ -3,10 +3,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{integer Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -18,10 +18,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{integer Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -33,10 +33,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -48,10 +48,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -62,10 +62,10 @@
 #' @description WHO Weight-for-length charts for girls from 45cm to 110cm
 #' @format A data frame with 651 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Length}}{double Length in cm}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Length}}{Length in cm}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -76,10 +76,10 @@
 #' @description WHO Weight-for-length charts for boys from 45cm to 110cm
 #' @format A data frame with 651 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Length}}{double Length in cm}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Length}}{Length in cm}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -91,10 +91,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -106,10 +106,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -121,10 +121,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
@@ -136,10 +136,10 @@
 #' day 1856
 #' @format A data frame with 1857 rows and 4 variables:
 #' \describe{
-#'   \item{\code{Day}}{integer Age in days}
-#'   \item{\code{L}}{double Box-Cox transformation for normality}
-#'   \item{\code{M}}{double Median}
-#'   \item{\code{S}}{double Coefficient of variation}
+#'   \item{\code{Day}}{Age in days}
+#'   \item{\code{L}}{Box-Cox transformation for normality}
+#'   \item{\code{M}}{Median}
+#'   \item{\code{S}}{Coefficient of variation}
 #' }
 #' @family metadata
 #' @keywords metadata
