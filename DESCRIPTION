@@ -16,7 +16,7 @@ Authors@R: c(
     person("Amin", "Sherzad", role = "ctb"),
     person("David", "Freedman", role = "ctb"),
     person("Mahmoud", "Hamza", role = "ctb"),
-    person("Cytel", role = c("cph", "fnd")),
+    person("Cytel Inc.", role = c("cph", "fnd")),
     person("F. Hoffmann-La Roche AG", role = c("cph", "fnd")),
     person("Pfizer Inc.", role = c("cph", "fnd")),
     person("Atorus Research", role = c("cph", "fnd"))
