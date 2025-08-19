@@ -179,7 +179,7 @@ recommend that a file or class name and description of purpose be included on
 the same "printed page" as the copyright notice for easier identification within
 third-party archives.
 
-    Copyright 2024 F. Hoffmann-La Roche AG, Pfizer, Atorus Research and Cytel
+    Copyright `Year: 2024`  `License holders: F. Hoffmann-La Roche AG, Pfizer, Atorus Research and Cytel Inc.`
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

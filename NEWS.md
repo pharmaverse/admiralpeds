@@ -10,6 +10,7 @@
 
 <summary>Developer Notes</summary>
 
+* Updated the company name as `Cytel Inc.` in `LICENSE.md` (#109)
 * Added copyright holder logos (#106)
 * Updated the default math-rendering to `mathjax` (#104)
 
