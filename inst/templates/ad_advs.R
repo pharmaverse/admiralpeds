@@ -20,7 +20,7 @@ library(stringr)
 
 # Creation of the Growth by Age metadata from WHO and CDC sources
 # Load WHO and CDC metadata datasets
-message("Please be aware that our default reference source in our metadata by Age is :
+cli::cli_inform("Please be aware that our default reference source in our metadata by Age is :
 - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
 
@@ -396,7 +396,7 @@ advs_age <- advs_age_wt %>%
   )
 
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts ----
-message("To derive height/length parameters, below function assumes that the
+cli::cli_inform("To derive height/length parameters, below function assumes that the
 values in your height parameter input data are for body length - therefore
 it uses WHO weight-for-length metadata, but this depends on your CRF guidelines.")
 
