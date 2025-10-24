@@ -1,8 +1,14 @@
+# admiralpeds (development version)
+
+## Documentation
+
+- Added links to `{admiral}` ecosystem. (#114)
+
 # admiralpeds 0.2.1
 
 ## Documentation
 
-- Removed display of data types from the `WHO` metadata (#104)
+- Removed display of data types from the `WHO` metadata. (#104)
 
 ## Various
 
@@ -10,9 +16,9 @@
 
 <summary>Developer Notes</summary>
 
-* Updated the company name as `Cytel Inc.` in `LICENSE.md` (#109)
-* Added copyright holder logos (#106)
-* Updated the default math-rendering to `mathjax` (#104)
+* Updated the company name as `Cytel Inc.` in `LICENSE.md`. (#109)
+* Added copyright holder logos. (#106)
+* Updated the default math-rendering to `mathjax`. (#104)
 
 </details>
 
@@ -20,12 +26,12 @@
 
 ## Updates of Template program
 
-- `ADVS` template updated in line with {admiral} to calculate change from baseline variables only for post-baseline records (#95).
+- `ADVS` template updated in line with {admiral} to calculate change from baseline variables only for post-baseline records. (#95)
 
 ## Documentation
 
-- Added CRAN installation instructions to README (#10).
-- Subject based test data (e.g. DM, VS) has been migrated out of `{admiralpeds}` to `{pharmaversesdtm}` (#40)
+- Added CRAN installation instructions to README. (#10)
+- Subject based test data (e.g. DM, VS) has been migrated out of `{admiralpeds}` to `{pharmaversesdtm}`. (#40)
 
 # admiralpeds 0.1.0
 
