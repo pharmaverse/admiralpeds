@@ -1,6 +1,6 @@
 library(lintr)
 
-source("inst/lintr/linters.R")
+source(system.file("lintr/linters.R", package = "admiraldev"))
 
 linters <- admiral_linters()
 
