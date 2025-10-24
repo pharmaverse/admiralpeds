@@ -1,17 +1,14 @@
-linters: linters_with_defaults(
-    any_duplicated_linter(),
-    any_is_na_linter(),
-    line_length_linter(100),
-    object_usage_linter=NULL,
-    cyclocomp_linter(complexity_limit = 20),
-    indentation_linter=NULL,
-    undesirable_function_linter = undesirable_function_linter()
-  )
-exclusions: list(
-    "data-raw" = Inf,
-    "R/data.R" = Inf,
-    "R/admiralpeds-package.R" = Inf,
-    "inst" = list(undesirable_function_linter = Inf),
-    "vignettes" = list(undesirable_function_linter = Inf),
-    "tests/testthat/test-cdc_growth_charts.R" = list(undesirable_function_linter = Inf)
-  )
+library(lintr)
+
+source("inst/lintr/linters.R")
+
+linters <- admiral_linters()
+
+exclusions <- list(
+  "data-raw" = Inf,
+  "R/data.R" = Inf,
+  "R/admiralpeds-package.R" = Inf,
+  "inst" = list(undesirable_function_linter = Inf),
+  "vignettes" = list(undesirable_function_linter = Inf),
+  "tests/testthat/test-cdc_growth_charts.R" = list(undesirable_function_linter = Inf)
+)
