@@ -580,7 +580,7 @@ test_that("derive_interp_records Test 9 : BMI data properly interpolated and
       # Add fake variables which are not interpolated
       non_interp1 = "N-I-1",
       non_interp2 = "N-I-2",
-      non_interp3 = ifelse(row_number() == 2, "FAKE", "N-I-3")
+      non_interp3 = if_else(row_number() == 2, "FAKE", "N-I-3")
     ) %>%
     # Interpolate the AGE by SEX
     derive_interp_records(
