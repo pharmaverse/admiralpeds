@@ -266,14 +266,14 @@ advs <- advs %>%
     ATPTN = VSTPTNUM,
     ATPT = VSTPT,
     AVISIT = case_when(
-      str_detect(VISIT, "UNSCHED|RETRIEVAL|AMBUL") ~ NA_character_,
+      str_detect("UNSCHED|RETRIEVAL|AMBUL", VISIT) ~ NA_character_,
       !is.na(VISIT) ~ str_to_title(VISIT),
       TRUE ~ NA_character_
     ),
     AVISITN = as.numeric(case_when(
       VISIT == "SCREENING 1" ~ "-1",
       VISIT == "BASELINE" ~ "0",
-      str_detect(VISIT, "WEEK") ~ str_trim(str_replace(VISIT, "WEEK", "")),
+      str_detect("WEEK", VISIT) ~ str_trim(str_replace(VISIT, "WEEK", "")),
       TRUE ~ NA_character_
     ))
   )
