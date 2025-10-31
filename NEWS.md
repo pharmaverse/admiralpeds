@@ -6,7 +6,7 @@
 
 <summary>Developer Notes</summary>
 
-* Updated lintr configurations to use central `{admiraldev}` file. (#113)
+* Updated `{lintr}` configurations to use central configurations from `{admiraldev}`. (#113)
 
 </details>
 
