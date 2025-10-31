@@ -286,12 +286,12 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
         tmpPCTL / 100 > 0.95,
         90 + 10 * pnorm((VSSTRESN - P95) / Sigma),
         tmpPCTL
-        ),
+      ),
       SDS = dplyr::if_else(
         tmpPCTL / 100 > 0.95,
         dplyr::if_else(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)),
         tmpSDS
-        )
+      )
     ) %>%
     select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
   expected <- tmpexpected %>%
