@@ -1,3 +1,5 @@
+library(dplyr) # nolint: undesirable_function_linter
+
 # derive_params_growth_age ----
 ## Test 1: Weight SDS and percentile works (P3, P97) ----
 test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
