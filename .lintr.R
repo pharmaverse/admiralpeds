@@ -1,5 +1,3 @@
-library(lintr)
-
 # source in temporary environment to avoid changing the global environment
 temp_env <- new.env(parent = globalenv())
 
