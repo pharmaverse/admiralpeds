@@ -22,7 +22,7 @@ get_bins <- function(meta_criteria, param) {
   }
   breaks <- c(unique_vals, Inf)
   labels <- paste0(head(breaks, -1), ",", tail(breaks, -1))
-  return(list(breaks = breaks, labels = labels))
+  return(list(breaks = breaks, labels = labels)) # nolint
 }
 
 
@@ -71,9 +71,9 @@ find_closest_bin <- function(param, breaks, labels) {
   distance_to_upper <- abs(param - upper_bound)
 
   if (distance_to_lower <= distance_to_upper) {
-    return(labels[interval_index])
+    return(labels[interval_index]) # nolint
   } else {
-    return(labels[interval_index + 1])
+    return(labels[interval_index + 1]) # nolint
   }
 }
 
@@ -86,5 +86,5 @@ find_closest_bin <- function(param, breaks, labels) {
 #' @return Character vector of unique age/height bins based on metadata
 set_bins <- function(param, breaks, labels) {
   mapped_labels <- sapply(param, find_closest_bin, breaks = breaks, labels = labels) # nolint
-  return(mapped_labels)
+  return(mapped_labels) # nolint
 }
