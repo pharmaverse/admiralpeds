@@ -142,15 +142,15 @@
 #'     trunc_out = FALSE
 #'   ) %>%
 #'   mutate(
-#'     AGECUR = ifelse(AGECUR_D >= 365.25 * 2, AGECUR_M, AGECUR_D),
-#'     AGECURU = ifelse(AGECUR_D >= 365.25 * 2, CURU_M, CURU_D)
+#'     AGECUR = if_else(AGECUR_D >= 365.25 * 2, AGECUR_M, AGECUR_D),
+#'     AGECURU = if_else(AGECUR_D >= 365.25 * 2, CURU_M, CURU_D)
 #'   )
 #'
 #' # metadata is in months
 #' cdc_meta_criteria <- admiralpeds::cdc_htage %>%
 #'   mutate(
 #'     age_unit = "months",
-#'     SEX = ifelse(SEX == 1, "M", "F")
+#'     SEX = if_else(SEX == 1, "M", "F")
 #'   )
 #'
 #' # metadata is in days
@@ -293,14 +293,14 @@ derive_params_growth_age <- function(dataset,
     if (bmi_cdc_correction) {
       add_sds <- add_sds %>%
         mutate(
-          AVAL := ifelse( # nolint
+          AVAL := if_else( # nolint
             temp_val >= P95 & !is.na(P95),
             qnorm((90 + 10 * pnorm((temp_val - P95) / Sigma)) / 100),
             AVAL
           ),
           # Cover the most extreme high BMI values for percentiles of 99.9 recurring
           # in case of Infinity being returned
-          AVAL = ifelse(AVAL == Inf, 8.21, AVAL)
+          AVAL = if_else(AVAL == Inf, 8.21, AVAL)
         ) %>%
         select(-c(P95, Sigma))
     }
@@ -334,7 +334,7 @@ derive_params_growth_age <- function(dataset,
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%
         mutate(
-          AVAL := ifelse( # nolint
+          AVAL := if_else( # nolint
             temp_val >= P95 & !is.na(P95),
             90 + 10 * pnorm((temp_val - P95) / Sigma),
             AVAL

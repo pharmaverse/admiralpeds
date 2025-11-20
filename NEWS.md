@@ -4,6 +4,16 @@
 
 - Added links to `{admiral}` ecosystem. (#114)
 
+## Various
+
+<details>
+
+<summary>Developer Notes</summary>
+
+* Updated `{lintr}` configurations to use central configurations from `{admiraldev}`. (#113)
+
+</details>
+
 # admiralpeds 0.2.1
 
 ## Documentation

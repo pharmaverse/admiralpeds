@@ -20,7 +20,7 @@ library(stringr)
 
 # Creation of the Growth by Age metadata from WHO and CDC sources
 # Load WHO and CDC metadata datasets
-message("Please be aware that our default reference source in our metadata by Age is :
+cli::cli_inform("Please be aware that our default reference source in our metadata by Age is :
 - for BMI, HEIGHT, and WEIGHT only: WHO for <2 yrs old children, and CDC for >=2 yrs old children.
 The user could replace these metadata with their own chosen metadata")
 
@@ -266,14 +266,14 @@ advs <- advs %>%
     ATPTN = VSTPTNUM,
     ATPT = VSTPT,
     AVISIT = case_when(
-      str_detect(VISIT, "UNSCHED|RETRIEVAL|AMBUL") ~ NA_character_,
+      str_detect("UNSCHED|RETRIEVAL|AMBUL", VISIT) ~ NA_character_,
       !is.na(VISIT) ~ str_to_title(VISIT),
       TRUE ~ NA_character_
     ),
     AVISITN = as.numeric(case_when(
       VISIT == "SCREENING 1" ~ "-1",
       VISIT == "BASELINE" ~ "0",
-      str_detect(VISIT, "WEEK") ~ str_trim(str_replace(VISIT, "WEEK", "")),
+      str_detect("WEEK", VISIT) ~ str_trim(str_replace(VISIT, "WEEK", "")),
       TRUE ~ NA_character_
     ))
   )
@@ -396,7 +396,7 @@ advs_age <- advs_age_wt %>%
   )
 
 ## Derive Anthropometric indicators (Z-Scores/Percentiles-for-Height/Length) for Weight by Height/Length based on Standard Growth Charts ----
-message("To derive height/length parameters, below function assumes that the
+cli::cli_inform("To derive height/length parameters, below function assumes that the
 values in your height parameter input data are for body length - therefore
 it uses WHO weight-for-length metadata, but this depends on your CRF guidelines.")
 

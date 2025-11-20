@@ -1,3 +1,5 @@
+library(dplyr) # nolint: undesirable_function_linter
+
 # derive_params_growth_age ----
 ## Test 1: Weight SDS and percentile works (P3, P97) ----
 test_that("derive_params_growth_age Test 1: Weight SDS and percentile works", {
@@ -176,7 +178,6 @@ test_that("derive_params_growth_age Test 3: BMI SDS and percentile works (Z-scor
 })
 
 
-
 ## Test 4: Head circumference derivation works ----
 test_that("derive_params_growth_age Test 4: Head circumference SDS and percentile works", {
   vs_data <- tibble::tribble(
@@ -282,8 +283,8 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
     mutate(tmpSDS = AVAL) %>%
     dplyr::inner_join(tmppctl, by = "USUBJID") %>%
     mutate(
-      PCTL = ifelse(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / Sigma), tmpPCTL),
-      SDS = ifelse(tmpPCTL / 100 > 0.95, ifelse(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS) # nolint
+      PCTL = dplyr::if_else(tmpPCTL / 100 > 0.95, 90 + 10 * pnorm((VSSTRESN - P95) / Sigma), tmpPCTL), # nolint
+      SDS = dplyr::if_else(tmpPCTL / 100 > 0.95, dplyr::if_else(tmpPCTL / 100 == 1, 8.21, qnorm(PCTL / 100)), tmpSDS) # nolint
     ) %>%
     select(STUDYID, USUBJID, VISIT, SEX, AGE, AGEU, VSTESTCD, VSSTRESN, SDS, PCTL)
   expected <- tmpexpected %>%
