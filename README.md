@@ -23,11 +23,11 @@ The package is available from CRAN and can be installed with:
 install.packages("admiralpeds")
 ```
 
-To install the development version of the package from GitHub run:
+To install the latest development version of the package directly from GitHub use the following code:
 
 ```r
-# install.packages("devtools")
-devtools::install_github("pharmaverse/admiralpeds")
+# install.packages("pak")
+pak::pkg_install("admiralpeds", dependencies = TRUE)
 ```
 
 ### Dependencies

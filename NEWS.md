@@ -1,5 +1,9 @@
 # admiralpeds (development version)
 
+## Documentation
+
+- Updated the installation instructions in `README.md`. (#115)
+
 ## Various
 
 <details>
