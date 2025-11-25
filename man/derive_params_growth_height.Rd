@@ -139,7 +139,7 @@ where "obs" is the observed value for the respective anthropometric measure bein
 \describe{
 \item{Permitted values}{List of variable-value pairs .
 
-If left as default value, \code{NULL}, then parameter not derived in output dataset}
+If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}
 }}
 
@@ -153,7 +153,7 @@ defines the parameter code and parameter.
 \describe{
 \item{Permitted values}{List of variable-value pairs .
 
-If left as default value, \code{NULL}, then parameter not derived in output dataset}
+If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}
 }}
 }
