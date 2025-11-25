@@ -2,7 +2,7 @@
 
 ## Documentation
 
-- Used custom `{admiral}` roclet, resulting in cleared "Permitted" and "Default" values in function documentation. (#112)
+- Used custom `{admiraldev}` roclet, resulting in cleared "Permitted" and "Default" values in function documentation. (#112)
 
 ## Various
 
