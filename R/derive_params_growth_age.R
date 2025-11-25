@@ -8,26 +8,30 @@
 #'   The variables specified in `sex`, `age`, `age_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @permitted [dataset]
+#'
 #' @param sex Sex
 #'
-#'   A character vector is expected.
+#' @permitted [char_scalar].
 #'
-#'   Expected Values: `M`, `F`
+#'   Expected Values: `M`, `F`.
 #'
 #' @param age Current Age
 #'
-#'   A numeric vector is expected. Note that this is the actual age at the current visit.
+#' @permitted [num_scalar].
+#'
+#'   Note that this is the actual age at the current visit.
 #'
 #' @param age_unit Age Unit
 #
-#'   A character vector is expected.
+#' @permitted [char_scalar].
 #'
-#'   Expected values: `days`, `weeks`, `months`
+#'   Expected values: `days`, `weeks`, `months`.
 #'
 #' @param meta_criteria Metadata dataset
 #'
 #'   A metadata dataset with the following expected variables:
-#'   `AGE`, `AGEU`, `SEX`, `L`, `M`, `S`
+#'   `AGE`, `AGEU`, `SEX`, `L`, `M`, `S`.
 #'
 #'   The dataset can be derived from CDC/WHO or user-defined datasets.
 #'   The CDC/WHO growth chart metadata datasets are available in the package and will
@@ -46,6 +50,8 @@
 #'   * `M` - Median
 #'   * `S` - Coefficient of variation
 #'
+#' @permitted [dataset]
+#'
 #' @param parameter Anthropometric measurement parameter to calculate z-score or percentile
 #'
 #'   A condition is expected with the input dataset `VSTESTCD`/`PARAMCD`
@@ -56,23 +62,31 @@
 #'   There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
 #'   in the `admiralpeds` package.
 #'
+#' @permitted [condition]
+#'
 #' @param analysis_var Variable containing anthropometric measurement
 #'
-#' A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
+#' @permitted [num_scalar] e.g. `AVAL`, `VSSTRESN`.
 #'
 #' @param bmi_cdc_correction Extended CDC BMI-for-age correction
 #'
-#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  Expected values: `TRUE`/`FALSE`.
+#'
 #'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
+#' @permitted [logic_scalar]
+#'
 #' @param who_correction WHO adjustment for weight-based indicators
 #'
-#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
+#'  Expected values: `TRUE`/`FALSE`.
+#'
 #'  WHO constructed a restricted application of the LMS method for weight-based indicators.
 #'  More details on these exact rules applied can be found at the document page 302 of the
 #'  [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).
 #'  If set to `TRUE` the WHO correction is applied.
+#'
+#' @permitted [logic_scalar]
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
@@ -87,9 +101,9 @@
 #'
 #'  where "obs" is the observed value for the respective anthropometric measure being calculated.
 #'
-#' *Permitted Values*: List of variable-value pairs
+#' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @param set_values_to_pctl Variables to be set for Percentile
 #'
@@ -98,9 +112,9 @@
 #'   `set_values_to_pctl(exprs(PARAMCD = "BMIAPCTL", PARAM = "BMI-for-age percentile"))`
 #'  defines the parameter code and parameter.
 #'
-#' *Permitted Values*: List of variable-value pair
+#' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @return The input dataset additional records with the new parameter added.
 #'

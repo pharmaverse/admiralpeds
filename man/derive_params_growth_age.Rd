@@ -22,27 +22,44 @@ derive_params_growth_age(
 \item{dataset}{Input dataset
 
 The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parameter}, \code{analysis_var}
-are expected to be in the dataset.}
+are expected to be in the dataset.
+
+\describe{
+\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Default value}{none}
+}}
 
 \item{sex}{Sex
 
-A character vector is expected.
+\describe{
+\item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
-Expected Values: \code{M}, \code{F}}
+Expected Values: \code{M}, \code{F}.}
+\item{Default value}{none}
+}}
 
 \item{age}{Current Age
 
-A numeric vector is expected. Note that this is the actual age at the current visit.}
+\describe{
+\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one .
+
+Note that this is the actual age at the current visit.}
+\item{Default value}{none}
+}}
 
 \item{age_unit}{Age Unit
-A character vector is expected.
 
-Expected values: \code{days}, \code{weeks}, \code{months}}
+\describe{
+\item{Permitted values}{a character scalar, i.e., a character vector of length one .
+
+Expected values: \code{days}, \code{weeks}, \code{months}.}
+\item{Default value}{none}
+}}
 
 \item{meta_criteria}{Metadata dataset
 
 A metadata dataset with the following expected variables:
-\code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S}
+\code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S}.
 
 The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
@@ -60,6 +77,11 @@ for 27 and 28 months, the \code{L}/\code{M}/\code{S} corresponding to the 27 mon
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
 \item \code{S} - Coefficient of variation
+}
+
+\describe{
+\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Default value}{none}
 }}
 
 \item{parameter}{Anthropometric measurement parameter to calculate z-score or percentile
@@ -70,25 +92,45 @@ for which we want growth derivations:
 e.g. \code{parameter = VSTESTCD == "WEIGHT"}.
 
 There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
-in the \code{admiralpeds} package.}
+in the \code{admiralpeds} package.
+
+\describe{
+\item{Permitted values}{an unquoted condition, e.g., \code{parameter = VSTESTCD == "WEIGHT"}}
+\item{Default value}{none}
+}}
 
 \item{analysis_var}{Variable containing anthropometric measurement
 
-A numeric vector is expected, e.g. \code{AVAL}, \code{VSSTRESN}}
+\describe{
+\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one e.g. \code{AVAL}, \code{VSSTRESN}.}
+\item{Default value}{none}
+}}
 
 \item{bmi_cdc_correction}{Extended CDC BMI-for-age correction
 
-A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+Expected values: \code{TRUE}/\code{FALSE}.
+
 CDC developed extended percentiles (>95\%) to monitor high BMI values,
-if set to \code{TRUE} the CDC's correction is applied.}
+if set to \code{TRUE} the CDC's correction is applied.
+
+\describe{
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, e.g. \code{TRUE}/\code{FALSE}}
+\item{Default value}{\code{FALSE}}
+}}
 
 \item{who_correction}{WHO adjustment for weight-based indicators
 
-A logical scalar, e.g. \code{TRUE}/\code{FALSE} is expected.
+Expected values: \code{TRUE}/\code{FALSE}.
+
 WHO constructed a restricted application of the LMS method for weight-based indicators.
 More details on these exact rules applied can be found at the document page 302 of the
 \href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
-If set to \code{TRUE} the WHO correction is applied.}
+If set to \code{TRUE} the WHO correction is applied.
+
+\describe{
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, e.g. \code{TRUE}/\code{FALSE}}
+\item{Default value}{\code{FALSE}}
+}}
 
 \item{set_values_to_sds}{Variables to be set for Z-Scores
 
@@ -103,9 +145,12 @@ The formula to calculate the Z-score is as follows:
 
 where "obs" is the observed value for the respective anthropometric measure being calculated.
 
-\emph{Permitted Values}: List of variable-value pairs
+\describe{
+\item{Permitted values}{List of variable-value pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset}
+\item{Default value}{\code{NULL}}
+}}
 
 \item{set_values_to_pctl}{Variables to be set for Percentile
 
@@ -114,9 +159,12 @@ observations. For example,
 \code{set_values_to_pctl(exprs(PARAMCD = "BMIAPCTL", PARAM = "BMI-for-age percentile"))}
 defines the parameter code and parameter.
 
-\emph{Permitted Values}: List of variable-value pair
+\describe{
+\item{Permitted values}{List of variable-value pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset}
+\item{Default value}{\code{NULL}}
+}}
 }
 \value{
 The input dataset additional records with the new parameter added.
