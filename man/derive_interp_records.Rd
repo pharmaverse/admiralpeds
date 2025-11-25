@@ -13,17 +13,32 @@ The variables \code{AGE}, \code{AGEU}, \code{SEX}, \code{L}, \code{M}, \code{S} 
 
 For BMI the additional variables \code{P95} and \code{Sigma} are expected to be in the dataset
 
-Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS"}}
+Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS"}
+
+\describe{
+\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Default value}{none}
+}}
 
 \item{by_vars}{Grouping variables
 
 The variable from \code{dataset} which identifies the group of observations
-to interpolate separately.}
+to interpolate separately.
+
+\describe{
+\item{Permitted values}{list of variables created by \code{exprs()}, e.g., \code{exprs(SEX)}}
+\item{Default value}{\code{NULL}}
+}}
 
 \item{parameter}{CDC/WHO metadata parameter
 
-\emph{Permitted Values}: \code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
+\describe{
+\item{Permitted values}{a character scalar, i.e., a character vector of length one .
+
+\code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
 e.g. \code{parameter = "WEIGHT"}, \code{parameter = "HEIGHT"}, or   \code{parameter = "BMI"}.}
+\item{Default value}{none}
+}}
 }
 \value{
 The input dataset plus additional interpolated records: a record for

@@ -11,14 +11,20 @@
 #'
 #'   Note that `AGE` must be in days so that `AGEU` is equal to `"DAYS"`
 #'
+#' @permitted [dataset]
+#'
 #' @param by_vars Grouping variables
 #'
 #'   The variable from `dataset` which identifies the group of observations
 #'   to interpolate separately.
 #'
+#' @permitted [var_list]
+#'
 #' @param parameter CDC/WHO metadata parameter
 #'
-#' *Permitted Values*: `"WEIGHT"`, `"HEIGHT"` or `"BMI"` only - Must not be `NULL`
+#' @permitted [char_scalar].
+#'
+#'  `"WEIGHT"`, `"HEIGHT"` or `"BMI"` only - Must not be `NULL`
 #'   e.g. `parameter = "WEIGHT"`, `parameter = "HEIGHT"`, or   `parameter =
 #'   "BMI"`.
 #'
