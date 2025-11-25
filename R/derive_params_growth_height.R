@@ -15,7 +15,7 @@
 #'
 #' @permitted [char_scalar].
 #'
-#'   Expected values: `M`, `F`
+#'   Expected values: `M`, `F`.
 #'
 #' @param height Current Height/length
 #'
@@ -27,7 +27,7 @@
 #'
 #' @permitted [char_scalar].
 #'
-#'   Expected values: `cm`
+#'   Expected values: `cm`.
 #'
 #' @param meta_criteria Metadata dataset
 #'
@@ -70,11 +70,11 @@
 #'
 #' @param analysis_var Variable containing anthropometric measurement
 #'
-#' @permitted [num_scalar] e.g. `AVAL`, `VSSTRESN`
+#' @permitted [num_scalar] e.g. `AVAL`, `VSSTRESN`.
 #'
 #' @param who_correction WHO adjustment for weight-based indicators
 #'
-#'  Expected values: `TRUE`/`FALSE`
+#'  Expected values: `TRUE`/`FALSE`.
 #'
 #'  WHO constructed a restricted application of the LMS method for weight-based indicators.
 #'  More details on these exact rules applied can be found at the document page 302 of the
@@ -98,7 +98,7 @@
 #'
 #' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @param set_values_to_pctl Variables to be set for Percentile
 #'
@@ -109,7 +109,7 @@
 #'
 #' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @return The input dataset additional records with the new parameter added.
 #'

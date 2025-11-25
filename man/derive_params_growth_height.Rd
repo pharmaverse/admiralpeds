@@ -34,7 +34,7 @@ are expected to be in the dataset.
 \describe{
 \item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
-Expected values: \code{M}, \code{F}}
+Expected values: \code{M}, \code{F}.}
 \item{Default value}{none}
 }}
 
@@ -52,7 +52,7 @@ Note that this is the actual height/length at the current visit.}
 \describe{
 \item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
-Expected values: \code{cm}}
+Expected values: \code{cm}.}
 \item{Default value}{none}
 }}
 
@@ -105,13 +105,13 @@ Weight measures are expected to be in the unit "kg".
 \item{analysis_var}{Variable containing anthropometric measurement
 
 \describe{
-\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one e.g. \code{AVAL}, \code{VSSTRESN}}
+\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one e.g. \code{AVAL}, \code{VSSTRESN}.}
 \item{Default value}{none}
 }}
 
 \item{who_correction}{WHO adjustment for weight-based indicators
 
-Expected values: \code{TRUE}/\code{FALSE}
+Expected values: \code{TRUE}/\code{FALSE}.
 
 WHO constructed a restricted application of the LMS method for weight-based indicators.
 More details on these exact rules applied can be found at the document page 302 of the
