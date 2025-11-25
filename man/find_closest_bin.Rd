@@ -9,11 +9,23 @@ find_closest_bin(param, breaks, labels)
 \arguments{
 \item{param}{Parameter
 
-Vector containing parameter that needs closest bin checking}
+Vector containing parameter that needs closest bin checking
 
-\item{breaks}{Breaks created in \code{get_bins()}}
+\describe{
+\item{Default value}{none}
+}}
 
-\item{labels}{Labels created in \code{get_bins()}}
+\item{breaks}{Breaks created in \code{get_bins()}
+
+\describe{
+\item{Default value}{none}
+}}
+
+\item{labels}{Labels created in \code{get_bins()}
+
+\describe{
+\item{Default value}{none}
+}}
 }
 \value{
 detects appropriate bin
