@@ -33,7 +33,7 @@ list(
     source_list = "a list of source objects, e.g., `list(pd, death)`",
     time_imp = "`\"first\"`, `\"last\"`, or user-defined",
     var = "an unquoted symbol, e.g., `AVAL`",
-    var_list = "list of variables created by `exprs()`, e.g., `exprs(USUBJID, VISIT)`",
+    var_list = "list of variables created by `exprs()`, e.g., `exprs(SEX)`",
     var_list_rename = "list of (optionally named) variables created by `exprs()`, e.g., `exprs(USUBJID, ADY = ASTDY)`",
     var_list_tidyselect = "list of variables or tidyselect expressions created by `exprs()`, e.g., `exprs(DTHDT, starts_with(\"AST\"))` or `exprs(everything)`",
     var_list_value_pairs = "List of variable-value pairs",
