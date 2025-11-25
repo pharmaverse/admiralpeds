@@ -2,6 +2,8 @@
 
 ## Documentation
 
+- Added links to `{admiral}` ecosystem. (#114)
+
 - Updated the installation instructions in `README.md`. (#115)
 
 ## Various
