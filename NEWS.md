@@ -4,6 +4,10 @@
 
 - Used custom `{admiraldev}` roclet, resulting in cleared "Permitted" and "Default" values in function documentation. (#112)
 
+- Added links to `{admiral}` ecosystem. (#114)
+
+- Updated the installation instructions in `README.md`. (#115)
+
 ## Various
 
 <details>
