@@ -8,7 +8,9 @@
 
 <!-- badges: end -->
 
-Pediatrics extension package for ADaM in R Asset Library `{admiral}`
+Pediatrics extension package for ADaM in R Asset Library `{admiral}`.
+
+*Explore all the other packages in the [{admiral} ecosystem](https://pharmaverse.org/e2eclinical/adam/) to learn more about ADaM programming in R.*
 
 ## Purpose
 
@@ -23,11 +25,11 @@ The package is available from CRAN and can be installed with:
 install.packages("admiralpeds")
 ```
 
-To install the development version of the package from GitHub run:
+To install the latest development version of the package directly from GitHub use the following code:
 
 ```r
-# install.packages("devtools")
-devtools::install_github("pharmaverse/admiralpeds")
+# install.packages("pak")
+pak::pkg_install("admiralpeds", dependencies = TRUE)
 ```
 
 ### Dependencies
