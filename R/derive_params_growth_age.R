@@ -70,16 +70,12 @@
 #'
 #' @param bmi_cdc_correction Extended CDC BMI-for-age correction
 #'
-#'  Expected values: `TRUE`/`FALSE`.
-#'
 #'  CDC developed extended percentiles (>95%) to monitor high BMI values,
 #'  if set to `TRUE` the CDC's correction is applied.
 #'
 #' @permitted [logic_scalar]
 #'
 #' @param who_correction WHO adjustment for weight-based indicators
-#'
-#'  Expected values: `TRUE`/`FALSE`.
 #'
 #'  WHO constructed a restricted application of the LMS method for weight-based indicators.
 #'  More details on these exact rules applied can be found at the document page 302 of the

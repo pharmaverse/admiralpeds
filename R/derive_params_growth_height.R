@@ -74,8 +74,6 @@
 #'
 #' @param who_correction WHO adjustment for weight-based indicators
 #'
-#'  Expected values: `TRUE`/`FALSE`.
-#'
 #'  WHO constructed a restricted application of the LMS method for weight-based indicators.
 #'  More details on these exact rules applied can be found at the document page 302 of the
 #'  [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).

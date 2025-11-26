@@ -22,7 +22,7 @@ list(
     expr_list_summary = "list of named expressions created by `exprs()`, e.g., `exprs(CUMDOSA = sum(AVAL, na.rm = TRUE), AVALU = \"ml\")`",
     flag_event = "a list of `flag_event()` objects",
     join_type = "`\"before\"`, `\"after\"`, `\"all\"`",
-    logic_scalar = "a logical scalar, i.e., a logical vector of length one, e.g. `TRUE`/`FALSE`",
+    logic_scalar = "a logical scalar, i.e., a logical vector of length one, i.e. `TRUE`/`FALSE`",
     merge_rel = "`\"one-to-one\"`, `\"many-to-one\"`",
     mode = "`\"first\"`, `\"last\"`",
     msg = "a console message to be printed, e.g. `\"Attention\"` or for longer messages use `paste(\"Line 1\", \"Line 2\")`",

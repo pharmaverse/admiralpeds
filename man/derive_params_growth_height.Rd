@@ -111,15 +111,13 @@ Weight measures are expected to be in the unit "kg".
 
 \item{who_correction}{WHO adjustment for weight-based indicators
 
-Expected values: \code{TRUE}/\code{FALSE}.
-
 WHO constructed a restricted application of the LMS method for weight-based indicators.
 More details on these exact rules applied can be found at the document page 302 of the
 \href{https://www.who.int/publications/i/item/924154693X}{WHO Child Growth Standards Guidelines}.
 If set to \code{TRUE} the WHO correction is applied.
 
 \describe{
-\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, e.g. \code{TRUE}/\code{FALSE}}
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
 \item{Default value}{\code{FALSE}}
 }}
 

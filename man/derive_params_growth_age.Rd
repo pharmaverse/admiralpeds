@@ -108,19 +108,15 @@ in the \code{admiralpeds} package.
 
 \item{bmi_cdc_correction}{Extended CDC BMI-for-age correction
 
-Expected values: \code{TRUE}/\code{FALSE}.
-
 CDC developed extended percentiles (>95\%) to monitor high BMI values,
 if set to \code{TRUE} the CDC's correction is applied.
 
 \describe{
-\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, e.g. \code{TRUE}/\code{FALSE}}
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
 \item{Default value}{\code{FALSE}}
 }}
 
 \item{who_correction}{WHO adjustment for weight-based indicators
-
-Expected values: \code{TRUE}/\code{FALSE}.
 
 WHO constructed a restricted application of the LMS method for weight-based indicators.
 More details on these exact rules applied can be found at the document page 302 of the
@@ -128,7 +124,7 @@ More details on these exact rules applied can be found at the document page 302 
 If set to \code{TRUE} the WHO correction is applied.
 
 \describe{
-\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, e.g. \code{TRUE}/\code{FALSE}}
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
 \item{Default value}{\code{FALSE}}
 }}
 
