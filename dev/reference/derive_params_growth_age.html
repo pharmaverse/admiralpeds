@@ -15,7 +15,7 @@ for Height/Weight/BMI/Head Circumference by Age"><meta property="og:image" conte
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,30 +77,60 @@ for Height/Weight/BMI/Head Circumference by Age</p>
 <dl><dt id="arg-dataset">dataset<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
 <dd><p>Input dataset</p>
 <p>The variables specified in <code>sex</code>, <code>age</code>, <code>age_unit</code>, <code>parameter</code>, <code>analysis_var</code>
-are expected to be in the dataset.</p></dd>
+are expected to be in the dataset.</p>
+<dl><dt>Permitted values</dt>
+<dd><p>a dataset, i.e., a <code>data.frame</code> or tibble</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-sex">sex<a class="anchor" aria-label="anchor" href="#arg-sex"></a></dt>
 <dd><p>Sex</p>
-<p>A character vector is expected.</p>
-<p>Expected Values: <code>M</code>, <code>F</code></p></dd>
+<dl><dt>Permitted values</dt>
+<dd><p>a character scalar, i.e., a character vector of length one .</p>
+<p>Expected Values: <code>M</code>, <code>F</code>.</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-age">age<a class="anchor" aria-label="anchor" href="#arg-age"></a></dt>
 <dd><p>Current Age</p>
-<p>A numeric vector is expected. Note that this is the actual age at the current visit.</p></dd>
+<dl><dt>Permitted values</dt>
+<dd><p>a numeric scalar, i.e., a numeric vector of length one .</p>
+<p>Note that this is the actual age at the current visit.</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-age-unit">age_unit<a class="anchor" aria-label="anchor" href="#arg-age-unit"></a></dt>
-<dd><p>Age Unit
-A character vector is expected.</p>
-<p>Expected values: <code>days</code>, <code>weeks</code>, <code>months</code></p></dd>
+<dd><p>Age Unit</p>
+<dl><dt>Permitted values</dt>
+<dd><p>a character scalar, i.e., a character vector of length one .</p>
+<p>Expected values: <code>days</code>, <code>weeks</code>, <code>months</code>.</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-meta-criteria">meta_criteria<a class="anchor" aria-label="anchor" href="#arg-meta-criteria"></a></dt>
 <dd><p>Metadata dataset</p>
 <p>A metadata dataset with the following expected variables:
-<code>AGE</code>, <code>AGEU</code>, <code>SEX</code>, <code>L</code>, <code>M</code>, <code>S</code></p>
+<code>AGE</code>, <code>AGEU</code>, <code>SEX</code>, <code>L</code>, <code>M</code>, <code>S</code>.</p>
 <p>The dataset can be derived from CDC/WHO or user-defined datasets.
 The CDC/WHO growth chart metadata datasets are available in the package and will
 require small modifications.</p>
@@ -114,7 +144,14 @@ for 27 and 28 months, the <code>L</code>/<code>M</code>/<code>S</code> correspon
 <li><p><code>L</code> - Power in the Box-Cox transformation to normality</p></li>
 <li><p><code>M</code> - Median</p></li>
 <li><p><code>S</code> - Coefficient of variation</p></li>
-</ul></dd>
+</ul><dl><dt>Permitted values</dt>
+<dd><p>a dataset, i.e., a <code>data.frame</code> or tibble</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-parameter">parameter<a class="anchor" aria-label="anchor" href="#arg-parameter"></a></dt>
@@ -123,28 +160,57 @@ for 27 and 28 months, the <code>L</code>/<code>M</code>/<code>S</code> correspon
 for which we want growth derivations:</p>
 <p>e.g. <code>parameter = VSTESTCD == "WEIGHT"</code>.</p>
 <p>There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumference available
-in the <code>admiralpeds</code> package.</p></dd>
+in the <code>admiralpeds</code> package.</p>
+<dl><dt>Permitted values</dt>
+<dd><p>an unquoted condition, e.g., <code>parameter = VSTESTCD == "WEIGHT"</code></p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-analysis-var">analysis_var<a class="anchor" aria-label="anchor" href="#arg-analysis-var"></a></dt>
 <dd><p>Variable containing anthropometric measurement</p>
-<p>A numeric vector is expected, e.g. <code>AVAL</code>, <code>VSSTRESN</code></p></dd>
+<dl><dt>Permitted values</dt>
+<dd><p>a numeric scalar, i.e., a numeric vector of length one e.g. <code>AVAL</code>, <code>VSSTRESN</code>.</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-bmi-cdc-correction">bmi_cdc_correction<a class="anchor" aria-label="anchor" href="#arg-bmi-cdc-correction"></a></dt>
 <dd><p>Extended CDC BMI-for-age correction</p>
-<p>A logical scalar, e.g. <code>TRUE</code>/<code>FALSE</code> is expected.
-CDC developed extended percentiles (&gt;95%) to monitor high BMI values,
-if set to <code>TRUE</code> the CDC's correction is applied.</p></dd>
+<p>CDC developed extended percentiles (&gt;95%) to monitor high BMI values,
+if set to <code>TRUE</code> the CDC's correction is applied.</p>
+<dl><dt>Permitted values</dt>
+<dd><p>a logical scalar, i.e., a logical vector of length one, i.e. <code>TRUE</code>/<code>FALSE</code></p></dd>
+
+<dt>Default value</dt>
+<dd><p><code>FALSE</code></p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-who-correction">who_correction<a class="anchor" aria-label="anchor" href="#arg-who-correction"></a></dt>
 <dd><p>WHO adjustment for weight-based indicators</p>
-<p>A logical scalar, e.g. <code>TRUE</code>/<code>FALSE</code> is expected.
-WHO constructed a restricted application of the LMS method for weight-based indicators.
+<p>WHO constructed a restricted application of the LMS method for weight-based indicators.
 More details on these exact rules applied can be found at the document page 302 of the
 <a href="https://www.who.int/publications/i/item/924154693X" class="external-link">WHO Child Growth Standards Guidelines</a>.
-If set to <code>TRUE</code> the WHO correction is applied.</p></dd>
+If set to <code>TRUE</code> the WHO correction is applied.</p>
+<dl><dt>Permitted values</dt>
+<dd><p>a logical scalar, i.e., a logical vector of length one, i.e. <code>TRUE</code>/<code>FALSE</code></p></dd>
+
+<dt>Default value</dt>
+<dd><p><code>FALSE</code></p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-set-values-to-sds">set_values_to_sds<a class="anchor" aria-label="anchor" href="#arg-set-values-to-sds"></a></dt>
@@ -156,8 +222,15 @@ defines the parameter code and parameter.</p>
 <p>The formula to calculate the Z-score is as follows:</p>
 <p>$$\frac{((\frac{obs}{M})^L - 1)}{L * S}$$</p>
 <p>where "obs" is the observed value for the respective anthropometric measure being calculated.</p>
-<p><em>Permitted Values</em>: List of variable-value pairs</p>
-<p>If left as default value, <code>NULL</code>, then parameter not derived in output dataset</p></dd>
+<dl><dt>Permitted values</dt>
+<dd><p>List of variable-value pairs .</p>
+<p>If left as default value, <code>NULL</code>, then parameter not derived in output dataset.</p></dd>
+
+<dt>Default value</dt>
+<dd><p><code>NULL</code></p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-set-values-to-pctl">set_values_to_pctl<a class="anchor" aria-label="anchor" href="#arg-set-values-to-pctl"></a></dt>
@@ -166,8 +239,15 @@ defines the parameter code and parameter.</p>
 observations. For example,
 <code>set_values_to_pctl(exprs(PARAMCD = "BMIAPCTL", PARAM = "BMI-for-age percentile"))</code>
 defines the parameter code and parameter.</p>
-<p><em>Permitted Values</em>: List of variable-value pair</p>
-<p>If left as default value, <code>NULL</code>, then parameter not derived in output dataset</p></dd>
+<dl><dt>Permitted values</dt>
+<dd><p>List of variable-value pairs .</p>
+<p>If left as default value, <code>NULL</code>, then parameter not derived in output dataset.</p></dd>
+
+<dt>Default value</dt>
+<dd><p><code>NULL</code></p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">

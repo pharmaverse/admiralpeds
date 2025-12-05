@@ -15,7 +15,7 @@ for the following parameters: HEIGHT, WEIGHT and BMI"><meta property="og:image" 
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,19 +66,43 @@ for the following parameters: HEIGHT, WEIGHT and BMI</p>
 <dd><p>Input metadataset</p>
 <p>The variables <code>AGE</code>, <code>AGEU</code>, <code>SEX</code>, <code>L</code>, <code>M</code>, <code>S</code> are expected to be in the dataset</p>
 <p>For BMI the additional variables <code>P95</code> and <code>Sigma</code> are expected to be in the dataset</p>
-<p>Note that <code>AGE</code> must be in days so that <code>AGEU</code> is equal to <code>"DAYS"</code></p></dd>
+<p>Note that <code>AGE</code> must be in days so that <code>AGEU</code> is equal to <code>"DAYS"</code></p>
+<dl><dt>Permitted values</dt>
+<dd><p>a dataset, i.e., a <code>data.frame</code> or tibble</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-by-vars">by_vars<a class="anchor" aria-label="anchor" href="#arg-by-vars"></a></dt>
 <dd><p>Grouping variables</p>
 <p>The variable from <code>dataset</code> which identifies the group of observations
-to interpolate separately.</p></dd>
+to interpolate separately.</p>
+<dl><dt>Permitted values</dt>
+<dd><p>list of variables created by <code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs()</a></code>, e.g., <code>exprs(SEX)</code></p></dd>
+
+<dt>Default value</dt>
+<dd><p><code>NULL</code></p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-parameter">parameter<a class="anchor" aria-label="anchor" href="#arg-parameter"></a></dt>
 <dd><p>CDC/WHO metadata parameter</p>
-<p><em>Permitted Values</em>: <code>"WEIGHT"</code>, <code>"HEIGHT"</code> or <code>"BMI"</code> only - Must not be <code>NULL</code>
+<dl><dt>Permitted values</dt>
+<dd><p>a character scalar, i.e., a character vector of length one .</p>
+<p><code>"WEIGHT"</code>, <code>"HEIGHT"</code> or <code>"BMI"</code> only - Must not be <code>NULL</code>
 e.g. <code>parameter = "WEIGHT"</code>, <code>parameter = "HEIGHT"</code>, or   <code>parameter = "BMI"</code>.</p></dd>
+
+<dt>Default value</dt>
+<dd><p>none</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">
