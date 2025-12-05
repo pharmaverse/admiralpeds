@@ -9,21 +9,25 @@
 #'   The variables specified in `sex`, `height`, `height_unit`, `parameter`, `analysis_var`
 #'   are expected to be in the dataset.
 #'
+#' @permitted [dataset]
+#'
 #' @param sex Sex
 #'
-#'   A character vector is expected.
+#' @permitted [char_scalar].
 #'
-#'   Expected Values: `M`, `F`
+#'   Expected values: `M`, `F`.
 #'
 #' @param height Current Height/length
 #'
-#'   A numeric vector is expected. Note that this is the actual height/length at the current visit.
+#' @permitted [num_scalar].
+#'
+#'   Note that this is the actual height/length at the current visit.
 #'
 #' @param height_unit Height/Length Unit
-#
-#'   A character vector is expected.
 #'
-#'   Expected values: `cm`
+#' @permitted [char_scalar].
+#'
+#'   Expected values: `cm`.
 #'
 #' @param meta_criteria Metadata dataset
 #'
@@ -50,6 +54,8 @@
 #'   * `M` - Median
 #'   * `S` - Coefficient of variation
 #'
+#' @permitted [dataset]
+#'
 #' @param parameter Anthropometric measurement parameter to calculate z-score or percentile
 #'
 #'   A condition is expected with the input dataset `VSTESTCD`/`PARAMCD`
@@ -60,17 +66,20 @@
 #'   There is WHO metadata available for Weight available in the `admiralpeds` package.
 #'   Weight measures are expected to be in the unit "kg".
 #'
+#' @permitted [condition]
+#'
 #' @param analysis_var Variable containing anthropometric measurement
 #'
-#'  A numeric vector is expected, e.g. `AVAL`, `VSSTRESN`
+#' @permitted [num_scalar] e.g. `AVAL`, `VSSTRESN`.
 #'
 #' @param who_correction WHO adjustment for weight-based indicators
 #'
-#'  A logical scalar, e.g. `TRUE`/`FALSE` is expected.
 #'  WHO constructed a restricted application of the LMS method for weight-based indicators.
 #'  More details on these exact rules applied can be found at the document page 302 of the
 #'  [WHO Child Growth Standards Guidelines](https://www.who.int/publications/i/item/924154693X).
 #'  If set to `TRUE` the WHO correction is applied.
+#'
+#' @permitted [logic_scalar]
 #'
 #' @param set_values_to_sds Variables to be set for Z-Scores
 #'
@@ -85,9 +94,9 @@
 #'
 #'  where "obs" is the observed value for the respective anthropometric measure being calculated.
 #'
-#' *Permitted Values*: List of variable-value pairs
+#' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @param set_values_to_pctl Variables to be set for Percentile
 #'
@@ -96,9 +105,9 @@
 #'   `set_values_to_pctl(exprs(PARAMCD = "WGTHPCTL", PARAM = "Weight-for-height percentile"))`
 #'  defines the parameter code and parameter.
 #'
-#' *Permitted Values*: List of variable-value pair
+#' @permitted [var_list_value_pairs].
 #'
-#'  If left as default value, `NULL`, then parameter not derived in output dataset
+#'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
 #' @return The input dataset additional records with the new parameter added.
 #'
