@@ -25,14 +25,14 @@ The variables specified in \code{sex}, \code{age}, \code{age_unit}, \code{parame
 are expected to be in the dataset.
 
 \describe{
-\item{Permitted values}{dataset}
+\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
 \item{Default value}{none}
 }}
 
 \item{sex}{Sex
 
 \describe{
-\item{Permitted values}{char_scalar .
+\item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
 Expected Values: \code{M}, \code{F}.}
 \item{Default value}{none}
@@ -41,7 +41,7 @@ Expected Values: \code{M}, \code{F}.}
 \item{age}{Current Age
 
 \describe{
-\item{Permitted values}{num_scalar .
+\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one .
 
 Note that this is the actual age at the current visit.}
 \item{Default value}{none}
@@ -50,7 +50,7 @@ Note that this is the actual age at the current visit.}
 \item{age_unit}{Age Unit
 
 \describe{
-\item{Permitted values}{char_scalar .
+\item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
 Expected values: \code{days}, \code{weeks}, \code{months}.}
 \item{Default value}{none}
@@ -80,7 +80,7 @@ for 27 and 28 months, the \code{L}/\code{M}/\code{S} corresponding to the 27 mon
 }
 
 \describe{
-\item{Permitted values}{dataset}
+\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
 \item{Default value}{none}
 }}
 
@@ -95,14 +95,14 @@ There is CDC/WHO metadata available for Height, Weight, BMI, and Head Circumfere
 in the \code{admiralpeds} package.
 
 \describe{
-\item{Permitted values}{condition}
+\item{Permitted values}{an unquoted condition, e.g., \code{parameter = VSTESTCD == "WEIGHT"}}
 \item{Default value}{none}
 }}
 
 \item{analysis_var}{Variable containing anthropometric measurement
 
 \describe{
-\item{Permitted values}{num_scalar e.g. \code{AVAL}, \code{VSSTRESN}.}
+\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one e.g. \code{AVAL}, \code{VSSTRESN}.}
 \item{Default value}{none}
 }}
 
@@ -112,7 +112,7 @@ CDC developed extended percentiles (>95\%) to monitor high BMI values,
 if set to \code{TRUE} the CDC's correction is applied.
 
 \describe{
-\item{Permitted values}{logic_scalar}
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
 \item{Default value}{\code{FALSE}}
 }}
 
@@ -124,7 +124,7 @@ More details on these exact rules applied can be found at the document page 302 
 If set to \code{TRUE} the WHO correction is applied.
 
 \describe{
-\item{Permitted values}{logic_scalar}
+\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
 \item{Default value}{\code{FALSE}}
 }}
 
@@ -142,7 +142,7 @@ The formula to calculate the Z-score is as follows:
 where "obs" is the observed value for the respective anthropometric measure being calculated.
 
 \describe{
-\item{Permitted values}{var_list_value_pairs .
+\item{Permitted values}{List of variable-value pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}
@@ -156,7 +156,7 @@ observations. For example,
 defines the parameter code and parameter.
 
 \describe{
-\item{Permitted values}{var_list_value_pairs .
+\item{Permitted values}{List of variable-value pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}

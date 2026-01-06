@@ -19,8 +19,8 @@ pak::pkg_install("dplyr")
 # install dev  v. 1.1.4.9000
 pak::pkg_install("tidyverse/dplyr")
 }
-# restart R/ load_all()
-load_all()
+# restart R/ load_all()   PROBLEM??
+devtools::load_all()
 
 # Check:
 search()
