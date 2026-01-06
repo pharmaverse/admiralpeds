@@ -16,7 +16,7 @@ For BMI the additional variables \code{P95} and \code{Sigma} are expected to be 
 Note that \code{AGE} must be in days so that \code{AGEU} is equal to \code{"DAYS"}
 
 \describe{
-\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Permitted values}{dataset}
 \item{Default value}{none}
 }}
 
@@ -26,14 +26,14 @@ The variable from \code{dataset} which identifies the group of observations
 to interpolate separately.
 
 \describe{
-\item{Permitted values}{list of variables created by \code{exprs()}, e.g., \code{exprs(SEX)}}
+\item{Permitted values}{var_list}
 \item{Default value}{\code{NULL}}
 }}
 
 \item{parameter}{CDC/WHO metadata parameter
 
 \describe{
-\item{Permitted values}{a character scalar, i.e., a character vector of length one .
+\item{Permitted values}{char_scalar .
 
 \code{"WEIGHT"}, \code{"HEIGHT"} or \code{"BMI"} only - Must not be \code{NULL}
 e.g. \code{parameter = "WEIGHT"}, \code{parameter = "HEIGHT"}, or   \code{parameter = "BMI"}.}

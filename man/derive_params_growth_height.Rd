@@ -25,14 +25,14 @@ The variables specified in \code{sex}, \code{height}, \code{height_unit}, \code{
 are expected to be in the dataset.
 
 \describe{
-\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Permitted values}{dataset}
 \item{Default value}{none}
 }}
 
 \item{sex}{Sex
 
 \describe{
-\item{Permitted values}{a character scalar, i.e., a character vector of length one .
+\item{Permitted values}{char_scalar .
 
 Expected values: \code{M}, \code{F}.}
 \item{Default value}{none}
@@ -41,7 +41,7 @@ Expected values: \code{M}, \code{F}.}
 \item{height}{Current Height/length
 
 \describe{
-\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one .
+\item{Permitted values}{num_scalar .
 
 Note that this is the actual height/length at the current visit.}
 \item{Default value}{none}
@@ -50,7 +50,7 @@ Note that this is the actual height/length at the current visit.}
 \item{height_unit}{Height/Length Unit
 
 \describe{
-\item{Permitted values}{a character scalar, i.e., a character vector of length one .
+\item{Permitted values}{char_scalar .
 
 Expected values: \code{cm}.}
 \item{Default value}{none}
@@ -83,7 +83,7 @@ for 50 and 51 cm, the \code{L}/\code{M}/\code{S} corresponding to the 50 cm reco
 }
 
 \describe{
-\item{Permitted values}{a dataset, i.e., a \code{data.frame} or tibble}
+\item{Permitted values}{dataset}
 \item{Default value}{none}
 }}
 
@@ -98,14 +98,14 @@ There is WHO metadata available for Weight available in the \code{admiralpeds} p
 Weight measures are expected to be in the unit "kg".
 
 \describe{
-\item{Permitted values}{an unquoted condition, e.g., \code{parameter = VSTESTCD == "WEIGHT"}}
+\item{Permitted values}{condition}
 \item{Default value}{none}
 }}
 
 \item{analysis_var}{Variable containing anthropometric measurement
 
 \describe{
-\item{Permitted values}{a numeric scalar, i.e., a numeric vector of length one e.g. \code{AVAL}, \code{VSSTRESN}.}
+\item{Permitted values}{num_scalar e.g. \code{AVAL}, \code{VSSTRESN}.}
 \item{Default value}{none}
 }}
 
@@ -117,7 +117,7 @@ More details on these exact rules applied can be found at the document page 302 
 If set to \code{TRUE} the WHO correction is applied.
 
 \describe{
-\item{Permitted values}{a logical scalar, i.e., a logical vector of length one, i.e. \code{TRUE}/\code{FALSE}}
+\item{Permitted values}{logic_scalar}
 \item{Default value}{\code{FALSE}}
 }}
 
@@ -135,7 +135,7 @@ The formula to calculate the Z-score is as follows:
 where "obs" is the observed value for the respective anthropometric measure being calculated.
 
 \describe{
-\item{Permitted values}{List of variable-value pairs .
+\item{Permitted values}{var_list_value_pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}
@@ -149,7 +149,7 @@ observations. For example,
 defines the parameter code and parameter.
 
 \describe{
-\item{Permitted values}{List of variable-value pairs .
+\item{Permitted values}{var_list_value_pairs .
 
 If left as default value, \code{NULL}, then parameter not derived in output dataset.}
 \item{Default value}{\code{NULL}}
