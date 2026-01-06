@@ -16,8 +16,7 @@
 
 * Updated `{lintr}` configurations to use central configurations from `{admiraldev}`. (#113)
 
-* Removed explicit `return()` statements from `derive_params_growth_age()` and `derive_params_growth_height()`
- due to CI/CD lint check failure. (#123)
+* Removed explicit `return()` statements from `derive_params_growth_age()` and `derive_params_growth_height()`. (#123)
 
 </details>
 
