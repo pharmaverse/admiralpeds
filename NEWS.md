@@ -2,6 +2,10 @@
 
 ## Documentation
 
+- Added the "Ask AI" widget to the the bottom right of each page. It enables users to ask questions about `{admiralpeds}` and the
+rest of the `{admiral}` ecosystem and receive answers from an LLM. It is trained on the documentation of all `{admiral}` packages
+and provided by [kapa.ai](https://docs.kapa.ai/kapa-for-open-source). (#120)
+
 - Used custom `{admiraldev}` roclet, resulting in cleared "Permitted" and "Default" values in function documentation. (#112)
 
 - Added links to `{admiral}` ecosystem. (#114)
