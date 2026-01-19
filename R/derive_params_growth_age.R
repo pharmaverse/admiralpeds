@@ -121,6 +121,8 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr if_else
+#'
 #' @examples
 #' library(dplyr, warn.conflicts = FALSE)
 #' library(lubridate, warn.conflicts = FALSE)
