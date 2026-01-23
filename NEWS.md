@@ -1,4 +1,4 @@
-# admiralpeds 0.2.2
+# admiralpeds 0.3.0
 
 ## Documentation
 
