@@ -1,3 +1,15 @@
+# admiralpeds (development version)
+
+## Various
+
+<details>
+
+<summary>Developer Notes</summary>
+
+* Added the `Downloads` Badge and corrected the `Test Coverage` Badge`. (#129)
+
+</details>
+
 # admiralpeds 0.3.0
 
 ## Documentation
