@@ -6,7 +6,7 @@
 
 <summary>Developer Notes</summary>
 
-* Added the `Downloads` Badge and corrected the `Test Coverage` Badge`. (#129)
+* Added the `Downloads` Badge and corrected the `Test Coverage` Badge. (#129)
 
 </details>
 
