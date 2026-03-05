@@ -47,6 +47,8 @@ Imports:
     tidyselect (>= 1.1.0),
     zoo (>= 1.8.12)
 Suggests:
+    DT,
+    htmltools,    
     knitr,
     lubridate (>= 1.7.4),
     pharmaversesdtm (>= 1.1.0),
