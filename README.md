@@ -1,13 +1,13 @@
 # admiralpeds <img src="man/figures/logo.png" align="right" width="200" style="margin-left:50px;"/>
 
-<!-- badges: start -->
+<!-- start badges -->
 
 [![pharmaverse admiralpeds Badge](http://pharmaverse.org/shields/admiralpeds.svg)](https://pharmaverse.org)
 [![CRAN status](https://www.r-pkg.org/badges/version/admiralpeds)](https://CRAN.R-project.org/package=admiralpeds)
 [![Test Coverage](https://raw.githubusercontent.com/pharmaverse/admiralpeds/badges/main/test-coverage.svg)](https://github.com/pharmaverse/admiralpeds/actions/workflows/code-coverage.yml)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/admiralpeds?color=green)](https://cran.r-project.org/package=admiralpeds)
 
-<!-- badges: end -->
+<!-- end badges -->
 
 Pediatrics extension package for ADaM in R Asset Library `{admiral}`.
 
