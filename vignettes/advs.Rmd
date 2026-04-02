@@ -505,4 +505,4 @@ variables, and analysis flags.
 
 | ADaM | Sourcing Command                                            |
 |------|-------------------------------------------------------------|
-| ADVS | `admiral::use_ad_template("ADVS", package = "admiralpeds")` |
+| [`ADVS`](templates.html#advs) | `admiral::use_ad_template("ADVS", package = "admiralpeds")` |
