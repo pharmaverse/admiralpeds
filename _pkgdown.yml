@@ -91,6 +91,8 @@ navbar:
     articles:
       text: User Guides
       menu:
+      - text: Explore ADaM Templates 🧭
+        href: articles/templates.html
       - text: Creating a Pediatrics ADVS
         href: articles/advs.html
     history:
