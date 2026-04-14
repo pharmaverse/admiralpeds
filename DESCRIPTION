@@ -47,8 +47,8 @@ Imports:
     tidyselect (>= 1.1.0),
     zoo (>= 1.8.12)
 Suggests:
-    here,
     DT,
+    here,
     htmltools,
     knitr,
     lubridate (>= 1.7.4),
