@@ -1,5 +1,9 @@
 # admiralpeds (development version)
 
+## Documentation
+
+- Updated the documentation and test cases for age unit handling in input data and metadata. (#133)
+
 # admiralpeds 0.3.0
 
 ## Documentation
