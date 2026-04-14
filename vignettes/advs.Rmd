@@ -179,12 +179,11 @@ WHO adjustment is unnecessary.
 Note that the head circumference parameter metadata comes only from the WHO reference data,
 as CDC provides no equivalent for children \> 2 years of age.
 
-## HEIGHT for age 
-# Default reference sources: WHO for children <2 yrs old (< 730.5 days),
-# and CDC for children >=2 yrs old (>= 730.5 days)
-# Combine WHO and CDC metadata
+### Reference Files for HEIGHT 
 
-```{r, eval=TRUE, echo=FALSE}
+WHO for children <2 yrs old (< 730.5 days), and CDC for children >=2 yrs old (>= 730.5 days)
+
+```{r, eval=TRUE}
 who_lgth_ht_for_age_boys <- admiralpeds::who_lgth_ht_for_age_boys
 who_lgth_ht_for_age_girls <- admiralpeds::who_lgth_ht_for_age_girls
 cdc_htage <- admiralpeds::cdc_htage
@@ -232,6 +231,7 @@ dataset_vignette(
   filter = AGE < 20
 )
 ```
+
 ### Reference Files for Weight by Length/Height
 
 WHO provides additional reference data for weight-for-length (recumbent length),
@@ -384,7 +384,7 @@ advs <- advs %>%
   )
 ```
 
-### Age Unit Handling and Standardization {#age-unit-handling}
+#### Age Unit Handling and Standardization {#age-unit-handling}
 
 #### Understanding Age Unit Requirements
 
@@ -434,9 +434,9 @@ dataset_vignette(
 )
 ```
 
-# Use the standardized age variables
+### Use the standardized age variables
 
-```{r, eval=TRUE, echo=FALSE}
+```{r, eval=TRUE}
 advs <- advs %>%
   derive_params_growth_age(
     sex = SEX,
