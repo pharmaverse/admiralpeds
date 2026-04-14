@@ -1,5 +1,10 @@
 # admiralpeds (development version)
 
+## Documentation
+
+- Added a new vignette "Explore ADaM Templates" to the "Get Started" menu.
+It displays the `{admiralpeds}` templates. (#132)
+
 ## Various
 
 <details>
