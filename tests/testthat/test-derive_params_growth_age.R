@@ -425,7 +425,7 @@ test_that("derive_params_growth_age Test 8: Age unit/Metadata in months works", 
 })
 
 ## Test 9: Warning when records cannot be matched due to unit mismatch ----
-test_that("derive_params_growth_age Test 9: warns when records cannot be matched due to unit mismatch", {
+test_that("derive_params_growth_age Test 9: warns when records cannot be matched due to unit mismatch", { # nolint
   # Setup: Create data with different age units than metadata
   test_data <- tibble::tribble(
     ~USUBJID, ~SEX, ~AAGECUR, ~AAGECURU, ~VSTESTCD, ~AVAL,

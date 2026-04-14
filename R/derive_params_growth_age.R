@@ -334,7 +334,7 @@ derive_params_growth_age <- function(dataset,
       c(
         "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata.",
         "i" = "This may occur due to:",
-        "*" = "Mismatched age units between data and metadata (e.g., data in 'days' but metadata in 'months')",
+        "*" = "Mismatched age units between data and metadata (e.g., data in 'days' but metadata in 'months')",# nolint
         "*" = "Missing metadata for the specific age/sex combination",
         "i" = "Unmatched combinations: {unmatched_summary}",
         "i" = "Consider standardizing age units before calling this function.",
