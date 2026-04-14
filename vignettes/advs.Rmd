@@ -440,9 +440,9 @@ dataset_vignette(
 advs <- advs %>%
   derive_params_growth_age(
     sex = SEX,
-    age = AAGECUR_DAYS,          # Use standardized age
-    age_unit = AAGECURU_STD,     # Use standardized unit
-    meta_criteria = height_for_age,     # Ensure metadata is also in "days"
+    age = AAGECUR_DAYS, # Use standardized age
+    age_unit = AAGECURU_STD, # Use standardized unit
+    meta_criteria = height_for_age, # Ensure metadata is also in "days"
     parameter = VSTESTCD == "HEIGHT",
     analysis_var = VSSTRESN,
     set_values_to_sds = exprs(
@@ -454,7 +454,6 @@ advs <- advs %>%
       PARAM = "Height-for-age percentile"
     )
   )
-
 ```
 
 ### Derived Variables for Weight by Length/Height
