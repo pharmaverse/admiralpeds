@@ -310,8 +310,8 @@ derive_params_growth_age <- function(dataset,
   # Merge the dataset that contains the vs records and filter the L/M/S that fit the appropriate age
   added_records <- relevant_records %>%
     left_join(.,
-              processed_md,
-              by = c("sex_join", "ageu_join", "age_bins")
+      processed_md,
+      by = c("sex_join", "ageu_join", "age_bins")
     )
 
   # Check for unmatched records and issue warning

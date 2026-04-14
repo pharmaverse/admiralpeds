@@ -305,7 +305,7 @@ test_that("derive_params_growth_age Test 5: Extreme BMI value derivation works",
 test_that("derive_params_growth_age Test 6: Test out of bound ages", {
   vs_data <- tibble::tribble(
     ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
-    "Study", "1001", "Screening", "M", 5000, "days", "WEIGHT", 58,  # Out of bounds (way too old)
+    "Study", "1001", "Screening", "M", 5000, "days", "WEIGHT", 58, # Out of bounds (way too old)
   )
 
   # Metadata only covers ages 100-200 days
@@ -431,7 +431,7 @@ test_that("derive_params_growth_age Test 9: warns when records cannot be matched
     ~USUBJID, ~SEX, ~AAGECUR, ~AAGECURU, ~VSTESTCD, ~AVAL,
     "01", "M", 100, "days", "HEIGHT", 120,
     "02", "F", 50, "days", "HEIGHT", 115,
-    "03", "M", 24, "months", "HEIGHT", 125  # Different unit - should not match
+    "03", "M", 24, "months", "HEIGHT", 125 # Different unit - should not match
   )
 
   test_metadata <- tibble::tribble(
