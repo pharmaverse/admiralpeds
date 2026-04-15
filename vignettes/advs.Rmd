@@ -388,8 +388,7 @@ advs <- advs %>%
 
 #### Understanding Age Unit Requirements
 
-The `derive_params_growth_age()` and `derive_params_growth_height()` functions require
-that the age unit in your input data **exactly matches** the age unit in your metadata.
+The `derive_params_growth_age()` function require that the age unit in your input data **exactly matches** the age unit in your metadata.
 The functions do **NOT** automatically convert between age units.
 
 **Important**: If your data has ages in days but your metadata is in months (or vice versa),
