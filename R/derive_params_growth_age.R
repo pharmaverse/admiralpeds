@@ -319,26 +319,13 @@ derive_params_growth_age <- function(dataset,
     filter(is.na(metadata_age))
 
   if (nrow(unmatched_records) > 0) {
-    # Get unique combinations of sex and age_unit for the warning message
-    unmatched_summary <- unmatched_records %>%
-      distinct(sex_join, ageu_join) %>%
-      mutate(
-        info = paste0(
-          "Sex='", sex_join, "', Age Unit='", ageu_join, "'"
-        )
-      ) %>%
-      pull(.data$info) %>%
-      paste(collapse = "; ")
-
     cli::cli_warn(
       c(
         "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata.",
-        "i" = "This may occur due to:",
-        "*" = "Mismatched age units between data and metadata (e.g., data in 'days' but metadata in 'months')", # nolint
-        "*" = "Missing metadata for the specific age/sex combination",
-        "i" = "Unmatched combinations: {unmatched_summary}",
-        "i" = "Consider standardizing age units before calling this function.",
-        "i" = "Conversion factors: 1 year = 365.25 days, 1 month = 30.4375 days, 1 week = 7 days"
+        "i" = "This is most likely due to mismatched age units between data and metadata.",
+        "i" = "Data age unit must match metadata AGEU variable.",
+        "i" = "Conversion factors: 1 year = 365.25 days, 1 month = 30.4375 days, 1 week = 7 days",
+        "i" = "Consider standardizing age units before calling this function."
       )
     )
   }
