@@ -48,6 +48,7 @@ Imports:
     zoo (>= 1.8.12)
 Suggests:
     DT,
+    here,
     htmltools,
     knitr,
     lubridate (>= 1.7.4),
