@@ -15,7 +15,7 @@ for the following parameters: HEIGHT, WEIGHT and BMI"><meta property="og:image" 
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +23,11 @@ for the following parameters: HEIGHT, WEIGHT and BMI"><meta property="og:image" 
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/admiralpeds.html">Get Started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-get-started" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Get Started</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-get-started"><li><a class="dropdown-item" href="../articles/admiralpeds.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="../articles/templates.html">Explore ADaM Templates 🧭</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User Guides</button>
@@ -138,7 +142,7 @@ new records.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cdc_htage</span> <span class="op">&lt;-</span> <span class="fu">admiralpeds</span><span class="fu">::</span><span class="va"><a href="cdc_htage.html">cdc_htage</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    SEX <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    SEX <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="va">SEX</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"M"</span>,</span></span>
 <span class="r-in"><span>      <span class="va">SEX</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"F"</span>,</span></span>
 <span class="r-in"><span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span></span></span>
@@ -179,7 +183,7 @@ new records.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,11 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/admiralpeds.html">Get Started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-get-started" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Get Started</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-get-started"><li><a class="dropdown-item" href="../articles/admiralpeds.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="../articles/templates.html">Explore ADaM Templates 🧭</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User Guides</button>
@@ -49,14 +53,12 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="vital-signs-specific">Vital Signs-specific<a class="anchor" aria-label="anchor" href="#vital-signs-specific"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -67,7 +69,8 @@
 
         </dt>
         <dd>Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="derive_params_growth_height.html">derive_params_growth_height()</a></code>
 
@@ -78,8 +81,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -90,79 +92,92 @@
 
         </dt>
         <dd>CDC BMI-for-age-chart</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="cdc_htage.html">cdc_htage</a></code>
 
         </dt>
         <dd>CDC Height-for-age-chart</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="cdc_wtage.html">cdc_wtage</a></code>
 
         </dt>
         <dd>CDC Weight-for-age-chart</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="derive_interp_records.html">derive_interp_records()</a></code>
 
         </dt>
         <dd>Derive interpolated rows for the CDC charts (&gt;=2 yrs old)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_bmi_for_age_boys.html">who_bmi_for_age_boys</a></code>
 
         </dt>
         <dd>WHO BMI-for-age for boys</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_bmi_for_age_girls.html">who_bmi_for_age_girls</a></code>
 
         </dt>
         <dd>WHO BMI-for-age for girls</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_hc_for_age_boys.html">who_hc_for_age_boys</a></code>
 
         </dt>
         <dd>WHO Head circumference-for-age for boys</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_hc_for_age_girls.html">who_hc_for_age_girls</a></code>
 
         </dt>
         <dd>WHO Head circumference-for-age for girls</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_lgth_ht_for_age_boys.html">who_lgth_ht_for_age_boys</a></code>
 
         </dt>
         <dd>WHO Length/height-for-age for boys</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_lgth_ht_for_age_girls.html">who_lgth_ht_for_age_girls</a></code>
 
         </dt>
         <dd>WHO Length/height-for-age for girls</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_wt_for_age_boys.html">who_wt_for_age_boys</a></code>
 
         </dt>
         <dd>WHO Weight-for-age for boys</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_wt_for_age_girls.html">who_wt_for_age_girls</a></code>
 
         </dt>
         <dd>WHO Weight-for-age for girls</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_wt_for_lgth_boys.html">who_wt_for_lgth_boys</a></code>
 
         </dt>
         <dd>WHO Weight-for-length for boys</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="who_wt_for_lgth_girls.html">who_wt_for_lgth_girls</a></code>
 
@@ -173,8 +188,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -195,7 +209,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

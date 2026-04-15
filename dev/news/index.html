@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.1.9004</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,11 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/admiralpeds.html">Get Started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-get-started" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Get Started</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-get-started"><li><a class="dropdown-item" href="../articles/admiralpeds.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="../articles/templates.html">Explore ADaM Templates 🧭</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-user-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">User Guides</button>
@@ -49,13 +53,26 @@
 <h2 class="pkg-version" data-toc-text="development version" id="admiralpeds-development-version">admiralpeds (development version)<a class="anchor" aria-label="anchor" href="#admiralpeds-development-version"></a></h2>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<ul><li>Added a new vignette “Explore ADaM Templates” to the “Get Started” menu. It displays the <a href="https://pharmaverse.github.io/admiralpeds/">admiralpeds</a> templates. (<a href="https://github.com/pharmaverse/admiralpeds/issues/132" class="external-link">#132</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="various-development-version">Various<a class="anchor" aria-label="anchor" href="#various-development-version"></a></h3>
+<details><summary>
+Developer Notes
+</summary><ul><li>Added the <code>Downloads</code> Badge and corrected the <code>Test Coverage</code> Badge. (<a href="https://github.com/pharmaverse/admiralpeds/issues/129" class="external-link">#129</a>)</li>
+</ul></details></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="admiralpeds-030">admiralpeds 0.3.0<a class="anchor" aria-label="anchor" href="#admiralpeds-030"></a></h2><p class="text-muted">CRAN release: 2026-01-23</p>
+<div class="section level3">
+<h3 id="documentation-0-3-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-3-0"></a></h3>
 <ul><li><p>Added the “Ask AI” widget to the the bottom right of each page. It enables users to ask questions about <a href="https://pharmaverse.github.io/admiralpeds/">admiralpeds</a> and the rest of the <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> ecosystem and receive answers from an LLM. It is trained on the documentation of all <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> packages and provided by <a href="https://docs.kapa.ai/kapa-for-open-source" class="external-link">kapa.ai</a>. (<a href="https://github.com/pharmaverse/admiralpeds/issues/120" class="external-link">#120</a>)</p></li>
 <li><p>Used custom <a href="https://pharmaverse.github.io/admiraldev/" class="external-link">admiraldev</a> roclet, resulting in cleared “Permitted” and “Default” values in function documentation. (<a href="https://github.com/pharmaverse/admiralpeds/issues/112" class="external-link">#112</a>)</p></li>
 <li><p>Added links to <a href="https://pharmaverse.github.io/admiral/" class="external-link">admiral</a> ecosystem. (<a href="https://github.com/pharmaverse/admiralpeds/issues/114" class="external-link">#114</a>)</p></li>
 <li><p>Updated the installation instructions in <code>README.md</code>. (<a href="https://github.com/pharmaverse/admiralpeds/issues/115" class="external-link">#115</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="various-development-version">Various<a class="anchor" aria-label="anchor" href="#various-development-version"></a></h3>
+<h3 id="various-0-3-0">Various<a class="anchor" aria-label="anchor" href="#various-0-3-0"></a></h3>
 <details><summary>
 Developer Notes
 </summary><ul><li><p>Updated <a href="https://lintr.r-lib.org" class="external-link">lintr</a> configurations to use central configurations from <a href="https://pharmaverse.github.io/admiraldev/" class="external-link">admiraldev</a>. (<a href="https://github.com/pharmaverse/admiralpeds/issues/113" class="external-link">#113</a>)</p></li>
@@ -103,7 +120,7 @@ Developer Notes
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
