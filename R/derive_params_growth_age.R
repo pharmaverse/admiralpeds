@@ -323,7 +323,7 @@ derive_params_growth_age <- function(dataset,
   if (nrow(unmatched_records) > 0) {
     cli::cli_warn(
       c(
-        "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata (see printed records above).",
+        "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata (see printed records above).", # nolint
         "x" = "Z-score (SDS) and/or percentile parameters could not be derived for these records.",
         "i" = "This is most likely due to mismatched age units between data and metadata.",
         "i" = "Data age unit must match metadata AGEU variable.",
