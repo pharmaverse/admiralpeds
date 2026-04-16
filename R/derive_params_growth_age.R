@@ -318,10 +318,13 @@ derive_params_growth_age <- function(dataset,
   unmatched_records <- added_records %>%
     filter(is.na(metadata_age))
 
+  print(unmatched_records)
+
   if (nrow(unmatched_records) > 0) {
     cli::cli_warn(
       c(
-        "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata.",
+        "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata (see printed records above).",
+        "x" = "Z-score (SDS) and/or percentile parameters could not be derived for these records.",
         "i" = "This is most likely due to mismatched age units between data and metadata.",
         "i" = "Data age unit must match metadata AGEU variable.",
         "i" = "Conversion factors: 1 year = 365.25 days, 1 month = 30.4375 days, 1 week = 7 days",
