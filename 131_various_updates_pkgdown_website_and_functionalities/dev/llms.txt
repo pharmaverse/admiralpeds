@@ -1,0 +1,156 @@
+# admiralpeds
+
+[![pharmaverse admiralpeds
+Badge](http://pharmaverse.org/shields/admiralpeds.svg)](https://pharmaverse.org)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/admiralpeds)](https://CRAN.R-project.org/package=admiralpeds)
+[![Test
+Coverage](https://raw.githubusercontent.com/pharmaverse/admiralpeds/badges/main/test-coverage.svg)](https://raw.githubusercontent.com/pharmaverse/admiralpeds/badges/main/test-coverage.svg)
+[![Total
+Downloads](http://cranlogs.r-pkg.org/badges/grand-total/admiralpeds?color=green)](https://cran.r-project.org/package=admiralpeds)
+
+Pediatrics extension package for ADaM in R Asset Library
+[admiral](https://pharmaverse.github.io/admiral/).
+
+*Explore all the other packages in the [{admiral}
+ecosystem](https://pharmaverse.org/e2eclinical/adam/) to learn more
+about ADaM programming in R.*
+
+## Purpose
+
+To provide a complementary (to
+[admiral](https://pharmaverse.github.io/admiral/)) toolbox that enables
+users to develop specifics for pediatric clinical trials.
+
+## Installation
+
+The package is available from CRAN and can be installed with:
+
+``` r
+install.packages("admiralpeds")
+```
+
+To install the latest development version of the package directly from
+GitHub use the following code:
+
+``` r
+# install.packages("pak")
+pak::pkg_install("admiralpeds", dependencies = TRUE)
+```
+
+### Dependencies
+
+The latest version of the package works with the latest versions of the
+packages stated in `DESCRIPTION`.
+
+If a previous version of the package should be used, it is recommended
+to use latest version of the dependencies at the point of time when the
+previous version of {admiralpeds} was released.
+
+## Scope
+
+- Build a toolbox of re-usable functions and utilities to create
+  pediatrics-specific ADaM datasets in R in a modular manner.
+- All functions are created based upon the ADaM Implementation Guide and
+  aim to facilitate the programming of ADaM dataset standards.
+- Initially the package will focus on Anthropometric indicators (i.e.
+  child growth/development charts).
+
+## Expectations
+
+[admiralpeds](https://pharmaverse.github.io/admiralpeds/) is expected to
+complement [admiral](https://pharmaverse.github.io/admiral/) and provide
+functions to help with the creation of analyses required for pediatric
+trial ADaMs.
+
+## References and Documentation
+
+- Please refer to the [References and
+  Documentation](https://pharmaverse.github.io/admiral/index.html#references-and-documentation)
+
+## R Versions
+
+Here’s a summary of our strategy for this package related to R versions:
+
+- R versions for developers and users will follow the same as
+  [admiral](https://pharmaverse.github.io/admiral/) core package.
+- For development the `main` branch of
+  [admiral](https://pharmaverse.github.io/admiral/) core is used as a
+  dependency. For releasing a new
+  [admiralpeds](https://pharmaverse.github.io/admiralpeds/) version it
+  must run using the latest released
+  [admiral](https://pharmaverse.github.io/admiral/) core version.
+
+## Contact
+
+We use the following for support and communications between user and
+developer community:
+
+- [Slack](https://pharmaverse.slack.com/) - for informal discussions,
+  Q&A and building our user community. If you don’t have access, use
+  this
+  [link](https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A)
+  to join the pharmaverse Slack workspace
+- [GitHub Issues](https://github.com/pharmaverse/admiralpeds/issues) -
+  for direct feedback, enhancement requests or raising bugs
+
+# Package index
+
+## Derivations for Adding Parameters/Records
+
+### Vital Signs-specific
+
+- [`derive_params_growth_age()`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/derive_params_growth_age.md)
+  : Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age)
+  based on Standard Growth Charts
+- [`derive_params_growth_height()`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/derive_params_growth_height.md)
+  : Derive Anthropometric indicators
+  (Z-Scores/Percentiles-for-Height/Length) based on Standard Growth
+  Charts
+
+## Metadata
+
+- [`cdc_bmiage`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/cdc_bmiage.md)
+  : CDC BMI-for-age-chart
+- [`cdc_htage`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/cdc_htage.md)
+  : CDC Height-for-age-chart
+- [`cdc_wtage`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/cdc_wtage.md)
+  : CDC Weight-for-age-chart
+- [`derive_interp_records()`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/derive_interp_records.md)
+  : Derive interpolated rows for the CDC charts (\>=2 yrs old)
+- [`who_bmi_for_age_boys`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_bmi_for_age_boys.md)
+  : WHO BMI-for-age for boys
+- [`who_bmi_for_age_girls`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_bmi_for_age_girls.md)
+  : WHO BMI-for-age for girls
+- [`who_hc_for_age_boys`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_hc_for_age_boys.md)
+  : WHO Head circumference-for-age for boys
+- [`who_hc_for_age_girls`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_hc_for_age_girls.md)
+  : WHO Head circumference-for-age for girls
+- [`who_lgth_ht_for_age_boys`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_lgth_ht_for_age_boys.md)
+  : WHO Length/height-for-age for boys
+- [`who_lgth_ht_for_age_girls`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_lgth_ht_for_age_girls.md)
+  : WHO Length/height-for-age for girls
+- [`who_wt_for_age_boys`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_wt_for_age_boys.md)
+  : WHO Weight-for-age for boys
+- [`who_wt_for_age_girls`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_wt_for_age_girls.md)
+  : WHO Weight-for-age for girls
+- [`who_wt_for_lgth_boys`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_wt_for_lgth_boys.md)
+  : WHO Weight-for-length for boys
+- [`who_wt_for_lgth_girls`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/who_wt_for_lgth_girls.md)
+  : WHO Weight-for-length for girls
+
+## Example Datasets
+
+- [`adsl_peds`](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/reference/adsl_peds.md)
+  : Subject Level Analysis Dataset-pediatrics
+
+# Articles
+
+### All vignettes
+
+- [Get
+  Started](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/articles/admiralpeds.md):
+- [Creating a Pediatrics ADVS
+  ADaM](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/articles/advs.md):
+- [Explore the admiralpeds ADaM
+  Templates](https:/pharmaverse.github.io/admiralpeds/131_various_updates_pkgdown_website_and_functionalities/dev/articles/templates.md):
