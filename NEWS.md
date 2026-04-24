@@ -1,9 +1,17 @@
 # admiralpeds (development version)
 
+## Documentation
+
+- Added a new vignette "Explore ADaM Templates" to the "Get Started" menu.
+It displays the `{admiralpeds}` templates. (#132)
+
 ## Various
 
 <details>
+
 <summary>Developer Notes</summary>
+
+* Added the `Downloads` Badge and corrected the `Test Coverage` Badge. (#129)
 
 * Added Dark Mode and icon tooltips to the website, and implemented a new PR website workflow, accessible by adding the "[create website]" keyword to PR titles. (#131)
 

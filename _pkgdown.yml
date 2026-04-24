@@ -102,7 +102,11 @@ navbar:
   components:
     getstarted:
       text: Get Started
-      href: articles/admiralpeds.html
+      menu:
+      - text: Get Started
+        href: articles/admiralpeds.html
+      - text: Explore ADaM Templates 🧭
+        href: articles/templates.html
     reference:
       text: Reference
       href: reference/index.html
