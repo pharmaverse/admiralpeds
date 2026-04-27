@@ -56,8 +56,7 @@ Suggests:
     rmarkdown,
     stringr (>= 1.4.0),
     testthat (>= 3.0.0),
-    tibble,
-    here
+    tibble
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
