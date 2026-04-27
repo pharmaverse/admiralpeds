@@ -39,7 +39,15 @@ unless otherwise specified.*
     indicators](#derive_vars)
 -   [Derive Additional Parameters for Anthropometric
     indicators](#derive_params)
--   [Remaining ADVS Set-up](#advs_end)
+* [Metadata](#metadata)
+* [Initial ADVS Set-up](#advs_start)
+* [Derive Additional Variables for Anthropometric
+  indicators](#derive_vars)
+  * [Importance of Age Units using
+    `derive_params_growth_age()`](#age-unit-handling)    
+* [Derive Additional Parameters for Anthropometric
+  indicators](#derive_params)
+* [Remaining ADVS Set-up](#advs_end)
 
 ## Metadata {#metadata}
 
