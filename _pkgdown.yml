@@ -115,10 +115,6 @@ navbar:
       menu:
       - text: Creating a Pediatrics ADVS
         href: articles/advs.html
-    history:
-      icon: fa-history
-      href: articles/website-versions.html
-      aria-label: Previous Release Websites
     slack:
       icon: fa-slack
       href: https://pharmaverse.slack.com/
