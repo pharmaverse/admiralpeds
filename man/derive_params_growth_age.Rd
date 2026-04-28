@@ -202,8 +202,8 @@ If records from the input dataset cannot be matched to the metadata due to:
 \item Missing metadata for the specific age/sex combination
 }
 
-a warning will be issued listing the number of unmatched records. These records will
-NOT appear in the output dataset.
+a warning (as shown in the example below) will be issued, listing the number of unmatched records. # nolint
+These records will NOT appear in the output dataset.
 
 To resolve age unit mismatches, standardize your data before calling this function.
 }
