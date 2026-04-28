@@ -39,7 +39,15 @@ unless otherwise specified.*
     indicators](#derive_vars)
 -   [Derive Additional Parameters for Anthropometric
     indicators](#derive_params)
--   [Remaining ADVS Set-up](#advs_end)
+* [Metadata](#metadata)
+* [Initial ADVS Set-up](#advs_start)
+* [Derive Additional Variables for Anthropometric
+  indicators](#derive_vars)
+  * [Importance of Age Units using
+    `derive_params_growth_age()`](#age-unit-handling)    
+* [Derive Additional Parameters for Anthropometric
+  indicators](#derive_params)
+* [Remaining ADVS Set-up](#advs_end)
 
 ## Metadata {#metadata}
 
@@ -178,6 +186,59 @@ like weight and height. We can combine WHO and CDC metadata for height as a
 WHO adjustment is unnecessary.
 Note that the head circumference parameter metadata comes only from the WHO reference data,
 as CDC provides no equivalent for children \> 2 years of age.
+
+### Reference Files for HEIGHT 
+
+WHO for children <2 yrs old (< 730.5 days), and CDC for children >=2 yrs old (>= 730.5 days)
+
+```{r, eval=TRUE}
+who_lgth_ht_for_age_boys <- admiralpeds::who_lgth_ht_for_age_boys
+who_lgth_ht_for_age_girls <- admiralpeds::who_lgth_ht_for_age_girls
+cdc_htage <- admiralpeds::cdc_htage
+
+height_for_age <- who_lgth_ht_for_age_boys %>%
+  mutate(SEX = "M") %>%
+  bind_rows(who_lgth_ht_for_age_girls %>%
+    mutate(SEX = "F")) %>%
+  # Keep patients < 2 yrs old
+  filter(Day < 730.5) %>%
+  rename(AGE = Day) %>%
+  # AGEU is added in metadata, required for derive_params_growth_age()
+  mutate(AGEU = "DAYS") %>%
+  bind_rows(cdc_htage %>%
+    mutate(
+      SEX = case_when(
+        SEX == 1 ~ "M",
+        SEX == 2 ~ "F",
+        TRUE ~ NA_character_
+      ),
+      # Ensure first that Age unit is "DAYS"
+      AGE = round(AGE * 30.4375),
+      AGEU = "DAYS"
+    ) %>%
+    # Interpolate the AGE by SEX so that we get CDC metadata by day instead of
+    # month in the same way as WHO metadata
+    derive_interp_records(
+      by_vars = exprs(SEX),
+      parameter = "HEIGHT"
+    ) %>%
+    # Keep patients >= 2 yrs till 20 yrs - Remove duplicates for 730 Days old which
+    # must come from WHO metadata only
+    filter(AGE >= 730.5 & AGE <= 7305)) %>%
+  arrange(AGE, SEX)
+```
+
+Here is how the first records of the WHO metadata for HEIGHT now look:
+
+```{r, eval=TRUE, echo=FALSE}
+height_for_age <- who_bmi_for_age %>%
+  select(AGE, AGEU, SEX, L, M, S)
+
+dataset_vignette(
+  height_for_age,
+  filter = AGE < 20
+)
+```
 
 ### Reference Files for Weight by Length/Height
 
@@ -331,13 +392,75 @@ advs <- advs %>%
   )
 ```
 
+#### Age Unit Handling and Standardization {#age-unit-handling}
+
+#### Understanding Age Unit Requirements
+
+The `derive_params_growth_age()` function requires that the age unit in your input data **exactly matches** the age unit in your metadata.
+The function does **NOT** automatically convert between age units.
+
+**Important**: If your data has ages in days but your metadata is in months (or vice versa),
+records will not be matched and warnings will be issued. These unmatched records will be
+excluded from the output.
+
+#### Common Age Unit Conversion Factors
+
+When standardizing age units, use these conversion factors:
+
+- 1 week = 7 days
+- 1 month = 30.4375 days
+- 1 year = 365.25 days
+
+#### Method: Manual Age Unit Conversion
+
+If you prefer to manually convert age units in your dataset to match your metadata,
+you can use conditional logic. Based on the `advs` dataset created earlier with the
+`AAGECUR` (current age) and `AAGECURU` (current age unit) variables:
+
+```{r eval=TRUE}
+# Example: Convert all ages to days to match metadata
+advs <- advs %>%
+  mutate(
+    AAGECUR_DAYS = case_when(
+      toupper(AAGECURU) == "YEARS" ~ AAGECUR * 365.25,
+      toupper(AAGECURU) == "MONTHS" ~ AAGECUR * 30.4375,
+      toupper(AAGECURU) == "WEEKS" ~ AAGECUR * 7,
+      toupper(AAGECURU) == "DAYS" ~ AAGECUR,
+      TRUE ~ NA_real_
+    ),
+    AAGECURU_STD = "DAYS"
+  )
+```
+
 Here is how these age variables look:
 
 ```{r, eval=TRUE, echo=FALSE}
 dataset_vignette(
   advs,
-  display_vars = exprs(USUBJID, BRTHDT, ADT, AAGECUR, AAGECURU)
+  display_vars = exprs(USUBJID, BRTHDT, ADT, AAGECUR, AAGECURU, AAGECUR_DAYS, AAGECURU_STD)
 )
+```
+
+### Use the standardized age variables
+
+```{r, eval=TRUE}
+advs <- advs %>%
+  derive_params_growth_age(
+    sex = SEX,
+    age = AAGECUR_DAYS, # Use standardized age
+    age_unit = AAGECURU_STD, # Use standardized unit
+    meta_criteria = height_for_age, # Ensure metadata is also in "days"
+    parameter = VSTESTCD == "HEIGHT",
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "HGTSDS",
+      PARAM = "Height-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "HGTPCTL",
+      PARAM = "Height-for-age percentile"
+    )
+  )
 ```
 
 ### Derived Variables for Weight by Length/Height

@@ -52,7 +52,27 @@ Note that this is the actual age at the current visit.}
 \describe{
 \item{Permitted values}{a character scalar, i.e., a character vector of length one .
 
-Expected values: \code{days}, \code{weeks}, \code{months}.}
+Expected values: \code{days}, \code{weeks}, \code{months}.
+
+\strong{Important}: The age unit specified in this parameter must match the age unit
+in the metadata (\code{AGEU} variable). The function does NOT automatically convert
+age units. If mismatches occur between the data and metadata age units, records
+will not be matched and warnings will be issued.
+
+\strong{Age Unit Conversion}: If your data and metadata have different age units,
+you must standardize them before calling this function. The following conversion
+factors can be used:
+\itemize{
+\item 1 week = 7 days
+\item 1 month = 30.4375 days
+\item 1 year = 365.25 days
+}
+
+Example: To convert months to days:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{dataset <- dataset \%>\%
+  mutate(age_days = if_else(age_unit == "months", age * 30.4375, age))
+}\if{html}{\out{</div>}}}
 \item{Default value}{none}
 }}
 
@@ -72,7 +92,7 @@ e.g. If dataset has a current age of 27.49 months, and the metadata contains rec
 for 27 and 28 months, the \code{L}/\code{M}/\code{S} corresponding to the 27 months record will be used.
 \itemize{
 \item \code{AGE} - Age
-\item \code{AGEU} - Age Unit
+\item \code{AGEU} - Age Unit (must match the age unit in the input dataset)
 \item \code{SEX} - Sex
 \item \code{L} - Power in the Box-Cox transformation to normality
 \item \code{M} - Median
@@ -168,6 +188,25 @@ The input dataset additional records with the new parameter added.
 \description{
 Derive Anthropometric indicators (Z-Scores/Percentiles-for-Age) based on Standard Growth Charts
 for Height/Weight/BMI/Head Circumference by Age
+}
+\details{
+\subsection{Age Unit Matching}{
+
+This function requires that the age unit (\code{age_unit} parameter) in the input dataset
+matches the age unit (\code{AGEU} variable) in the metadata (\code{meta_criteria}). The function
+does NOT perform automatic age unit conversion.
+
+If records from the input dataset cannot be matched to the metadata due to:
+\itemize{
+\item Mismatched age units (e.g., data in days but metadata in months)
+\item Missing metadata for the specific age/sex combination
+}
+
+a warning (as shown in the example below) will be issued, listing the number of unmatched records. # nolint
+These records will NOT appear in the output dataset.
+
+To resolve age unit mismatches, standardize your data before calling this function.
+}
 }
 \examples{
 library(dplyr, warn.conflicts = FALSE)

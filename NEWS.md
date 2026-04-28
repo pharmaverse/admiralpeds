@@ -2,8 +2,8 @@
 
 ## Documentation
 
-- Added a new vignette "Explore ADaM Templates" to the "Get Started" menu.
-It displays the `{admiralpeds}` templates. (#132)
+- Updated the documentation and test cases for age unit handling in input data and metadata. (#133)
+- Added a new vignette "Explore ADaM Templates" to the "Get Started" menu. It displays the `{admiralpeds}` templates. (#132)
 
 ## Various
 

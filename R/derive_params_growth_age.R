@@ -23,10 +23,28 @@
 #'   Note that this is the actual age at the current visit.
 #'
 #' @param age_unit Age Unit
-#
+#'
 #' @permitted [char_scalar].
 #'
 #'   Expected values: `days`, `weeks`, `months`.
+#'
+#'   **Important**: The age unit specified in this parameter must match the age unit
+#'   in the metadata (`AGEU` variable). The function does NOT automatically convert
+#'   age units. If mismatches occur between the data and metadata age units, records
+#'   will not be matched and warnings will be issued.
+#'
+#'   **Age Unit Conversion**: If your data and metadata have different age units,
+#'   you must standardize them before calling this function. The following conversion
+#'   factors can be used:
+#'   - 1 week = 7 days
+#'   - 1 month = 30.4375 days
+#'   - 1 year = 365.25 days
+#'
+#'   Example: To convert months to days:
+#'   ```
+#'   dataset <- dataset %>%
+#'     mutate(age_days = if_else(age_unit == "months", age * 30.4375, age))
+#'   ```
 #'
 #' @param meta_criteria Metadata dataset
 #'
@@ -44,7 +62,7 @@
 #'   for 27 and 28 months, the `L`/`M`/`S` corresponding to the 27 months record will be used.
 #'
 #'   * `AGE` - Age
-#'   * `AGEU` - Age Unit
+#'   * `AGEU` - Age Unit (must match the age unit in the input dataset)
 #'   * `SEX` - Sex
 #'   * `L` - Power in the Box-Cox transformation to normality
 #'   * `M` - Median
@@ -112,6 +130,23 @@
 #'
 #'  If left as default value, `NULL`, then parameter not derived in output dataset.
 #'
+#' @details
+#'
+#' ## Age Unit Matching
+#'
+#' This function requires that the age unit (`age_unit` parameter) in the input dataset
+#' matches the age unit (`AGEU` variable) in the metadata (`meta_criteria`). The function
+#' does NOT perform automatic age unit conversion.
+#'
+#' If records from the input dataset cannot be matched to the metadata due to:
+#' - Mismatched age units (e.g., data in days but metadata in months)
+#' - Missing metadata for the specific age/sex combination
+#'
+#' a warning (as shown in the example below) will be issued, listing the number of unmatched records. # nolint
+#' These records will NOT appear in the output dataset.
+#'
+#' To resolve age unit mismatches, standardize your data before calling this function.
+#'
 #' @return The input dataset additional records with the new parameter added.
 #'
 #'
@@ -122,6 +157,7 @@
 #' @export
 #'
 #' @importFrom dplyr if_else
+#' @importFrom dplyr distinct
 #'
 #' @examples
 #' library(dplyr, warn.conflicts = FALSE)
@@ -236,7 +272,7 @@ derive_params_growth_age <- function(dataset,
   assert_varval_list(set_values_to_pctl, optional = TRUE)
 
   if (is.null(set_values_to_sds) && is.null(set_values_to_pctl)) {
-    cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
+    cli::cli_abort("One of `set_values_to_sds`/`set_values_to_pctl` has to be specified.")
   }
 
   # Get the breaks and labels
@@ -276,7 +312,29 @@ derive_params_growth_age <- function(dataset,
     left_join(.,
       processed_md,
       by = c("sex_join", "ageu_join", "age_bins")
-    ) %>%
+    )
+
+  # Check for unmatched records and issue warning
+  unmatched_records <- added_records %>%
+    filter(is.na(metadata_age))
+
+  print(unmatched_records)
+
+  if (nrow(unmatched_records) > 0) {
+    cli::cli_warn(
+      c(
+        "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata (see printed records above).", # nolint
+        "x" = "Z-score (SDS) and/or percentile parameters could not be derived for these records.",
+        "i" = "This is most likely due to mismatched age units between data and metadata.",
+        "i" = "Data age unit must match metadata AGEU variable.",
+        "i" = "Conversion factors: 1 year = 365.25 days, 1 month = 30.4375 days, 1 week = 7 days",
+        "i" = "Consider standardizing age units before calling this function."
+      )
+    )
+  }
+
+  # Filter out unmatched records for further processing
+  added_records <- added_records %>%
     filter(!is.na(metadata_age))
 
   dataset_final <- dataset
