@@ -318,9 +318,9 @@ derive_params_growth_age <- function(dataset,
   unmatched_records <- added_records %>%
     filter(is.na(metadata_age))
 
-  print(unmatched_records)
-
   if (nrow(unmatched_records) > 0) {
+    print(unmatched_records)
+
     cli::cli_warn(
       c(
         "!" = "{nrow(unmatched_records)} record(s) could not be matched to metadata (see printed records above).", # nolint
