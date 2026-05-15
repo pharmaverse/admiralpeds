@@ -24,10 +24,10 @@ cdc_wtage
 Weight-for-age charts, 2 to 20 years
 }
 \seealso{
-Metadata
+Metadata:
 \code{\link{cdc_bmiage}},
 \code{\link{cdc_htage}},
-\code{\link{derive_interp_records}()},
+\code{\link[=derive_interp_records]{derive_interp_records()}},
 \code{\link{who_bmi_for_age_boys}},
 \code{\link{who_bmi_for_age_girls}},
 \code{\link{who_hc_for_age_boys}},

@@ -13,10 +13,10 @@ Character vector of unique age/height bins based on metadata
 Adds the unique age/height-bins to each dataframe to have a column for \code{by} in join.
 }
 \seealso{
-Other internal: 
+Other internal:
 \code{\link{admiralpeds-package}},
-\code{\link{find_closest_bin}()},
-\code{\link{get_bins}()}
+\code{\link[=find_closest_bin]{find_closest_bin()}},
+\code{\link[=get_bins]{get_bins()}}
 }
 \concept{internal}
 \keyword{internal}

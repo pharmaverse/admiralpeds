@@ -292,8 +292,8 @@ derive_params_growth_age(
 )
 }
 \seealso{
-Vital Signs Functions for adding Parameters/Records
-\code{\link{derive_params_growth_height}()}
+Vital Signs Functions for adding Parameters/Records:
+\code{\link[=derive_params_growth_height]{derive_params_growth_height()}}
 }
 \concept{der_prm_bds_vs}
 \keyword{der_prm_bds_vs}
