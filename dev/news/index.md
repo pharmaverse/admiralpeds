@@ -16,6 +16,11 @@ Developer Notes
 - Added the `Downloads` Badge and corrected the `Test Coverage` Badge.
   ([\#129](https://github.com/pharmaverse/admiralpeds/issues/129))
 
+- Added Dark Mode and icon tooltips to the website, and implemented a
+  new PR website workflow, accessible by adding the “\[create website\]”
+  keyword to PR titles.
+  ([\#131](https://github.com/pharmaverse/admiralpeds/issues/131))
+
 ## admiralpeds 0.3.0
 
 CRAN release: 2026-01-23

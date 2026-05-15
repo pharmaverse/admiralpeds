@@ -50,13 +50,13 @@ Source:
 
 Gautier F, Farrugia R, Zhu Z, Saha S, Patil L, Kabi S (2026).
 *admiralpeds: Pediatrics Extension Package for ADaM in 'R' Asset
-Library*. R package version 0.3.0.9002,
+Library*. R package version 0.3.0.9003,
 <https://pharmaverse.github.io/admiralpeds/>.
 
     @Manual{,
       title = {admiralpeds: Pediatrics Extension Package for ADaM in 'R' Asset Library},
       author = {Fanny Gautier and Ross Farrugia and Zelos Zhu and Sukalpo Saha and Lina Patil and Samia Kabi},
       year = {2026},
-      note = {R package version 0.3.0.9002},
+      note = {R package version 0.3.0.9003},
       url = {https://pharmaverse.github.io/admiralpeds/},
     }
