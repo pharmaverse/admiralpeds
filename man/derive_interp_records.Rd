@@ -76,7 +76,7 @@ derive_interp_records(
 )
 }
 \seealso{
-Metadata
+Metadata:
 \code{\link{cdc_bmiage}},
 \code{\link{cdc_htage}},
 \code{\link{cdc_wtage}},

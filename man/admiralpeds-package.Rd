@@ -18,16 +18,17 @@ Useful links:
 }
 
 
-Other internal: 
-\code{\link{find_closest_bin}()},
-\code{\link{get_bins}()},
-\code{\link{set_bins}()}
+Other internal:
+\code{\link[=find_closest_bin]{find_closest_bin()}},
+\code{\link[=get_bins]{get_bins()}},
+\code{\link[=set_bins]{set_bins()}}
 }
 \author{
 \strong{Maintainer}: Fanny Gautier \email{fanny.gautier@cytel.com} (\href{https://orcid.org/0009-0004-3581-0131}{ORCID})
 
 Authors:
 \itemize{
+  \item Fanny Gautier \email{fanny.gautier@cytel.com} (\href{https://orcid.org/0009-0004-3581-0131}{ORCID})
   \item Ross Farrugia
   \item Zelos Zhu
   \item Sukalpo Saha

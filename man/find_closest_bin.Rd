@@ -34,10 +34,10 @@ detects appropriate bin
 Find closest bin
 }
 \seealso{
-Other internal: 
+Other internal:
 \code{\link{admiralpeds-package}},
-\code{\link{get_bins}()},
-\code{\link{set_bins}()}
+\code{\link[=get_bins]{get_bins()}},
+\code{\link[=set_bins]{set_bins()}}
 }
 \concept{internal}
 \keyword{internal}
