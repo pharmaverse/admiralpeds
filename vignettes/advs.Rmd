@@ -281,7 +281,7 @@ dataset_vignette(
 The following steps are to read in the source data, merge ADSL variables,
 and derive the usual ADVS analysis variables. The
 `{admiral}` [Creating a BDS Finding ADaM
-vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html)
+vignette](https://pharmaverse.github.io/admiral/cran-release/articles/bds_finding.html)
 gives detailed guidance on all these steps.
 
 The only difference here would be the parameter level values, which now
@@ -620,7 +620,7 @@ approximate the child's body length.
 
 The `{admiral}`
 [Creating a BDS Finding ADaM
-vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html) 
+vignette](https://pharmaverse.github.io/admiral/cran-release/articles/bds_finding.html) 
 covers all remaining steps, such as merging the parameter-level values, 
 variables, and analysis flags.
 
