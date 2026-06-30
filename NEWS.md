@@ -15,7 +15,7 @@ It displays the `{admiralpeds}` templates. (#132)
 
 * Added Dark Mode and icon tooltips to the website, and implemented a new PR website workflow, accessible by adding the "[create website]" keyword to PR titles. (#131)
 
-* Updated the links in the PR template and the `RoxygenNote` field of the DESCRIPTION file. (#138) 
+* Updated the links in the PR template and vignettes, and updated the `RoxygenNote` field of the DESCRIPTION file. (#138) 
 
 </details>
 
