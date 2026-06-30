@@ -31,10 +31,10 @@ list of breaks and labels for age/height bins
 Creates unique age/heights-bins for each record to speed up joining
 }
 \seealso{
-Other internal: 
+Other internal:
 \code{\link{admiralpeds-package}},
-\code{\link{find_closest_bin}()},
-\code{\link{set_bins}()}
+\code{\link[=find_closest_bin]{find_closest_bin()}},
+\code{\link[=set_bins]{set_bins()}}
 }
 \concept{internal}
 \keyword{internal}
