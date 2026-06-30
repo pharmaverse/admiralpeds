@@ -23,7 +23,7 @@ library(rlang)
 This article describes creating a vital signs ADaM for pediatric clinical trials. This package creates SD scores (z-scores) and percentiles among children and adolescents for various body measures, such as Height, Weight, Body Mass Index (BMI), Weight-for-Length, and Head Circumference.  Among adults, standard cut-points can be used (e.g., a BMI \>= 30 for obesity), but because of the large changes that occur during growth and development, these measures are typically expressed relative to other children of the same sex and age. For example, the CDC classifies obesity as a BMI-for-age \>= 95th percentile (a z-score of 1.645), while the WHO cut point is a weight-for-length \>= 3 SDs among children under 2 years of age.
 
 We advise you first consult the `{admiral}` [Creating a BDS Finding ADaM
-vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html).
+vignette](https://pharmaverse.github.io/admiral/cran-release/articles/bds_finding.html).
 The programming workflow around creating the general set-up of an ADVS using
 `{admiral}` functions is the same. We focus on only the pediatric-specific steps here to avoid repeating
 information and maintaining the same content in two places.
@@ -220,7 +220,7 @@ dataset_vignette(
 The following steps are to read in the source data, merge ADSL variables,
 and derive the usual ADVS analysis variables. The
 `{admiral}` [Creating a BDS Finding ADaM
-vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html)
+vignette](https://pharmaverse.github.io/admiral/cran-release/articles/bds_finding.html)
 gives detailed guidance on all these steps.
 
 The only difference here would be the parameter level values, which now
@@ -497,7 +497,7 @@ approximate the child's body length.
 
 The `{admiral}`
 [Creating a BDS Finding ADaM
-vignette](https://pharmaverse.github.io/admiral/articles/bds_finding.html) 
+vignette](https://pharmaverse.github.io/admiral/cran-release/articles/bds_finding.html) 
 covers all remaining steps, such as merging the parameter-level values, 
 variables, and analysis flags.
 
