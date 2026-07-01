@@ -76,6 +76,27 @@ derive_params_growth_age(
 
       Expected values: `days`, `weeks`, `months`.
 
+      **Important**: The age unit specified in this parameter must match
+      the age unit in the metadata (`AGEU` variable). The function does
+      NOT automatically convert age units. If mismatches occur between
+      the data and metadata age units, records will not be matched and
+      warnings will be issued.
+
+      **Age Unit Conversion**: If your data and metadata have different
+      age units, you must standardize them before calling this function.
+      The following conversion factors can be used:
+
+      - 1 week = 7 days
+
+      - 1 month = 30.4375 days
+
+      - 1 year = 365.25 days
+
+      Example: To convert months to days:
+
+          dataset <- dataset %>%
+            mutate(age_days = if_else(age_unit == "months", age * 30.4375, age))
+
   Default value
 
   :   none
@@ -100,7 +121,7 @@ derive_params_growth_age(
 
   - `AGE` - Age
 
-  - `AGEU` - Age Unit
+  - `AGEU` - Age Unit (must match the age unit in the input dataset)
 
   - `SEX` - Sex
 
@@ -238,9 +259,32 @@ derive_params_growth_age(
 
 The input dataset additional records with the new parameter added.
 
+## Details
+
+### Age Unit Matching
+
+This function requires that the age unit (`age_unit` parameter) in the
+input dataset matches the age unit (`AGEU` variable) in the metadata
+(`meta_criteria`). The function does NOT perform automatic age unit
+conversion.
+
+If records from the input dataset cannot be matched to the metadata due
+to:
+
+- Mismatched age units (e.g., data in days but metadata in months)
+
+- Missing metadata for the specific age/sex combination
+
+a warning (as shown in the example below) will be issued, listing the
+number of unmatched records. These records will NOT appear in the output
+dataset.
+
+To resolve age unit mismatches, standardize your data before calling
+this function.
+
 ## See also
 
-Vital Signs Functions for adding Parameters/Records
+Vital Signs Functions for adding Parameters/Records:
 [`derive_params_growth_height()`](https://pharmaverse.github.io/admiralpeds/dev/reference/derive_params_growth_height.md)
 
 ## Examples
@@ -327,6 +371,31 @@ derive_params_growth_age(
     PARAM = "Height-for-age percentile"
   )
 )
+#> # A tibble: 7 × 47
+#>   USUBJID     BRTHDTC   SEX   STUDYID DOMAIN VSSEQ VSTESTCD VSTEST VSPOS VSORRES
+#>   <chr>       <chr>     <chr> <chr>   <chr>  <int> <chr>    <chr>  <chr> <chr>  
+#> 1 01-701-1023 2010-08-… M     CDISCP… VS        55 HEIGHT   Height NA    88.75  
+#> 2 01-701-1023 2010-08-… M     CDISCP… VS        59 HEIGHT   Height NA    89.23  
+#> 3 01-701-1028 2010-07-… M     CDISCP… VS        63 HEIGHT   Height NA    98.32  
+#> 4 01-701-1028 2010-07-… M     CDISCP… VS        67 HEIGHT   Height NA    98.95  
+#> 5 01-701-1028 2010-07-… M     CDISCP… VS        75 HEIGHT   Height NA    99.68  
+#> 6 01-701-1028 2010-07-… M     CDISCP… VS        83 HEIGHT   Height NA    100.45 
+#> 7 01-701-1028 2010-07-… M     CDISCP… VS       103 HEIGHT   Height NA    102.82 
+#> # ℹ 37 more variables: VSORRESU <chr>, VSSTRESC <chr>, VSSTRESN <dbl>,
+#> #   VSSTRESU <chr>, VSSTAT <chr>, VSLOC <chr>, VSBLFL <chr>, VISITNUM <dbl>,
+#> #   VISIT <chr>, VISITDY <int>, VSDTC <chr>, VSDY <int>, VSTPT <chr>,
+#> #   VSTPTNUM <dbl>, VSELTM <chr>, VSTPTREF <chr>, VSEVAL <chr>, EPOCH <chr>,
+#> #   VSDT <date>, BRTHDT <date>, AGECUR_D <dbl>, CURU_D <chr>, AGECUR_M <dbl>,
+#> #   CURU_M <chr>, AGECUR <dbl>, AGECURU <chr>, sex_join <chr>, ageu_join <chr>,
+#> #   age_bins <list>, metadata_age <dbl>, L <dbl>, M <dbl>, S <dbl>, …
+#> Warning: ! 7 record(s) could not be matched to metadata (see printed records above).
+#> ✖ Z-score (SDS) and/or percentile parameters could not be derived for these
+#>   records.
+#> ℹ This is most likely due to mismatched age units between data and metadata.
+#> ℹ Data age unit must match metadata AGEU variable.
+#> ℹ Conversion factors: 1 year = 365.25 days, 1 month = 30.4375 days, 1 week = 7
+#>   days
+#> ℹ Consider standardizing age units before calling this function.
 #> # A tibble: 232 × 39
 #>    USUBJID     BRTHDTC  SEX   STUDYID DOMAIN VSSEQ VSTESTCD VSTEST VSPOS VSORRES
 #>    <chr>       <chr>    <chr> <chr>   <chr>  <int> <chr>    <chr>  <chr> <chr>  

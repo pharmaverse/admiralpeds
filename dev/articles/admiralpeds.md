@@ -5,7 +5,7 @@
 As this is a package extension, if you are new to
 [admiral](https://pharmaverse.github.io/admiral/) then the best place to
 first start reading would be the [Get
-Started](https://pharmaverse.github.io/admiral/articles/admiral.html)
+Started](https://pharmaverse.github.io/admiral/cran-release/articles/admiral.html)
 page. This extension package follows the same main idea and conventions,
 and re-uses many functions from
 [admiral](https://pharmaverse.github.io/admiral/), so it is important to
@@ -20,7 +20,7 @@ of this site.
 
 [admiralpeds](https://pharmaverse.github.io/admiralpeds/) also provides
 template R scripts as a starting point. They can be created by calling
-[`use_ad_template()`](https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/use_ad_template.html)
+[`use_ad_template()`](https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/use_ad_template.html)
 from [admiral](https://pharmaverse.github.io/admiral/), e.g.,
 
 ``` r
@@ -36,7 +36,7 @@ use_ad_template(
 ```
 
 A list of all available templates can be obtained by
-[`list_all_templates()`](https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/list_all_templates.html)
+[`list_all_templates()`](https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/list_all_templates.html)
 from [admiral](https://pharmaverse.github.io/admiral/):
 
 ``` r

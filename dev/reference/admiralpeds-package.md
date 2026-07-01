@@ -30,6 +30,9 @@ Other internal:
 
 Authors:
 
+- Fanny Gautier <fanny.gautier@cytel.com>
+  ([ORCID](https://orcid.org/0009-0004-3581-0131))
+
 - Ross Farrugia
 
 - Zelos Zhu

@@ -46,7 +46,7 @@ A data frame with 438 rows and 7 variables:
 
 ## See also
 
-Metadata
+Metadata:
 [`cdc_htage`](https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_htage.md),
 [`cdc_wtage`](https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_wtage.md),
 [`derive_interp_records()`](https://pharmaverse.github.io/admiralpeds/dev/reference/derive_interp_records.md),

@@ -228,7 +228,7 @@ The input dataset additional records with the new parameter added.
 
 ## See also
 
-Vital Signs Functions for adding Parameters/Records
+Vital Signs Functions for adding Parameters/Records:
 [`derive_params_growth_age()`](https://pharmaverse.github.io/admiralpeds/dev/reference/derive_params_growth_age.md)
 
 ## Examples

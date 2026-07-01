@@ -75,7 +75,7 @@ them for the new records.
 
 ## See also
 
-Metadata
+Metadata:
 [`cdc_bmiage`](https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_bmiage.md),
 [`cdc_htage`](https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_htage.md),
 [`cdc_wtage`](https://pharmaverse.github.io/admiralpeds/dev/reference/cdc_wtage.md),

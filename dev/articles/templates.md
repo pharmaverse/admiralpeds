@@ -10,7 +10,7 @@ template without visiting the
 [admiralpeds](https://pharmaverse.github.io/admiralpeds/) repository.
 
 As a reminder, you can create a starter script from a template using
-[`admiral::use_ad_template()`](https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/use_ad_template.html),
+[`admiral::use_ad_template()`](https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/use_ad_template.html),
 e.g.,
 
 ``` r

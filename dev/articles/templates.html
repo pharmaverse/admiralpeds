@@ -18,8 +18,8 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Explore the admiralpeds ADaM Templates">
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <a class="navbar-brand me-2" href="../index.html">admiralpeds</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,9 +118,9 @@ The intention is for this to be a reference for users, should they wish
 to peruse the code of a specific template without visiting the
 <a href="https://pharmaverse.github.io/admiralpeds/">admiralpeds</a> repository.</p>
 <p>As a reminder, you can create a starter script from a template using
-<code><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/use_ad_template.html">admiral::use_ad_template()</a></code>, e.g.,</p>
+<code><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/use_ad_template.html">admiral::use_ad_template()</a></code>, e.g.,</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/use_ad_template.html">use_ad_template</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/use_ad_template.html">use_ad_template</a></span><span class="op">(</span></span>
 <span>  adam_name <span class="op">=</span> <span class="st">"advs"</span>,</span>
 <span>  save_path <span class="op">=</span> <span class="st">"./ad_advs.R"</span>,</span>
 <span>  package <span class="op">=</span> <span class="st">"admiralpeds"</span></span>
@@ -325,7 +325,7 @@ ad_advs.R
 <span><span class="co"># as NA values. Further details can be obtained via the following link:</span></span>
 <span><span class="co"># https://pharmaverse.github.io/admiral/articles/admiral.html#handling-of-missing-values # nolint</span></span>
 <span></span>
-<span><span class="va">vs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/convert_blanks_to_na.html">convert_blanks_to_na</a></span><span class="op">(</span><span class="va">vs</span><span class="op">)</span></span>
+<span><span class="va">vs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/convert_blanks_to_na.html">convert_blanks_to_na</a></span><span class="op">(</span><span class="va">vs</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Lookup tables ----</span></span>
 <span></span>
@@ -356,24 +356,24 @@ ad_advs.R
 <span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">vs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Join ADSL with VS (need BRTHDT for AAGECUR derivation)</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
 <span>    dataset_add <span class="op">=</span> <span class="va">adsl</span>,</span>
 <span>    new_vars <span class="op">=</span> <span class="va">adsl_vars</span>,</span>
-<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span></span>
+<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co">## Calculate BRTHDT ----</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_dt.html">derive_vars_dt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_dt.html">derive_vars_dt</a></span><span class="op">(</span></span>
 <span>    new_vars_prefix <span class="op">=</span> <span class="st">"BRTH"</span>,</span>
 <span>    dtc <span class="op">=</span> <span class="va">BRTHDTC</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co">## Calculate ADT, ADY ----</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_dt.html">derive_vars_dt</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_dt.html">derive_vars_dt</a></span><span class="op">(</span></span>
 <span>    new_vars_prefix <span class="op">=</span> <span class="st">"A"</span>,</span>
 <span>    dtc <span class="op">=</span> <span class="va">VSDTC</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_dy.html">derive_vars_dy</a></span><span class="op">(</span>reference_date <span class="op">=</span> <span class="va">TRTSDT</span>, source_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">ADT</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_dy.html">derive_vars_dy</a></span><span class="op">(</span>reference_date <span class="op">=</span> <span class="va">TRTSDT</span>, source_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">ADT</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co">## Calculate Current Analysis Age AAGECUR and unit AAGECURU ----</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_duration.html">derive_vars_duration</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_duration.html">derive_vars_duration</a></span><span class="op">(</span></span>
 <span>    new_var <span class="op">=</span> <span class="va">AAGECUR</span>,</span>
 <span>    new_var_unit <span class="op">=</span> <span class="va">AAGECURU</span>,</span>
 <span>    start_date <span class="op">=</span> <span class="va">BRTHDT</span>,</span>
@@ -382,7 +382,7 @@ ad_advs.R
 <span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co">## Add PARAMCD only - add PARAM etc later ----</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_merged_lookup.html">derive_vars_merged_lookup</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_merged_lookup.html">derive_vars_merged_lookup</a></span><span class="op">(</span></span>
 <span>    dataset_add <span class="op">=</span> <span class="va">param_lookup</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">VSTESTCD</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    new_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span>,</span>
 <span>    by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">VSTESTCD</span><span class="op">)</span></span>
@@ -413,9 +413,9 @@ ad_advs.R
 <span></span>
 <span><span class="co">## Derive Current HEIGHT/LENGTH at each time point Temporary variable ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
 <span>    dataset_add <span class="op">=</span> <span class="va">advs</span>,</span>
-<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">AVISIT</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">AVISIT</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    filter_add <span class="op">=</span> <span class="va">PARAMCD</span> <span class="op">==</span> <span class="st">"HEIGHT"</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper</a></span><span class="op">(</span><span class="va">VSSTRESU</span><span class="op">)</span> <span class="op">==</span> <span class="st">"CM"</span>,</span>
 <span>    new_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span>HGTTMP <span class="op">=</span> <span class="va">AVAL</span>, HGTTMPU <span class="op">=</span> <span class="va">VSSTRESU</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -426,9 +426,9 @@ ad_advs.R
 <span><span class="co"># application of the LMS method) only for those &lt; 2 yrs old where we use the</span></span>
 <span><span class="co"># WHO metadata</span></span>
 <span><span class="va">advs_age_wt</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/slice_derivation.html">slice_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/slice_derivation.html">slice_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_params_growth_age</span>,</span>
-<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>      sex <span class="op">=</span> <span class="va">SEX</span>,</span>
 <span>      age <span class="op">=</span> <span class="va">AAGECUR</span>,</span>
 <span>      age_unit <span class="op">=</span> <span class="va">AAGECURU</span>,</span>
@@ -443,25 +443,25 @@ ad_advs.R
 <span>        PARAM <span class="op">=</span> <span class="st">"Weight-for-age percentile"</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
 <span>      filter <span class="op">=</span> <span class="va">AAGECUR</span> <span class="op">&lt;</span> <span class="fl">730.5</span>,</span>
-<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>        who_correction <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        meta_criteria <span class="op">=</span> <span class="va">who_wt_for_age</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
 <span>      filter <span class="op">=</span> <span class="va">AAGECUR</span> <span class="op">&gt;=</span> <span class="fl">730.5</span>,</span>
-<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>        meta_criteria <span class="op">=</span> <span class="va">cdc_wt_for_age</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># For BMI we need to apply the CDC developed extended percentiles only for</span></span>
 <span>  <span class="co"># those &gt;= 2 yrs old where we use the CDC metadata</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/slice_derivation.html">slice_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/slice_derivation.html">slice_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_params_growth_age</span>,</span>
-<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>      sex <span class="op">=</span> <span class="va">SEX</span>,</span>
 <span>      age <span class="op">=</span> <span class="va">AAGECUR</span>,</span>
 <span>      age_unit <span class="op">=</span> <span class="va">AAGECURU</span>,</span>
@@ -476,16 +476,16 @@ ad_advs.R
 <span>        PARAM <span class="op">=</span> <span class="st">"BMI-for-age percentile"</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
 <span>      filter <span class="op">=</span> <span class="va">AAGECUR</span> <span class="op">&lt;</span> <span class="fl">730.5</span>,</span>
-<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>        who_correction <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        meta_criteria <span class="op">=</span> <span class="va">who_bmi_for_age</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derivation_slice.html">derivation_slice</a></span><span class="op">(</span></span>
 <span>      filter <span class="op">=</span> <span class="va">AAGECUR</span> <span class="op">&gt;=</span> <span class="fl">730.5</span>,</span>
-<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>        bmi_cdc_correction <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>        meta_criteria <span class="op">=</span> <span class="va">cdc_bmi_for_age</span></span>
 <span>      <span class="op">)</span></span>
@@ -535,9 +535,9 @@ ad_advs.R
 <span></span>
 <span><span class="co"># Only derive for patients with current age &lt; 2 years as we use body length</span></span>
 <span><span class="va">advs_ht_lgth</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_params_growth_height</span>,</span>
-<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>      sex <span class="op">=</span> <span class="va">SEX</span>,</span>
 <span>      height <span class="op">=</span> <span class="va">HGTTMP</span>,</span>
 <span>      height_unit <span class="op">=</span> <span class="va">HGTTMPU</span>,</span>
@@ -565,15 +565,15 @@ ad_advs.R
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">PARAM</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Derive PARAM and PARAMN</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span>dataset_add <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">param_lookup</span>, <span class="op">-</span><span class="va">VSTESTCD</span><span class="op">)</span>, by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span>dataset_add <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">param_lookup</span>, <span class="op">-</span><span class="va">VSTESTCD</span><span class="op">)</span>, by_vars <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Derive baseline flags ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Calculate ABLFL</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_var_extreme_flag</span>,</span>
-<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
-<span>      by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>      by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      order <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">ADT</span>, <span class="va">AVISITN</span>, <span class="va">VSSEQ</span><span class="op">)</span>,</span>
 <span>      new_var <span class="op">=</span> <span class="va">ABLFL</span>,</span>
 <span>      mode <span class="op">=</span> <span class="st">"last"</span></span>
@@ -584,27 +584,27 @@ ad_advs.R
 <span><span class="co">## Derive baseline information ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Calculate BASE</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_var_base.html">derive_var_base</a></span><span class="op">(</span></span>
-<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_var_base.html">derive_var_base</a></span><span class="op">(</span></span>
+<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    source_var <span class="op">=</span> <span class="va">AVAL</span>,</span>
 <span>    new_var <span class="op">=</span> <span class="va">BASE</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Calculate CHG for post-baseline records</span></span>
 <span>  <span class="co"># The decision on how to populate pre-baseline and baseline values of CHG is left to producer choice</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_var_chg</span>,</span>
 <span>    filter <span class="op">=</span> <span class="va">AVISITN</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Calculate PCHG for post-baseline records</span></span>
 <span>  <span class="co"># The decision on how to populate pre-baseline and baseline values of PCHG is left to producer choice</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_var_pchg</span>,</span>
 <span>    filter <span class="op">=</span> <span class="va">AVISITN</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Calculate ONTRTFL ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_var_ontrtfl.html">derive_var_ontrtfl</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_var_ontrtfl.html">derive_var_ontrtfl</a></span><span class="op">(</span></span>
 <span>    start_date <span class="op">=</span> <span class="va">ADT</span>,</span>
 <span>    ref_start_date <span class="op">=</span> <span class="va">TRTSDT</span>,</span>
 <span>    ref_end_date <span class="op">=</span> <span class="va">TRTEDT</span>,</span>
@@ -613,11 +613,11 @@ ad_advs.R
 <span></span>
 <span><span class="co">## ANL01FL: Flag last result within an AVISIT and ATPT for post-baseline records ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/restrict_derivation.html">restrict_derivation</a></span><span class="op">(</span></span>
 <span>    derivation <span class="op">=</span> <span class="va">derive_var_extreme_flag</span>,</span>
-<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
+<span>    args <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/params.html">params</a></span><span class="op">(</span></span>
 <span>      new_var <span class="op">=</span> <span class="va">ANL01FL</span>,</span>
-<span>      by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span>, <span class="va">AVISIT</span>, <span class="va">ATPT</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      by_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>, <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span>, <span class="va">AVISIT</span>, <span class="va">ATPT</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      order <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">ADT</span>, <span class="va">AVAL</span><span class="op">)</span>,</span>
 <span>      mode <span class="op">=</span> <span class="st">"last"</span></span>
 <span>    <span class="op">)</span>,</span>
@@ -626,17 +626,17 @@ ad_advs.R
 <span></span>
 <span><span class="co"># Add all ADSL variables</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
-<span>    dataset_add <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">adsl</span>, <span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/negate_vars.html">negate_vars</a></span><span class="op">(</span><span class="va">adsl_vars</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_vars_merged.html">derive_vars_merged</a></span><span class="op">(</span></span>
+<span>    dataset_add <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">adsl</span>, <span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/negate_vars.html">negate_vars</a></span><span class="op">(</span><span class="va">adsl_vars</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Get ASEQ ----</span></span>
 <span><span class="va">advs</span> <span class="op">&lt;-</span> <span class="va">advs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Calculate ASEQ</span></span>
-<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/derive_var_obs_number.html">derive_var_obs_number</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/derive_var_obs_number.html">derive_var_obs_number</a></span><span class="op">(</span></span>
 <span>    new_var <span class="op">=</span> <span class="va">ASEQ</span>,</span>
-<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.1/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>,</span>
+<span>    by_vars <span class="op">=</span> <span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.5.0/cran-release/reference/get_admiral_option.html">get_admiral_option</a></span><span class="op">(</span><span class="st">"subject_keys"</span><span class="op">)</span>,</span>
 <span>    order <span class="op">=</span> <span class="fu"><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">PARAMCD</span>, <span class="va">ADT</span>, <span class="va">AVISITN</span><span class="op">)</span>,</span>
 <span>    check_type <span class="op">=</span> <span class="st">"error"</span></span>
 <span>  <span class="op">)</span></span>
