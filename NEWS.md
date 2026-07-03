@@ -15,6 +15,8 @@
 
 * Added Dark Mode and icon tooltips to the website, and implemented a new PR website workflow, accessible by adding the "[create website]" keyword to PR titles. (#131)
 
+* Removed links to templates. (#141)
+
 </details>
 
 # admiralpeds 0.3.0
