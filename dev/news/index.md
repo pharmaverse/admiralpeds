@@ -7,6 +7,7 @@
 - Updated the documentation and test cases for age unit handling in
   input data and metadata.
   ([\#133](https://github.com/pharmaverse/admiralpeds/issues/133))
+
 - Added a new vignette “Explore ADaM Templates” to the “Get Started”
   menu. It displays the
   [admiralpeds](https://pharmaverse.github.io/admiralpeds/) templates.
@@ -26,6 +27,12 @@ Developer Notes
 
 - Removed links to templates.
   ([\#141](https://github.com/pharmaverse/admiralpeds/issues/141))
+
+- Up-versioned [admiraldev](https://pharmaverse.github.io/admiraldev/)
+  to 1.5.0, as the custom {admiral} roclets (i.e., `roxygen_*()`
+  functions) have now been moved to
+  [admiraldev](https://pharmaverse.github.io/admiraldev/).
+  ([\#142](https://github.com/pharmaverse/admiralpeds/issues/142))
 
 ## admiralpeds 0.3.0
 
@@ -85,8 +92,10 @@ Developer Notes
 
 - Updated the company name as `Cytel Inc.` in `LICENSE.md`.
   ([\#109](https://github.com/pharmaverse/admiralpeds/issues/109))
+
 - Added copyright holder logos.
   ([\#106](https://github.com/pharmaverse/admiralpeds/issues/106))
+
 - Updated the default math-rendering to `mathjax`.
   ([\#104](https://github.com/pharmaverse/admiralpeds/issues/104))
 
@@ -104,6 +113,7 @@ CRAN release: 2025-01-16
 
 - Added CRAN installation instructions to README.
   ([\#10](https://github.com/pharmaverse/admiralpeds/issues/10))
+
 - Subject based test data (e.g. DM, VS) has been migrated out of
   [admiralpeds](https://pharmaverse.github.io/admiralpeds/) to
   [pharmaversesdtm](https://pharmaverse.github.io/pharmaversesdtm/).
