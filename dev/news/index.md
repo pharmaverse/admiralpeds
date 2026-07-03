@@ -24,6 +24,9 @@ Developer Notes
   keyword to PR titles.
   ([\#131](https://github.com/pharmaverse/admiralpeds/issues/131))
 
+- Removed links to templates.
+  ([\#141](https://github.com/pharmaverse/admiralpeds/issues/141))
+
 ## admiralpeds 0.3.0
 
 CRAN release: 2026-01-23

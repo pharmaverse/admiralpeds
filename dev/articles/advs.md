@@ -515,6 +515,6 @@ variables, and analysis flags.
 
 ## Example Scripts
 
-| ADaM                                                                                 | Sourcing Command                                            |
-|--------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| [`ADVS`](https://pharmaverse.github.io/admiralpeds/dev/articles/templates.html#advs) | `admiral::use_ad_template("ADVS", package = "admiralpeds")` |
+| ADaM   | Sourcing Command                                            |
+|--------|-------------------------------------------------------------|
+| `ADVS` | `admiral::use_ad_template("ADVS", package = "admiralpeds")` |
