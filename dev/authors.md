@@ -2,18 +2,18 @@
 
 ## Authors
 
-- **Fanny Gautier**. Author, maintainer.
-  [](https://orcid.org/0009-0004-3581-0131)
+- **[Fanny Gautier](https://github.com/Fanny-Gautier)**. Author,
+  maintainer. [](https://orcid.org/0009-0004-3581-0131)
 
-- **Ross Farrugia**. Author.
+- **[Ross Farrugia](https://github.com/rossfarrugia)**. Author.
 
-- **Zelos Zhu**. Author.
+- **[Zelos Zhu](https://github.com/zdz2101)**. Author.
 
-- **Sukalpo Saha**. Author.
+- **[Sukalpo Saha](https://github.com/ahasoplakus)**. Author.
 
-- **Lina Patil**. Author.
+- **[Lina Patil](https://github.com/Lina2689)**. Author.
 
-- **Samia Kabi**. Author.
+- **[Samia Kabi](https://github.com/kabis-ops)**. Author.
 
 - **Laura Liao**. Contributor.
 
@@ -50,13 +50,13 @@ Source:
 
 Gautier F, Farrugia R, Zhu Z, Saha S, Patil L, Kabi S (2026).
 *admiralpeds: Pediatrics Extension Package for ADaM in 'R' Asset
-Library*. R package version 0.3.0.9006,
+Library*. R package version 0.3.0.9007,
 <https://pharmaverse.github.io/admiralpeds/>.
 
     @Manual{,
       title = {admiralpeds: Pediatrics Extension Package for ADaM in 'R' Asset Library},
       author = {Fanny Gautier and Ross Farrugia and Zelos Zhu and Sukalpo Saha and Lina Patil and Samia Kabi},
       year = {2026},
-      note = {R package version 0.3.0.9006},
+      note = {R package version 0.3.0.9007},
       url = {https://pharmaverse.github.io/admiralpeds/},
     }

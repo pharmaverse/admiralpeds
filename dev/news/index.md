@@ -25,6 +25,11 @@ Developer Notes
   keyword to PR titles.
   ([\#131](https://github.com/pharmaverse/admiralpeds/issues/131))
 
+- Clickable links to GitHub profiles were added in the home page sidebar
+  for every [admiralpeds](https://pharmaverse.github.io/admiralpeds/)
+  author.
+  ([\#140](https://github.com/pharmaverse/admiralpeds/issues/140))
+
 - Removed links to templates.
   ([\#141](https://github.com/pharmaverse/admiralpeds/issues/141))
 
