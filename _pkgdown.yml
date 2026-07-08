@@ -67,6 +67,18 @@ authors:
     text: "Developed by Cytel Inc., F. Hoffmann-La Roche AG, Pfizer Inc., Atorus Research, "
   sidebar:
     roles: [aut, fnd]
+  Fanny Gautier:
+    href: https://github.com/Fanny-Gautier
+  Ross Farrugia:
+    href: https://github.com/rossfarrugia
+  Zelos Zhu:
+    href: https://github.com/zdz2101
+  Sukalpo Saha:
+    href: https://github.com/ahasoplakus
+  Lina Patil:
+    href: https://github.com/Lina2689
+  Samia Kabi:
+    href: https://github.com/kabis-ops
   Cytel Inc.:
     html: "<a href='https://www.cytel.com/'><img src='man/figures/cytel_logo.png' height='25' alt='Cytel logo' /></a>"
     href: https://www.cytel.com
