@@ -16,6 +16,8 @@
 
 * Added Dark Mode and icon tooltips to the website, and implemented a new PR website workflow, accessible by adding the "[create website]" keyword to PR titles. (#131)
 
+* Clickable links to GitHub profiles were added in the home page sidebar for every `{admiralpeds}` author. (#140)
+
 * Removed links to templates. (#141)
 
 * Up-versioned `{admiraldev}` to 1.5.0, as the custom {admiral} roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
