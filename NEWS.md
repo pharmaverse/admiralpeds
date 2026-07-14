@@ -1,4 +1,4 @@
-# admiralpeds (development version)
+# admiralpeds 0.4.0
 
 ## Documentation
 
@@ -20,7 +20,7 @@
 
 * Removed links to templates. (#141)
 
-* Up-versioned `{admiraldev}` to 1.5.0, as the custom {admiral} roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
+* Up-versioned `{admiraldev}` to 1.5.0, as the custom `{admiral}` roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
 
 </details>
 
