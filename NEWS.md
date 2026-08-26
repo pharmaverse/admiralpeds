@@ -22,6 +22,8 @@
 
 * Up-versioned `{admiraldev}` to 1.5.0, as the custom `{admiral}` roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
 
+* Added `AGENTS.md` and `tests/testthat/AGENTS.md` to give AI coding assistants context on `{admiral}`/ADaM conventions, kept current by a monthly `{admiralci}` workflow that syncs `{admiraldev}` guidance, following the same pattern adopted by `{admiral}`. (#150)
+
 </details>
 
 # admiralpeds 0.3.0
