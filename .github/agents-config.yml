@@ -1,0 +1,74 @@
+# Package-specific context for AI coding assistants (AGENTS.md generation).
+#
+# Consumed by the `sync-admiralci-agents.yml` workflow / the
+# `pharmaverse/admiralci` create-agents-md pipeline, alongside the shared
+# {admiraldev} programming strategy, git usage, R CMD check, and unit test
+# guidance that every admiral-family package receives.
+#
+# This file captures what is unique to {admiralpeds} so an agent understands
+# the therapeutic scope, the sibling packages it interoperates with, and the
+# CDISC/regulatory references that govern its derivations, without having to
+# infer any of that from the R source alone.
+
+package_name: admiralpeds
+
+therapeutic_area: >
+  Pediatrics — cross-therapeutic support for pediatric clinical trials, with
+  initial scope focused on anthropometric / growth-and-development
+  indicators (height, weight, BMI, head circumference, growth velocity).
+
+package_purpose: >
+  Extension package to {admiral} providing reusable functions and utilities
+  for building pediatrics-specific ADaM datasets, following the same
+  modular, function-per-derivation design as {admiral} itself. It does not
+  duplicate general-purpose {admiral} derivations — it adds what is specific
+  to pediatric analyses (e.g. growth charts, age-for-growth-standard
+  interpolation, pediatric z-scores/percentiles).
+
+related_packages:
+  - name: admiral
+    role: Core package this extends; admiralpeds functions follow admiral's
+      naming conventions (derive_param_*, derive_vars_*, compute_*) and
+      depend on admiral being loaded first.
+  - name: admiraldev
+    role: Source of shared programming strategy, git usage, R CMD check, and
+      unit test guidance synced into this package's AGENTS.md files.
+  - name: pharmaversesdtm
+    role: Canonical source of test SDTM data used in admiralpeds examples,
+      vignettes, and unit tests.
+  - name: admiralonco
+    role: Sibling {admiral} extension package (oncology); useful reference
+      for how therapeutic-area extension packages are structured.
+  - name: admiralvaccine
+    role: Sibling {admiral} extension package (vaccines); another reference
+      implementation for extension-package conventions.
+  - name: metacore
+    role: Spec-driven metadata package that can drive variable derivation
+      and control terminology checks upstream of admiralpeds derivations.
+  - name: xportr
+    role: Downstream package used to turn finished ADaM datasets (including
+      those built with admiralpeds) into submission-ready XPT transport
+      files.
+
+cdisc_igs:
+  - name: ADaM Implementation Guide (ADaMIG)
+    relevance: All admiralpeds derivations follow ADaMIG conventions for
+      variable naming, flag values, and dataset structure, same as admiral.
+  - name: CDISC ADaM Occurrence Data Structure (OCCDS)
+    relevance: Relevant where pediatric adverse-event or growth-observation
+      data is modeled as occurrence records.
+  - name: WHO Child Growth Standards / CDC Growth Charts
+    relevance: Reference growth-chart data (e.g. weight-for-age,
+      height-for-age, BMI-for-age) used to derive pediatric z-scores and
+      percentiles — the core anthropometric use case for this package.
+
+pediatric_specific_conventions:
+  - Age is frequently required in multiple units (days, months, years) for
+    matching subjects against age-banded growth-standard reference tables —
+    prefer admiral's compute_age_years()/derive_vars_dy()-style helpers over
+    ad hoc date arithmetic.
+  - Growth z-scores/percentiles are computed against external reference
+    standard tables (WHO/CDC); derivations should keep the reference table
+    and the interpolation logic clearly separated and documented.
+  - As with admiral, analysis flag variables (e.g. ANLxxFL) take "Y" or NA,
+    never "N".
