@@ -22,6 +22,8 @@
 
 * Up-versioned `{admiraldev}` to 1.5.0, as the custom `{admiral}` roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
 
+* Bumped `RoxygenNote` to 8.1.0. `DESCRIPTION` now stores this as `Config/roxygen2/version`, following roxygen2's migration away from the `RoxygenNote` field. (#152)
+
 </details>
 
 # admiralpeds 0.3.0
