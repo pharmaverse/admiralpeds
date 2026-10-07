@@ -2,6 +2,8 @@
 
 ## admiralpeds 0.4.0
 
+CRAN release: 2026-07-14
+
 ### Documentation
 
 - Updated the documentation and test cases for age unit handling in
@@ -39,6 +41,11 @@ Developer Notes
   `roxygen_*()` functions) have now been moved to
   [admiraldev](https://pharmaverse.github.io/admiraldev/).
   ([\#142](https://github.com/pharmaverse/admiralpeds/issues/142))
+
+- Bumped `RoxygenNote` to 8.1.0. `DESCRIPTION` now stores this as
+  `Config/roxygen2/version`, following roxygen2’s migration away from
+  the `RoxygenNote` field.
+  ([\#152](https://github.com/pharmaverse/admiralpeds/issues/152))
 
 ## admiralpeds 0.3.0
 
