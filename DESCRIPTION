@@ -1,7 +1,7 @@
 Type: Package
 Package: admiralpeds
 Title: Pediatrics Extension Package for ADaM in 'R' Asset Library
-Version: 0.4.0
+Version: 0.4.0.9000
 Authors@R: c(
     person("Fanny", "Gautier", , "fanny.gautier@cytel.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0004-3581-0131")),
@@ -60,10 +60,10 @@ Suggests:
     yaml
 VignetteBuilder: 
     knitr
+Config/roxygen2/markdown: TRUE
+Config/roxygen2/roclets: collate, namespace, admiraldev::rdx_roclet
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-Config/roxygen2/markdown: TRUE
-Config/roxygen2/roclets: collate, namespace, admiraldev::rdx_roclet
-Config/roxygen2/version: 8.1.0
