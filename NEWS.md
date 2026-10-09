@@ -1,4 +1,4 @@
-# admiralpeds 0.4.0
+# admiralpeds 0.4.0.9000
 
 ## Documentation
 
@@ -23,6 +23,8 @@
 * Up-versioned `{admiraldev}` to 1.5.0, as the custom `{admiral}` roclets (i.e., `roxygen_*()` functions) have now been moved to `{admiraldev}`. (#142)
 
 * Added `AGENTS.md` and `tests/testthat/AGENTS.md` to give AI coding assistants context on `{admiral}`/ADaM conventions, kept current by a monthly `{admiralci}` workflow that syncs `{admiraldev}` guidance, following the same pattern adopted by `{admiral}`. (#150)
+
+* Bumped `RoxygenNote` to 8.1.0. `DESCRIPTION` now stores this as `Config/roxygen2/version`, following roxygen2's migration away from the `RoxygenNote` field. (#152)
 
 </details>
 

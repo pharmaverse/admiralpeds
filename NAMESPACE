@@ -4,50 +4,62 @@ export(derive_interp_records)
 export(derive_params_growth_age)
 export(derive_params_growth_height)
 importFrom(admiral,signal_duplicate_records)
-importFrom(admiraldev,assert_character_scalar)
-importFrom(admiraldev,assert_data_frame)
-importFrom(admiraldev,assert_expr)
-importFrom(admiraldev,assert_symbol)
-importFrom(admiraldev,assert_vars)
-importFrom(admiraldev,assert_varval_list)
-importFrom(admiraldev,expr_c)
-importFrom(admiraldev,vars2chr)
+importFrom(admiraldev,
+  assert_character_scalar,
+  assert_data_frame,
+  assert_expr,
+  assert_symbol,
+  assert_vars,
+  assert_varval_list,
+  expr_c,
+  vars2chr
+)
 importFrom(cli,cli_abort)
-importFrom(dplyr,across)
-importFrom(dplyr,anti_join)
-importFrom(dplyr,arrange)
-importFrom(dplyr,bind_cols)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,case_when)
-importFrom(dplyr,distinct)
-importFrom(dplyr,filter)
-importFrom(dplyr,group_by)
-importFrom(dplyr,if_else)
-importFrom(dplyr,inner_join)
-importFrom(dplyr,lead)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,pull)
-importFrom(dplyr,reframe)
-importFrom(dplyr,rename)
-importFrom(dplyr,row_number)
-importFrom(dplyr,select)
-importFrom(dplyr,slice)
-importFrom(dplyr,ungroup)
+importFrom(dplyr,
+  across,
+  anti_join,
+  arrange,
+  bind_cols,
+  bind_rows,
+  case_when,
+  distinct,
+  filter,
+  group_by,
+  if_else,
+  inner_join,
+  lead,
+  left_join,
+  mutate,
+  pull,
+  reframe,
+  rename,
+  row_number,
+  select,
+  slice,
+  ungroup
+)
 importFrom(magrittr,"%>%")
-importFrom(purrr,map)
-importFrom(purrr,map_chr)
-importFrom(rlang,abort)
-importFrom(rlang,as_label)
-importFrom(rlang,enexpr)
-importFrom(rlang,exprs)
-importFrom(rlang,is_empty)
-importFrom(rlang,syms)
-importFrom(stats,approx)
-importFrom(stats,pnorm)
-importFrom(stats,qnorm)
-importFrom(stats,setNames)
+importFrom(purrr,
+  map,
+  map_chr
+)
+importFrom(rlang,
+  abort,
+  as_label,
+  enexpr,
+  exprs,
+  is_empty,
+  syms
+)
+importFrom(stats,
+  approx,
+  pnorm,
+  qnorm,
+  setNames
+)
 importFrom(tidyselect,all_of)
-importFrom(utils,head)
-importFrom(utils,tail)
+importFrom(utils,
+  head,
+  tail
+)
 importFrom(zoo,na.locf)
