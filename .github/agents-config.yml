@@ -68,7 +68,9 @@ pediatric_specific_conventions:
     prefer admiral's compute_age_years()/derive_vars_dy()-style helpers over
     ad hoc date arithmetic.
   - Growth z-scores/percentiles are computed against external reference
-    standard tables (WHO/CDC); derivations should keep the reference table
-    and the interpolation logic clearly separated and documented.
+    standard tables (WHO/CDC); custom references, including
+    company-specific or user-defined reference tables, may also be used.
+    Derivations should keep the reference table and the interpolation logic
+    clearly separated and documented.
   - As with admiral, analysis flag variables (e.g. ANLxxFL) take "Y" or NA,
     never "N".
