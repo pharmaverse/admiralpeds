@@ -15,18 +15,49 @@ package_name: admiralpeds
 
 therapeutic_area: >
   Pediatrics — cross-therapeutic support for pediatric clinical trials, with
-  initial scope focused on anthropometric / growth-and-development
-  indicators (height, weight, BMI, head circumference, growth velocity).
+  initial scope focused on anthropometric / growth indicators (height,
+  weight, BMI, head circumference).
 
 package_purpose: >
   Extension package to {admiral} providing reusable functions and utilities
   for building pediatrics-specific ADaM datasets, following the same
   modular, function-per-derivation design as {admiral} itself. It does not
   duplicate general-purpose {admiral} derivations — it adds what is specific
-  to pediatric analyses (e.g. growth charts, age-for-growth-standard
-  interpolation, pediatric z-scores/percentiles).
+  to pediatric analyses: growth-standard z-scores/percentiles and
+  interpolation of CDC growth-chart reference rows.
+
+implemented_functions:
+  - name: derive_params_growth_age()
+    purpose: Z-score/percentile-for-age parameters (height, weight, BMI,
+      head circumference) from a growth-standard reference table.
+  - name: derive_params_growth_height()
+    purpose: Z-score/percentile parameters for weight by height/length.
+  - name: derive_interp_records()
+    purpose: Linear interpolation (by age in days) of CDC growth-chart
+      reference rows for ages of 2 years and above.
+  # Anything beyond these (e.g. growth velocity) is not implemented yet; do
+  # not assume such a function exists.
+
+key_files:
+  - path: R/data.R and data/
+    note: Bundled WHO and CDC reference tables (e.g. who_wt_for_age_boys,
+      cdc_htage) and the adsl_peds example dataset. Document any new
+      dataset in R/data.R.
+  - path: R/global.R
+    note: Global variable declarations (resolves R CMD check "no visible
+      binding" notes).
+  - path: inst/templates/ad_advs.R
+    note: ADVS template script. Update it, and vignettes/advs.Rmd, when a
+      derivation's usage changes.
+
+dependencies: >
+  Imports are admiral, admiraldev, cli, dplyr, magrittr, purrr, rlang,
+  tidyselect and zoo (na.locf is used in interpolation). pharmaversesdtm is
+  Suggests only (examples, vignettes, tests). Packages under
+  related_packages other than admiral and admiraldev are NOT dependencies.
 
 related_packages:
+  # Only admiral and admiraldev are dependencies; the rest are context.
   - name: admiral
     role: Core package this extends; admiralpeds functions follow admiral's
       naming conventions (derive_param_*, derive_vars_*, compute_*) and
@@ -38,26 +69,26 @@ related_packages:
     role: Canonical source of test SDTM data used in admiralpeds examples,
       vignettes, and unit tests.
   - name: admiralonco
-    role: Sibling {admiral} extension package (oncology); useful reference
-      for how therapeutic-area extension packages are structured.
+    role: (Reference only) Sibling {admiral} extension package (oncology);
+      useful reference for how therapeutic-area extension packages are
+      structured.
   - name: admiralvaccine
-    role: Sibling {admiral} extension package (vaccines); another reference
-      implementation for extension-package conventions.
+    role: (Reference only) Sibling {admiral} extension package (vaccines);
+      another reference implementation for extension-package conventions.
   - name: metacore
-    role: Spec-driven metadata package that can drive variable derivation
-      and control terminology checks upstream of admiralpeds derivations.
+    role: (Reference only, not a dependency) Spec-driven metadata package
+      that can drive variable derivation and control terminology checks
+      upstream of admiralpeds derivations.
   - name: xportr
-    role: Downstream package used to turn finished ADaM datasets (including
-      those built with admiralpeds) into submission-ready XPT transport
-      files.
+    role: (Reference only, not a dependency) Downstream package used to turn
+      finished ADaM datasets (including those built with admiralpeds) into
+      submission-ready XPT transport files.
 
 cdisc_igs:
   - name: ADaM Implementation Guide (ADaMIG)
     relevance: All admiralpeds derivations follow ADaMIG conventions for
       variable naming, flag values, and dataset structure, same as admiral.
-  - name: CDISC ADaM Occurrence Data Structure (OCCDS)
-    relevance: Relevant where pediatric adverse-event or growth-observation
-      data is modeled as occurrence records.
+      The shipped template targets ADVS (BDS structure).
   - name: WHO Child Growth Standards / CDC Growth Charts
     relevance: Reference growth-chart data (e.g. weight-for-age,
       height-for-age, BMI-for-age) used to derive pediatric z-scores and
@@ -73,5 +104,6 @@ pediatric_specific_conventions:
     company-specific or user-defined reference tables, may also be used.
     Derivations should keep the reference table and the interpolation logic
     clearly separated and documented.
-  - As with admiral, analysis flag variables (e.g. ANLxxFL) take "Y" or NA,
-    never "N".
+  - CDC chart rows are interpolated by age in days for ages >= 2 years (see
+    derive_interp_records()). Keep any WHO vs CDC / age-range distinction
+    explicit in new derivations.
