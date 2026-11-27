@@ -400,7 +400,7 @@ derive_params_growth_age <- function(dataset,
         )
     }
 
-    add_pctl <- add_pctl %>% mutate(AVAL = pnorm(temp_z) * 100)
+    add_pctl <- add_pctl %>% mutate(AVAL = pnorm(AVAL) * 100)
 
     if (bmi_cdc_correction) {
       add_pctl <- add_pctl %>%

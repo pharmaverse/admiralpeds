@@ -205,3 +205,42 @@ test_that("derive_params_growth_height Test 6: WHO outlier adjustment works", {
     tolerance = 0.001
   )
 })
+
+## Test 7: WHO outlier adjustment applies to percentiles ----
+test_that("derive_params_growth_height Test 7: WHO outlier adjustment applies to percentiles", {
+  vs_data <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~HEIGHT, ~HEIGHTU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 50, "cm", "WEIGHT", 4.6,
+    "Study", "1002", "Screening", "M", 50, "cm", "WEIGHT", 2.3
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~HEIGHT_LENGTH, ~HEIGHT_LENGTHU, ~L, ~M, ~S,
+    "M", 50.0, "cm", -0.3521, 3.3278, 0.08890
+  )
+
+  actual <- derive_params_growth_height(
+    dataset = vs_data,
+    sex = SEX,
+    height = HEIGHT,
+    height_unit = HEIGHTU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    analysis_var = VSSTRESN,
+    who_correction = TRUE,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGHSDS",
+      PARAM = "Weight-for-height Z-Score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGHPCTL",
+      PARAM = "Weight-for-height percentile"
+    )
+  )
+
+  actual_sds <- filter(actual, PARAMCD == "WGHSDS") %>% pull(AVAL)
+  actual_pctl <- filter(actual, PARAMCD == "WGHPCTL") %>% pull(AVAL)
+
+  expect_equal(actual_pctl, pnorm(actual_sds) * 100)
+  expect_equal(qnorm(actual_pctl / 100), actual_sds)
+})
