@@ -312,7 +312,7 @@ derive_params_growth_height <- function(dataset,
     }
 
     add_pctl <- add_pctl %>%
-      mutate(AVAL = pnorm(temp_z) * 100)
+      mutate(AVAL = pnorm(AVAL) * 100)
 
     dataset_final <- bind_rows(dataset_final, add_pctl) %>%
       select(-c(L, M, S, sex_join, heightu_join, meta_height, temp_val, temp_z))

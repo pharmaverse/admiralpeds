@@ -590,3 +590,42 @@ test_that("derive_params_growth_age Test 12: WHO outlier adjustment works", {
     c(expected_sds, expected_pctl)
   )
 })
+
+## Test 13: WHO outlier adjustment applies to percentiles ----
+test_that("derive_params_growth_age Test 13: WHO outlier adjustment applies to percentiles", {
+  vs_data <- tibble::tribble(
+    ~STUDYID, ~USUBJID, ~VISIT, ~SEX, ~AGECUR, ~AGEU, ~VSTESTCD, ~VSSTRESN,
+    "Study", "1001", "Screening", "M", 365, "days", "WEIGHT", 13.8,
+    "Study", "1002", "Screening", "M", 365, "days", "WEIGHT", 5.5
+  )
+
+  meta <- tibble::tribble(
+    ~SEX, ~AGE, ~AGEU, ~L, ~M, ~S,
+    "M", 365, "days", -0.1573, 9.6479, 0.1066
+  )
+
+  actual <- derive_params_growth_age(
+    vs_data,
+    sex = SEX,
+    age = AGECUR,
+    age_unit = AGEU,
+    meta_criteria = meta,
+    parameter = VSTESTCD == "WEIGHT",
+    who_correction = TRUE,
+    analysis_var = VSSTRESN,
+    set_values_to_sds = exprs(
+      PARAMCD = "WGASDS",
+      PARAM = "Weight-for-age z-score"
+    ),
+    set_values_to_pctl = exprs(
+      PARAMCD = "WGAPCTL",
+      PARAM = "Weight-for-age percentile"
+    )
+  )
+
+  actual_sds <- filter(actual, PARAMCD == "WGASDS") %>% pull(AVAL)
+  actual_pctl <- filter(actual, PARAMCD == "WGAPCTL") %>% pull(AVAL)
+
+  expect_equal(actual_pctl, pnorm(actual_sds) * 100)
+  expect_equal(qnorm(actual_pctl / 100), actual_sds)
+})
